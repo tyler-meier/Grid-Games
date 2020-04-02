@@ -14,12 +14,15 @@
 
 We decided to split up this project into Player, Engine and Data as reccomended by the project specification. In all of our past projects, we had split up the modules into model, view and controller, but due to the vast amount of detail and functions which are required by each end, we needed to immplement a more encompassing structure. Our view fits within the player modulde, but the player actually has more functions beyond displaying frontend javafx. In order to communicate between these three modules, we intend to use a Controller. This Controller will contain API instances of the Player, Data and Engine and link all communications that need to happen between ends. In this way, none of our module needs to have instances of the others within their code. Below, you can see how the modules communicate between eachother through the Controller. 
 
+![Controller Function](cf.png)
+
 * Player: This module will contain the frontend of the program. It will own important elements of a game user interface, such as display of the player score, keep track of how much time has elapsed since the game was started, have interactive buttons (i.e. home button, restart button, etc.). More importantly, it will own an instance of a frontend grid and frontend cells. The controller will connect the backend grid and cells with the frontend grid and cells, such that when the player interacts with the cells, the backend processes the validity of the move and how the grid should update (i.e. more candies dropping into empty spaces from the top, these methods are described in more detail below), and this is reflected in the view.
 
 * Data: This module is responsible for parsing the appropriate information from the game-specific XML files. It loads the appropriate information into an Object and passes it to the Engine. This Object holds the information for the Engine to know the rules of the game and how to set up the grid. It also passes necessary file names to the Player to find CSS style sheets and Image file names.
 
-
 * Engine: This module is in charge of implementing the rules of the game (by responding to user input), as well as updating the current game grid. Initially, the engine will get configuration information from Data (stuff like how many cells are selected to make a change, how the cells are to be validated, what is supposed to happen if the player makes a 'match' in the game, and how to board is to be updated/ filled in following a match). During the game, the engine waits for user input, checks if the user input is valid, identifies where in the grid there are 'matches'/ cells that need to be changed, and then changes the grid accordingly. The engine also updates the grid after making matches (whether that be filling in the grid, or doing nothing). The engine continues the process of checking for matches and updating the grid until there are no more matches to be made (this only happens if this is the specified way of updating the grid in the config file - for some of the games, once a match is found and the grid is updated, the engine goes back to waiting for user input).  
+
+![Engine UML](EngineUML.png)
 
 ## Design Details
 
