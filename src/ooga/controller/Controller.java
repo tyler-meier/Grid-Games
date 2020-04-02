@@ -3,6 +3,8 @@ package ooga.controller;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import ooga.data.Data;
+import ooga.data.DataObject;
+import ooga.engine.Engine;
 
 
 public class Controller extends Application {
@@ -41,6 +43,13 @@ public class Controller extends Application {
         player.setNewMoveButton(e -> engine.newMove());
         player.setSaveGameButton(e -> data.saveGame(player.getUsername(), engine.getGameState())); //not sure what getGameState's type is here: should have grid but also like lives left and score
     }
+
+    private void getAndLoadProfile(Player player, String username, String password)
+    {
+        DataObject profile = data.getPlayerProfile(username, password);
+        player.loadProfile(profile);
+    }
+
 }
 
 
