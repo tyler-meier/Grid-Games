@@ -3,6 +3,7 @@ package ooga.controller;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import ooga.data.Data;
+import ooga.engine.Engine;
 
 
 public class Controller extends Application {
@@ -38,7 +39,7 @@ public class Controller extends Application {
         if (savedGame) myData.getSavedGridFrom(player.getUsername(), type); //changes initial config grid stored in myData from default to saved game state
         Engine engine = new Engine(myData);
         player.setGrid(engine.getGrid());
-        player.setNewMoveButton(e -> engine.newMove());
+        player.setNewMoveButton(e -> engine.updateBoard());
         player.setSaveGameButton(e -> data.saveGame(player.getUsername(), engine.getGameState())); //not sure what getGameState's type is here: should have grid but also like lives left and score
     }
 }
