@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<game>
+
+  <numLives>3</numLives>
+  <level>1</level>
+  <timed>no</timed>
+
+  <engine>
+    <newCellAdder>Random</newCellAdder>
+    <validator>LineFinder</validator>
+  </engine>
+  <grid>
+    <gridCreator>Random</gridCreator>
+    <rows>20</rows>
+    <columns>20</columns>
+    <numCellStates>5</numCellStates>
+  </grid>
+  <frontend>
+    <darkMode>off</darkMode>
+  </frontend>
+
+</game>
+
