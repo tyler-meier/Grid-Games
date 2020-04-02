@@ -1,9 +1,10 @@
 <?xml version="1.0"?>
 <game>
 
-  <numLives>1</numLives>
+  <numLives>no</numLives>
   <level>1</level>
   <timed>60</timed>
+  <points>BasicAdder</points>
 
   <engine>
     <newCellAdder>NoAdding</newCellAdder>

@@ -4,6 +4,7 @@
   <numLives>3</numLives>
   <level>1</level>
   <timed>no</timed>
+  <points>PowerUp</points>
 
   <engine>
     <newCellAdder>Random</newCellAdder>
