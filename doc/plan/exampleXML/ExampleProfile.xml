@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<profile>
+
+  <username>bobbyBoy</username>
+  <password>bob123</password>
+  <parentalControls>off</parentalControls>
+  <previousGames>
+    CandyCrush::/path/of/previousGame/one.xml
+    Bejeweled::/path/of/previousGame/two.xml
+    Minesweeper::/path/of/previousGame/three.xml
+  </previousGames>
+
+</profile>

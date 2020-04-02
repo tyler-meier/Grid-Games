@@ -11,4 +11,9 @@ public class Engine implements EngineBuilder {
     public Cell[][] updateBoard() {
         return new Cell[0][];
     }
+
+    @Override
+    public Cell[][] getGrid() {
+        return new Cell[0][];
+    }
 }
