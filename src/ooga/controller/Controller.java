@@ -27,9 +27,9 @@ public class Controller extends Application {
 
     private void newWindow(Stage stage){
         Player player = new Player(stage);
-        player.setLoginButton((UserLogin) (username, otherData) -> data.validUser(username, otherData)); //takes a UserLogin functional interface
-        player.setCreateUserButton((UserLogin) (username, otherData) -> data.createUser(username, otherData)); //takes a UserLogin functional interface
-        player.setGameTypeButton((UserLogin) (username, otherData) -> data.hasSavedGame(username, otherData));
+        player.setLoginButton((UserLogin) (username, password) -> data.validUser(username, password)); //takes a UserLogin functional interface
+        player.setCreateUserButton((UserLogin) (username, password) -> data.createUser(username, password)); //takes a UserLogin functional interface
+        player.setGameTypeButton((UserLogin) (username, gameType) -> data.hasSavedGame(username, gameType));
         player.setStartNewGameButton(e -> buildNewEngine(player, false));
         player.setStartSavedGameButton(e -> buildNewEngine(player, true));
         player.setSavePreferencesButton(e -> data.savePreferences(player.getPreferences())); //not sure what type preferences comes in here -- tbd by front end
