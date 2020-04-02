@@ -42,13 +42,8 @@ public class Controller extends Application {
         if (savedGame) myData.getSavedGridFrom(player.getUsername(), type); //changes initial config grid stored in myData from default to saved game state
         Engine engine = new Engine(myData);
         player.setGrid(engine.getGrid());
-<<<<<<< HEAD
-        player.setNewMoveButton(e -> engine.newMove());
-        player.setSaveGameButton(e -> data.saveConfigurationFile(player.getUsername(), engine.getGameState())); //not sure what getGameState's type is here: should have grid but also like lives left and score
-=======
         player.setNewMoveButton(e -> engine.updateBoard());
         player.setSaveGameButton(e -> data.saveGame(player.getUsername(), engine.getGameState())); //not sure what getGameState's type is here: should have grid but also like lives left and score
->>>>>>> 8c7959b3c9993f27f77b88d33cda9b76df1ca017
     }
 
     private void getAndLoadProfile(Player player)
