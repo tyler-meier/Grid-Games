@@ -2,6 +2,11 @@ package ooga.data;
 
 import javafx.beans.property.StringProperty;
 
+/**
+ * The purpose of this class is to hold all the methods which need to be accessed
+ * by the Controller. This class will not perform all the work, but delegate
+ * functions to other objects, such as a Parser and DataObject.
+ */
 public class Data implements DataBuilder {
 
   StringProperty loginMessage;
