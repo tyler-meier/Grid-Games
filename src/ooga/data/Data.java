@@ -39,6 +39,11 @@ public class Data implements DataBuilder {
 
   }
 
+  public boolean hasSavedGame(String username, String gameType){
+    Profile myProfile = profiles.get(username);
+    return myProfile.hasSaved(gameType);
+  }
+
   /**
    * Returns the current DataObject of EngineAttributes which have been set
    * according to whatever datafile was last read. This DataObject can contain
