@@ -2,6 +2,7 @@ package ooga.controller;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
+import ooga.data.Data;
 
 
 public class Controller extends Application {
