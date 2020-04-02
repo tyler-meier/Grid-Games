@@ -26,7 +26,7 @@ public class Controller extends Application {
 
     private void newWindow(Stage stage){
         Player player = new Player(stage);
-        player.setLoginButton((username, password) -> data.validUser(username, password)); //takes a UserLogin functional interface
+        player.setLoginButton((username, password) -> data.getPlayerProfile()); //takes a UserLogin functional interface
         player.setCreateUserButton((username, password) -> data.createUser(username, password)); //takes a UserLogin functional interface
         player.setGameTypeButton((username, gameType) -> data.hasSavedGame(username, gameType)); //takes a UserLogin functional interface
         player.setStartNewGameButton(e -> buildNewEngine(player, false));
@@ -36,17 +36,17 @@ public class Controller extends Application {
 
     private void buildNewEngine(Player player, boolean savedGame){
         String type = player.getGameType();
-        DataObject myData = data.getEngineData(type); //rename DataObject to something more clear
+        DataObject myData = data.getEngineAttributes(type); //rename DataObject to something more clear
         if (savedGame) myData.getSavedGridFrom(player.getUsername(), type); //changes initial config grid stored in myData from default to saved game state
         Engine engine = new Engine(myData);
         player.setGrid(engine.getGrid());
         player.setNewMoveButton(e -> engine.newMove());
-        player.setSaveGameButton(e -> data.saveGame(player.getUsername(), engine.getGameState())); //not sure what getGameState's type is here: should have grid but also like lives left and score
+        player.setSaveGameButton(e -> data.saveConfigurationFile(player.getUsername(), engine.getGameState())); //not sure what getGameState's type is here: should have grid but also like lives left and score
     }
 
-    private void getAndLoadProfile(Player player, String username, String password)
+    private void getAndLoadProfile(Player player)
     {
-        DataObject profile = data.getPlayerProfile(username, password);
+        DataObject profile = data.getPlayerProfile(player.getUsername(), player.getPassword());
         player.loadProfile(profile);
     }
 
