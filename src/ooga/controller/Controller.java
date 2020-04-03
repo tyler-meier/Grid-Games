@@ -30,7 +30,6 @@ public class Controller extends Application {
         player.setGetProfile((UserLogin) (username, password) -> data.getPlayerProfile(username, password)); //takes a UserLogin functional interface
         player.setStartNewGameButton(e -> buildNewEngine(player, false));
         player.setStartSavedGameButton(e -> buildNewEngine(player, true));
-        player.setSavePreferencesButton(e -> data.savePreferences(player.getPreferences())); //not sure what type preferences comes in here -- tbd by front end
         player.setErrorMessage(data.getErrorMessage());
     }
 
@@ -40,15 +39,9 @@ public class Controller extends Application {
         if (savedGame) myData.setState(data.loadPreviousGame(player.getUsername(), type)); //changes initial config grid stored in myData from default to saved game state
         Engine engine = new Engine(myData);
         player.setGrid(engine.getGrid());
-        player.setNewMoveButton(e -> engine.updateBoard());
         player.setSaveGameButton(e -> data.saveGame(player.getUsername(), engine.getGameState())); //not sure what getGameState's type is here: should have grid but also like lives left and score
     }
 
-    private void getAndLoadProfile(Player player)
-    {
-        DataObject profile = data.getPlayerProfile(player.getUsername(), player.getPassword());
-        player.loadProfile(profile);
-    }
 
 }
 
