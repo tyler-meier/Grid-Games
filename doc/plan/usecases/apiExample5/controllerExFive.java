@@ -5,7 +5,6 @@ import javafx.stage.Stage;
 import ooga.data.Data;
 import ooga.data.DataObject;
 import ooga.engine.Engine;
-import ooga.player.Player;
 
 
 public class Controller extends Application {
@@ -27,7 +26,9 @@ public class Controller extends Application {
 
     private void newWindow(Stage stage){
         Player player = new Player(stage);
-        player.setGetProfile((UserLogin) (username, password) -> data.getPlayerProfile(username, password)); //takes a UserLogin functional interface
+        player.setLoginButton((username, password) -> data.validUser(username, password)); //takes a UserLogin functional interface
+        player.setCreateUserButton((username, password) -> data.createUser(username, password)); //takes a UserLogin functional interface
+        player.setGameTypeButton((username, gameType) -> data.hasSavedGame(username, gameType)); //takes a UserLogin functional interface
         player.setStartNewGameButton(e -> buildNewEngine(player, false));
         player.setStartSavedGameButton(e -> buildNewEngine(player, true));
         player.setSavePreferencesButton(e -> data.savePreferences(player.getPreferences())); //not sure what type preferences comes in here -- tbd by front end
@@ -35,7 +36,7 @@ public class Controller extends Application {
 
     private void buildNewEngine(Player player, boolean savedGame){
         String type = player.getGameType();
-        DataObject myData = data.getEngineAttributes(type); //rename DataObject to something more clear
+        DataObject myData = data.getEngineData(type); //rename DataObject to something more clear
         if (savedGame) myData.getSavedGridFrom(player.getUsername(), type); //changes initial config grid stored in myData from default to saved game state
         Engine engine = new Engine(myData);
         player.setGrid(engine.getGrid());
@@ -43,9 +44,9 @@ public class Controller extends Application {
         player.setSaveGameButton(e -> data.saveGame(player.getUsername(), engine.getGameState())); //not sure what getGameState's type is here: should have grid but also like lives left and score
     }
 
-    private void getAndLoadProfile(Player player)
+    private void getAndLoadProfile(Player player, String username, String password)
     {
-        DataObject profile = data.getPlayerProfile(player.getUsername(), player.getPassword());
+        DataObject profile = data.getPlayerProfile(username, password);
         player.loadProfile(profile);
     }
 

@@ -38,7 +38,7 @@ public class Data implements DataBuilder {
   public void saveNewPlayerProfile(String username, String password) {
 
   }
-  
+
   public boolean hasSavedGame(String username, String gameType){
     Profile myProfile = profiles.get(username);
     return myProfile.hasSaved(gameType);
