@@ -31,6 +31,7 @@ public class Controller extends Application {
         player.setStartNewGameButton(e -> buildNewEngine(player, false));
         player.setStartSavedGameButton(e -> buildNewEngine(player, true));
         player.setSavePreferencesButton(e -> data.savePreferences(player.getPreferences())); //not sure what type preferences comes in here -- tbd by front end
+        player.setErrorMessage(data.getErrorMessage());
     }
 
     private void buildNewEngine(Player player, boolean savedGame){
