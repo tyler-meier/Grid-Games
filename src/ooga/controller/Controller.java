@@ -37,7 +37,7 @@ public class Controller extends Application {
     private void buildNewEngine(Player player, boolean savedGame){
         String type = player.getGameType();
         DataObject myData = data.getEngineAttributes(type); //rename DataObject to something more clear
-        if (savedGame) myData.getSavedGridFrom(player.getUsername(), type); //changes initial config grid stored in myData from default to saved game state
+        if (savedGame) myData.setState(data.loadPreviousGame(player.getUsername(), type)); //changes initial config grid stored in myData from default to saved game state
         Engine engine = new Engine(myData);
         player.setGrid(engine.getGrid());
         player.setNewMoveButton(e -> engine.updateBoard());
