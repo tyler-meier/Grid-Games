@@ -31,12 +31,13 @@ public class Controller extends Application {
         player.setStartNewGameButton(e -> buildNewEngine(player, false));
         player.setStartSavedGameButton(e -> buildNewEngine(player, true));
         player.setSavePreferencesButton(e -> data.savePreferences(player.getPreferences())); //not sure what type preferences comes in here -- tbd by front end
+        player.setErrorMessage(data.getErrorMessage());
     }
 
     private void buildNewEngine(Player player, boolean savedGame){
         String type = player.getGameType();
         DataObject myData = data.getEngineAttributes(type); //rename DataObject to something more clear
-        if (savedGame) data.loadPreviousGame(player.getUsername(), type); //changes initial config grid stored in myData from default to saved game state
+        if (savedGame) myData.setState(data.loadPreviousGame(player.getUsername(), type)); //changes initial config grid stored in myData from default to saved game state
         Engine engine = new Engine(myData);
         player.setGrid(engine.getGrid());
         player.setNewMoveButton(e -> engine.updateBoard());
