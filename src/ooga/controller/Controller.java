@@ -27,7 +27,7 @@ public class Controller extends Application {
 
     private void newWindow(Stage stage){
         Player player = new Player(stage);
-        player.setLoginButton((UserLogin) (username, password) -> data.validUser(username, password)); //takes a UserLogin functional interface
+        player.setLoginButton((UserLogin) (username, password) -> data.getPlayerProfile(username, password)); //takes a UserLogin functional interface
         player.setCreateUserButton((UserLogin) (username, password) -> data.createUser(username, password)); //takes a UserLogin functional interface
         player.setGameTypeButton((UserLogin) (username, gameType) -> data.hasSavedGame(username, gameType));
 
