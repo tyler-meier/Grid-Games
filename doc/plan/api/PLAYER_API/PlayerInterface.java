@@ -41,11 +41,52 @@ public interface Player {
    */
   void loadProfile(String fileName);
 
-  void setLoginButton();
-  void setCreateUserButton();
-  void setGameTypeButton();
-  void setStartNewGameButton();
-  void setStartSavedGameButton();
-  void setSavePreferencesButton();
+  /**
+   * Check to see if the login actually works
+   * @param username the username for the profile
+   * @param password the password of the profile
+   */
+  void tryLogin(String username, String password);
+
+  /**
+   * when the user wants to create a new profile
+   * @param username the username the user wants to use
+   * @param password the password the user wants to use
+   */
+  void createNewProfile(String username, String password);
+
+  /**
+   * starts a new game given the information of the default data method
+   * @param defaultData default data for the given game
+   */
+  void startNewGame(DataObject defaultData);
+
+  /**
+   * starts a agame based off of the saved data
+   * @param myData the data that is for a saved game
+   */
+  void loadSaveGame(DataObject myData);
+
+  /**
+   * sets the profile info of each player
+   */
+  void setProfileInfo();
+
+  /**
+   * gets the prefernces of the user (dark mode, colors, etc)
+   */
+  void getPreferences();
+
+  /**
+   * loads the profile and the given info based off of the username chosen
+   */
+  void loadProfile();
+
+  /**
+   * Sets the error message for if there was an incorrect username or such
+   * @param errorMessage the message that is to be displayed
+   */
+  void setErrorMessage(String errorMessage);
+
 
 }
