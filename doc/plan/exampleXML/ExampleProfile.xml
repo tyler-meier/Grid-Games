@@ -9,5 +9,10 @@
     Bejeweled::/path/of/previousGame/two.xml
     Minesweeper::/path/of/previousGame/three.xml
   </previousGames>
+  <highscores>
+    CandyCrush::10
+    Bejeweled::20
+    Minesweeper::30
+  </highscores>
 
 </profile>
