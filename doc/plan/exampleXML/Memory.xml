@@ -12,7 +12,7 @@
     <matchFinder>FlippedFinder</matchFinder>
   </engine>
   <grid>
-    <gridCreator>Random</gridCreator>
+    <gridCreator>TwoOfAKind</gridCreator>
     <rows>5</rows>
     <columns>4</columns>
     <numCellStates>10</numCellStates>
