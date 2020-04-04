@@ -44,4 +44,8 @@ public class Cell {
         return myState;
     }
 
+    public void removeCell(){
+
+    }
+
 }
