@@ -2,6 +2,9 @@ package ooga.engine;
 
 import ooga.data.DataObject;
 import ooga.engine.grid.GridCreator;
+import ooga.engine.matchFinder.MatchFinder;
+import ooga.engine.newCellAdder.NewCellAdder;
+import ooga.engine.validator.Validator;
 
 
 /**
@@ -17,22 +20,26 @@ public class Engine implements EngineBuilder {
     private ComponentCreator myComponentCreator;
 
     public Engine(DataObject myData){
-        // going to get information about the characteristics of the game
         myComponentCreator = new ComponentCreator();
         myNewCellAdder = myComponentCreator.makeMyNewCellAdder();
         myGridCreator = myComponentCreator.makeMyGridCreator(); //the number of rows, columns, and cell states are also going to be given as a parameter here
         myValidator = myComponentCreator.makeMyValidator();
         myMatchFinder = myComponentCreator.makeMyMatchFinder();
+        myGrid = myGridCreator.setUpGrid();
     }
 
     @Override
     public Cell[][] updateBoard() {
+        if(!myValidator.checkIsValid(myGrid, myMatchFinder)){
+            return myGrid; //if not valid, return the grid as it is
+        }
+
         return new Cell[0][];
     }
 
     @Override
     public Cell[][] getGrid() {
-        return new Cell[0][];
+        return myGrid;
     }
 
     @Override

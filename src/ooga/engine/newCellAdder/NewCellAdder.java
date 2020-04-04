@@ -1,4 +1,6 @@
-package ooga.engine;
+package ooga.engine.newCellAdder;
+
+import ooga.engine.Cell;
 
 public abstract class NewCellAdder {
     /**

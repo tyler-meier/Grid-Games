@@ -1,4 +1,6 @@
-package ooga.engine;
+package ooga.engine.matchFinder;
+
+import ooga.engine.Cell;
 
 public abstract class MatchFinder {
     /**
