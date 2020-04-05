@@ -1,14 +1,10 @@
 package ooga.engine;
 
-import ooga.data.DataObject;
-import ooga.engine.grid.GridCreator;
 import ooga.engine.matchFinder.MatchFinder;
 import ooga.engine.newCellAdder.NewCellAdder;
 import ooga.engine.validator.Validator;
-
 import java.util.List;
 import java.util.Map;
-
 
 /**
  * The purpose of this class is to manage all of the functions of the
