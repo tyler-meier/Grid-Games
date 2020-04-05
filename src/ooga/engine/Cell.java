@@ -1,19 +1,37 @@
 package ooga.engine;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.event.EventHandler;
+
 /**
  * This class represents a cell object.
  */
 public class Cell {
-    int myState;
-    boolean open;
+    IntegerProperty myState = new SimpleIntegerProperty();
+    BooleanProperty open = new SimpleBooleanProperty();
+    BooleanProperty selected = new SimpleBooleanProperty();
     int numPoints;
     String powerUp;
     int myRow;
     int myColumn;
 
-    public Cell(int initialState){ // will have to do something to account for open/closed and number of points
-        myState = initialState;
+    public Cell(int initialState, boolean isOpen){ // will have to do something to account for open/closed and number of points
+        myState.setValue(initialState);
+        open.set(isOpen);
+        selected.set(false);
     }
+
+    public void setSelectionChangeListener(SelectedCellCounter counter){
+        selected.addListener((o, oldv, newv) -> counter.changeCount(selected.get()));
+    }
+
+    public BooleanProperty isSelected() { return selected; }
+    public BooleanProperty isOpen() { return open; }
+    public IntegerProperty cellState() { return myState; }
 
     /**
      * This method sets the coordinates of a cell.
@@ -41,7 +59,7 @@ public class Cell {
      * @return
      */
     public int getMyState(){
-        return myState;
+        return myState.get();
     }
 
     public void removeCell(){

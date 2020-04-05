@@ -18,7 +18,7 @@ public class Controller extends Application {
     /**
      * Allows us to set up the initial stage and animation.
      *
-     * @param primaryStage stage for initial game
+     * @param primaryStage stage for initial game2
      */
     @Override
     public void start(Stage primaryStage) {
