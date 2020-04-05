@@ -17,29 +17,9 @@ import java.util.logging.Logger;
 public class ComponentCreator {
     private static final String MATCH_FINDER_PATH = "ooga.engine.matchFinder.";
     private static final String VALIDATOR_PATH = "ooga.engine.validator.";
-    private static final String NEW_CELL_ADDER_PATH = "ooga.engine.newCellAdder";
 
     public ComponentCreator(){
 
-    }
-
-    /**
-     * This method is going to initialize and return the correct cell adder
-     * for the current game. (**Can determine the file path based off the string it is passed)
-     * @return
-     */
-    public NewCellAdder makeMyNewCellAdder(String newCellAdderType) throws Exception {
-        Class<?> clazz = getClass(newCellAdderType, NEW_CELL_ADDER_PATH);
-        try{
-            Object o = clazz.getDeclaredConstructor().newInstance();
-            NewCellAdder ret = (NewCellAdder) o;
-            return ret;
-        }
-        catch (Exception e) {
-            // FIXME: handle exception
-            e.printStackTrace();
-            throw new Exception(e);
-        }
     }
 
     /**

@@ -3,6 +3,8 @@ package ooga.engine.validator;
 import ooga.engine.Cell;
 import ooga.engine.matchFinder.MatchFinder;
 
+import java.util.List;
+
 public class PairValidator extends Validator {
 
     public PairValidator(){
@@ -10,14 +12,22 @@ public class PairValidator extends Validator {
     }
 
     @Override
-    public boolean checkIsValid(Cell[][] grid, MatchFinder myMatchFinder) {
-        // set the state of the two selected cells to open
-        if(myMatchFinder.matchesExist(grid)){
-            // set to !isSelected
-            return true;
+
+    public boolean checkIsValid(List<Cell> selected) {
+        for (Cell cell:selected) if (cell.isOpen().get()) return false;
+
+        int matchState = selected.get(0).getMyState();
+        boolean matched = true;
+        for (Cell cell:selected){
+            cell.isOpen().set(true);
+            if (cell.getMyState()!=matchState) matched = false;
         }
-        // set the state of the two selected cells to close
-        // set the isSelected property of the cells to not selected
-        return false;
+
+        //wait 5 seconds
+        for (Cell cell:selected){
+            if (!matched) cell.isOpen().set(false);
+            cell.isSelected().set(false);
+        }
+        return matched;
     }
 }
