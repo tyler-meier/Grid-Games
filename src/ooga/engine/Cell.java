@@ -7,6 +7,8 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.event.EventHandler;
 
+import java.util.Random;
+
 /**
  * This class represents a cell object.
  */
@@ -32,6 +34,22 @@ public class Cell {
     public BooleanProperty isSelected() { return selected; }
     public BooleanProperty isOpen() { return open; }
     public IntegerProperty cellState() { return myState; }
+    public int getRow() { return myRow; }
+    public int getColumn() { return myColumn; }
+    public boolean isNeighbor(Cell cell) {
+        return (Math.abs(cell.getRow()-myRow)==1 && cell.getColumn()==myColumn) ||
+            (Math.abs(cell.getColumn()-myColumn)==1 && cell.getRow()==myRow);
+
+    }
+    public int getScore(){ return numPoints; }
+
+    public void swap(Cell cell){
+        Cell placeholder = new Cell(myState.get(), open.get());
+        myState.set(cell.getMyState());
+        open.set(cell.open.get());
+        cell.cellState().set(placeholder.getMyState());
+        cell.isOpen().set(placeholder.open.get());
+    }
 
     /**
      * This method sets the coordinates of a cell.
@@ -62,8 +80,11 @@ public class Cell {
         return myState.get();
     }
 
-    public void removeCell(){
-
+    public void randomize(int maxState){
+        Random random = new Random();
+        // random number 1-maxState
+        int randomInteger = random.nextInt(maxState)+1;
+        myState.set(randomInteger);
     }
 
 }
