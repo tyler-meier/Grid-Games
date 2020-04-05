@@ -41,6 +41,8 @@ public interface Player {
    */
   void loadProfile(String fileName);
 
+  
+
   void setLoginButton();
   void setCreateUserButton();
   void setGameTypeButton();
