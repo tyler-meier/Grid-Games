@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<profile>
+
+  <nest>
+    <attribute1>hello</attribute1>
+    <attribute2>hi</attribute2>
+  </nest>
+
+  <username>bobbyBoy</username>
+  <password>bob123</password>
+  <parentalControls>off</parentalControls>
+
+  <previousGame>CandyCrush::/path/of/previousGame/one.xml</previousGame>
+  <previousGame>Bejeweled::/path/of/previousGame/two.xml</previousGame>
+  <previousGame>Minesweeper::/path/of/previousGame/three.xml</previousGame>
+
+  <highScore>CandyCrush::10</highScore>
+  <highScore>Bejeweled::20</highScore>
+  <highScore>Minesweeper::30</highScore>
+
+</profile>

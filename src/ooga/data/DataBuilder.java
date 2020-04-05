@@ -1,5 +1,8 @@
 package ooga.data;
 
+import java.util.List;
+import java.util.Map;
+
 public interface DataBuilder {
 
   /**
@@ -13,7 +16,7 @@ public interface DataBuilder {
    * @param password
    * @return
    */
-  DataObject getPlayerProfile(String username, String password);
+  Map<String, List<String>>  getPlayerProfile(String username, String password);
 
   /**
    * Using the given username and password, the object can make its own
@@ -33,7 +36,7 @@ public interface DataBuilder {
    * can use reflection to build itself accordingly.
    * @return
    */
-  DataObject getEngineAttributes();
+  Map<String, List<String>> getEngineAttributes();
 
   /**
    * Given a profile and the current state of the engine, the Data interface
@@ -53,7 +56,7 @@ public interface DataBuilder {
    * @param gameType
    * @return
    */
-  DataObject loadPreviousGame(String username, String gameType);
+  Map<String, List<String>> loadPreviousGame(String username, String gameType);
 
   /**
    * Given a gametype, the interface should be able to load a data file
@@ -63,6 +66,6 @@ public interface DataBuilder {
    * @param gameType
    * @return
    */
-  DataObject loadConfigurationFile(String gameType);
+  Map<String, List<String>> loadConfigurationFile(String gameType);
 
 }

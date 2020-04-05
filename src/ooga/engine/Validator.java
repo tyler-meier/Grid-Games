@@ -1,4 +1,4 @@
-package ooga.engine;
+(package ooga.engine;
 
 public abstract class Validator {
     /**
