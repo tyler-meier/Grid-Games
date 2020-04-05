@@ -40,7 +40,7 @@ public interface Player {
    * @param fileName
    */
   void loadProfile(String fileName);
-  
+
   /**
    * Check to see if the login actually works
    * @param username the username for the profile
@@ -87,7 +87,4 @@ public interface Player {
    * @param errorMessage the message that is to be displayed
    */
   void setErrorMessage(String errorMessage);
-
->>>>>>> 42838c826eb121eb7137e73ff6031ad92191557f
-
 }
