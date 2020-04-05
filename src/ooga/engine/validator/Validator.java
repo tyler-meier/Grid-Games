@@ -1,4 +1,9 @@
-package ooga.engine;
+package ooga.engine.validator;
+
+import javafx.css.Match;
+import ooga.engine.Cell;
+import ooga.engine.EngineBuilder;
+import ooga.engine.matchFinder.MatchFinder;
 
 public abstract class Validator {
     /**
@@ -7,5 +12,5 @@ public abstract class Validator {
      * is based on if the game is Pair- oriented, or Match - oriented.
      * @param grid
      */
-    public abstract boolean checkIsValid(EngineBuilder.Cell[][] grid);
+    public abstract boolean checkIsValid(Cell[][] grid, MatchFinder myMatchFinder);
 }

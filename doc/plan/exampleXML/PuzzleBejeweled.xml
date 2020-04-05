@@ -8,7 +8,8 @@
 
   <engine>
     <newCellAdder>Random</newCellAdder>
-    <validator>LineFinder</validator>
+    <validator>SwitchValidator</validator>
+    <matchFinder>OpenFinder</matchFinder>
   </engine>
   <grid>
     <gridCreator>Random</gridCreator>

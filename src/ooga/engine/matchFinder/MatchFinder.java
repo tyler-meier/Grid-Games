@@ -1,4 +1,7 @@
-package ooga.engine;
+package ooga.engine.matchFinder;
+
+import ooga.engine.Cell;
+import java.util.List;
 
 public abstract class MatchFinder {
     /**
@@ -10,4 +13,6 @@ public abstract class MatchFinder {
      * @return boolean
      */
     public abstract boolean matchesExist(Cell[][] grid);
+
+    public abstract List<int[]> identifyMatches(Cell[][] grid);
 }

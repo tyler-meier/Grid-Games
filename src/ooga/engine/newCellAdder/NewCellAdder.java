@@ -1,4 +1,6 @@
-package ooga.engine;
+package ooga.engine.newCellAdder;
+
+import ooga.engine.Cell;
 
 public abstract class NewCellAdder {
     /**
@@ -9,4 +11,12 @@ public abstract class NewCellAdder {
      * @return the updated grid
      */
     public abstract Cell[][] addCellsToBoard(Cell[][] grid);
+
+    /**
+     * This method fills in the bottom of the grid so that only the cells at the top are empty.
+     * @param grid
+     */
+    private void shiftCellsDown(Cell[][] grid){
+
+    }
 }

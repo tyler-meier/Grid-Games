@@ -1,9 +1,5 @@
-package ooga.player;
 
-import ooga.engine.Cell;
-import ooga.data.DataObject;
-public interface PlayerStart {
-
+public class WorkingPlayer implements Player {
   /**
    * An instance variable boolean keeps track of whether most recent progress of player is saved.
    * The boolean is returned in this method.
@@ -14,6 +10,7 @@ public interface PlayerStart {
   /**
    * An instance variable String gameType is set as the name of the game type being currently played.
    * The String is returned in this method.
+   * @param gameName
    * @return
    */
   String getGameType();
@@ -76,7 +73,7 @@ public interface PlayerStart {
   void setProfileInfo();
 
   /**
-   * gets the preferences of the user (dark mode, colors, etc)
+   * gets the prefernces of the user (dark mode, colors, etc)
    */
   void getPreferences();
 
