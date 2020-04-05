@@ -22,7 +22,8 @@ public class Controller extends Application {
      *
      * @param primaryStage stage for initial game2
      */
-    @Override
+
+   @Override
     public void start(Stage primaryStage) {
         newWindow(primaryStage);
     }
