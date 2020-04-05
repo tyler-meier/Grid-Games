@@ -6,6 +6,10 @@ import java.util.List;
 
 public class FlippedFinder extends MatchFinder {
 
+    public FlippedFinder(){
+        super();
+    }
+
     @Override
     public boolean matchesExist(Cell[][] grid) {
         // of the open cells in the grid, check if they match

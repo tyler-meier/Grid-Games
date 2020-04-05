@@ -5,6 +5,9 @@ import ooga.engine.matchFinder.MatchFinder;
 
 public class PairValidator extends Validator {
 
+    public PairValidator(){
+        super();
+    }
 
     @Override
     public boolean checkIsValid(Cell[][] grid, MatchFinder myMatchFinder) {

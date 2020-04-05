@@ -4,6 +4,10 @@ import ooga.engine.Cell;
 import java.util.List;
 
 public abstract class MatchFinder {
+
+    public MatchFinder(){
+
+    }
     /**
      * This method determines whether or not there are matches in the given grid.
      * For games that use are pair-based, the method will determine if, of the

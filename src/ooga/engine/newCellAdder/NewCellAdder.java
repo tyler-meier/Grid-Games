@@ -3,6 +3,10 @@ package ooga.engine.newCellAdder;
 import ooga.engine.Cell;
 
 public abstract class NewCellAdder {
+
+    public NewCellAdder(){
+
+    }
     /**
      * This method will 're-fill' the board (if the selected game calls for it),
      * once the matches are removed. Depending on the game, the grid will either

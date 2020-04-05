@@ -7,6 +7,7 @@ import ooga.engine.newCellAdder.NewCellAdder;
 import ooga.engine.validator.Validator;
 
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -14,7 +15,10 @@ import java.util.List;
  * engine component of the game.
  */
 public class Engine implements EngineBuilder {
-    private GridCreator myGridCreator; // not necessary
+    private static final String NEW_CELL_ADDER = "newCellAdder";
+    private static final String VALIDATOR = "validator";
+    private static final String MATCH_FINDER = "matchFinder";
+
     private Validator myValidator;
     private NewCellAdder myNewCellAdder; // not necessary
     private Cell[][] myGrid;
@@ -22,14 +26,12 @@ public class Engine implements EngineBuilder {
     private ComponentCreator myComponentCreator;
     private int numSelected;
 
-    public Engine(DataObject myData){
+    public Engine(Map<String, String> myData) throws Exception {
         myComponentCreator = new ComponentCreator();
-        myNewCellAdder = myComponentCreator.makeMyNewCellAdder();
-        myGridCreator = myComponentCreator.makeMyGridCreator(); //the number of rows, columns, and cell states are also going to be given as a parameter here
-        myValidator = myComponentCreator.makeMyValidator();
-        myMatchFinder = myComponentCreator.makeMyMatchFinder();
-        myGrid = myGridCreator.setUpGrid(); // use line below instead
-        // buildGrid(myData.getInitialStates(), myData.getOpen()); // have to decide how this info is coming it from dataobject
+        myNewCellAdder = myComponentCreator.makeMyNewCellAdder(myData.get(NEW_CELL_ADDER)); //FIXME:getting the string that matches the key in the map from data
+        myValidator = myComponentCreator.makeMyValidator(myData.get(VALIDATOR));
+        myMatchFinder = myComponentCreator.makeMyMatchFinder(myData.get(MATCH_FINDER));
+        //buildGrid(myData.getInitialStates(), myData.getOpen()); // have to decide how this info is coming it from dataobject
     }
 
     private void buildGrid(int[][] initialStates, boolean open){
