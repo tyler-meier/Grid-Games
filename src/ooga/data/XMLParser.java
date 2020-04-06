@@ -16,15 +16,15 @@ import org.w3c.dom.NodeList;
 
 public class XMLParser {
 
-  private static final int ZERO_INDEX = 0;
+  private final int ZERO_INDEX = 0;
 
   private Document doc;
 
   /*
-  private final String PROFILE_PATH = "resources.ProfileKeys";
-  private final String GRID_PATH = "resources.GridKeys";
-  private final String ENGINE_PATH = "resources.EngineKeys";
-  private final String GAME_PATH = "resources.GameKeys";
+  private static final String PROFILE_PATH = "resources.ProfileKeys";
+  private static final String GRID_PATH = "resources.GridKeys";
+  private static final String ENGINE_PATH = "resources.EngineKeys";
+  private static final String GAME_PATH = "resources.GameKeys";
 
   private static final ResourceBundle myProfileResource = ResourceBundle.getBundle(PROFILE_PATH);
   private static Map<String, List<String>> profile = new HashMap<>();
@@ -37,8 +37,7 @@ public class XMLParser {
 
   private static final ResourceBundle myGameResource = ResourceBundle.getBundle(GAME_PATH);
   private static Map<String, List<String>> game = new HashMap<>();
-
-*/
+  */
 
   public XMLParser(String path)
   {
@@ -122,7 +121,8 @@ public class XMLParser {
   private static final ResourceBundle myGameResource = ResourceBundle.getBundle(GAME_PATH);
   private static Map<String, List<String>> game = new HashMap<>();
 
-
+*/
+/*
   public static void main(String[] args)
   {
     String profile_path = "data/RegisteredProfiles.xml";
@@ -154,6 +154,7 @@ public class XMLParser {
 
     for(String key : profile.keySet())
     {
+      System.out.println(key);
       System.out.println(profile.get(key));
     }
 
@@ -165,6 +166,7 @@ public class XMLParser {
 
     for(String key : grid.keySet())
     {
+      System.out.println(key);
       System.out.println(grid.get(key));
     }
 
@@ -174,6 +176,7 @@ public class XMLParser {
 
     for(String key : engine.keySet())
     {
+      System.out.println(key);
       System.out.println(engine.get(key));
     }
 
@@ -183,6 +186,7 @@ public class XMLParser {
 
     for(String key : game.keySet())
     {
+      System.out.println(key);
       System.out.println(game.get(key));
     }
 
