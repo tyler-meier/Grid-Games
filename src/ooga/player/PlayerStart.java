@@ -49,7 +49,7 @@ public interface PlayerStart {
    * @param username the username for the profile
    * @param password the password of the profile
    */
-  void tryLogin(String username, String password);
+  boolean tryLogin(String username, String password);
 
   /**
    * when the user wants to create a new profile
