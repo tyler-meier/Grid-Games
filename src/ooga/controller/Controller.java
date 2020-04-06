@@ -40,7 +40,7 @@ public class Controller extends Application {
         Map myData = data.getEngineAttributes(player, type); //rename DataObject to something more clear
         int[][] initialStates = data.getIntialStates(username);
         Engine engine = new Engine(myData, initialStates);
-        player.setGrid(engine.getGrid());
+        player.setGrid(engine.getGrid()); // need to change param type of set grid
         player.setSaveGameButton(e -> data.saveGame(username, engine.getGameState())); //not sure what getGameState's type is here: should have grid but also like lives left and score
         player.setResetButton(e -> engine.resetGrid(data.getInitialStates("guest")));
     }

@@ -13,6 +13,10 @@ import java.util.Map;
 public class Engine implements EngineBuilder {
     private static final String VALIDATOR = "validator";
     private static final String MATCH_FINDER = "matchFinder";
+    private static final String NUM_SELECTED_PER_MOVE = "numSelectedPerMove";
+    private static final String ADD_NEW_CELLS = "addNewCells";
+    private static final String MAX_STATE_NUMBER = "maxStateNumber";
+    private static final String HAS_HIDDEN_CELLS = "hasHiddenCells";
 
     private Grid myGrid;
 
@@ -20,7 +24,9 @@ public class Engine implements EngineBuilder {
         ComponentCreator myComponentCreator = new ComponentCreator();
         Validator myValidator = myComponentCreator.makeMyValidator(myData.get(VALIDATOR));
         MatchFinder myMatchFinder = myComponentCreator.makeMyMatchFinder(myData.get(MATCH_FINDER));
-        //myGrid = new Grid(initialConfig, numSelectedPerMove, addNewCells, maxStateNumber, hasHiddenCells);
+        myGrid = new Grid(initialConfig, Integer.parseInt(myData.get(NUM_SELECTED_PER_MOVE)),
+                Boolean.parseBoolean(myData.get(ADD_NEW_CELLS)), Integer.parseInt(myData.get(MAX_STATE_NUMBER)),
+                Boolean.parseBoolean(myData.get(HAS_HIDDEN_CELLS)));
     }
 
     public void resetGrid(int[][] initialConfig){
@@ -34,6 +40,7 @@ public class Engine implements EngineBuilder {
 
     @Override
     public State getGameState() {
-        return null;
+        State curState = new State(myGrid, myGrid.getMyScore());
+        return curState;
     }
 }
