@@ -1,14 +1,30 @@
 .root{
-    -fx-font-size: 14pt;
-    -fx-font-family: "Futura";
     -fx-base: #FAD2F5;
     -fx-background: #FAD2F5;
 }
 
 .button{
+    -fx-font-size: 15pt;
+    -fx-font-family: "Futura";
+    -fx-border-width: 2pt;
+    -fx-border-color: #F647E1;
+    -fx-text-fill: white;
+    -fx-background-color: #F647E1;
 
 }
 
 .button:hover{
+    -fx-font-size: 15pt;
+    -fx-font-family: "Futura";
+    -fx-border-width: 2pt;
+    -fx-text-fill: #F647E1;
+    -fx-background-color: white;
+}
 
+.button:pressed{
+    -fx-font-size: 15pt;
+    -fx-font-family: "Futura";
+    -fx-border-width: 2pt;
+    -fx-text-fill: #F647E1;
+    -fx-background-color: white;
 }
