@@ -1,26 +1,26 @@
 <?xml version="1.0"?>
 <game>
 
-  <numLives>no</numLives>
-  <level>1</level>
-  <timed>60</timed>
-  <numCellStates>10</numCellStates>
+  <NumLives>no</NumLives>
+  <Level>1</Level>
+  <Timed>60</Timed>
+  <MaxStateNumber>10</MaxStateNumber>
 
   <engine>
-    <newCellAdder>NoAdding</newCellAdder>
-    <validator>PairValidator</validator>
-    <matchFinder>FlippedFinder</matchFinder>
-    <points>BasicAdder</points>
+    <AddNewCells>false</AddNewCells>
+    <Validator>PairValidator</Validator>
+    <MatchFinder>FlippedFinder</MatchFinder>
+    <NumSelectedPerMove>2</NumSelectedPerMove>
+    <HasHiddenCells>true</HasHiddenCells>
   </engine>
 
   <grid>
-    <gridCreator>Random</gridCreator>
-    <rows>5</rows>
-    <columns>4</columns>
+    <Rows>5</Rows>
+    <Columns>4</Columns>
   </grid>
 
   <frontend>
-    <darkMode>on</darkMode>
+    <DarkMode>on</DarkMode>
   </frontend>
 
 </game>

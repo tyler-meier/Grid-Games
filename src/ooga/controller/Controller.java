@@ -22,7 +22,6 @@ public class Controller extends Application {
      *
      * @param primaryStage stage for initial game2
      */
-
    @Override
     public void start(Stage primaryStage) {
         newWindow(primaryStage);
@@ -45,8 +44,6 @@ public class Controller extends Application {
         player.setSaveGameButton(e -> data.saveGame(username, engine.getGameState())); //not sure what getGameState's type is here: should have grid but also like lives left and score
         player.setResetButton(e -> engine.resetGrid(data.getInitialStates("guest")));
     }
-
-
 }
 
 
