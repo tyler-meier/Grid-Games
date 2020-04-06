@@ -17,19 +17,19 @@ public class LoginScreen {
   private Label loginLabel;
   private BorderPane myBorderPane;
   private VBox myCenterVBox;
+  private Button goButton, newProfileButton, guestButton;
 
   public LoginScreen(){
     myCenterVBox = new VBox();
-
+    myBorderPane = new BorderPane();
   }
 
   public Scene setUpScene(){
     setupLabel();
     setupLogin();
     setUpOptions();
-    myCenterVBox.getChildren().add(loginLabel);
-    BorderPane.setAlignment(myCenterVBox, Pos.CENTER);
-    myBorderPane = new BorderPane(myCenterVBox);
+    myCenterVBox.getChildren().addAll(loginLabel, goButton, guestButton, newProfileButton);
+    myBorderPane.setCenter(myCenterVBox);
     loginScreen = new Scene(myBorderPane, DIMENSION, DIMENSION);
     return loginScreen;
   }
@@ -43,13 +43,17 @@ public class LoginScreen {
   }
 
   private void setUpOptions(){
+    goButton = makeButton("Go!");
+    guestButton = makeButton("Continue as Guest"); //need to fix strings
+    newProfileButton = makeButton("New? Creat New Profile");
+
     //need to add the start as guest, new player, and go buttons (need to do stuff with buttons)
   }
 
-  private Button makeButton(String text, EventHandler<ActionEvent> handler) {
+  private Button makeButton(String text) {
     Button newButton = new Button();
-    //newButton.setText(myResources.getString(text));
-    newButton.setOnAction(handler);
+    newButton.setText(text);
+    //newButton.setOnAction(handler);
     return newButton;
   }
 
