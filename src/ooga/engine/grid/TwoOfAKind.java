@@ -10,6 +10,12 @@ public class TwoOfAKind extends GridCreator {
 
     @Override
     public void makeMyCells() {
+
+    }
+
+    /*
+    @Override
+    public void makeMyCells() {
         int numStates = super.myNumStatesOfCells;
         for(int i = 1; i <= numStates; i++){
             int currentState = i;
@@ -19,5 +25,6 @@ public class TwoOfAKind extends GridCreator {
             }
         }
     }
+     */
 
 }

@@ -9,6 +9,7 @@ import ooga.engine.Cell;
 
 
 public class UICell {
+    BooleanProperty moveInProgress = new SimpleBooleanProperty();
     BooleanProperty selected = new SimpleBooleanProperty();
     BooleanProperty open = new SimpleBooleanProperty();
     IntegerProperty state = new SimpleIntegerProperty();
@@ -21,11 +22,15 @@ public class UICell {
         setListeners();
     }
 
+    public void setMoveInProgress(BooleanProperty inProgress){ moveInProgress.bind(inProgress);}
+
     private void setListeners(){
         open.addListener((obs, oldv, newv) -> changeImage());
         state.addListener((obs, oldv, newv) -> changeImage());
         // toggle selected by clicking on a cell
-        myImage.setOnMouseClicked(e -> selected.set(!selected.get()));
+        myImage.setOnMouseClicked(e -> {
+            if (!moveInProgress.get()) selected.set(!selected.get());
+        });
     }
 
     private void changeImage(){

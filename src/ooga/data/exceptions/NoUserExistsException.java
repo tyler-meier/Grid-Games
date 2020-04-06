@@ -1,0 +1,16 @@
+package ooga.data.exceptions;
+
+public class NoUserExistsException extends RuntimeException{
+  private String message = "The username %s does not exist";
+
+  public NoUserExistsException(String unknownUsername)
+  {
+    message = String.format(message, unknownUsername);
+  }
+
+  @Override
+  public String getMessage() {
+    return message;
+  }
+
+}
