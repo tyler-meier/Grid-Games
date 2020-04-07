@@ -9,19 +9,27 @@ public abstract class MatchFinder {
     protected int matchLength;
 
     public MatchFinder(){
-
     }
 
 
     /**
-     * This method determines whether or not there are matches in the given grid.
-     * For games that use are pair-based, the method will determine if, of the
-     * 'open' cells, there is a match. For games that are match-based, this
-     * method will check the whole grid and identify if there are any existing matches.
-     * @return boolean
+     * This method determines whether or not the movement of the selected cells
+     * (whether it be switching their place, or flipping them over), results in
+     * matches being made on the board. Returns a list of the cells that are considered
+     * to be matching.
+     * @param selected
+     * @param grid
+     * @return
      */
     public abstract List<Cell> makeMatches(List<Cell> selected, Grid grid);
 
+    /**
+     * This method checks the entire game grid and determines if there
+     * are existing matches. Returns a list of the cells that are considered to be
+     * matching.
+     * @param grid
+     * @return
+     */
     public abstract List<Cell> makeMatches(Grid grid);
 
     public void setMatchLength(int length) { matchLength = length; }
