@@ -17,4 +17,10 @@ public interface EngineBuilder {
      * @return
      */
     State getGameState();
+
+    /**
+     * Resets the game grid to have the specified state configuration for the cells
+     * @param initialConfig
+     */
+    void resetGrid(int[][] initialConfig);
 }

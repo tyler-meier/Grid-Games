@@ -27,15 +27,32 @@ public class Cell {
         selected.set(false);
     }
 
+    /**
+     * This method sets the listener for checking if a cell has been selected by the user.
+     * @param counter
+     */
     public void setSelectionChangeListener(SelectedCellCounter counter){
         selected.addListener((o, oldv, newv) -> counter.changeCount(selected.get()));
     }
 
+    /**
+     * This method returns a boolean indicating whether or not a cell is considered to be selected.
+     * @return
+     */
     public BooleanProperty isSelected() { return selected; }
+
+    /**
+     * This method returns a boolean indicating if the cell is considered to be open or not.
+     * @return
+     */
     public BooleanProperty isOpen() { return open; }
+
     public IntegerProperty cellState() { return myState; }
+
     public int getRow() { return myRow; }
+
     public int getColumn() { return myColumn; }
+
     public boolean isNeighbor(Cell cell) {
         return (Math.abs(cell.getRow()-myRow)==1 && cell.getColumn()==myColumn) ||
             (Math.abs(cell.getColumn()-myColumn)==1 && cell.getRow()==myRow);

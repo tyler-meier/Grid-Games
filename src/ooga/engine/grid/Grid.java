@@ -30,16 +30,28 @@ public class Grid {
         setupGridStates(initialStates);
     }
 
+    /**
+     * This method resets the grid to have the specified states for the cells.
+     * @param initialStates
+     */
     public void resetGrid(int[][] initialStates){
         setupGridStates(initialStates);
         score=0;
         numSelected=0;
     }
 
+    /**
+     * This method returns the current score of the player.
+     * @return
+     */
     public int getMyScore(){
         return score;
     }
 
+    /**
+     * This method sets up the grid given the specified initial states of the cells.
+     * @param initialStates
+     */
     private void setupGridStates(int[][] initialStates){
         for (int r = 0; r<initialStates.length; r++){
             for (int c=0; c<initialStates[0].length; c++){
@@ -57,86 +69,68 @@ public class Grid {
         }
     }
 
+    /**
+     * This method returns the value of the 'move in progress" property.
+     * This property indicates whether or not a move is current being handled by the engine,
+     * letting Player know if it needs to wait before receiving user input.
+     * @return
+     */
     public BooleanProperty getInProgressProperty() { return moveInProgress; }
 
+    /**
+     * This method sets the Validator for the current game.
+     * @param validator
+     */
     public void setValidator(Validator validator){
         myValidator = validator;
     }
 
+    /**
+     * This method sets the MatchFinder for the current game.
+     * @param matchFinder
+     */
     public void setMatchFinder(MatchFinder matchFinder){
         myMatchFinder = matchFinder;
     }
 
+    /**
+     * This method returns the Cell object in the specified row and column.
+     * @param row
+     * @param col
+     * @return
+     */
     public Cell getCell(int row, int col){
         if (row<0 || row>myGrid.length) return null;
         if (col<0 || col>myGrid[0].length) return null;
         return myGrid[row][col];
     }
 
+    /**
+     * Returns the number of rows
+     * @return
+     */
     public int getRows() { return myGrid.length; }
+
+    /**
+     * Returns the number of columns
+     * @return
+     */
     public int getCols() { return myGrid[0].length; }
 
+    public void incrementScore(int scoreToAdd){
+        score = score + scoreToAdd;
+    }
+
+    /**
+     * This method will return the current grid with the updated states of all the cells.
+     * This method will be so the frontend can get the updated grid from the backend.
+     * @return
+     */
     private void updateMyBoard(){
         moveInProgress.set(true);
-        List<Cell> selectedCells = getSelectedCells();
-        if(myValidator.checkIsValid(selectedCells)){
-            List<Cell> matchedCells = new ArrayList<>();
-            if (numSelected>0) matchedCells.addAll(myMatchFinder.makeMatches(selectedCells, this));
-            if (hasHiddenCells) matchedCells.addAll(myMatchFinder.makeMatches(this));
-            while (matchedCells.size()>0){
-                //increment moves?
-                if (hasHiddenCells) openMatchedCells(matchedCells);
-                else deleteMatchedCells(matchedCells);
-                matchedCells.addAll(myMatchFinder.makeMatches(this));
-            }
-        }
+        GridUpdater myGridUpdater = new GridUpdater(myValidator, numSelected, myMatchFinder,
+                hasHiddenCells, this, addNewCells, maxState);
+        myGridUpdater.updateGrid();
         moveInProgress.set(false);
-    }
-
-    private void openMatchedCells(List<Cell> matchedCells){
-        for (Cell cell:matchedCells) {
-            cell.isOpen().set(true);
-            score += cell.getScore();
-        }
-    }
-
-    private void deleteMatchedCells(List<Cell> matchedCells){
-        for (Cell cell:matchedCells) {
-            cell.cellState().set(-1);
-            score += cell.getScore();
-        }
-        for (int col = 0; col<getCols(); col++){
-            for (int row = 1; row<getRows(); row++){
-                Cell cell = getCell(row, col);
-                if (cell.getMyState()==-1){
-                    int nextRowAbove = row-1;
-                    Cell above;
-                    while (nextRowAbove>=0 && (above = getCell(nextRowAbove, col)).getMyState()!=-1){
-                        cell.swap(above);
-                        cell = above;
-                        nextRowAbove--;
-                    }
-                }
-            }
-            if (addNewCells) refillColumn(col);
-        }
-        matchedCells.clear();
-    }
-
-    private void refillColumn(int col){
-        for (int row = 1; row<getRows(); row++) {
-            Cell cell = getCell(row, col);
-            if (cell.getMyState()==-1) cell.randomize(maxState);
-        }
-    }
-
-    private List<Cell> getSelectedCells(){
-        List<Cell> selected = new ArrayList<>();
-        for (int r = 0; r<myGrid.length; r++){
-            for (int c=0; c<myGrid[0].length; c++){
-                if (myGrid[r][c].isSelected().get()) selected.add(myGrid[r][c]);
-            }
-        }
-        return selected;
     }
 }

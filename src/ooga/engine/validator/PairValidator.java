@@ -12,7 +12,6 @@ public class PairValidator extends Validator {
     }
 
     @Override
-
     public boolean checkIsValid(List<Cell> selected) {
         for (Cell cell:selected) if (cell.isOpen().get()) return false;
 

@@ -9,7 +9,6 @@ import java.util.List;
 public abstract class Validator {
 
     public Validator(){
-
     }
     /**
      * This method determines if the user's input (the tile(s) that they selected)
