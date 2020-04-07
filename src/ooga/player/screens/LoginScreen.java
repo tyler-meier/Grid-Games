@@ -8,6 +8,10 @@ import javafx.scene.control.Label;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import ooga.controller.UserLogin;
+import ooga.data.UserProfile;
+
+import java.util.Map;
 
 public class LoginScreen {
 
@@ -18,6 +22,10 @@ public class LoginScreen {
   private BorderPane myBorderPane;
   private VBox myCenterVBox;
   private Button goButton, newProfileButton, guestButton;
+  private UserProfile userData;
+  // set these guys at some point from user input
+  private String username;
+  private String password;
 
   public LoginScreen(){
     myCenterVBox = new VBox();
@@ -32,6 +40,12 @@ public class LoginScreen {
     myBorderPane.setCenter(myCenterVBox);
     loginScreen = new Scene(myBorderPane, DIMENSION, DIMENSION);
     return loginScreen;
+  }
+
+  public void setLoginButton(UserLogin userLogin){
+    goButton.setOnMouseClicked(e -> {
+      userData = userLogin.getProfile(username, password);
+    });
   }
 
   private void setupLabel(){

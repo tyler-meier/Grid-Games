@@ -16,7 +16,6 @@ public class Player implements PlayerStart{
   private GameScreen gameScreen;
   private LoginScreen loginScreen;
   private StartScreen startScreen;
-  private UserLogin myLogin;
 
   public Player(Stage primaryStage){
     myStage = primaryStage;
@@ -26,12 +25,8 @@ public class Player implements PlayerStart{
     myStage.show();
   }
 
-  public void setGetProfile(UserLogin userLogin){
-    myLogin = userLogin;
-  }
-
-  private void login(){
-    myLogin
+  public void setLoginAction(UserLogin userLogin){
+    loginScreen.setLoginButton(userLogin);
   }
 
   /**
