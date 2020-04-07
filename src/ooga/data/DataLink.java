@@ -16,7 +16,7 @@ public interface DataLink {
    * @param password
    * @return
    */
-  Map<String, List<String>>  getPlayerProfile(String username, String password);
+  UserProfile getPlayerProfile(String username, String password);
 
   /**
    * Using the given username and password, the object can make its own
@@ -36,7 +36,7 @@ public interface DataLink {
    * can use reflection to build itself accordingly.
    * @return
    */
-  Map<String, List<String>> getEngineAttributes();
+  Map<String, String> getEngineAttributes(String gameType);
 
   /**
    * Given a profile and the current state of the engine, the Data interface
@@ -56,7 +56,7 @@ public interface DataLink {
    * @param gameType
    * @return
    */
-  Map<String, List<String>> loadPreviousGame(String username, String gameType);
+  Map<String, String> loadPreviousGame(String username, String gameType);
 
   /**
    * Given a gametype, the interface should be able to load a data file
@@ -66,6 +66,13 @@ public interface DataLink {
    * @param gameType
    * @return
    */
-  Map<String, List<String>> loadConfigurationFile(String gameType);
+  Map<String, String> loadConfigurationFile(String gameType);
+
+  /**
+   *
+   * @return
+   */
+  int[][] getGrid(String gamePath);
+
 
 }

@@ -1,9 +1,11 @@
 package ooga.data;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.beans.property.StringProperty;
+import ooga.data.buildingXML.XMLBuilder;
 import ooga.data.exceptions.IncorrectPasswordException;
 import ooga.data.exceptions.NoUserExistsException;
 
@@ -14,6 +16,7 @@ import ooga.data.exceptions.NoUserExistsException;
  */
 public class Data implements DataLink {
 
+  private static final String ENGINE_PATH_SKELETON = "data/%sGameDefault.xml";
   private final String PROFILE_KEY_PATH = "resources.ProfileKeys";
   private final String GRID_KEY_PATH = "resources.GridKeys";
   private final String ENGINE_KEY_PATH = "resources.EngineKeys";
@@ -35,6 +38,7 @@ public class Data implements DataLink {
   private String gamePath;
   private ProfileManager myProfileManager = new ProfileManager();
   private StringProperty loginMessage;
+  private XMLBuilder xmlBuilder;
 
 
   public Data()
@@ -55,11 +59,11 @@ public class Data implements DataLink {
    * @return
    */
   @Override
-  public Map<String, List<String>> getPlayerProfile(String username, String password) {
+  public UserProfile getPlayerProfile(String username, String password) {
     try{
       if(myProfileManager.isValid(username, password))
       {
-        return getProfile(myProfileManager.getProfilePath(username));
+        return myProfileManager.getProfile(username);
       }
     } catch (IncorrectPasswordException incorrectPassword)
     {
@@ -69,7 +73,7 @@ public class Data implements DataLink {
     {
       loginMessage.setValue(incorrectUsername.getMessage());
     }
-    return null;
+    return new UserProfile();
   }
 
   /**
@@ -82,7 +86,7 @@ public class Data implements DataLink {
    */
   @Override
   public void saveNewPlayerProfile(String username, String password) {
-
+    //myProfileManager.addProfile(username, password);
   }
 
 
@@ -93,8 +97,9 @@ public class Data implements DataLink {
    * @return
    */
   @Override
-  public Map<String, List<String>> getEngineAttributes() {
-    XMLParser gameParser = new XMLParser(gamePath);
+  public Map<String, String> getEngineAttributes(String gameType) {
+    String enginePath = String.format(ENGINE_PATH_SKELETON, gameType);
+    XMLParser gameParser = new XMLParser(enginePath);
     return gameParser.getMapFromXML(myEngineResource);
   }
 
@@ -121,10 +126,9 @@ public class Data implements DataLink {
    * @return
    */
   @Override
-  public Map<String, List<String>> loadPreviousGame(String username, String gameType) {
-    String profilePath = myProfileManager.getProfilePath(username);
-    Map<String, List<String>> currentProfile = getProfile(profilePath);
-    gamePath = getPathLastPlayedInstance(currentProfile, gameType);
+  public Map<String, String> loadPreviousGame(String username, String gameType) {
+    UserProfile user = myProfileManager.getProfile(username);
+    gamePath = user.getSavedGame(gameType);
     XMLParser gameParser = new XMLParser(gamePath);
     return gameParser.getMapFromXML(myGameResource);
   }
@@ -139,28 +143,25 @@ public class Data implements DataLink {
    * @return
    */
   @Override
-  public Map<String, List<String>> loadConfigurationFile(String gameType) {
+  public Map<String, String> loadConfigurationFile(String gameType) {
     gamePath = myDefaultGamePathResource.getString(gameType);
     XMLParser gameParser = new XMLParser(gamePath);
     return gameParser.getMapFromXML(myGameResource);
   }
 
-  private Map<String, List<String>> getProfile(String path)
+  /**
+   *
+   * @param gridPath
+   * @return
+   */
+  @Override
+  public int[][] getGrid(String gridPath)
   {
-    XMLParser currentProfileParser = new XMLParser(path);
-    return currentProfileParser.getMapFromXML(myProfileKeyResource);
+    //TODO: How do we know which configuration to do?
+    XMLParser gridParser = new XMLParser(gridPath);
+    return gridParser.getGrid();
   }
 
-  private String getPathLastPlayedInstance(Map<String, List<String>> currentProfile, String gameType)
-  {
-    String path = null;
-    for(String savedPosition : currentProfile.get(LIST_OF_PREVIOUS_GAMES)) {
-      String[] gameAndPath = savedPosition.split(DELIMINATOR);
-      if (gameAndPath[GAME_INDEX].equals(gameType)) {
-        path = gameAndPath[PATH_INDEX];
-      }
-    }
-    return path;
-  }
+
 
 }

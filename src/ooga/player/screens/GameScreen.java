@@ -36,14 +36,14 @@ public class GameScreen {
     BorderPane root = new BorderPane();
 
     HBox toolBar = new HBox();
-    Button homeButton = makeButton("HomeCommand" e-> );
+    //Button homeButton = makeButton("HomeCommand" e-> );
     //write code for timer
-    timeKeeper = ;
-    toolBar.getChildren().addAll(homeButton, timeKeeper);
+    //timeKeeper = ;
+    //toolBar.getChildren().addAll(homeButton, timeKeeper);
     root.setTop(toolBar);
 
-    VBox buttonPanel = makeButtonPanel();
-    root.setRight(buttonPanel);
+    //VBox buttonPanel = makeButtonPanel();
+    //root.setRight(buttonPanel);
 
     Scene scene = new Scene(root, height, width);
     scene.getStylesheets().add(getClass().getResource(DEFAULT_RESOURCE_FOLDER + STYLESHEET).toExternalForm());
@@ -63,12 +63,12 @@ public class GameScreen {
     VBox buttons = new VBox();
     //lambda notation to trigger correct event
     //TODO check which classes need to be instantiated to pass to event handler
-    Button loginButton = makeButton("LoginCommand", e-> );
+    //Button loginButton = makeButton("LoginCommand", e-> );
     Button resetButton = makeButton("ResetCommand", e-> makeScene(myHeight, myWidth));
-    Button newButton = makeButton("NewCommand", e-> );
+    //Button newButton = makeButton("NewCommand", e-> );
 
     buttons.setSpacing(20);
-    buttons.getChildren().addAll(loginButton, resetButton, newButton);
+    //buttons.getChildren().addAll(loginButton, resetButton, newButton);
     buttons.setAlignment(Pos.CENTER);
 
     return buttons;

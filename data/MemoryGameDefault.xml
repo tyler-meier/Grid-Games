@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<game>
+
+  <NumLives>no</NumLives>
+  <Level>1</Level>
+  <Timed>60</Timed>
+  <MaxStateNumber>10</MaxStateNumber>
+  <DarkMode>off</DarkMode>
+
+  <Row>5222392837578235</Row>
+  <Row>5222392837578235</Row>
+  <Row>5222392837578235</Row>
+  <Row>5222392837578235</Row>
+  <Row>5222392837578235</Row>
+
+</game>
