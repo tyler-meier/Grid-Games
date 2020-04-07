@@ -12,7 +12,7 @@ import ooga.data.exceptions.NoUserExistsException;
  * by the Controller. This class will not perform all the work, but delegate
  * functions to other objects, such as a Parser and DataObject.
  */
-public class Data implements DataBuilder {
+public class Data implements DataLink {
 
   private final String PROFILE_KEY_PATH = "resources.ProfileKeys";
   private final String GRID_KEY_PATH = "resources.GridKeys";
@@ -140,7 +140,6 @@ public class Data implements DataBuilder {
    */
   @Override
   public Map<String, List<String>> loadConfigurationFile(String gameType) {
-
     gamePath = myDefaultGamePathResource.getString(gameType);
     XMLParser gameParser = new XMLParser(gamePath);
     return gameParser.getMapFromXML(myGameResource);

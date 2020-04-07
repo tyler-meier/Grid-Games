@@ -4,9 +4,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import ooga.data.buildingXML.XMLBuilder;
+import ooga.data.buildingXML.XMLProfileBuilder;
 import ooga.data.exceptions.IncorrectPasswordException;
 import ooga.data.exceptions.NoUserExistsException;
 
+/**
+ * This class deals with all of the active profiles to cut down on the work Data has to do.
+ * ProfileManager keeps a running map of all the active profiles and has the ability
+ * to add new ones.
+ */
 public class ProfileManager {
 
   private static final Map<String, List<String>> DEFAULT_PROFILE = new HashMap<>();
@@ -57,12 +64,6 @@ public class ProfileManager {
     throw new NoUserExistsException(username);
   }
 
-  private boolean matchingPassword(String username, String password)
-  {
-    return password.equals(allProfiles.get(username).get(INDEX_OF_PASSWORD));
-  }
-
-
   public String getProfilePath(String username)
   {
     return allProfiles.get(username).get(INDEX_OF_PATH);
@@ -71,7 +72,7 @@ public class ProfileManager {
   public void addProfile(String username, String password)
   {
     String path = String.format(PATH_SKELETON, username);
-    XMLBuilder newProfile = new XMLBuilder(MAIN_TAG, path, DEFAULT_PROFILE);
+    XMLBuilder newProfile = new XMLProfileBuilder(MAIN_TAG, path, DEFAULT_PROFILE);
     allProfiles.put(username, new ArrayList<>());
     allProfiles.get(username).add(password);
     allProfiles.get(username).add(path);
@@ -86,8 +87,11 @@ public class ProfileManager {
       updatedMap.put(MAIN_TAG, new ArrayList(allProfiles.get(user)));
       updatedMap.get(MAIN_TAG).add(user);
     }
-    XMLBuilder builder = new XMLBuilder(CONTAINER_TAG, REGISTERED_PROFILES_PATH, updatedMap);
+    XMLBuilder builder = new XMLProfileBuilder(CONTAINER_TAG, REGISTERED_PROFILES_PATH, updatedMap);
   }
 
-
+  private boolean matchingPassword(String username, String password)
+  {
+    return password.equals(allProfiles.get(username).get(INDEX_OF_PASSWORD));
+  }
 }
