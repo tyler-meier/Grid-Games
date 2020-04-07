@@ -1,6 +1,7 @@
 package ooga.player;
 
 import javafx.stage.Stage;
+import ooga.controller.UserLogin;
 import ooga.data.DataObject;
 import ooga.engine.Cell;
 import ooga.player.screens.GameScreen;
@@ -15,6 +16,7 @@ public class Player implements PlayerStart{
   private GameScreen gameScreen;
   private LoginScreen loginScreen;
   private StartScreen startScreen;
+  private UserLogin myLogin;
 
   public Player(Stage primaryStage){
     myStage = primaryStage;
@@ -22,6 +24,14 @@ public class Player implements PlayerStart{
     myStage.setScene(loginScreen.setUpScene());
     myStage.setTitle(TITLE);
     myStage.show();
+  }
+
+  public void setGetProfile(UserLogin userLogin){
+    myLogin = userLogin;
+  }
+
+  private void login(){
+    myLogin
   }
 
   /**
