@@ -19,5 +19,4 @@ public class State {
         //myTimer = timer;
     }
 
-
 }
