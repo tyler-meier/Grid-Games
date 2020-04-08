@@ -1,5 +1,6 @@
 package ooga.player;
 
+import javafx.scene.Scene;
 import javafx.stage.Stage;
 import ooga.controller.UserLogin;
 import ooga.data.DataObject;
@@ -12,43 +13,21 @@ import ooga.player.screens.StartScreen;
 public class Player implements PlayerStart{
 
   private static final String TITLE = "Grid GORLS + Tyler :)";
-
   private Stage myStage;
-  private GameScreen gameScreen;
-  private LoginScreen loginScreen;
-  private StartScreen startScreen;
-  private NewProfileScreen newProfScreen;
-
   public Player(){
   }
 
   public void startView(Stage primaryStage){
     myStage = primaryStage;
-    loginScreen = new LoginScreen();
-    //gameScreen = new GameScreen("ijdnc");
-    //startScreen = new StartScreen();
-    newProfScreen = new NewProfileScreen();
-    myStage.setScene(loginScreen.setUpScene());
-    myStage.setTitle(TITLE);
     myStage.show();
   }
 
-  public void setUpStartScreen(String titleName){
-
+  public void setScene(Scene scene) {
+    myStage.setScene(scene);
   }
-
-  public void setUpNewProfScreen(){
-    System.out.println("made it here");
-    myStage.setScene(newProfScreen.setUpScene());
-  }
-
-  public void setUpLoginScreen() {
-    myStage.setScene(loginScreen.setUpScene());
-  }
-
-  public void setLoginAction(UserLogin userLogin){
-    loginScreen.setLoginButton(userLogin);
-  }
+//
+//  public void setLoginAction(UserLogin userLogin){
+//    loginScreen.setLoginButton(userLogin);
 
   /**
    * An instance variable boolean keeps track of whether most recent progress of player is saved.
