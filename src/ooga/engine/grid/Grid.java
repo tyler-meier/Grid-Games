@@ -125,10 +125,6 @@ public class Grid {
      */
     public int getCols() { return myGrid[0].length; }
 
-    public void incrementScore(int scoreToAdd){
-        score = score + scoreToAdd;
-    }
-
     /**
      * This method will return the current grid with the updated states of all the cells.
      * This method will be so the frontend can get the updated grid from the backend.
