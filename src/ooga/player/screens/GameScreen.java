@@ -23,7 +23,7 @@ public class GameScreen {
   private static final String DEFAULT_RESOURCE_PACKAGE = RESOURCES.replace("/", ".");
   private static final String DEFAULT_RESOURCE_FOLDER = "/" + RESOURCES;
   private static final String STYLESHEET = "default.css";
-  private ResourceBundle myResources;
+  private ResourceBundle myButtonResources, myStringResources;
   private Player myPlayer;
   private int myHeight;
   private int myWidth;
@@ -33,7 +33,8 @@ public class GameScreen {
   private GridView myGrid;
 
   public GameScreen(String gameType, Player player){
-    myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + gameType);
+    myButtonResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "ButtonCreation");
+    myStringResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "BasicStrings");
     myPlayer = player;
     myGrid = new GridView(gameType, 400);
 
@@ -79,14 +80,14 @@ public class GameScreen {
   //returns a button with correct text, associated event handler
   private Button makeButton(String text, EventHandler<ActionEvent> handler) {
     Button newButton = new Button();
-    newButton.setText(myResources.getString(text));
+    newButton.setText(myButtonResources.getString(text));
     newButton.setOnAction(handler);
     return newButton;
   }
 
   //make panel of buttons for screen
   private Node makeButtonPanel() {
-    Button loginButton = makeButton("LoginCommand", e-> myPlayer.setUpLoginScreen());
+    Button loginButton = makeButton("LogoutCommand", e-> myPlayer.setUpLoginScreen());
     Button resetButton = makeButton("ResetCommand", e-> makeScene(myHeight, myWidth));
 
     VBox buttons = new VBox();

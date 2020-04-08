@@ -1,6 +1,5 @@
 package ooga.player;
 
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 import ooga.controller.UserLogin;
 import ooga.data.DataObject;
@@ -28,20 +27,20 @@ public class Player implements PlayerStart{
     myNewProfScreen = new NewProfileScreen(this);
     myGameScreen = new GameScreen("BejeweledAction", this);
     myStartScreen = new StartScreen(this);
-    myStage.setScene(myGameScreen.makeScene(800, 500));
+    myStage.setScene(myLoginScreen.setUpScene());
     myStage.setTitle(TITLE);
     myStage.show();
   }
 
   public void setUpStartScreen(String username){
-    //myStage.setScene(myStartScreen.setUpScene());
+    myStage.setScene(myStartScreen.setUpScene(username));
   }
   public void setUpNewProfScreen(){
     myStage.setScene(myNewProfScreen.setUpScene());
   }
 
   public void setUpGameScreen(String gameType){
-
+    myStage.setScene(myGameScreen.makeScene(800, 500));
   }
   public void setUpLoginScreen(){
     myStage.setScene(myLoginScreen.setUpScene());
