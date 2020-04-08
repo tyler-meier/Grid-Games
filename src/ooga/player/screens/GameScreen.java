@@ -11,21 +11,19 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import ooga.player.Player;
+import ooga.player.TimeKeeper;
 
 import javax.swing.text.html.ImageView;
 
 public class GameScreen {
-
   private static final String RESOURCES = "ooga/player/Resources/";
   private static final String DEFAULT_RESOURCE_PACKAGE = RESOURCES.replace("/", ".");
   private static final String DEFAULT_RESOURCE_FOLDER = "/" + RESOURCES;
   private static final String STYLESHEET = "default.css";
-
   private ResourceBundle myResources;
-
   private Player myPlayer;
-
   private int myHeight;
   private int myWidth;
   private String initialTime = "0";
@@ -39,20 +37,20 @@ public class GameScreen {
   public Scene makeScene(int height, int width) {
     myHeight = height;
     myWidth = width;
-
     BorderPane root = new BorderPane();
+
     HBox toolBar = new HBox();
-    Button homeButton = makeButton("HomeCommand" e-> Player.setHome());
+//    Button homeButton = makeButton("HomeCommand", e-> Player.setHome());
 
     //TODO: write code for timer
     String initialTime = "0";
-    TextField timeKeeper = new TextField();
-    timeKeeper.textProperty().addListener(
+    TimeKeeper timer = new TimeKeeper();
+    Text stopwatch = timer.getText();
 
-    toolBar.getChildren().addAll(homeButton, timeKeeper);
+//    toolBar.getChildren().addAll(homeButton, stopwatch);
     root.setTop(toolBar);
 
-    VBox buttonPanel = makeButtonPanel();
+    Node buttonPanel = makeButtonPanel();
     root.setRight(buttonPanel);
 
     Scene scene = new Scene(root, height, width);
@@ -73,11 +71,11 @@ public class GameScreen {
     VBox buttons = new VBox();
     //lambda notation to trigger correct event
     //TODO make set loginscreen button
-    Button loginButton = makeButton("LoginCommand", e-> Player.setLogin());
+//    Button loginButton = makeButton("LoginCommand", e-> Player.setLogin());
     Button resetButton = makeButton("ResetCommand", e-> makeScene(myHeight, myWidth));
 
     buttons.setSpacing(20);
-    buttons.getChildren().addAll(loginButton, resetButton);
+//    buttons.getChildren().addAll(loginButton, resetButton);
     buttons.setAlignment(Pos.CENTER);
 
     return buttons;
