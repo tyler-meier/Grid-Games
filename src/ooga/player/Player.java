@@ -6,6 +6,7 @@ import ooga.data.DataObject;
 import ooga.engine.Cell;
 import ooga.player.screens.GameScreen;
 import ooga.player.screens.LoginScreen;
+import ooga.player.screens.NewProfileScreen;
 import ooga.player.screens.StartScreen;
 
 public class Player implements PlayerStart{
@@ -16,6 +17,7 @@ public class Player implements PlayerStart{
   private GameScreen gameScreen;
   private LoginScreen loginScreen;
   private StartScreen startScreen;
+  private NewProfileScreen newProfScreen;
 
   public Player(){
   }
@@ -25,6 +27,7 @@ public class Player implements PlayerStart{
     loginScreen = new LoginScreen();
     //gameScreen = new GameScreen("ijdnc");
     //startScreen = new StartScreen();
+    newProfScreen = new NewProfileScreen();
     myStage.setScene(loginScreen.setUpScene());
     myStage.setTitle(TITLE);
     myStage.show();
@@ -33,8 +36,10 @@ public class Player implements PlayerStart{
   public void setUpStartScreen(String titleName){
 
   }
-  public void setUpNewProfScreen(){
 
+  public void setUpNewProfScreen(){
+    System.out.println("made it here");
+    myStage.setScene(newProfScreen.setUpScene());
   }
 
   public void setLoginAction(UserLogin userLogin){
