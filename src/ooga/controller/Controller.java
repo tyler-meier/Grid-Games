@@ -45,6 +45,7 @@ public class Controller extends Application {
         engine.setupGame(initialStates, myGameAttributes);
 //        player.setGameStats(engine.getGameStats());
 //        player.setGrid(engine.getGrid()); // need to change param type of set grid
+        //player.setInProgressProperty(engine.getInProgressProperty());
 //        player.setSaveGameButton(e -> data.saveGame(username, type, engine.getGameAttributes(), engine.getGridConfiguration()));
 //        player.setResetButton(e -> {
 //              Map<String, String> newGameAttributes = data.getGameAttributes("guest", type);

@@ -1,5 +1,6 @@
 package ooga.engine;
 
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -47,4 +48,5 @@ public class Engine implements EngineBuilder {
 
     public Map<String, IntegerProperty> getGameStats() { return myGrid.getGameStats(); }
 
+    public BooleanProperty getInProgressProperty() { return myGrid.getInProgressProperty(); }
 }
