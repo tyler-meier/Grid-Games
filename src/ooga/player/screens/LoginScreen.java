@@ -5,9 +5,9 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import ooga.controller.UserLogin;
@@ -70,7 +70,7 @@ public class LoginScreen {
   private Node setUpButtons(){
     VBox buttonVBox = new VBox();
 
-    Button loginButton = makeButton("LoginButtonCommand", e -> myPlayer.setUpStartScreen("Username"));
+    Button loginButton = makeButton("LoginButtonCommand", e -> myPlayer.setUpStartScreen("Username")); //TODO access the  actual username
     Button guestButton = makeButton("GuestButtonCommand", e -> myPlayer.setUpStartScreen(myStringResources.getString("Guest")));
     Button newProfileButton = makeButton("NewProfileCommand", e -> myPlayer.setUpNewProfScreen());
 
