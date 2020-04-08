@@ -1,5 +1,6 @@
 package ooga.player;
 
+import javafx.scene.Scene;
 import javafx.stage.Stage;
 import ooga.controller.UserLogin;
 import ooga.data.DataObject;
@@ -12,39 +13,43 @@ import ooga.player.screens.StartScreen;
 public class Player implements PlayerStart{
 
   private static final String TITLE = "Grid GORLS + Tyler :)";
-
   private Stage myStage;
-  private GameScreen gameScreen;
-  private LoginScreen loginScreen;
-  private StartScreen startScreen;
-  private NewProfileScreen newProfScreen;
+  private LoginScreen myLoginScreen;
+  private NewProfileScreen myNewProfScreen;
+  private GameScreen myGameScreen;
+  private  StartScreen myStartScreen;
 
   public Player(){
   }
 
   public void startView(Stage primaryStage){
     myStage = primaryStage;
-    loginScreen = new LoginScreen();
-    //gameScreen = new GameScreen("ijdnc");
-    //startScreen = new StartScreen();
-    newProfScreen = new NewProfileScreen();
-    myStage.setScene(loginScreen.setUpScene());
+    myLoginScreen = new LoginScreen(this);
+    myNewProfScreen = new NewProfileScreen(this);
+    myGameScreen = new GameScreen("BejeweledAction", this);
+    myStartScreen = new StartScreen(this);
+    myStage.setScene(myGameScreen.makeScene(800, 500));
     myStage.setTitle(TITLE);
     myStage.show();
   }
 
-  public void setUpStartScreen(String titleName){
-
+  public void setUpStartScreen(String username){
+    //myStage.setScene(myStartScreen.setUpScene());
   }
-
   public void setUpNewProfScreen(){
-    System.out.println("made it here");
-    myStage.setScene(newProfScreen.setUpScene());
+    myStage.setScene(myNewProfScreen.setUpScene());
   }
 
-  public void setLoginAction(UserLogin userLogin){
-    loginScreen.setLoginButton(userLogin);
+  public void setUpGameScreen(String gameType){
+
   }
+  public void setUpLoginScreen(){
+    myStage.setScene(myLoginScreen.setUpScene());
+  }
+
+//
+//  public void setLoginAction(UserLogin userLogin){
+//    loginScreen.setLoginButton(userLogin);
 
   /**
    * An instance variable boolean keeps track of whether most recent progress of player is saved.
@@ -178,23 +183,5 @@ public class Player implements PlayerStart{
 
 }
 
-/*
-code for the method to set up the front end grid with binding--move this to where it makes the most sense
-when you're ready to use it, rename things and ask if anything is unclear
-
-public void setGrid(Grid grid) { // ideally we'll be able to make this run one cell at a time
-        //so we don't need it to be a 2D array, or we just make a Grid object in back end
-
-        myGrid = new UICell[grid.getRows()][grid.getColumns();
-        for (int r = 0; r < myGrid.length; r++) {
-            for (int c = 0; c < myGrid[0].length; c++) {
-                myGrid[r][c] = new UICell(grid.getCell(r, c);
-
-                // set property so that front end stops users from making a new move while one is in motion
-                myGrid[r][c].setMoveInProgress(grid.getInProgressProperty());
-            }
-        }
-}
-*/
 
 

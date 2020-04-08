@@ -3,6 +3,7 @@ package ooga.player.screens;
 import java.util.*;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -12,10 +13,10 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import ooga.engine.grid.Grid;
 import ooga.player.Player;
 import ooga.player.TimeKeeper;
-
-import javax.swing.text.html.ImageView;
+import ooga.player.GridView;
 
 public class GameScreen {
   private static final String RESOURCES = "ooga/player/Resources/";
@@ -26,39 +27,56 @@ public class GameScreen {
   private Player myPlayer;
   private int myHeight;
   private int myWidth;
-  private String initialTime = "0";
+  private int myHighScore;
+  private int myScore;
+  private int myLives;
+  private GridView myGrid;
 
-  public GameScreen(String gameType){
-    //should be defined by what type of game
+  public GameScreen(String gameType, Player player){
     myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + gameType);
+    myPlayer = player;
+    myGrid = new GridView(gameType, 400);
+
+    //TODO: retrieve stats from user profile
+    myHighScore = 12;
+    myScore = 0;
+    myLives = 5;
   }
 
-  //needs dimensions from dataobject
+  /**
+   * returns scene for game
+   * @param height
+   * @param width
+   * @return
+   */
   public Scene makeScene(int height, int width) {
     myHeight = height;
     myWidth = width;
     BorderPane root = new BorderPane();
+    root.setPadding(new Insets(10, 20, 10, 20));
 
-    HBox toolBar = new HBox();
-//    Button homeButton = makeButton("HomeCommand", e-> Player.setHome());
-
-    //TODO: write code for timer
-    String initialTime = "0";
-    TimeKeeper timer = new TimeKeeper();
-    Text stopwatch = timer.getText();
-
-//    toolBar.getChildren().addAll(homeButton, stopwatch);
+    Node toolBar = makeToolBar();
     root.setTop(toolBar);
 
+    VBox verticalPanel = new VBox();
     Node buttonPanel = makeButtonPanel();
-    root.setRight(buttonPanel);
+    Node statsPanel = makeStatsPanel();
+    verticalPanel.setSpacing(30);
+    verticalPanel.setAlignment(Pos.CENTER);
+    verticalPanel.getChildren().addAll(buttonPanel, statsPanel);
+    root.setRight(verticalPanel);
+
+    GridPane gameGrid = myGrid.makeGrid(10, 10);
+    gameGrid.setAlignment(Pos.CENTER);
+    root.setCenter(gameGrid);
 
     Scene scene = new Scene(root, height, width);
     scene.getStylesheets().add(getClass().getResource(DEFAULT_RESOURCE_FOLDER + STYLESHEET).toExternalForm());
+
     return scene;
   }
 
-  //make buttons
+  //returns a button with correct text, associated event handler
   private Button makeButton(String text, EventHandler<ActionEvent> handler) {
     Button newButton = new Button();
     newButton.setText(myResources.getString(text));
@@ -66,19 +84,45 @@ public class GameScreen {
     return newButton;
   }
 
-  //make panel of buttons
+  //make panel of buttons for screen
   private Node makeButtonPanel() {
-    VBox buttons = new VBox();
-    //lambda notation to trigger correct event
-    //TODO make set loginscreen button
-//    Button loginButton = makeButton("LoginCommand", e-> Player.setLogin());
+    Button loginButton = makeButton("LoginCommand", e-> myPlayer.setUpLoginScreen());
     Button resetButton = makeButton("ResetCommand", e-> makeScene(myHeight, myWidth));
 
-    buttons.setSpacing(20);
-//    buttons.getChildren().addAll(loginButton, resetButton);
+    VBox buttons = new VBox();
+    buttons.getChildren().addAll(loginButton, resetButton);
+    buttons.setSpacing(10);
     buttons.setAlignment(Pos.CENTER);
 
     return buttons;
+  }
+
+  private Node makeToolBar() {
+    HBox toolBar = new HBox();
+    Button homeButton = makeButton("HomeCommand", e-> myPlayer.setUpStartScreen(""));
+
+    TimeKeeper timer = new TimeKeeper();
+    timer.addTimeline();
+    String time = timer.getText();
+    Label stopWatch = new Label(time);
+
+    toolBar.getChildren().addAll(homeButton, stopWatch);
+    toolBar.setSpacing(45);
+
+    return toolBar;
+  }
+
+  private Node makeStatsPanel() {
+    VBox stats = new VBox();
+    Label highScore = new Label(Integer.toString(myHighScore));
+    Label score = new Label(Integer.toString(myScore));
+    Label lives = new Label(Integer.toString(myLives));
+
+    stats.getChildren().addAll(highScore, score, lives);
+    stats.setSpacing(10);
+    stats.setAlignment(Pos.CENTER);
+
+    return stats;
   }
 
 }

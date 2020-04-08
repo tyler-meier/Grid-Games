@@ -3,6 +3,7 @@ package ooga.player.screens;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.Scene;
@@ -18,13 +19,11 @@ public class LoginScreen {
   private static final int DIMENSION = 500;
   private static final String RESOURCES = "ooga/player/Resources/";
   private static final String DEFAULT_RESOURCE_PACKAGE = RESOURCES.replace("/", ".");
+  private static final String DEFAULT_RESOURCE_FOLDER = "/" + RESOURCES;
   private static final String BUTTON_STRINGS = DEFAULT_RESOURCE_PACKAGE + "ButtonCreation";
   private static final String STYLESHEET = "default.css";
 
-  private Scene loginScreen;
   private Label loginLabel;
-  private BorderPane myBorderPane;
-  private VBox myCenterVBox;
   private Button loginButton, newProfileButton, guestButton;
   private ResourceBundle myResources;
   private TextField username, password;
@@ -34,20 +33,23 @@ public class LoginScreen {
   private String usernameString;
   private String passwordString;
 
-  public LoginScreen(){
-    myCenterVBox = new VBox();
-    myBorderPane = new BorderPane();
+  public LoginScreen(Player thisPlayer){
     myResources = ResourceBundle.getBundle(BUTTON_STRINGS);
-    myPlayer = new Player();
+    myPlayer = thisPlayer;
   }
 
   public Scene setUpScene(){
     setupLabel();
     setupLogin();
     setUpOptions();
+
+    VBox myCenterVBox = new VBox();
     myCenterVBox.getChildren().addAll(loginLabel, username, password, loginButton, guestButton, newProfileButton);
-    myBorderPane.setCenter(myCenterVBox);
-    loginScreen = new Scene(myBorderPane, DIMENSION, DIMENSION);
+    myCenterVBox.setSpacing(7);
+    myCenterVBox.setAlignment(Pos.CENTER);
+
+    Scene loginScreen = new Scene(myCenterVBox, DIMENSION, DIMENSION);
+    loginScreen.getStylesheets().add(getClass().getResource(DEFAULT_RESOURCE_FOLDER + STYLESHEET).toExternalForm());
     return loginScreen;
   }
 
@@ -65,8 +67,8 @@ public class LoginScreen {
     username = new TextField();
     password = new TextField();
 
-    username.setPromptText("Username");
-    password.setPromptText("Password");
+    username.setPromptText("Enter Username");
+    password.setPromptText("Enter Password");
 
     username.getText();
     password.getText();
@@ -76,8 +78,6 @@ public class LoginScreen {
     loginButton = makeButton("LoginButtonCommand", e -> myPlayer.setUpStartScreen("Username"));
     guestButton = makeButton("GuestButtonCommand", e -> myPlayer.setUpStartScreen("Guest"));
     newProfileButton = makeButton("NewProfileCommand", e -> myPlayer.setUpNewProfScreen());
-
-    //need to add the start as guest, new player, and go buttons (need to do stuff with buttons)
   }
 
   private Button makeButton(String text, EventHandler<ActionEvent> handler) {
@@ -86,5 +86,4 @@ public class LoginScreen {
     newButton.setOnAction(handler);
     return newButton;
   }
-
 }
