@@ -22,10 +22,7 @@ public class LoginScreen {
   private static final String BUTTON_STRINGS = DEFAULT_RESOURCE_PACKAGE + "ButtonCreation";
   private static final String STYLESHEET = "default.css";
 
-  private Scene loginScreen;
   private Label loginLabel;
-  private BorderPane myBorderPane;
-  private VBox myCenterVBox;
   private Button loginButton, newProfileButton, guestButton;
   private ResourceBundle myResources;
   private TextField username, password;
@@ -36,8 +33,6 @@ public class LoginScreen {
   private String passwordString;
 
   public LoginScreen(Player thisPlayer){
-    myCenterVBox = new VBox();
-    myBorderPane = new BorderPane();
     myResources = ResourceBundle.getBundle(BUTTON_STRINGS);
     myPlayer = thisPlayer;
   }
@@ -46,9 +41,11 @@ public class LoginScreen {
     setupLabel();
     setupLogin();
     setUpOptions();
+
+    VBox myCenterVBox = new VBox();
     myCenterVBox.getChildren().addAll(loginLabel, username, password, loginButton, guestButton, newProfileButton);
-    myBorderPane.setCenter(myCenterVBox);
-    loginScreen = new Scene(myBorderPane, DIMENSION, DIMENSION);
+
+    Scene loginScreen = new Scene(myCenterVBox, DIMENSION, DIMENSION);
     loginScreen.getStylesheets().add(getClass().getResource(DEFAULT_RESOURCE_FOLDER + STYLESHEET).toExternalForm());
     return loginScreen;
   }
@@ -67,8 +64,8 @@ public class LoginScreen {
     username = new TextField();
     password = new TextField();
 
-    username.setPromptText("Username");
-    password.setPromptText("Password");
+    username.setPromptText("Enter Username");
+    password.setPromptText("Enter Password");
 
     username.getText();
     password.getText();
@@ -78,8 +75,6 @@ public class LoginScreen {
     loginButton = makeButton("LoginButtonCommand", e -> myPlayer.setUpStartScreen("Username"));
     guestButton = makeButton("GuestButtonCommand", e -> myPlayer.setUpStartScreen("Guest"));
     newProfileButton = makeButton("NewProfileCommand", e -> myPlayer.setUpNewProfScreen());
-
-    //need to add the start as guest, new player, and go buttons (need to do stuff with buttons)
   }
 
   private Button makeButton(String text, EventHandler<ActionEvent> handler) {
@@ -88,5 +83,4 @@ public class LoginScreen {
     newButton.setOnAction(handler);
     return newButton;
   }
-
 }

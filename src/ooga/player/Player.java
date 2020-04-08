@@ -26,7 +26,7 @@ public class Player implements PlayerStart{
     myStage = primaryStage;
     myLoginScreen = new LoginScreen(this);
     myNewProfScreen = new NewProfileScreen(this);
-    //myGameScreen = new NewProfileScreen("", this);
+    //myGameScreen = new GameScreen("BejeweledAction", this);
     myStartScreen = new StartScreen(this);
     myStage.setScene(myLoginScreen.setUpScene());
     myStage.setTitle(TITLE);
@@ -34,7 +34,7 @@ public class Player implements PlayerStart{
   }
 
   public void setUpStartScreen(String username){
-
+    //myStage.setScene(myStartScreen.setUpScene());
   }
   public void setUpNewProfScreen(){
     myStage.setScene(myNewProfScreen.setUpScene());
@@ -43,7 +43,7 @@ public class Player implements PlayerStart{
 
   }
   public void setUpLoginScreen(){
-
+    myStage.setScene(myLoginScreen.setUpScene());
   }
 
 //
