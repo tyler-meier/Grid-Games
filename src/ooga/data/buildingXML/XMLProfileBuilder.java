@@ -1,22 +1,66 @@
 package ooga.data.buildingXML;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import ooga.data.UserProfile;
 import org.w3c.dom.Element;
 
 public class XMLProfileBuilder extends XMLBuilder {
 
-  public XMLProfileBuilder(String mainTag, String pathName, Map<String, List<String>> dataToWrite) {
-    super(mainTag, pathName, dataToWrite);
+  private UserProfile user;
+  private Map<String, List<String>> userAttributes = new HashMap<>();
+
+  public XMLProfileBuilder(String mainTag, String pathName, UserProfile user) {
+    super(mainTag, pathName);
+    this.user = user;
+    fillUserMap();
+    createDocument(mainTag, pathName);
   }
 
-  @Override
-  void addElementsToRoot(Element root, Map<String, List<String>> dataToWrite) {
-    for(String tag : dataToWrite.keySet())
+  private void fillUserMap() {
+    createMapEntry("DarkMode", Boolean.toString(user.getDarkMode()));
+    createMapEntry("ParentalControls", Boolean.toString(user.getParentalControls()));
+    createMapEntry("Username", user.getUsername());
+    createMapEntry("Password", user.getPassword());
+
+    userAttributes.put("HighScore", new ArrayList<>());
+    for(String game : user.getAllSavedGamed().keySet())
     {
-      String data = String.join(DELIMINATOR, dataToWrite.get(tag));
-      Element temp = createElement(tag, data);
-      root.appendChild(temp);
+      addMapEntry("HighScore", String.format("%s %s", game, user.getSavedGame(game)));
+    }
+
+    userAttributes.put("PreviousGame", new ArrayList<>());
+    for(String game : user.getAllHighScores().keySet())
+    {
+      addMapEntry("PreviousGame", String.format("%s %d", game, user.getHighScore(game)));
+    }
+
+  }
+
+  private void createMapEntry(String key, String value)
+  {
+    userAttributes.put(key, new ArrayList<>());
+    userAttributes.get(key).add(value);
+  }
+
+  private void addMapEntry(String key, String value)
+  {
+    userAttributes.get(key).add(value);
+  }
+
+
+  @Override
+  void addElementsToRoot(Element root) {
+    for(String tag : userAttributes.keySet())
+    {
+      for(String item : userAttributes.get(tag))
+      {
+        Element temp = createElement(tag, item);
+        root.appendChild(temp);
+      }
     }
   }
 }

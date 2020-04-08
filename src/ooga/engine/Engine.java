@@ -3,6 +3,9 @@ package ooga.engine;
 import ooga.engine.grid.Grid;
 import ooga.engine.matchFinder.MatchFinder;
 import ooga.engine.validator.Validator;
+
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -29,6 +32,7 @@ public class Engine implements EngineBuilder {
                 Boolean.parseBoolean(myData.get(HAS_HIDDEN_CELLS)));
     }
 
+    @Override
     public void resetGrid(int[][] initialConfig){
         myGrid.resetGrid(initialConfig);
     }
@@ -43,4 +47,5 @@ public class Engine implements EngineBuilder {
         State curState = new State(myGrid, myGrid.getMyScore());
         return curState;
     }
+
 }

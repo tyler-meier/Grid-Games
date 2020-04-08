@@ -21,25 +21,23 @@ public class XMLParser {
   private final int ZERO_INDEX = 0;
 
   private Document doc;
-
-  /*
   private static final String PROFILE_PATH = "resources.ProfileKeys";
   private static final String GRID_PATH = "resources.GridKeys";
   private static final String ENGINE_PATH = "resources.EngineKeys";
   private static final String GAME_PATH = "resources.GameKeys";
 
   private static final ResourceBundle myProfileResource = ResourceBundle.getBundle(PROFILE_PATH);
-  private static Map<String, List<String>> profile = new HashMap<>();
+  private static Map<String, String> profile = new HashMap<>();
 
   private static final ResourceBundle myGridResource = ResourceBundle.getBundle(GRID_PATH);
-  private static Map<String, List<String>> grid = new HashMap<>();
+  private static Map<String, String> grid = new HashMap<>();
 
   private static final ResourceBundle myEngineResource = ResourceBundle.getBundle(ENGINE_PATH);
-  private static Map<String, List<String>> engine = new HashMap<>();
+  private static Map<String, String> engine = new HashMap<>();
 
   private static final ResourceBundle myGameResource = ResourceBundle.getBundle(GAME_PATH);
-  private static Map<String, List<String>> game = new HashMap<>();
-  */
+  private static Map<String, String> game = new HashMap<>();
+
 
   public XMLParser(String path) {
     try {
@@ -56,11 +54,11 @@ public class XMLParser {
   }
 
 
-  public Map<String, List<String>> getMapFromXML(ResourceBundle keysAndDefaults) {
+  public Map<String, String> getMapFromXML(ResourceBundle keysAndDefaults) {
     List<String> keys = Collections.list(keysAndDefaults.getKeys());
-    Map<String, List<String>> mapToFill = new HashMap<>();
+    Map<String, String> mapToFill = new HashMap<>();
     for (String key : keys) {
-      mapToFill.put(key, getAllInstances(key, keysAndDefaults.getString(key)));
+      mapToFill.put(key, getStringElementByTag(key, keysAndDefaults.getString(key)));
     }
     return mapToFill;
   }
@@ -68,7 +66,6 @@ public class XMLParser {
   public List<String> getListFromXML(String tagName, String defaultVal) {
     return getAllInstances(tagName, defaultVal);
   }
-
 
   private List<String> getAllInstances(String tagName, String defaultVal) {
     List<String> ret = new ArrayList<>();
@@ -89,7 +86,65 @@ public class XMLParser {
     return ret;
   }
 
-}
+  public boolean getBooleanElementByTag(String tagName, String defaultVal)
+  {
+    return Boolean.parseBoolean(getStringElementByTag(tagName, defaultVal));
+  }
+
+  public int getIntegerElementByTag(String tagName, String defaultVal)
+  {
+    return Integer.parseInt(getStringElementByTag(tagName, defaultVal));
+  }
+
+  public int[][] getGrid()
+  {
+    int numRows = getIntegerElementByTag("numRows", "0");
+    int numCols = getIntegerElementByTag("numColumns", "0");
+    int[][] grid = new int[numRows][numCols];
+
+    String [] rows = new String [numRows];
+    NodeList nodeList = doc.getElementsByTagName("row");
+
+    // nodeList is not iterable, so we are using for loop
+    for (int r = 0; r < nodeList.getLength(); r++)
+    {
+      Node node = nodeList.item(r);
+      try{
+        String [] states = node.getTextContent().split(" ");
+        for(int c = 0; c < numCols; c++)
+        {
+          grid[r][c] = Integer.parseInt(states[c]);
+        }
+      }
+      catch(Exception e)
+      {
+        throw new ParserException(e, "row");
+      }
+    }
+    return grid;
+  }
+
+
+
+  /**
+   * Gets the string within tag tagName
+   * @param tagName
+   * @return
+   */
+  public String getStringElementByTag(String tagName, String defaultVal)
+  {
+    if(doc.getElementsByTagName(tagName).getLength() == 0)
+    {
+      return defaultVal;
+    }
+    String ret = doc.getElementsByTagName(tagName).item(0).getTextContent();
+    if(ret.equals(""))
+    {
+      return defaultVal;
+    }
+    return ret;
+  }
+
 /*
   //Needed instance variables to run main method
   private static final int ZERO_INDEX = 0;
@@ -115,35 +170,9 @@ public class XMLParser {
 
 */
 
-/*
-  public static void main(String[] args)
-  {
-    Map<String, List<String>> dataToWrite = new HashMap<>();
-    dataToWrite.put("AddNewCells", new ArrayList<>());
-    dataToWrite.get("AddNewCells").add("what");
 
-    dataToWrite.put("Validator", new ArrayList<>());
-    dataToWrite.get("Validator").add("PairValidator");
+  public static void main(String[] args) {
 
-    dataToWrite.put("MatchFinder", new ArrayList<>());
-    dataToWrite.get("MatchFinder").add("FlippedFinder");
-
-    XMLGameBuilder gameBuilder = new XMLGameBuilder("game", "data/newGame.xml", dataToWrite);
-
-    XMLParser parser = new XMLParser("data/newGame.xml");
-    engine = parser.getMapFromXML(myEngineResource);
-
-    for(String key : engine.keySet())
-    {
-      System.out.println(key);
-      System.out.println(engine.get(key));
-    }
-
-    System.out.println();
-
-
-  }
-  }
     /*
     String profile_path = "data/RegisteredProfiles.xml";
     XMLParser parser = new XMLParser(profile_path);
@@ -180,17 +209,9 @@ public class XMLParser {
 
     System.out.println();
 
-    String memory_path = "data/MemoryGame.xml";
-    parser = new XMLParser(memory_path);
-    grid = parser.getMapFromXML(myGridResource);
-
-    for(String key : grid.keySet())
-    {
-      System.out.println(key);
-      System.out.println(grid.get(key));
-    }
-
-    System.out.println();
+     */
+    String memory_path = "data/MemoryGameEngine.xml";
+    XMLParser parser = new XMLParser(memory_path);
 
     engine = parser.getMapFromXML(myEngineResource);
 
@@ -198,6 +219,17 @@ public class XMLParser {
     {
       System.out.println(key);
       System.out.println(engine.get(key));
+    }
+
+    System.out.println();
+
+    /*
+    grid = parser.getMapFromXML(myGridResource);
+
+    for(String key : grid.keySet())
+    {
+      System.out.println(key);
+      System.out.println(grid.get(key));
     }
 
     System.out.println();
@@ -210,5 +242,7 @@ public class XMLParser {
       System.out.println(game.get(key));
     }
 
-  }*/
+     */
+
+  }}
 

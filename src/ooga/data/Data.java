@@ -1,9 +1,12 @@
 package ooga.data;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import ooga.data.buildingXML.XMLBuilder;
 import ooga.data.exceptions.IncorrectPasswordException;
 import ooga.data.exceptions.NoUserExistsException;
 
@@ -14,6 +17,7 @@ import ooga.data.exceptions.NoUserExistsException;
  */
 public class Data implements DataLink {
 
+  private static final String ENGINE_PATH_SKELETON = "data/%sGameDefault.xml";
   private final String PROFILE_KEY_PATH = "resources.ProfileKeys";
   private final String GRID_KEY_PATH = "resources.GridKeys";
   private final String ENGINE_KEY_PATH = "resources.EngineKeys";
@@ -34,13 +38,21 @@ public class Data implements DataLink {
 
   private String gamePath;
   private ProfileManager myProfileManager = new ProfileManager();
-  private StringProperty loginMessage;
+  private StringProperty errorMessage = new SimpleStringProperty();
+  private XMLBuilder xmlBuilder;
+  private UserProfile currentUser;
 
 
   public Data()
   {
 
   }
+
+  public StringProperty getErrorMessage()
+  {
+    return errorMessage;
+  }
+
 
 
 
@@ -55,21 +67,22 @@ public class Data implements DataLink {
    * @return
    */
   @Override
-  public Map<String, List<String>> getPlayerProfile(String username, String password) {
+  public UserProfile login(String username, String password) {
     try{
       if(myProfileManager.isValid(username, password))
       {
-        return getProfile(myProfileManager.getProfilePath(username));
+        currentUser = myProfileManager.getProfile(username);
+        return currentUser;
       }
     } catch (IncorrectPasswordException incorrectPassword)
     {
-      loginMessage.setValue(incorrectPassword.getMessage());
+      errorMessage.setValue(incorrectPassword.getMessage());
     }
     catch(NoUserExistsException incorrectUsername)
     {
-      loginMessage.setValue(incorrectUsername.getMessage());
+      errorMessage.setValue(incorrectUsername.getMessage());
     }
-    return null;
+    return new UserProfile();
   }
 
   /**
@@ -81,8 +94,9 @@ public class Data implements DataLink {
    * @param password
    */
   @Override
-  public void saveNewPlayerProfile(String username, String password) {
-
+  public UserProfile saveNewPlayerProfile(String username, String password) {
+    currentUser = myProfileManager.addProfile(username, password);
+    return currentUser;
   }
 
 
@@ -93,8 +107,9 @@ public class Data implements DataLink {
    * @return
    */
   @Override
-  public Map<String, List<String>> getEngineAttributes() {
-    XMLParser gameParser = new XMLParser(gamePath);
+  public Map<String, String> getEngineAttributes(String gameType) {
+    String enginePath = String.format(ENGINE_PATH_SKELETON, gameType);
+    XMLParser gameParser = new XMLParser(enginePath);
     return gameParser.getMapFromXML(myEngineResource);
   }
 
@@ -106,7 +121,7 @@ public class Data implements DataLink {
    * @param engineAttributes
    */
   @Override
-  public void saveConfigurationFile(String username, DataObject engineAttributes) {
+  public void saveGame(String username, DataObject engineAttributes) {
 
   }
 
@@ -121,10 +136,9 @@ public class Data implements DataLink {
    * @return
    */
   @Override
-  public Map<String, List<String>> loadPreviousGame(String username, String gameType) {
-    String profilePath = myProfileManager.getProfilePath(username);
-    Map<String, List<String>> currentProfile = getProfile(profilePath);
-    gamePath = getPathLastPlayedInstance(currentProfile, gameType);
+  public Map<String, String> getGameAttributes(String username, String gameType) {
+    UserProfile user = myProfileManager.getProfile(username);
+    gamePath = user.getSavedGame(gameType);
     XMLParser gameParser = new XMLParser(gamePath);
     return gameParser.getMapFromXML(myGameResource);
   }
@@ -139,28 +153,24 @@ public class Data implements DataLink {
    * @return
    */
   @Override
-  public Map<String, List<String>> loadConfigurationFile(String gameType) {
+  public Map<String, String> loadConfigurationFile(String gameType) {
     gamePath = myDefaultGamePathResource.getString(gameType);
     XMLParser gameParser = new XMLParser(gamePath);
     return gameParser.getMapFromXML(myGameResource);
   }
 
-  private Map<String, List<String>> getProfile(String path)
+  /**
+   *
+   * @param user
+   * @return
+   */
+  @Override
+  public int[][] getGrid(String user, String gameType)
   {
-    XMLParser currentProfileParser = new XMLParser(path);
-    return currentProfileParser.getMapFromXML(myProfileKeyResource);
-  }
-
-  private String getPathLastPlayedInstance(Map<String, List<String>> currentProfile, String gameType)
-  {
-    String path = null;
-    for(String savedPosition : currentProfile.get(LIST_OF_PREVIOUS_GAMES)) {
-      String[] gameAndPath = savedPosition.split(DELIMINATOR);
-      if (gameAndPath[GAME_INDEX].equals(gameType)) {
-        path = gameAndPath[PATH_INDEX];
-      }
-    }
-    return path;
+    //TODO: How do we know which configuration to do?
+    //XMLParser gridParser = new XMLParser(gridPath);
+    //return gridParser.getGrid();
+    return null;
   }
 
 }
