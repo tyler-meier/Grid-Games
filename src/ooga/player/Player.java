@@ -17,12 +17,24 @@ public class Player implements PlayerStart{
   private LoginScreen loginScreen;
   private StartScreen startScreen;
 
-  public Player(Stage primaryStage){
+  public Player(){
+  }
+
+  public void startView(Stage primaryStage){
     myStage = primaryStage;
     loginScreen = new LoginScreen();
+    //gameScreen = new GameScreen("ijdnc");
+    //startScreen = new StartScreen();
     myStage.setScene(loginScreen.setUpScene());
     myStage.setTitle(TITLE);
     myStage.show();
+  }
+
+  public void setUpStartScreen(String titleName){
+
+  }
+  public void setUpNewProfScreen(){
+
   }
 
   public void setLoginAction(UserLogin userLogin){

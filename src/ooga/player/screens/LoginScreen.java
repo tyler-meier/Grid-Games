@@ -1,6 +1,8 @@
 package ooga.player.screens;
 
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.Scene;
@@ -9,6 +11,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import ooga.controller.UserLogin;
 import ooga.data.UserProfile;
+import ooga.player.Player;
 
 public class LoginScreen {
 
@@ -24,8 +27,9 @@ public class LoginScreen {
   private VBox myCenterVBox;
   private Button loginButton, newProfileButton, guestButton;
   private ResourceBundle myResources;
-  private UserProfile userData;
   private TextField username, password;
+  private Player myPlayer;
+  private UserProfile userData;
   // set these guys at some point from user input
   private String usernameString;
   private String passwordString;
@@ -34,6 +38,7 @@ public class LoginScreen {
     myCenterVBox = new VBox();
     myBorderPane = new BorderPane();
     myResources = ResourceBundle.getBundle(BUTTON_STRINGS);
+    myPlayer = new Player();
   }
 
   public Scene setUpScene(){
@@ -68,17 +73,17 @@ public class LoginScreen {
   }
 
   private void setUpOptions(){
-    loginButton = makeButton("LoginButtonCommand");
-    guestButton = makeButton("GuestButtonCommand");
-    newProfileButton = makeButton("NewProfileCommand");
+    loginButton = makeButton("LoginButtonCommand", e -> myPlayer.setUpStartScreen("Username"));
+    guestButton = makeButton("GuestButtonCommand", e -> myPlayer.setUpStartScreen("Guest"));
+    newProfileButton = makeButton("NewProfileCommand", e -> myPlayer.setUpNewProfScreen());
 
     //need to add the start as guest, new player, and go buttons (need to do stuff with buttons)
   }
 
-  private Button makeButton(String text) {
+  private Button makeButton(String text, EventHandler<ActionEvent> handler) {
     Button newButton = new Button();
     newButton.setText(myResources.getString(text));
-    //newButton.setOnAction(handler);
+    newButton.setOnAction(handler);
     return newButton;
   }
 
