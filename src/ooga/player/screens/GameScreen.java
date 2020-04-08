@@ -15,8 +15,6 @@ import javafx.scene.text.Text;
 import ooga.player.Player;
 import ooga.player.TimeKeeper;
 
-import javax.swing.text.html.ImageView;
-
 public class GameScreen {
   private static final String RESOURCES = "ooga/player/Resources/";
   private static final String DEFAULT_RESOURCE_PACKAGE = RESOURCES.replace("/", ".");
@@ -44,7 +42,6 @@ public class GameScreen {
     Button homeButton = makeButton("HomeCommand", e-> myPlayer.setUpHome());
 
     //TODO: write code for timer
-    String initialTime = "0";
     TimeKeeper timer = new TimeKeeper();
     Text stopwatch = timer.getText();
 

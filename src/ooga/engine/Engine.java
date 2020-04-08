@@ -1,5 +1,7 @@
 package ooga.engine;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import ooga.engine.grid.Grid;
 import ooga.engine.matchFinder.MatchFinder;
 import ooga.engine.validator.Validator;
@@ -16,25 +18,29 @@ import java.util.Map;
 public class Engine implements EngineBuilder {
     private static final String VALIDATOR = "validator";
     private static final String MATCH_FINDER = "matchFinder";
-    private static final String NUM_SELECTED_PER_MOVE = "numSelectedPerMove";
-    private static final String ADD_NEW_CELLS = "addNewCells";
-    private static final String MAX_STATE_NUMBER = "maxStateNumber";
-    private static final String HAS_HIDDEN_CELLS = "hasHiddenCells";
+    private Validator myValidator;
+    private MatchFinder myMatchFinder;
+    // bind to front end error message
+    private StringProperty errorMessage = new SimpleStringProperty();
 
     private Grid myGrid;
 
-    public Engine(Map<String, String> myData, int[][] initialConfig) throws Exception {
+    public Engine(Map<String, String> engineAttributes, StringProperty errorMessage) {
+        this.errorMessage.bindBidirectional(errorMessage);
         ComponentCreator myComponentCreator = new ComponentCreator();
-        Validator myValidator = myComponentCreator.makeMyValidator(myData.get(VALIDATOR));
-        MatchFinder myMatchFinder = myComponentCreator.makeMyMatchFinder(myData.get(MATCH_FINDER));
-        myGrid = new Grid(initialConfig, Integer.parseInt(myData.get(NUM_SELECTED_PER_MOVE)),
-                Boolean.parseBoolean(myData.get(ADD_NEW_CELLS)), Integer.parseInt(myData.get(MAX_STATE_NUMBER)),
-                Boolean.parseBoolean(myData.get(HAS_HIDDEN_CELLS)));
+        try{
+            myValidator = myComponentCreator.makeMyValidator(engineAttributes.get(VALIDATOR));
+            myMatchFinder = myComponentCreator.makeMyMatchFinder(engineAttributes.get(MATCH_FINDER));
+        } catch (Exception e){
+            // is this error handling okay?
+            errorMessage.set(e.getMessage());
+        }
+        myGrid = new Grid(engineAttributes);
     }
 
-    @Override
-    public void resetGrid(int[][] initialConfig){
-        myGrid.resetGrid(initialConfig);
+    // use for reset as well
+    public void setupGame(int[][] initialStates, Map<String, String> myGameAttributes){
+        myGrid.setNewGame(initialStates, myGameAttributes);
     }
 
     @Override

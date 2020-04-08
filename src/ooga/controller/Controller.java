@@ -28,7 +28,8 @@ public class Controller extends Application {
     }
 
     private void newWindow(Stage stage){
-        Player player = new Player(stage);
+        Player player = new Player();
+        player.startView(stage);
 //        player.setLoginAction((username, password) -> data.login(username, password)); //takes a UserLogin functional interface
 //        player.setStartGameButton(e -> buildNewEngine(player));
 //        player.setErrorMessage(data.getErrorMessage());
@@ -39,12 +40,16 @@ public class Controller extends Application {
 //        String username = player.getUsername();
 //        Map myEngineAttributes = data.getEngineAttributes(type); //rename DataObject to something more clear
 //        Map myGameAttributes = data.getGameAttributes(username, type)
-//        int[][] initialStates = data.getGrid(username, gameType);
-//        Engine engine = new Engine(myEngineAttributes);
+//        int[][] initialStates = data.getGrid(username, type);
+//        Engine engine = new Engine(myEngineAttributes, data.getErrorMessage());
 //        engine.setupGame(initialStates, myGameAttributes);
 //        player.setGrid(engine.getGrid()); // need to change param type of set grid
 //        player.setSaveGameButton(e -> data.saveGame(username, type, engine.getGameAttributes(), engine.getGridConfiguration)); //not sure what getGameState's type is here: should have grid but also like lives left and score
-//        player.setResetButton(e -> engine.resetGrid(data.getInitialStates("guest")));
+//        player.setResetButton(e -> {
+//              Map myGameAttributes = data.getGameAttributes("guest", type)
+//              int[][] initialStates = data.getGrid("guest", gameType);
+//              engine.setupGame(initialStates, myGameAttributes);
+//        });
 //    }
 }
 
