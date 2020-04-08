@@ -4,6 +4,7 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -21,30 +22,26 @@ public class NewProfileScreen {
   private static final String BUTTON_STRINGS = DEFAULT_RESOURCE_PACKAGE + "ButtonCreation";
   private static final String STYLESHEET = "default.css";
 
-  private Button newProfButton, backButton;
-  private ResourceBundle myResources;
-  private Label profileLabel;
-  private TextField newUsername, newPassword;
+  private ResourceBundle myButtonResources, myStringResources;
   private Player myPlayer;
-  private UserProfile userData;
-  // set these guys at some point from user input
+  private UserProfile userData;  // set these guys at some point from user input
   private String usernameString;
   private String passwordString;
 
 
   public NewProfileScreen(Player thisPlayer){
     myPlayer = thisPlayer;
-    myResources = ResourceBundle.getBundle(BUTTON_STRINGS);
+    myButtonResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "ButtonCreation");
+    myStringResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "BasicStrings");
   }
 
   public Scene setUpScene(){
-    setupLabel();
-    setUpTextFields();
-    setUpButtons();
+    Node topNewProfPanel = setUpText();
+    Node buttonPanel = setUpButtons();
 
     VBox myVBox = new VBox();
-    myVBox.getChildren().addAll(profileLabel, newUsername, newPassword, newProfButton, backButton);
-    myVBox.setSpacing(7);
+    myVBox.getChildren().addAll(topNewProfPanel, buttonPanel);
+    myVBox.setSpacing(50);
     myVBox.setAlignment(Pos.CENTER);
 
     Scene newProfScene = new Scene(myVBox, DIMENSION, DIMENSION);
@@ -52,29 +49,40 @@ public class NewProfileScreen {
     return newProfScene;
   }
 
-  private void setupLabel(){
-    profileLabel = new Label("CHOOSE USERNAME AND PASSWORD");
-  }
+  private Node setUpText(){
+    VBox topVBox = new VBox();
 
-  private void setUpTextFields(){
-    newUsername = new TextField();
-    newPassword = new TextField();
+    Label profileLabel = new Label(myStringResources.getString("NewProfLabel"));
+    TextField newUsername = new TextField();
+    TextField newPassword = new TextField();
 
-    newUsername.setPromptText("Type in your username");
-    newPassword.setPromptText("Type in your password");
+    newUsername.setPromptText(myStringResources.getString("NewUsername"));
+    newPassword.setPromptText(myStringResources.getString("NewPassword"));
 
     newUsername.getText();
     newPassword.getText();
+
+    topVBox.getChildren().addAll(profileLabel, newUsername, newPassword);
+    topVBox.setSpacing(10);
+    topVBox.setAlignment(Pos.CENTER);
+    return topVBox;
   }
 
-  private void setUpButtons(){
-    newProfButton = makeButton("CreateNewProfileCommand", e -> myPlayer.setUpStartScreen("Username"));
-    backButton = makeButton("BackButtonCommand", e -> myPlayer.setUpLoginScreen());
+  private Node setUpButtons(){
+    VBox buttonVBox = new VBox();
+
+    Button newProfButton = makeButton("CreateNewProfileCommand", e -> myPlayer.setUpStartScreen("Username"));
+    Button backButton = makeButton("BackButtonCommand", e -> myPlayer.setUpLoginScreen());
+
+    buttonVBox.getChildren().addAll(newProfButton, backButton);
+    buttonVBox.setSpacing(10);
+    buttonVBox.setAlignment(Pos.CENTER);
+    return buttonVBox;
   }
 
   private Button makeButton(String text, EventHandler<ActionEvent> handler) {
     Button newButton = new Button();
-    newButton.setText(myResources.getString(text));
+    newButton.setText(myButtonResources.getString(text));
     newButton.setOnAction(handler);
     return newButton;
   }

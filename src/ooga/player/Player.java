@@ -41,7 +41,7 @@ public class Player implements PlayerStart{
   }
 
   public void setUpGameScreen(String gameType){
-
+    myStage.setScene(myGameScreen.makeScene(800, 500));
   }
   public void setUpLoginScreen(){
     myStage.setScene(myLoginScreen.setUpScene());
