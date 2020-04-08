@@ -54,7 +54,6 @@ public class XMLProfileBuilder extends XMLBuilder {
 
   @Override
   void addElementsToRoot(Element root) {
-    //TODO: fill in
     for(String tag : userAttributes.keySet())
     {
       for(String item : userAttributes.get(tag))

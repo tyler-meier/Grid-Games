@@ -110,11 +110,12 @@ public class ProfileManager {
 
 
 
-  public void addProfile(String username, String password)
+  public UserProfile addProfile(String username, String password)
   {
     UserProfile newUser = new UserProfile(username, password);
     XMLBuilder newProfileXML = new XMLProfileBuilder(MAIN_TAG, newUser.getPath(), newUser);
     allProfiles.add(newUser);
+    return newUser;
   }
 
 

@@ -26,7 +26,7 @@ public interface DataLink {
    * @param username
    * @param password
    */
-  void saveNewPlayerProfile(String username, String password);
+  UserProfile saveNewPlayerProfile(String username, String password);
 
   /**
    * Method utalized by the Engine which gets all the atributes from the

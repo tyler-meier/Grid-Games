@@ -94,9 +94,9 @@ public class Data implements DataLink {
    * @param password
    */
   @Override
-  public void saveNewPlayerProfile(String username, String password) {
-    myProfileManager.addProfile(username, password);
-    currentUser = myProfileManager.getProfile(username);
+  public UserProfile saveNewPlayerProfile(String username, String password) {
+    currentUser = myProfileManager.addProfile(username, password);
+    return currentUser;
   }
 
 
