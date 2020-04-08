@@ -54,7 +54,8 @@ public class StartScreen {
 
     Label gameChoice = new Label(myStringResources.getString("GameChoice"));
     ComboBox games = new ComboBox();
-    games.getItems().addAll("Highest", "High", "Normal", "Low", "Lowest");
+    games.getItems().addAll("Candy Crush", "Bejeweled Action", "Bejeweled Endless", "Bejeweled Puzzle", "Minesweeper", "MemoryGame");
+    //TODO fix hardcoded strings and have them be sent to gamescreen
 
     gameChoicePanel.getChildren().addAll(gameChoice, games);
     gameChoicePanel.setSpacing(10);

@@ -14,6 +14,8 @@ import ooga.controller.UserLogin;
 import ooga.data.UserProfile;
 import ooga.player.Player;
 
+//TODO create a superclass maybe with all of the resource shit and all of the methods that do the same thing
+
 public class LoginScreen {
 
   private static final int DIMENSION = 600;
@@ -24,9 +26,8 @@ public class LoginScreen {
 
   private ResourceBundle myStringResources, myButtonResources;
   private Player myPlayer;
+  private TextField username, password;
   private UserProfile userData;       // set these guys at some point from user input
-  private String usernameString;
-  private String passwordString;
 
   public LoginScreen(Player thisPlayer){
     myStringResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "BasicStrings");
@@ -52,8 +53,8 @@ public class LoginScreen {
     VBox topVBox = new VBox();
 
     Label loginLabel = new Label(myStringResources.getString("Login"));
-    TextField username = new TextField();
-    TextField password = new TextField();
+    username = new TextField();
+    password = new TextField();
 
     username.setPromptText(myStringResources.getString("TypeUsername"));
     password.setPromptText(myStringResources.getString("TypePassword"));
@@ -70,7 +71,10 @@ public class LoginScreen {
   private Node setUpButtons(){
     VBox buttonVBox = new VBox();
 
-    Button loginButton = makeButton("LoginButtonCommand", e -> myPlayer.setUpStartScreen("Username")); //TODO access the  actual username
+    Button loginButton = makeButton("LoginButtonCommand", e -> {
+      //userData = userLogin.getProfile(username.getText(), password.getText()); //TODO where am i getting userLogin from
+      myPlayer.setUpStartScreen(username.getText());
+    });
     Button guestButton = makeButton("GuestButtonCommand", e -> myPlayer.setUpStartScreen(myStringResources.getString("Guest")));
     Button newProfileButton = makeButton("NewProfileCommand", e -> myPlayer.setUpNewProfScreen());
 
@@ -86,10 +90,4 @@ public class LoginScreen {
     newButton.setOnAction(handler);
     return newButton;
   }
-
-  //  public void setLoginButton(UserLogin userLogin){
-//    loginButton.setOnMouseClicked(e -> {
-//      userData = userLogin.getProfile(usernameString, passwordString);
-//    });
-//  }
 }

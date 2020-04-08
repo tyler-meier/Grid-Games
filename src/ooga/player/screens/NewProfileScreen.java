@@ -24,9 +24,8 @@ public class NewProfileScreen {
 
   private ResourceBundle myButtonResources, myStringResources;
   private Player myPlayer;
+  private TextField newUsername, newPassword;
   private UserProfile userData;  // set these guys at some point from user input
-  private String usernameString;
-  private String passwordString;
 
 
   public NewProfileScreen(Player thisPlayer){
@@ -37,7 +36,7 @@ public class NewProfileScreen {
 
   public Scene setUpScene(){
     Node topNewProfPanel = setUpText();
-    Node buttonPanel = setUpButtons();
+    Node buttonPanel = setUpButtons();  //TODO duplicated code, fix this
 
     VBox myVBox = new VBox();
     myVBox.getChildren().addAll(topNewProfPanel, buttonPanel);
@@ -53,14 +52,11 @@ public class NewProfileScreen {
     VBox topVBox = new VBox();
 
     Label profileLabel = new Label(myStringResources.getString("NewProfLabel"));
-    TextField newUsername = new TextField();
-    TextField newPassword = new TextField();
+    newUsername = new TextField();
+    newPassword = new TextField();
 
     newUsername.setPromptText(myStringResources.getString("NewUsername"));
     newPassword.setPromptText(myStringResources.getString("NewPassword"));
-
-    newUsername.getText();
-    newPassword.getText();
 
     topVBox.getChildren().addAll(profileLabel, newUsername, newPassword);
     topVBox.setSpacing(10);
@@ -71,7 +67,10 @@ public class NewProfileScreen {
   private Node setUpButtons(){
     VBox buttonVBox = new VBox();
 
-    Button newProfButton = makeButton("CreateNewProfileCommand", e -> myPlayer.setUpStartScreen("Username"));
+    Button newProfButton = makeButton("CreateNewProfileCommand", e -> {
+      //userData = userLogin.getProfile(username.getText(), password.getText()); //TODO where am i getting userLogin from
+      myPlayer.setUpStartScreen(newUsername.getText());
+    });
     Button backButton = makeButton("BackButtonCommand", e -> myPlayer.setUpLoginScreen());
 
     buttonVBox.getChildren().addAll(newProfButton, backButton);
