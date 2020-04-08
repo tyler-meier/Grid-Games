@@ -5,6 +5,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import ooga.engine.grid.Grid;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -25,17 +26,39 @@ public class GridView {
 
 //    //code for the method to set up the front end grid with binding--move this to where it makes the most sense
 //    //when you're ready to use it, rename things and ask if anything is unclear
-//    public void setGrid(Grid grid) { // ideally we'll be able to make this run one cell at a time
+    public GridPane setGrid(Grid backendGrid) throws FileNotFoundException { // ideally we'll be able to make this run one cell at a time
 //        //so we don't need it to be a 2D array, or we just make a Grid object in back end
-//        myGrid = new UICell[grid.getRows()][grid.getColumns]();
-//        for (int r = 0; r < myGrid.length; r++) {
-//            for (int c = 0; c < myGrid[0].length; c++) {
-//                myGrid[r][c] = new UICell(grid.getCell(r, c);
-//                // set property so that front end stops users from making a new move while one is in motion
-//                myGrid[r][c].setMoveInProgress(grid.getInProgressProperty());
-//            }
-//        }
-//    }
+        GridPane myGrid = new GridPane();
+        myGrid.setGridLinesVisible(true);
+
+        int myCellWidth = myGridSize/backendGrid.getCols();
+        int myCellHeight = myGridSize/backendGrid.getRows();
+
+        for (int row = 0; row < backendGrid.getRows(); row++) {
+            for (int col = 0; col < backendGrid.getCols(); col++) {
+                Rectangle rec = new Rectangle(myCellWidth, myCellHeight, Color.WHITE);
+                rec.setStroke(Color.BLACK);
+                rec.setStrokeWidth(1);
+                int state = backendGrid.getCell(row,col).getMyState();
+                ImageView myImage = getImage(state);
+                myGrid.setRowIndex(rec, col * myCellWidth);
+                myGrid.setColumnIndex(rec, row * myCellHeight);
+                myGrid.getChildren().add(rec);
+            }
+        }
+        return myGrid;
+
+        /*
+        myGrid = new UICell[myGrid.getRows()][myGrid.getCols()]();
+        for (int r = 0; r < myGrid.length; r++) {
+           for (int c = 0; c < myGrid[0].length; c++) {
+                myGrid[r][c] = new UICell(myGrid.getCell(r, c);
+               // set property so that front end stops users from making a new move while one is in motion
+               myGrid[r][c].setMoveInProgress(myGrid.getInProgressProperty());
+         }
+        }
+         */
+    }
 
     /**
      * return grid for the gameplay

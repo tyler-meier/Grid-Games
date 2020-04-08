@@ -27,6 +27,7 @@ public class LoginScreen {
   private ResourceBundle myStringResources, myButtonResources;
   private Player myPlayer;
   private TextField username, password;
+  private UserLogin myUserLogin;
   private UserProfile userData;       // set these guys at some point from user input
 
   public LoginScreen(Player thisPlayer){
@@ -72,8 +73,10 @@ public class LoginScreen {
     VBox buttonVBox = new VBox();
 
     Button loginButton = makeButton("LoginButtonCommand", e -> {
-      //userData = userLogin.getProfile(username.getText(), password.getText()); //TODO where am i getting userLogin from
-      myPlayer.setUpStartScreen(username.getText());
+      userData = myUserLogin.getProfile(username.getText(), password.getText());
+      if(userData != null){
+        myPlayer.setUpStartScreen(username.getText());
+      }
     });
     Button guestButton = makeButton("GuestButtonCommand", e -> myPlayer.setUpStartScreen(myStringResources.getString("Guest")));
     Button newProfileButton = makeButton("NewProfileCommand", e -> myPlayer.setUpNewProfScreen());
@@ -90,4 +93,9 @@ public class LoginScreen {
     newButton.setOnAction(handler);
     return newButton;
   }
+
+  public void giveMeUserLogin(UserLogin thisUserLogin){
+    myUserLogin = thisUserLogin;
+  }
+
 }

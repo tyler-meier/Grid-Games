@@ -17,8 +17,6 @@ class ProfileManagerTest {
                                                             entry("jay18","boob"));
   private ProfileManager manager = new ProfileManager();
 
-
-
   @Test
   void getProfileTest()
   {
