@@ -35,11 +35,11 @@ public class LoginScreen {
   private String usernameString;
   private String passwordString;
 
-  public LoginScreen(){
+  public LoginScreen(Player thisPlayer){
     myCenterVBox = new VBox();
     myBorderPane = new BorderPane();
     myResources = ResourceBundle.getBundle(BUTTON_STRINGS);
-    myPlayer = new Player();
+    myPlayer = thisPlayer;
   }
 
   public Scene setUpScene(){

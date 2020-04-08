@@ -14,14 +14,36 @@ public class Player implements PlayerStart{
 
   private static final String TITLE = "Grid GORLS + Tyler :)";
   private Stage myStage;
+  private LoginScreen myLoginScreen;
+  private NewProfileScreen myNewProfScreen;
+  private GameScreen myGameScreen;
+  private  StartScreen myStartScreen;
 
   public Player(){
   }
 
   public void startView(Stage primaryStage){
     myStage = primaryStage;
+    myLoginScreen = new LoginScreen(this);
+    myNewProfScreen = new NewProfileScreen(this);
+    //myGameScreen = new NewProfileScreen("", this);
+    myStartScreen = new StartScreen(this);
+    myStage.setScene(myLoginScreen.setUpScene());
     myStage.setTitle(TITLE);
     myStage.show();
+  }
+
+  public void setUpStartScreen(String username){
+
+  }
+  public void setUpNewProfScreen(){
+    myStage.setScene(myNewProfScreen.setUpScene());
+  }
+  public void setUpGameScreen(String gameType){
+
+  }
+  public void setUpLoginScreen(){
+
   }
 
 //

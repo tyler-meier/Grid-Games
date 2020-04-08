@@ -27,8 +27,8 @@ public class NewProfileScreen {
   private String passwordString;
 
 
-  public NewProfileScreen(){
-    myPlayer = new Player();
+  public NewProfileScreen(Player thisPlayer){
+    myPlayer = thisPlayer;
   }
 
   public Scene setUpScene(){
