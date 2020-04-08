@@ -16,7 +16,6 @@ import ooga.data.exceptions.NoUserExistsException;
  */
 public class ProfileManager {
 
-  private static final Map<String, List<String>> DEFAULT_PROFILE = new HashMap<>();
   private final String REGISTERED_PROFILES_PATH = "data/RegisteredProfiles.xml";
   private final String MAIN_TAG = "profile";
   private final String CONTAINER_TAG = MAIN_TAG + "s";
@@ -24,7 +23,6 @@ public class ProfileManager {
   private final int INDEX_OF_PASSWORD = 0;
   private final int INDEX_OF_PATH = 1;
   private final String DELIMINATOR = "::";
-  private final String PATH_SKELETON = "data/%s.xml";
 
   private List<UserProfile> allProfiles;
   private XMLParser profileParser;
@@ -52,8 +50,10 @@ public class ProfileManager {
   private UserProfile createProfile(String currUsername, String currPassword, String currPath) {
     UserProfile temp = new UserProfile(currUsername, currPassword);
     XMLParser tempProfileParser = new XMLParser(currPath);
+
     temp.setDarkMode(tempProfileParser.getBooleanElementByTag("DarkMode", "false"));
     temp.setParentalControls(tempProfileParser.getBooleanElementByTag("ParentalControls", "false"));
+
     setHighScores(temp, tempProfileParser);
     addSavedGames(temp, tempProfileParser);
     return temp;
@@ -110,15 +110,12 @@ public class ProfileManager {
 
 
 
-  /*
   public void addProfile(String username, String password)
   {
-    String path = String.format(PATH_SKELETON, username);
-    XMLBuilder newProfile = new XMLProfileBuilder(MAIN_TAG, path, DEFAULT_PROFILE);
-    allProfiles.put(username, new ArrayList<>());
-    allProfiles.get(username).add(password);
-    allProfiles.get(username).add(path);
-  }*/
+    UserProfile newUser = new UserProfile(username, password);
+    XMLBuilder newProfileXML = new XMLProfileBuilder(MAIN_TAG, newUser.getPath(), newUser);
+    allProfiles.add(newUser);
+  }
 
 
   /*

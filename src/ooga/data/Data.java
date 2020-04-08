@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import ooga.data.buildingXML.XMLBuilder;
 import ooga.data.exceptions.IncorrectPasswordException;
@@ -37,14 +38,21 @@ public class Data implements DataLink {
 
   private String gamePath;
   private ProfileManager myProfileManager = new ProfileManager();
-  private StringProperty loginMessage;
+  private StringProperty errorMessage = new SimpleStringProperty();
   private XMLBuilder xmlBuilder;
+  private UserProfile currentUser;
 
 
   public Data()
   {
 
   }
+
+  public StringProperty getErrorMessage()
+  {
+    return errorMessage;
+  }
+
 
 
 
@@ -59,19 +67,20 @@ public class Data implements DataLink {
    * @return
    */
   @Override
-  public UserProfile getPlayerProfile(String username, String password) {
+  public UserProfile login(String username, String password) {
     try{
       if(myProfileManager.isValid(username, password))
       {
-        return myProfileManager.getProfile(username);
+        currentUser = myProfileManager.getProfile(username);
+        return currentUser;
       }
     } catch (IncorrectPasswordException incorrectPassword)
     {
-      loginMessage.setValue(incorrectPassword.getMessage());
+      errorMessage.setValue(incorrectPassword.getMessage());
     }
     catch(NoUserExistsException incorrectUsername)
     {
-      loginMessage.setValue(incorrectUsername.getMessage());
+      errorMessage.setValue(incorrectUsername.getMessage());
     }
     return new UserProfile();
   }
@@ -86,7 +95,8 @@ public class Data implements DataLink {
    */
   @Override
   public void saveNewPlayerProfile(String username, String password) {
-    //myProfileManager.addProfile(username, password);
+    myProfileManager.addProfile(username, password);
+    currentUser = myProfileManager.getProfile(username);
   }
 
 
@@ -111,7 +121,7 @@ public class Data implements DataLink {
    * @param engineAttributes
    */
   @Override
-  public void saveConfigurationFile(String username, DataObject engineAttributes) {
+  public void saveGame(String username, DataObject engineAttributes) {
 
   }
 
@@ -126,7 +136,7 @@ public class Data implements DataLink {
    * @return
    */
   @Override
-  public Map<String, String> loadPreviousGame(String username, String gameType) {
+  public Map<String, String> getGameAttributes(String username, String gameType) {
     UserProfile user = myProfileManager.getProfile(username);
     gamePath = user.getSavedGame(gameType);
     XMLParser gameParser = new XMLParser(gamePath);
@@ -151,17 +161,16 @@ public class Data implements DataLink {
 
   /**
    *
-   * @param gridPath
+   * @param user
    * @return
    */
   @Override
-  public int[][] getGrid(String gridPath)
+  public int[][] getGrid(String user, String gameType)
   {
     //TODO: How do we know which configuration to do?
-    XMLParser gridParser = new XMLParser(gridPath);
-    return gridParser.getGrid();
+    //XMLParser gridParser = new XMLParser(gridPath);
+    //return gridParser.getGrid();
+    return null;
   }
-
-
 
 }

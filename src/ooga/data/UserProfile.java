@@ -3,12 +3,18 @@ package ooga.data;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 public class UserProfile {
+    private static final String DEFAULT_GAME_PATH = "resources.DefaultGamePaths";
+    private static final ResourceBundle myGamePathResource = ResourceBundle.getBundle(DEFAULT_GAME_PATH);
+
+    private final String PATH_SKELETON = "data/%s.xml";
     private Map<String, String> savedGames;
     private Map<String, Integer> highScores;
     private String username;
     private String password;
+    private String path;
     private boolean parentalControls;
     private boolean darkMode;
 
@@ -17,6 +23,9 @@ public class UserProfile {
     {
         this.username = username;
         this.password = password;
+
+        this.path = String.format(PATH_SKELETON, username);
+
         darkMode = false;
         parentalControls = false;
         savedGames = new HashMap<>();
@@ -27,7 +36,6 @@ public class UserProfile {
     {
 
     }
-
 
     public boolean hasSavedGame(String type){
         return savedGames.containsKey(type);
@@ -44,7 +52,11 @@ public class UserProfile {
     }
 
     public String getSavedGame(String type){
-        return savedGames.get(type);
+        if(savedGames.containsKey(type))
+        {
+            return savedGames.get(type);
+        }
+        return myGamePathResource.getString(type);
     }
 
     public void setDarkMode(boolean stateOfDarkMode)
@@ -71,6 +83,7 @@ public class UserProfile {
     {
         savedGames.put(type, path);
     }
+
     public String getUsername()
     {
         return username;
@@ -81,5 +94,16 @@ public class UserProfile {
         return password;
     }
 
+    public String getPath()
+    {
+        return path;
+    }
 
+    public Map<String, String> getAllSavedGamed() {
+        return savedGames;
+    }
+
+    public Map<String, Integer> getAllHighScores() {
+        return highScores;
+    }
 }

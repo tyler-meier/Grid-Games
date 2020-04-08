@@ -6,12 +6,16 @@ import org.w3c.dom.Element;
 
 public class XMLGameBuilder extends XMLBuilder {
 
+  private Map<String, List<String>> dataToWrite;
+
   public XMLGameBuilder(String mainTag, String pathName, Map<String, List<String>> dataToWrite) {
-    super(mainTag, pathName, dataToWrite);
+    super(mainTag, pathName);
+    this.dataToWrite = dataToWrite;
+    createDocument(mainTag, pathName);
   }
 
   @Override
-  public void addElementsToRoot(Element root, Map<String, List<String>> dataToWrite)
+  public void addElementsToRoot(Element root)
   {
     for(String tag : dataToWrite.keySet())
     {
@@ -22,5 +26,6 @@ public class XMLGameBuilder extends XMLBuilder {
       }
     }
   }
+
 
 }

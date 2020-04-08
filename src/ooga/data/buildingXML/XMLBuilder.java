@@ -21,13 +21,12 @@ public abstract class XMLBuilder {
 
   private DocumentBuilderFactory documentFactory;
   private DocumentBuilder documentBuilder;
-  private Document document;
+  protected Document document;
   protected final String DELIMINATOR = "::";
 
-  public XMLBuilder(String mainTag, String pathName, Map<String, List<String>> dataToWrite)
+  public XMLBuilder(String mainTag, String pathName)
   {
     buildFile();
-    createDocument(mainTag, pathName, dataToWrite);
   }
 
   private void buildFile() {
@@ -39,22 +38,22 @@ public abstract class XMLBuilder {
       pce.printStackTrace();
     }
   }
-
   /**
    * Builds the root element to add new element to and eventually transform
    */
-  private void createDocument(String element, String pathName, Map<String, List<String>> dataToWrite){
+  protected void createDocument(String element, String pathName){
     // root element
     Element root = document.createElement(element);
     document.appendChild(root);
-    addElementsToRoot(root, dataToWrite);
+    addElementsToRoot(root);
     transform(pathName);
   }
+
 
   /**
    * Transformer allows us to write the DOM object to the desired output StreamResult
    */
-  private void transform(String pathName) {
+  protected void transform(String pathName) {
 
     try{
       TransformerFactory transformerFactory = TransformerFactory.newInstance();
@@ -75,7 +74,7 @@ public abstract class XMLBuilder {
    *
    * @param root
    */
-  abstract void addElementsToRoot(Element root, Map<String, List<String>> dataToWrite);
+  abstract void addElementsToRoot(Element root);
 
   /**
    * Creates a single element from a given tag name and text
