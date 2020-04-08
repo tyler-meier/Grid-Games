@@ -42,6 +42,10 @@ public class Player implements PlayerStart{
     myStage.setScene(newProfScreen.setUpScene());
   }
 
+  public void setUpLoginScreen() {
+    myStage.setScene(loginScreen.setUpScene());
+  }
+
   public void setLoginAction(UserLogin userLogin){
     loginScreen.setLoginButton(userLogin);
   }
