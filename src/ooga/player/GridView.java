@@ -5,16 +5,15 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import ooga.engine.grid.Grid;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ResourceBundle;
 
 public class GridView {
-    private static final String RESOURCES = "ooga/player/Resources/Properties";
+    private static final String RESOURCES = "ooga/player/Resources/";
     private static final String DEFAULT_RESOURCE_PACKAGE = RESOURCES.replace("/", ".");
-    private static final String IMAGERESOURCES = "ooga/player/Resources/Images";
+    private static final String IMAGERESOURCES = "ooga/player/Resources/Images/";
     private static final String DEFAULT_IMAGERESOURCE_PACKAGE = RESOURCES.replace("/", ".");
     private int myGridSize;
     private ResourceBundle myResources;
@@ -54,10 +53,13 @@ public class GridView {
         for (int row = 0; row < rownum; row++) {
             for (int col = 0; col < colnum; col++) {
                 Rectangle rec = new Rectangle(myCellWidth, myCellHeight, Color.WHITE);
+                rec.setStroke(Color.BLACK);
+                rec.setStrokeWidth(1);
+                grid.setRowIndex(rec, col * myCellWidth);
+                grid.setColumnIndex(rec, row * myCellHeight);
                 grid.getChildren().add(rec);
             }
         }
-
         return grid;
     }
 
