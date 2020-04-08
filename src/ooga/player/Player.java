@@ -46,9 +46,11 @@ public class Player implements PlayerStart{
     myStage.setScene(myLoginScreen.setUpScene());
   }
 
-//
-//  public void setLoginAction(UserLogin userLogin){
-//    loginScreen.setLoginButton(userLogin);
+
+  public void setLoginAction(UserLogin userLogin){
+    myLoginScreen.giveMeUserLogin(userLogin);
+  }
+
 
   /**
    * An instance variable boolean keeps track of whether most recent progress of player is saved.
