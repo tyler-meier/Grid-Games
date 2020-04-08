@@ -6,8 +6,9 @@ import javafx.beans.property.SimpleIntegerProperty;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Timer;
+import java.util.TimerTask;
 
-public class GameProgressManager {
+public class GameProgressManager{
     private static final String SCORE = "Score";
     private static final String TARGET_SCORE = "TargetScore";
     private static final String LEVEL = "Level";
@@ -20,13 +21,11 @@ public class GameProgressManager {
     private String lossStatKey;
     private int targetScore;
     private IntegerProperty timeSeconds = new SimpleIntegerProperty();
+    private Timer timer;
 
     public GameProgressManager(Map<String, String> gameAttributes){
-        CountdownTimer timer = new CountdownTimer(this);
-        // set the value of the timer to the threshold time for the game (so that we can count backwards)
         timeSeconds.set(Integer.parseInt(gameAttributes.get(TIME)));
         gameStats.put(TIME, (SimpleIntegerProperty) timeSeconds);
-
         gameStats.put(SCORE, new SimpleIntegerProperty(Integer.parseInt(gameAttributes.get(SCORE))));
         gameStats.put(LEVEL, new SimpleIntegerProperty(Integer.parseInt(gameAttributes.get(LEVEL))));
         lossStatKey = gameAttributes.get(LOSS_STAT);
@@ -35,6 +34,7 @@ public class GameProgressManager {
         int remainingLossStatAmount = totalLossStatAmount -startingLossStatAmount;
         gameStats.put(lossStatKey, new SimpleIntegerProperty(remainingLossStatAmount));
         targetScore =  Integer.parseInt(gameAttributes.get(TARGET_SCORE));
+        timer = new Timer();
     }
 
     public boolean isWin(){
@@ -51,10 +51,25 @@ public class GameProgressManager {
 
     public void updateScore(int amount){ changeValue(SCORE, amount); }
 
+    public void startTimer() {
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                updateTime();
+            }
+        };
+        while (getTimeSeconds() >= 0) {
+            timer.schedule(task, 1000);
+        }
+    }
+
+    public void pauseTimer(){
+        timer.cancel();
+    }
     //????? idk how this will work
     // we should bind this timeSeconds property to something on the frontend so that the time display is updated when
     // timeSeconds is updated
-    public void updateTime(){
+    private void updateTime(){
         // decrement timeSeconds every time this method is called
         timeSeconds.set(timeSeconds.get() - 1);
         // update the time value in the map
@@ -75,4 +90,5 @@ public class GameProgressManager {
         currValue+=amount;
         gameStats.get(key).set(currValue);
     }
+
 }
