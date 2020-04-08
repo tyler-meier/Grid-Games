@@ -27,7 +27,6 @@ public class Player implements PlayerStart{
     loginScreen = new LoginScreen();
     //gameScreen = new GameScreen("ijdnc");
     //startScreen = new StartScreen();
-    newProfScreen = new NewProfileScreen();
     myStage.setScene(loginScreen.setUpScene());
     myStage.setTitle(TITLE);
     myStage.show();
@@ -38,8 +37,15 @@ public class Player implements PlayerStart{
   }
 
   public void setUpNewProfScreen(){
-    System.out.println("made it here");
+    newProfScreen = new NewProfileScreen();
+    System.out.println("yeeeet");
     myStage.setScene(newProfScreen.setUpScene());
+  }
+  public void setUpLoginScreen(){
+
+  }
+  public void setUpGameScreen(String gameType){
+
   }
 
   public void setLoginAction(UserLogin userLogin){

@@ -18,6 +18,7 @@ public class LoginScreen {
   private static final int DIMENSION = 500;
   private static final String RESOURCES = "ooga/player/Resources/";
   private static final String DEFAULT_RESOURCE_PACKAGE = RESOURCES.replace("/", ".");
+  private static final String DEFAULT_RESOURCE_FOLDER = "/" + RESOURCES;
   private static final String BUTTON_STRINGS = DEFAULT_RESOURCE_PACKAGE + "ButtonCreation";
   private static final String STYLESHEET = "default.css";
 
@@ -48,6 +49,7 @@ public class LoginScreen {
     myCenterVBox.getChildren().addAll(loginLabel, username, password, loginButton, guestButton, newProfileButton);
     myBorderPane.setCenter(myCenterVBox);
     loginScreen = new Scene(myBorderPane, DIMENSION, DIMENSION);
+    loginScreen.getStylesheets().add(getClass().getResource(DEFAULT_RESOURCE_FOLDER + STYLESHEET).toExternalForm());
     return loginScreen;
   }
 
