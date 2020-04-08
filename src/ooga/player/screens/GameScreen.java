@@ -39,7 +39,7 @@ public class GameScreen {
     BorderPane root = new BorderPane();
 
     HBox toolBar = new HBox();
-    Button homeButton = makeButton("HomeCommand", e-> myPlayer.setScene());
+    Button homeButton = makeButton("HomeCommand", e-> myPlayer.setUpStartScreen(""));
 
     //TODO: write code for timer
     TimeKeeper timer = new TimeKeeper();
@@ -67,7 +67,7 @@ public class GameScreen {
   //make panel of buttons
   private Node makeButtonPanel() {
     VBox buttons = new VBox();
-    Button loginButton = makeButton("LoginCommand", e-> myPlayer.setScene());
+    Button loginButton = makeButton("LoginCommand", e-> myPlayer.setUpLoginScreen());
     Button resetButton = makeButton("ResetCommand", e-> makeScene(myHeight, myWidth));
 
     buttons.setSpacing(20);

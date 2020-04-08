@@ -4,6 +4,7 @@ import java.util.ResourceBundle;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import ooga.data.UserProfile;
 import ooga.player.Player;
@@ -16,7 +17,6 @@ public class NewProfileScreen {
   private static final String BUTTON_STRINGS = DEFAULT_RESOURCE_PACKAGE + "ButtonCreation";
   private static final String STYLESHEET = "default.css";
 
-  private Scene newProfScene;
   private Button newProfButton;
   private ResourceBundle myResources;
   private TextField newUsername, newPassword;
@@ -27,16 +27,18 @@ public class NewProfileScreen {
   private String passwordString;
 
 
-  public NewProfileScreen(){
-    myPlayer = new Player();
+  public NewProfileScreen(Player thisPlayer){
+    myPlayer = thisPlayer;
   }
 
   public Scene setUpScene(){
-    System.out.println("and here too");
     setUpTextFields();
     VBox vBox = new VBox();
     vBox.getChildren().addAll(newUsername, newPassword);
-    newProfScene = new Scene(vBox, DIMENSION, DIMENSION);
+    BorderPane myBP = new BorderPane();
+    myBP.setCenter(vBox);
+    System.out.println("here");
+    Scene newProfScene = new Scene(myBP, DIMENSION, DIMENSION);
     return newProfScene;
   }
 
