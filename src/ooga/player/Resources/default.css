@@ -3,6 +3,11 @@
     -fx-background: #F7D5F3;
 }
 
+.text-area{
+    -fx-font-size: 15pt;
+    -fx-font-family: "Futura";
+}
+
 .label{
     -fx-font-size: 15pt;
     -fx-font-family: "Futura";
@@ -11,7 +16,7 @@
 .button{
     -fx-font-size: 12pt;
     -fx-font-family: "Futura";
-    -fx-pref-width: 280px;
+    -fx-pref-width: 240px;
     -fx-border-width: 2pt;
     -fx-border-color: #FF96F3;
     -fx-text-fill: white;
@@ -23,7 +28,7 @@
 .button:hover{
     -fx-font-size: 12pt;
     -fx-font-family: "Futura";
-    -fx-pref-width: 280px;
+    -fx-pref-width: 240px;
     -fx-border-width: 2pt;
     -fx-text-fill: #FF11E4;
     -fx-background-color: white;
@@ -33,7 +38,7 @@
 .button:pressed{
     -fx-font-size: 12pt;
     -fx-font-family: "Futura";
-    -fx-pref-width: 280px;
+    -fx-pref-width: 240px;
     -fx-border-width: 2pt;
     -fx-text-fill: #FF11E4;
     -fx-background-color: white;
@@ -43,8 +48,8 @@
 .text-field{
     -fx-font-size: 12pt;
     -fx-font-family: "Futura";
+    -fx-max-width: 240px;
     -fx-padding: 2,2,2,2;
     -fx-border-color: black;
     -fx-border-radius: 2;
-    -fx-max-width: 280px;
 }
