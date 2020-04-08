@@ -19,12 +19,14 @@ public class GameProgressManager {
     private Map<String, SimpleIntegerProperty> gameStats = new HashMap<>();
     private String lossStatKey;
     private int targetScore;
-    private IntegerProperty timeSeconds;
+    private IntegerProperty timeSeconds = new SimpleIntegerProperty();
 
     public GameProgressManager(Map<String, String> gameAttributes){
         CountdownTimer timer = new CountdownTimer(this);
         // set the value of the timer to the threshold time for the game (so that we can count backwards)
         timeSeconds.set(Integer.parseInt(gameAttributes.get(TIME)));
+        gameStats.put(TIME, (SimpleIntegerProperty) timeSeconds);
+
         gameStats.put(SCORE, new SimpleIntegerProperty(Integer.parseInt(gameAttributes.get(SCORE))));
         gameStats.put(LEVEL, new SimpleIntegerProperty(Integer.parseInt(gameAttributes.get(LEVEL))));
         lossStatKey = gameAttributes.get(LOSS_STAT);
@@ -50,10 +52,13 @@ public class GameProgressManager {
     public void updateScore(int amount){ changeValue(SCORE, amount); }
 
     //????? idk how this will work
+    // we should bind this timeSeconds property to something on the frontend so that the time display is updated when
+    // timeSeconds is updated
     public void updateTime(){
         // decrement timeSeconds every time this method is called
         timeSeconds.set(timeSeconds.get() - 1);
-        //changeValue(TIME, amount);
+        // update the time value in the map
+        gameStats.get(TIME).set(timeSeconds.get());
     }
 
     public int getTimeSeconds(){

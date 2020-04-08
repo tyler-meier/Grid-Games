@@ -27,10 +27,16 @@ public class CountdownTimer {
         }
     }
 
+    /**
+     * This method, when called will pause the game timer.
+     */
     public void pauseTimer(){
         timer.cancel();
     }
 
+    /**
+     * This method, when called will resume the game timer.
+     */
     public void resumeTimer(){
         startTimer();
     }
