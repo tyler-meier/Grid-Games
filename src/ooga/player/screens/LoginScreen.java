@@ -3,6 +3,7 @@ package ooga.player.screens;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.Scene;
@@ -44,6 +45,8 @@ public class LoginScreen {
 
     VBox myCenterVBox = new VBox();
     myCenterVBox.getChildren().addAll(loginLabel, username, password, loginButton, guestButton, newProfileButton);
+    myCenterVBox.setSpacing(7);
+    myCenterVBox.setAlignment(Pos.CENTER);
 
     Scene loginScreen = new Scene(myCenterVBox, DIMENSION, DIMENSION);
     loginScreen.getStylesheets().add(getClass().getResource(DEFAULT_RESOURCE_FOLDER + STYLESHEET).toExternalForm());

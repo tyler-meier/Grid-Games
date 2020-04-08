@@ -3,8 +3,10 @@ package ooga.player.screens;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import ooga.data.UserProfile;
@@ -21,6 +23,7 @@ public class NewProfileScreen {
 
   private Button newProfButton, backButton;
   private ResourceBundle myResources;
+  private Label profileLabel;
   private TextField newUsername, newPassword;
   private Player myPlayer;
   private UserProfile userData;
@@ -35,23 +38,30 @@ public class NewProfileScreen {
   }
 
   public Scene setUpScene(){
+    setupLabel();
     setUpTextFields();
     setUpButtons();
 
     VBox myVBox = new VBox();
-    myVBox.getChildren().addAll(newUsername, newPassword, newProfButton, backButton);
+    myVBox.getChildren().addAll(profileLabel, newUsername, newPassword, newProfButton, backButton);
+    myVBox.setSpacing(7);
+    myVBox.setAlignment(Pos.CENTER);
 
     Scene newProfScene = new Scene(myVBox, DIMENSION, DIMENSION);
     newProfScene.getStylesheets().add(getClass().getResource(DEFAULT_RESOURCE_FOLDER + STYLESHEET).toExternalForm());
     return newProfScene;
   }
 
+  private void setupLabel(){
+    profileLabel = new Label("CHOOSE USERNAME AND PASSWORD");
+  }
+
   private void setUpTextFields(){
     newUsername = new TextField();
     newPassword = new TextField();
 
-    newUsername.setPromptText("Type in what you would like your username to be.");
-    newPassword.setPromptText("Type in what you would like your password to be.");
+    newUsername.setPromptText("Type in your username.");
+    newPassword.setPromptText("Type in your password.");
 
     newUsername.getText();
     newPassword.getText();
