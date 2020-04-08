@@ -3,13 +3,19 @@ package ooga.engine.grid;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import ooga.engine.Cell;
+import ooga.engine.GameProgressManager;
 import ooga.engine.matchFinder.MatchFinder;
 import ooga.engine.validator.Validator;
 
-import java.util.ArrayList;
-import java.util.List;
+
+import java.util.Map;
 
 public class Grid {
+    private static final String NUM_SELECTED_PER_MOVE = "NumSelectedPerMove";
+    private static final String ADD_NEW_CELLS = "AddNewCells";
+    private static final String MAX_STATE_NUMBER = "MaxStateNumber";
+    private static final String HAS_HIDDEN_CELLS = "HasHiddenCells";
+    private static final String POINTS_PER_CELL = "PointsPerCell";
     private Cell[][] myGrid;
     private int numSelected = 0;
     private int numSelectedPerMove;
@@ -18,25 +24,27 @@ public class Grid {
     private int score = 0;
     private boolean addNewCells;
     private int maxState;
-    private BooleanProperty moveInProgress = new SimpleBooleanProperty(false);
     private boolean hasHiddenCells;
+    private int pointsPerCell;
+    private BooleanProperty moveInProgress = new SimpleBooleanProperty(false);
+    private GameProgressManager myProgressManager;
 
-    public Grid(int[][] initialStates, int numSelectedPerMove, boolean addNewCells, int maxStateNumber, boolean hasHiddenCells){
-        this.numSelectedPerMove = numSelectedPerMove;
-        this.addNewCells = addNewCells;
-        this.maxState = maxStateNumber;
-        this.hasHiddenCells = hasHiddenCells;
-        myGrid = new Cell[initialStates.length][initialStates[0].length];
-        setupGridStates(initialStates);
+    public Grid(Map<String, String> gameAttributes){
+        numSelectedPerMove = Integer.parseInt(gameAttributes.get(NUM_SELECTED_PER_MOVE));
+        addNewCells = Boolean.parseBoolean(gameAttributes.get(ADD_NEW_CELLS));
+        maxState = Integer.parseInt(gameAttributes.get(MAX_STATE_NUMBER));
+        hasHiddenCells = Boolean.parseBoolean(gameAttributes.get(HAS_HIDDEN_CELLS));
+        pointsPerCell = Integer.parseInt(gameAttributes.get(POINTS_PER_CELL));
     }
 
     /**
      * This method resets the grid to have the specified states for the cells.
      * @param initialStates
      */
-    public void resetGrid(int[][] initialStates){
+    public void setNewGame(int[][] initialStates, Map<String, String> gameAttributes){
+        if (myGrid==null) myGrid = new Cell[initialStates.length][initialStates[0].length];
         setupGridStates(initialStates);
-        score=0;
+        myProgressManager = new GameProgressManager(gameAttributes);
         numSelected=0;
     }
 
@@ -56,7 +64,7 @@ public class Grid {
         for (int r = 0; r<initialStates.length; r++){
             for (int c=0; c<initialStates[0].length; c++){
                 if (getCell(r, c)==null){
-                    myGrid[r][c] = new Cell(initialStates[r][c], hasHiddenCells);
+                    myGrid[r][c] = new Cell(initialStates[r][c], hasHiddenCells, pointsPerCell);
                     myGrid[r][c].setSelectionChangeListener(increment -> {
                         numSelected += increment? 1 : -1;
                         if (numSelected==numSelectedPerMove) updateMyBoard();
@@ -129,8 +137,10 @@ public class Grid {
     private void updateMyBoard(){
         moveInProgress.set(true);
         GridUpdater myGridUpdater = new GridUpdater(myValidator, numSelected, myMatchFinder,
-                hasHiddenCells, this, addNewCells, maxState);
+                hasHiddenCells, this, addNewCells, maxState, myProgressManager);
         myGridUpdater.updateGrid();
+        if (myProgressManager.isWin()) System.out.println("win"); // win action
+        else if (myProgressManager.isLoss()) System.out.println("loss"); // loss action
         moveInProgress.set(false);
     }
 }

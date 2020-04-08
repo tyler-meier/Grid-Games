@@ -4,8 +4,6 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.event.EventHandler;
 
 import java.util.Random;
 
@@ -21,10 +19,11 @@ public class Cell {
     int myRow;
     int myColumn;
 
-    public Cell(int initialState, boolean isOpen){ // will have to do something to account for open/closed and number of points
+    public Cell(int initialState, boolean isOpen, int points){
         myState.setValue(initialState);
         open.set(isOpen);
         selected.set(false);
+        numPoints = points;
     }
 
     /**
@@ -61,7 +60,7 @@ public class Cell {
     public int getScore(){ return numPoints; }
 
     public void swap(Cell cell){
-        Cell placeholder = new Cell(myState.get(), open.get());
+        Cell placeholder = new Cell(myState.get(), open.get(), numPoints);
         myState.set(cell.getMyState());
         open.set(cell.open.get());
         cell.cellState().set(placeholder.getMyState());
@@ -79,17 +78,6 @@ public class Cell {
     }
 
     /**
-     * This method returns the coordinates of a cell.
-     * @return
-     */
-    public int[] getCoordinates(){
-        int x = this.myRow;
-        int y = this.myColumn;
-        int[] ret = new int[]{x,y};
-        return ret;
-    }
-
-    /**
      * This method returns the state of a cell.
      * @return
      */
@@ -99,7 +87,7 @@ public class Cell {
 
     public void randomize(int maxState){
         Random random = new Random();
-        // random number 1-maxState
+        // random number 1 through maxState inclusive
         int randomInteger = random.nextInt(maxState)+1;
         myState.set(randomInteger);
     }

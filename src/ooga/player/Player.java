@@ -48,6 +48,10 @@ public class Player implements PlayerStart{
 
   }
 
+  public void setUpLoginScreen() {
+    myStage.setScene(loginScreen.setUpScene());
+  }
+
   public void setLoginAction(UserLogin userLogin){
     loginScreen.setLoginButton(userLogin);
   }

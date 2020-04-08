@@ -3,6 +3,8 @@ package ooga.engine;
 
 import ooga.engine.grid.Grid;
 
+import java.util.Map;
+
 public interface EngineBuilder {
 
     /**
@@ -22,5 +24,5 @@ public interface EngineBuilder {
      * Resets the game grid to have the specified state configuration for the cells
      * @param initialConfig
      */
-    void resetGrid(int[][] initialConfig);
+    void setupGame(int[][] initialConfig, Map<String, String> gameAttributes);
 }
