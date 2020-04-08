@@ -28,9 +28,10 @@ public class GameScreen {
   private int myWidth;
   private String initialTime = "0";
 
-  public GameScreen(String gameType){
+  public GameScreen(String gameType, Player player){
     //should be defined by what type of game
     myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + gameType);
+    myPlayer = player;
   }
 
   //needs dimensions from dataobject
@@ -40,14 +41,14 @@ public class GameScreen {
     BorderPane root = new BorderPane();
 
     HBox toolBar = new HBox();
-//    Button homeButton = makeButton("HomeCommand", e-> Player.setHome());
+    Button homeButton = makeButton("HomeCommand", e-> myPlayer.setUpHome());
 
     //TODO: write code for timer
     String initialTime = "0";
     TimeKeeper timer = new TimeKeeper();
     Text stopwatch = timer.getText();
 
-//    toolBar.getChildren().addAll(homeButton, stopwatch);
+    toolBar.getChildren().addAll(homeButton, stopwatch);
     root.setTop(toolBar);
 
     Node buttonPanel = makeButtonPanel();
@@ -69,13 +70,11 @@ public class GameScreen {
   //make panel of buttons
   private Node makeButtonPanel() {
     VBox buttons = new VBox();
-    //lambda notation to trigger correct event
-    //TODO make set loginscreen button
-//    Button loginButton = makeButton("LoginCommand", e-> Player.setLogin());
+    Button loginButton = makeButton("LoginCommand", e-> myPlayer.setUpLogin());
     Button resetButton = makeButton("ResetCommand", e-> makeScene(myHeight, myWidth));
 
     buttons.setSpacing(20);
-//    buttons.getChildren().addAll(loginButton, resetButton);
+    buttons.getChildren().addAll(loginButton, resetButton);
     buttons.setAlignment(Pos.CENTER);
 
     return buttons;
