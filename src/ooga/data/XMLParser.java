@@ -9,8 +9,6 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import ooga.data.buildingXML.XMLBuilder;
-import ooga.data.buildingXML.XMLGameBuilder;
 import ooga.data.exceptions.ParserException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -21,23 +19,6 @@ public class XMLParser {
   private final int ZERO_INDEX = 0;
 
   private Document doc;
-  private static final String PROFILE_PATH = "resources.ProfileKeys";
-  private static final String GRID_PATH = "resources.GridKeys";
-  private static final String ENGINE_PATH = "resources.EngineKeys";
-  private static final String GAME_PATH = "resources.GameKeys";
-
-  private static final ResourceBundle myProfileResource = ResourceBundle.getBundle(PROFILE_PATH);
-  private static Map<String, String> profile = new HashMap<>();
-
-  private static final ResourceBundle myGridResource = ResourceBundle.getBundle(GRID_PATH);
-  private static Map<String, String> grid = new HashMap<>();
-
-  private static final ResourceBundle myEngineResource = ResourceBundle.getBundle(ENGINE_PATH);
-  private static Map<String, String> engine = new HashMap<>();
-
-  private static final ResourceBundle myGameResource = ResourceBundle.getBundle(GAME_PATH);
-  private static Map<String, String> game = new HashMap<>();
-
 
   public XMLParser(String path) {
     try {
@@ -124,8 +105,6 @@ public class XMLParser {
     return grid;
   }
 
-
-
   /**
    * Gets the string within tag tagName
    * @param tagName
@@ -144,105 +123,5 @@ public class XMLParser {
     }
     return ret;
   }
-
-/*
-  //Needed instance variables to run main method
-  private static final int ZERO_INDEX = 0;
-
-  private static Document doc;
-
-  private static final String PROFILE_PATH = "resources.ProfileKeys";
-  private static final String GRID_PATH = "resources.GridKeys";
-  private static final String ENGINE_PATH = "resources.EngineKeys";
-  private static final String GAME_PATH = "resources.GameKeys";
-
-  private static final ResourceBundle myProfileResource = ResourceBundle.getBundle(PROFILE_PATH);
-  private static Map<String, List<String>> profile = new HashMap<>();
-
-  private static final ResourceBundle myGridResource = ResourceBundle.getBundle(GRID_PATH);
-  private static Map<String, List<String>> grid = new HashMap<>();
-
-  private static final ResourceBundle myEngineResource = ResourceBundle.getBundle(ENGINE_PATH);
-  private static Map<String, List<String>> engine = new HashMap<>();
-
-  private static final ResourceBundle myGameResource = ResourceBundle.getBundle(GAME_PATH);
-  private static Map<String, List<String>> game = new HashMap<>();
-
-*/
-
-
-  public static void main(String[] args) {
-
-    /*
-    String profile_path = "data/RegisteredProfiles.xml";
-    XMLParser parser = new XMLParser(profile_path);
-
-    Map<String, List<String>> allProfiles = new HashMap<>();
-    for(String user : parser.getListFromXML("profile", null))
-    {
-      String [] neededParts = user.split("::");
-      String currUsername = neededParts[2];
-      String currPassword = neededParts[0];
-      String currPath = neededParts[1];
-      allProfiles.put(currUsername, new ArrayList<>());
-      allProfiles.get(currUsername).add(currPassword);
-      allProfiles.get(currUsername).add(currPath);
-    }
-
-    for(String key : allProfiles.keySet())
-    {
-      System.out.println(key);
-      System.out.println(allProfiles.get(key));
-    }
-
-    System.out.println();
-
-    String bob_path = "data/bobbyBoy.xml";
-    parser = new XMLParser(bob_path);
-    profile = parser.getMapFromXML(myProfileResource);
-
-    for(String key : profile.keySet())
-    {
-      System.out.println(key);
-      System.out.println(profile.get(key));
-    }
-
-    System.out.println();
-
-     */
-    String memory_path = "data/MemoryGameEngine.xml";
-    XMLParser parser = new XMLParser(memory_path);
-
-    engine = parser.getMapFromXML(myEngineResource);
-
-    for(String key : engine.keySet())
-    {
-      System.out.println(key);
-      System.out.println(engine.get(key));
-    }
-
-    System.out.println();
-
-    /*
-    grid = parser.getMapFromXML(myGridResource);
-
-    for(String key : grid.keySet())
-    {
-      System.out.println(key);
-      System.out.println(grid.get(key));
-    }
-
-    System.out.println();
-
-    game = parser.getMapFromXML(myGameResource);
-
-    for(String key : game.keySet())
-    {
-      System.out.println(key);
-      System.out.println(game.get(key));
-    }
-
-     */
-
-  }}
+}
 

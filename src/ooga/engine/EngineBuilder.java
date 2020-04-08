@@ -18,7 +18,7 @@ public interface EngineBuilder {
      * This method is so the current state of the user's game can be saved and loaded later.
      * @return
      */
-    State getGameState();
+    Map<String, String> getGameAttributes();
 
     /**
      * Resets the game grid to have the specified state configuration for the cells

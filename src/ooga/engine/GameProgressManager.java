@@ -2,39 +2,48 @@ package ooga.engine;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import ooga.engine.grid.InvalidDataException;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Timer;
+import java.util.TimerTask;
 
-public class GameProgressManager {
+public class GameProgressManager{
     private static final String SCORE = "Score";
     private static final String TARGET_SCORE = "TargetScore";
     private static final String LEVEL = "Level";
     private static final String LOSS_STAT = "LossStat";
-    private static final String LOSS_THRESHOLD = "LossThreshold";
     private static final String TIME = "Time";
     private static final String LIVES_LOST = "LivesLost";
     private static final String MOVES_USED = "MovesUsed";
-    private Map<String, SimpleIntegerProperty> gameStats = new HashMap<>();
+    private static final int ONE_SECOND = 1000;
+    private Map<String, IntegerProperty> gameStats = new HashMap<>();
     private String lossStatKey;
     private int targetScore;
-    private IntegerProperty timeSeconds = new SimpleIntegerProperty();
+    private Timer timer = new Timer();
+    private TimerTask timerTask;
 
-    public GameProgressManager(Map<String, String> gameAttributes){
-        CountdownTimer timer = new CountdownTimer(this);
-        // set the value of the timer to the threshold time for the game (so that we can count backwards)
-        timeSeconds.set(Integer.parseInt(gameAttributes.get(TIME)));
-        gameStats.put(TIME, (SimpleIntegerProperty) timeSeconds);
+    public GameProgressManager(Map<String, String> gameAttributes) throws InvalidDataException {
+        try{
+            gameStats.put(SCORE, new SimpleIntegerProperty(Integer.parseInt(gameAttributes.get(SCORE))));
+            gameStats.put(LEVEL, new SimpleIntegerProperty(Integer.parseInt(gameAttributes.get(LEVEL))));
+            lossStatKey = gameAttributes.get(LOSS_STAT);
+            gameStats.put(lossStatKey, new SimpleIntegerProperty(Integer.parseInt(gameAttributes.get(lossStatKey))));
+            targetScore =  Integer.parseInt(gameAttributes.get(TARGET_SCORE));
+        } catch (Exception e) {
+            throw new InvalidDataException();
+        }
 
-        gameStats.put(SCORE, new SimpleIntegerProperty(Integer.parseInt(gameAttributes.get(SCORE))));
-        gameStats.put(LEVEL, new SimpleIntegerProperty(Integer.parseInt(gameAttributes.get(LEVEL))));
-        lossStatKey = gameAttributes.get(LOSS_STAT);
-        int startingLossStatAmount = Integer.parseInt(gameAttributes.get(lossStatKey));
-        int totalLossStatAmount = Integer.parseInt(gameAttributes.get(LOSS_THRESHOLD));
-        int remainingLossStatAmount = totalLossStatAmount -startingLossStatAmount;
-        gameStats.put(lossStatKey, new SimpleIntegerProperty(remainingLossStatAmount));
-        targetScore =  Integer.parseInt(gameAttributes.get(TARGET_SCORE));
+    }
+
+    public Map<String, String> getGameAttributes(){
+        Map<String, String> currentAttributes = new HashMap<>();
+        for (String key: gameStats.keySet()){
+            currentAttributes.put(key, gameStats.get(key).getValue().toString());
+        }
+        currentAttributes.put(LOSS_STAT, lossStatKey);
+        return currentAttributes;
     }
 
     public boolean isWin(){
@@ -47,22 +56,29 @@ public class GameProgressManager {
 
     // pass this to front end to always display score and level, also display loss stat and amount
     // use properties to bind to avoid passing a lot
-    public Map<String, SimpleIntegerProperty> getGameStats(){ return gameStats; }
+    public Map<String, IntegerProperty> getGameStats(){ return gameStats; }
 
     public void updateScore(int amount){ changeValue(SCORE, amount); }
 
-    //????? idk how this will work
-    // we should bind this timeSeconds property to something on the frontend so that the time display is updated when
-    // timeSeconds is updated
-    public void updateTime(){
-        // decrement timeSeconds every time this method is called
-        timeSeconds.set(timeSeconds.get() - 1);
-        // update the time value in the map
-        gameStats.get(TIME).set(timeSeconds.get());
+    public void startTimer() {
+        if (!gameStats.containsKey(TIME)) return;
+        while (gameStats.get(TIME).get() >= 0) {
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    int time = gameStats.get(TIME).get();
+                    time --;
+                    gameStats.get(TIME).set(time);
+                }
+            }, ONE_SECOND);
+        }
+        timer.cancel();
+        System.out.println("out of time");
     }
 
-    public int getTimeSeconds(){
-        return timeSeconds.get();
+    public void pauseTimer(){
+        if (!gameStats.containsKey(TIME)) return;
+        timer.cancel();
     }
 
     public void incrementMoves(){ changeValue(MOVES_USED, -1); }

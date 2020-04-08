@@ -4,10 +4,11 @@
   <Score>0</Score>
   <TargetScore>0</TargetScore>
 
+  <MovesUsed>10</MovesUsed>
+
   <!--new loss checking so only use these:
 
   <LossStat>MovesUsed</LossStat>
-  <LossThreshold>10</LossThreshold>
 
 
   this also means that all games will have to have a target score,
@@ -18,7 +19,6 @@
 
   <!-- we no longer need attributes from here-->
   <LivesLost>0</LivesLost>
-  <MovesUsed>0</MovesUsed>
   <Time>0</Time>
   <TotalLives>0</TotalLives>
   <TotalMoves>0</TotalMoves>
