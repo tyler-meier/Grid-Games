@@ -82,7 +82,7 @@ public class Data implements DataLink {
     {
       errorMessage.setValue(incorrectUsername.getMessage());
     }
-    return new UserProfile();
+    return null;
   }
 
   /**
