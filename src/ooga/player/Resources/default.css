@@ -3,28 +3,48 @@
     -fx-background: #FAD2F5;
 }
 
-.button{
+.label{
     -fx-font-size: 15pt;
     -fx-font-family: "Futura";
+}
+
+.button{
+    -fx-font-size: 12pt;
+    -fx-font-family: "Futura";
+    -fx-pref-width: 280px;
     -fx-border-width: 2pt;
     -fx-border-color: #F647E1;
     -fx-text-fill: white;
     -fx-background-color: #F647E1;
+    -fx-alignment: CENTER;
 
 }
 
 .button:hover{
-    -fx-font-size: 15pt;
+    -fx-font-size: 12pt;
     -fx-font-family: "Futura";
+    -fx-pref-width: 280px;
     -fx-border-width: 2pt;
     -fx-text-fill: #F647E1;
     -fx-background-color: white;
+    -fx-alignment: CENTER;
 }
 
 .button:pressed{
-    -fx-font-size: 15pt;
+    -fx-font-size: 12pt;
     -fx-font-family: "Futura";
+    -fx-pref-width: 280px;
     -fx-border-width: 2pt;
     -fx-text-fill: #F647E1;
     -fx-background-color: white;
+    -fx-alignment: CENTER;
+}
+
+.text-field{
+    -fx-font-size: 12pt;
+    -fx-font-family: "Futura";
+    -fx-padding: 2,2,2,2;
+    -fx-border-color: black;
+    -fx-border-radius: 2;
+    -fx-max-width: 280px;
 }
