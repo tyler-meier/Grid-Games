@@ -1,5 +1,8 @@
 package ooga.engine;
 
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.css.Match;
 import ooga.engine.grid.GridCreator;
 import ooga.engine.matchFinder.MatchFinder;
@@ -17,9 +20,11 @@ import java.util.logging.Logger;
 public class ComponentCreator {
     private static final String MATCH_FINDER_PATH = "ooga.engine.matchFinder.";
     private static final String VALIDATOR_PATH = "ooga.engine.validator.";
+    private StringProperty errorMessage;
 
     public ComponentCreator(){
-
+        this.errorMessage = new SimpleStringProperty();
+        //FIXME: figure out exception handling for this class
     }
 
     /**
@@ -27,7 +32,7 @@ public class ComponentCreator {
      * for the current game. (**Can determine the file path based off the string it is passed)
      * @return
      */
-    public Validator makeMyValidator(String validatorType) throws Exception {
+    public Validator makeMyValidator(String validatorType){
         Class<?> clazz = getClass(validatorType, VALIDATOR_PATH);
         try{
             Object o = clazz.getDeclaredConstructor().newInstance();
@@ -35,10 +40,10 @@ public class ComponentCreator {
             return ret;
         }
         catch (Exception e) {
-            // FIXME: handle exception
-            e.printStackTrace();
-            throw new Exception(e);
+            errorMessage.set(e.getMessage());
+            System.out.println(errorMessage);
         }
+        return null;
     }
 
     /**
@@ -46,7 +51,7 @@ public class ComponentCreator {
      * for the current game. (**Can determine the file path based off the string it is passed)
      * @return
      */
-    public MatchFinder makeMyMatchFinder(String matchFinderType) throws Exception {
+    public MatchFinder makeMyMatchFinder(String matchFinderType){
         Class<?> clazz = getClass(matchFinderType, MATCH_FINDER_PATH);
         try{
             Object o = clazz.getDeclaredConstructor().newInstance();
@@ -54,10 +59,9 @@ public class ComponentCreator {
             return ret;
         }
         catch (Exception e) {
-            // FIXME: handle exception
-            e.printStackTrace();
-            throw new Exception(e);
+            errorMessage.set(e.getMessage());
         }
+        return null;
     }
 
     /**
@@ -66,8 +70,14 @@ public class ComponentCreator {
      * @param path
      * @return
      */
-    private Class<?> getClass(String nameOfClass, String path) throws ClassNotFoundException {
-        Class<?> clazz = Class.forName(path + nameOfClass);
-        return clazz;
+    private Class<?> getClass(String nameOfClass, String path) {
+        try{
+            Class clazz = Class.forName(path + nameOfClass);
+            return clazz;
+        }
+        catch(ClassNotFoundException e){
+            errorMessage.set(e.getMessage());
+        }
+        return null;
     }
 }

@@ -6,8 +6,10 @@ import java.util.Map;
 import java.util.ResourceBundle;
 
 public class UserProfile {
-    private static final String DEFAULT_GAME_PATH = "resources.DefaultGamePaths";
-    private static final ResourceBundle myGamePathResource = ResourceBundle.getBundle(DEFAULT_GAME_PATH);
+    private final String DEFAULT_GAME_PATH = "resources.DefaultGamePaths";
+    private final ResourceBundle myGamePathResource = ResourceBundle.getBundle(DEFAULT_GAME_PATH);
+    private final String TO_STRING_SKELETON = "Username: %s \nPassword: %s\nPath: %s\nHigh Scores: %s\nSavedGames: %s\n";
+
 
     private final String PATH_SKELETON = "data/%s.xml";
     private Map<String, String> savedGames;
@@ -106,4 +108,10 @@ public class UserProfile {
     public Map<String, Integer> getAllHighScores() {
         return highScores;
     }
+
+    public String toString()
+    {
+        return String.format(TO_STRING_SKELETON, username, password, path, highScores, savedGames);
+    }
+
 }
