@@ -3,7 +3,7 @@ package ooga.data;
 import java.util.List;
 import java.util.Map;
 
-public interface DataBuilder {
+public interface DataLink {
 
   /**
    * This method uses the given username and password to return the

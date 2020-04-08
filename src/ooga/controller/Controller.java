@@ -29,21 +29,21 @@ public class Controller extends Application {
 
     private void newWindow(Stage stage){
         Player player = new Player(stage);
-        player.setGetProfile((UserLogin) (username, password) -> data.getPlayerProfile(username, password)); //takes a UserLogin functional interface
-        player.setStartGameButton(e -> buildNewEngine(player));
-        player.setErrorMessage(data.getErrorMessage());
+//        player.setGetProfile((UserLogin) (username, password) -> data.getPlayerProfile(username, password)); //takes a UserLogin functional interface
+//        player.setStartGameButton(e -> buildNewEngine(player));
+//        player.setErrorMessage(data.getErrorMessage());
     }
 
-    private void buildNewEngine(Player player){
-        String type = player.getGameType();
-        String username = player.getUsername();
-        Map myData = data.getEngineAttributes(player, type); //rename DataObject to something more clear
-        int[][] initialStates = data.getIntialStates(username);
-        Engine engine = new Engine(myData, initialStates);
-        player.setGrid(engine.getGrid());
-        player.setSaveGameButton(e -> data.saveGame(username, engine.getGameState())); //not sure what getGameState's type is here: should have grid but also like lives left and score
-        player.setResetButton(e -> engine.resetGrid(data.getInitialStates("guest")));
-    }
+//    private void buildNewEngine(Player player){
+//        String type = player.getGameType();
+//        String username = player.getUsername();
+//        Map myData = data.getEngineAttributes(player, type); //rename DataObject to something more clear
+//        int[][] initialStates = data.getIntialStates(username);
+//        Engine engine = new Engine(myData, initialStates);
+//        player.setGrid(engine.getGrid()); // need to change param type of set grid
+//        player.setSaveGameButton(e -> data.saveGame(username, engine.getGameState())); //not sure what getGameState's type is here: should have grid but also like lives left and score
+//        player.setResetButton(e -> engine.resetGrid(data.getInitialStates("guest")));
+//    }
 }
 
 

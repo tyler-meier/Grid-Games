@@ -9,6 +9,8 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import ooga.data.buildingXML.XMLBuilder;
+import ooga.data.buildingXML.XMLGameBuilder;
 import ooga.data.exceptions.ParserException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -39,18 +41,15 @@ public class XMLParser {
   private static Map<String, List<String>> game = new HashMap<>();
   */
 
-  public XMLParser(String path)
-  {
-    try{
-    File file = new File(path);
-    DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-    DocumentBuilder db = dbf.newDocumentBuilder();
+  public XMLParser(String path) {
+    try {
+      File file = new File(path);
+      DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+      DocumentBuilder db = dbf.newDocumentBuilder();
 
-    doc = db.parse(file);
-    doc.getDocumentElement().normalize();
-    }
-    catch (Exception e)
-    {
+      doc = db.parse(file);
+      doc.getDocumentElement().normalize();
+    } catch (Exception e) {
       ParserException error = new ParserException(e, path);
       System.out.println(error.getMessage());
     }
@@ -58,46 +57,39 @@ public class XMLParser {
 
 
   public Map<String, List<String>> getMapFromXML(ResourceBundle keysAndDefaults) {
-      List<String> keys = Collections.list(keysAndDefaults.getKeys());
-      Map<String, List<String>> mapToFill = new HashMap<>();
-      for(String key : keys)
-      {
-        mapToFill.put(key, getAllInstances(key, keysAndDefaults.getString(key)));
-      }
-      return mapToFill;
+    List<String> keys = Collections.list(keysAndDefaults.getKeys());
+    Map<String, List<String>> mapToFill = new HashMap<>();
+    for (String key : keys) {
+      mapToFill.put(key, getAllInstances(key, keysAndDefaults.getString(key)));
+    }
+    return mapToFill;
   }
 
-  public List<String> getListFromXML(String tagName, String defaultVal)
-  {
+  public List<String> getListFromXML(String tagName, String defaultVal) {
     return getAllInstances(tagName, defaultVal);
   }
 
 
-  private List<String> getAllInstances (String tagName, String defaultVal)
-  {
+  private List<String> getAllInstances(String tagName, String defaultVal) {
     List<String> ret = new ArrayList<>();
     NodeList nodeList = doc.getElementsByTagName(tagName);
-    for (int itr = ZERO_INDEX; itr < nodeList.getLength(); itr++)
-    {
+    for (int itr = ZERO_INDEX; itr < nodeList.getLength(); itr++) {
       Node node = nodeList.item(itr);
-      try{
+      try {
         ret.add(node.getTextContent());
-      }
-      catch(Exception e)
-      {
+      } catch (Exception e) {
         ParserException error = new ParserException(e, tagName);
         System.out.println(error.getMessage());
         ret.add(defaultVal);
       }
     }
-    if(ret.isEmpty())
-    {
+    if (ret.isEmpty()) {
       ret.add(defaultVal);
     }
     return ret;
   }
 
-
+}
 /*
   //Needed instance variables to run main method
   private static final int ZERO_INDEX = 0;
@@ -122,9 +114,37 @@ public class XMLParser {
   private static Map<String, List<String>> game = new HashMap<>();
 
 */
+
 /*
   public static void main(String[] args)
   {
+    Map<String, List<String>> dataToWrite = new HashMap<>();
+    dataToWrite.put("AddNewCells", new ArrayList<>());
+    dataToWrite.get("AddNewCells").add("what");
+
+    dataToWrite.put("Validator", new ArrayList<>());
+    dataToWrite.get("Validator").add("PairValidator");
+
+    dataToWrite.put("MatchFinder", new ArrayList<>());
+    dataToWrite.get("MatchFinder").add("FlippedFinder");
+
+    XMLGameBuilder gameBuilder = new XMLGameBuilder("game", "data/newGame.xml", dataToWrite);
+
+    XMLParser parser = new XMLParser("data/newGame.xml");
+    engine = parser.getMapFromXML(myEngineResource);
+
+    for(String key : engine.keySet())
+    {
+      System.out.println(key);
+      System.out.println(engine.get(key));
+    }
+
+    System.out.println();
+
+
+  }
+  }
+    /*
     String profile_path = "data/RegisteredProfiles.xml";
     XMLParser parser = new XMLParser(profile_path);
 
@@ -192,4 +212,3 @@ public class XMLParser {
 
   }*/
 
-}

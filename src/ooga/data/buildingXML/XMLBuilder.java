@@ -1,4 +1,4 @@
-package ooga.data;
+package ooga.data.buildingXML;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -16,13 +16,13 @@ import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-public class XMLBuilder {
+public abstract class XMLBuilder {
 
 
   private DocumentBuilderFactory documentFactory;
   private DocumentBuilder documentBuilder;
   private Document document;
-  private final String DELIMINATOR = "::";
+  protected final String DELIMINATOR = "::";
 
   public XMLBuilder(String mainTag, String pathName, Map<String, List<String>> dataToWrite)
   {
@@ -72,19 +72,10 @@ public class XMLBuilder {
   }
 
   /**
-   * Add the elements that are necessary to every board
-   * including type, rows, columns, and a manual board
+   *
    * @param root
    */
-  private void addElementsToRoot(Element root, Map<String, List<String>> dataToWrite)
-  {
-    for(String tag : dataToWrite.keySet())
-    {
-      String data = String.join(DELIMINATOR, dataToWrite.get(tag));
-      Element temp = createElement(tag, data);
-      root.appendChild(temp);
-    }
-  }
+  abstract void addElementsToRoot(Element root, Map<String, List<String>> dataToWrite);
 
   /**
    * Creates a single element from a given tag name and text
@@ -92,7 +83,7 @@ public class XMLBuilder {
    * @param text
    * @return
    */
-  private Element createElement(String tagName, String text)
+  protected Element createElement(String tagName, String text)
   {
     Element e = document.createElement(tagName);
     e.appendChild(document.createTextNode(text));

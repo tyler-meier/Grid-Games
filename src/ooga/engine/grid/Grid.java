@@ -36,6 +36,10 @@ public class Grid {
         numSelected=0;
     }
 
+    public int getMyScore(){
+        return score;
+    }
+
     private void setupGridStates(int[][] initialStates){
         for (int r = 0; r<initialStates.length; r++){
             for (int c=0; c<initialStates[0].length; c++){

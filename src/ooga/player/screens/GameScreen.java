@@ -8,11 +8,15 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import ooga.player.Player;
 
+import javax.swing.text.html.ImageView;
+
 public class GameScreen {
+
   private static final String RESOURCES = "ooga/player/Resources/";
   private static final String DEFAULT_RESOURCE_PACKAGE = RESOURCES.replace("/", ".");
   private static final String DEFAULT_RESOURCE_FOLDER = "/" + RESOURCES;
@@ -20,8 +24,11 @@ public class GameScreen {
 
   private ResourceBundle myResources;
 
+  private Player myPlayer;
+
   private int myHeight;
   private int myWidth;
+  private String initialTime = "0";
 
   public GameScreen(String gameType){
     //should be defined by what type of game
@@ -34,11 +41,14 @@ public class GameScreen {
     myWidth = width;
 
     BorderPane root = new BorderPane();
-
     HBox toolBar = new HBox();
-    Button homeButton = makeButton("HomeCommand" e-> );
-    //write code for timer
-    timeKeeper = ;
+    Button homeButton = makeButton("HomeCommand" e-> Player.setHome());
+
+    //TODO: write code for timer
+    String initialTime = "0";
+    TextField timeKeeper = new TextField();
+    timeKeeper.textProperty().addListener(
+
     toolBar.getChildren().addAll(homeButton, timeKeeper);
     root.setTop(toolBar);
 
@@ -62,18 +72,15 @@ public class GameScreen {
   private Node makeButtonPanel() {
     VBox buttons = new VBox();
     //lambda notation to trigger correct event
-    //TODO check which classes need to be instantiated to pass to event handler
-    Button loginButton = makeButton("LoginCommand", e-> );
+    //TODO make set loginscreen button
+    Button loginButton = makeButton("LoginCommand", e-> Player.setLogin());
     Button resetButton = makeButton("ResetCommand", e-> makeScene(myHeight, myWidth));
-    Button newButton = makeButton("NewCommand", e-> );
 
     buttons.setSpacing(20);
-    buttons.getChildren().addAll(loginButton, resetButton, newButton);
+    buttons.getChildren().addAll(loginButton, resetButton);
     buttons.setAlignment(Pos.CENTER);
 
     return buttons;
   }
-
-
 
 }
