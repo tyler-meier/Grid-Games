@@ -14,7 +14,7 @@ import ooga.player.Player;
 
 public class NewProfileScreen {
 
-  private static final int DIMENSION = 500;
+  private static final int DIMENSION = 600;
   private static final String RESOURCES = "ooga/player/Resources/";
   private static final String DEFAULT_RESOURCE_PACKAGE = RESOURCES.replace("/", ".");
   private static final String DEFAULT_RESOURCE_FOLDER = "/" + RESOURCES;
@@ -60,8 +60,8 @@ public class NewProfileScreen {
     newUsername = new TextField();
     newPassword = new TextField();
 
-    newUsername.setPromptText("Type in your username.");
-    newPassword.setPromptText("Type in your password.");
+    newUsername.setPromptText("Type in your username");
+    newPassword.setPromptText("Type in your password");
 
     newUsername.getText();
     newPassword.getText();
