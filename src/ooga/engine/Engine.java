@@ -1,5 +1,6 @@
 package ooga.engine;
 
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import ooga.engine.grid.Grid;
@@ -18,24 +19,14 @@ import java.util.Map;
 public class Engine implements EngineBuilder {
     private static final String VALIDATOR = "validator";
     private static final String MATCH_FINDER = "matchFinder";
-    private Validator myValidator;
-    private MatchFinder myMatchFinder;
-    // bind to front end error message
-    private StringProperty errorMessage = new SimpleStringProperty();
 
     private Grid myGrid;
 
     public Engine(Map<String, String> engineAttributes, StringProperty errorMessage) {
-        this.errorMessage.bindBidirectional(errorMessage);
-        ComponentCreator myComponentCreator = new ComponentCreator();
-        try{
-            myValidator = myComponentCreator.makeMyValidator(engineAttributes.get(VALIDATOR));
-            myMatchFinder = myComponentCreator.makeMyMatchFinder(engineAttributes.get(MATCH_FINDER));
-        } catch (Exception e){
-            // is this error handling okay?
-            errorMessage.set(e.getMessage());
-        }
-        myGrid = new Grid(engineAttributes);
+        ComponentCreator myComponentCreator = new ComponentCreator(errorMessage);
+        Validator myValidator = myComponentCreator.makeMyValidator(engineAttributes.get(VALIDATOR));
+        MatchFinder myMatchFinder = myComponentCreator.makeMyMatchFinder(engineAttributes.get(MATCH_FINDER));
+        myGrid = new Grid(engineAttributes, myValidator, myMatchFinder, errorMessage);
     }
 
     // use for reset as well
@@ -48,10 +39,12 @@ public class Engine implements EngineBuilder {
         return myGrid;
     }
 
-    @Override
-    public State getGameState() {
-        State curState = new State(myGrid, myGrid.getMyScore());
-        return curState;
+    public Map<String, String> getGameAttributes() {
+        return myGrid.getGameAttributes();
     }
+
+    public int[][] getGridConfiguration() { return myGrid.getGridConfiguration(); }
+
+    public Map<String, IntegerProperty> getGameStats() { return myGrid.getGameStats(); }
 
 }
