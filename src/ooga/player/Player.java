@@ -104,7 +104,6 @@ public class Player implements PlayerStart{
    */
   @Override
   public void setGrid(Grid grid){
-
   };
 
   /**
