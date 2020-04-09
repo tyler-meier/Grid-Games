@@ -133,13 +133,12 @@ public class Data implements DataLink {
    */
   @Override
   public Map<String, String> getGameAttributes(String username, String gameType) {
-    UserProfile user = myProfileManager.getProfile(username);
-
-    gamePath = user.getSavedGame(gameType);
+    gamePath = currentUser.getSavedGame(gameType);
     if(gamePath.isEmpty())
     {
       gamePath = myDefaultGamePathResource.getString(gameType);
     }
+    System.out.println("Game: " + gamePath);
     XMLParser gameParser = new XMLParser(gamePath);
     return gameParser.getMapFromXML(myGameResource);
   }
@@ -174,6 +173,7 @@ public class Data implements DataLink {
     {
       savedPath = myDefaultConfigPathResource.getString(gameType);
     }
+    System.out.println("Config: " + savedPath);
     XMLParser gridParser = new XMLParser(savedPath);
     return gridParser.getGrid();
   }

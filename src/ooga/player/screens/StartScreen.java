@@ -91,6 +91,4 @@ public class StartScreen {
   public void createEngine(EventHandler engine){
     myEngine = engine;
   }
-
-
 }
