@@ -74,5 +74,11 @@ public interface DataLink {
    */
   int[][] getGrid(String username, String gameType);
 
+  /**
+   *
+   *
+   */
+  void updateCurrentPlayer();
+
 
 }

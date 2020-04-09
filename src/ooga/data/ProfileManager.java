@@ -37,6 +37,13 @@ public class ProfileManager {
 
   }
 
+  public void updatePLayerXML(UserProfile user)
+  {
+    XMLBuilder newProfileXML = new XMLSingularProfileBuilder(MAIN_TAG, user.getPath(), user);
+  }
+
+
+
   private void retrieveKnownProfiles() {
     for(String user : profileParser.getListFromXML(MAIN_TAG, null))
     {

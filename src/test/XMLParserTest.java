@@ -36,6 +36,7 @@ class XMLParserTest {
   private final String memory_engine_path = "data/MemoryGameEngine.xml";
   private final String memory_game_path = "data/MemoryGameDefault.xml";
   private final String profile_path = "data/RegisteredProfiles.xml";
+  private final String grid_path = "data/BasicBandyCrushGidConfig.xml";
 
   private XMLParser parser;
 
@@ -95,6 +96,14 @@ class XMLParserTest {
     for (String key : game.keySet()) {
       System.out.println(key + ": " + game.get(key));
     }
+
+  }
+
+  @Test
+  void testGetGrid()
+  {
+    parser = new XMLParser(grid_path);
+    int [][] grid = parser.getGrid();
 
   }
 

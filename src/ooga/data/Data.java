@@ -53,8 +53,10 @@ public class Data implements DataLink {
     return errorMessage;
   }
 
-
-
+  public void updateCurrentPlayer()
+  {
+    myProfileManager.updatePLayerXML(currentUser);
+  }
 
 
   /**
