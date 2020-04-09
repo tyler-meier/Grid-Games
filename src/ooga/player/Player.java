@@ -4,6 +4,7 @@ import javafx.stage.Stage;
 import ooga.controller.UserLogin;
 import ooga.data.DataObject;
 import ooga.engine.Cell;
+import ooga.engine.grid.Grid;
 import ooga.player.screens.GameScreen;
 import ooga.player.screens.LoginScreen;
 import ooga.player.screens.NewProfileScreen;
@@ -97,7 +98,7 @@ public class Player implements PlayerStart{
    * @param grid
    */
   @Override
-  public void setGrid(Cell[][] grid){
+  public void setGrid(Grid grid){
 
   };
 

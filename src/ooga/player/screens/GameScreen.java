@@ -67,9 +67,10 @@ public class GameScreen {
     verticalPanel.getChildren().addAll(buttonPanel, statsPanel);
     root.setRight(verticalPanel);
 
-    GridPane gameGrid = myGrid.makeGrid(10, 10);
-    gameGrid.setAlignment(Pos.CENTER);
-    root.setCenter(gameGrid);
+    //TODO: setGrid
+//    GridPane gameGrid = myGrid.makeGrid(10, 10);
+//    gameGrid.setAlignment(Pos.CENTER);
+//    root.setCenter(gameGrid);
 
     Scene scene = new Scene(root, height, width);
     scene.getStylesheets().add(getClass().getResource(DEFAULT_RESOURCE_FOLDER + STYLESHEET).toExternalForm());

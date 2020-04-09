@@ -36,66 +36,18 @@ public class GridView {
 
         for (int row = 0; row < backendGrid.getRows(); row++) {
             for (int col = 0; col < backendGrid.getCols(); col++) {
-                Rectangle rec = new Rectangle(myCellWidth, myCellHeight, Color.WHITE);
-                rec.setStroke(Color.BLACK);
-                rec.setStrokeWidth(1);
-                int state = backendGrid.getCell(row,col).getMyState();
-                ImageView myImage = getImage(state);
-                myGrid.setRowIndex(rec, col * myCellWidth);
-                myGrid.setColumnIndex(rec, row * myCellHeight);
-                myGrid.getChildren().add(rec);
+//                Rectangle rec = new Rectangle(myCellWidth, myCellHeight, Color.WHITE);
+//                rec.setStroke(Color.BLACK);
+//                rec.setStrokeWidth(1);
+//                int state = backendGrid.getCell(row,col).getMyState();
+                //ImageView myImage = getImage(state);
+                UICell currCell = new UICell(backendGrid.getCell(row, col));
+                currCell.setMoveInProgress(backendGrid.getInProgressProperty());
+                GridPane.setRowIndex(currCell.getImage(), col * myCellWidth);
+                GridPane.setColumnIndex(currCell.getImage(), row * myCellHeight);
+                myGrid.getChildren().add(currCell.getImage());
             }
         }
         return myGrid;
-
-        /*
-        myGrid = new UICell[myGrid.getRows()][myGrid.getCols()]();
-        for (int r = 0; r < myGrid.length; r++) {
-           for (int c = 0; c < myGrid[0].length; c++) {
-                myGrid[r][c] = new UICell(myGrid.getCell(r, c);
-               // set property so that front end stops users from making a new move while one is in motion
-               myGrid[r][c].setMoveInProgress(myGrid.getInProgressProperty());
-         }
-        }
-         */
     }
-
-    /**
-     * return grid for the gameplay
-     * @param rownum
-     * @param colnum
-     * @return
-     */
-    public GridPane makeGrid(int rownum, int colnum) {
-        GridPane grid = new GridPane();
-        grid.setGridLinesVisible(true);
-
-        int myCellWidth = myGridSize/colnum;
-        int myCellHeight = myGridSize/rownum;
-
-        for (int row = 0; row < rownum; row++) {
-            for (int col = 0; col < colnum; col++) {
-                Rectangle rec = new Rectangle(myCellWidth, myCellHeight, Color.WHITE);
-                rec.setStroke(Color.BLACK);
-                rec.setStrokeWidth(1);
-                grid.setRowIndex(rec, col * myCellWidth);
-                grid.setColumnIndex(rec, row * myCellHeight);
-                grid.getChildren().add(rec);
-            }
-        }
-        return grid;
-    }
-
-    //TODO: get either integer or cell to retrieve information about the cell type, return image view
-    private ImageView getImage(int state) throws FileNotFoundException {
-        String stringInt = Integer.toString(state);
-        String imageName = myResources.getString(stringInt);
-        String imagePath = DEFAULT_IMAGERESOURCE_PACKAGE + imageName + ".png";
-        FileInputStream input = new FileInputStream(imagePath);
-        Image image = new Image(input);
-        ImageView imageview = new ImageView(image);
-        return imageview;
-    }
-
-
 }
