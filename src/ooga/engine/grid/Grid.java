@@ -129,17 +129,16 @@ public class Grid {
      * @return
      */
     private void updateMyBoard(){
-        moveInProgress.set(true);
         updateGrid();
         if (myProgressManager.isWin()) System.out.println("win"); // win action
         else if (myProgressManager.isLoss()) System.out.println("loss"); // loss action
-        moveInProgress.set(false);
     }
 
     /**
      * This method updates the current game grid according to the move selected by the user.
      */
     public void updateGrid(){
+        moveInProgress.set(true);
         List<Cell> selectedCells = getSelectedCells();
          if(myValidator.checkIsValid(selectedCells)){
             System.out.println("valid move");
@@ -157,7 +156,8 @@ public class Grid {
                 else deleteMatchedCells(matchedCells);
                 matchedCells.addAll(myMatchFinder.makeMatches(this));
             }
-        } else System.out.println("invalid move");
+         } else System.out.println("invalid move");
+         moveInProgress.set(false);
         for (Cell cell:selectedCells) cell.toggleSelected();
     }
 
