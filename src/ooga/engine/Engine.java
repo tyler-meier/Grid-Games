@@ -25,14 +25,9 @@ public class Engine implements EngineBuilder {
 
     public Engine(Map<String, String> engineAttributes, StringProperty errorMessage) {
         ComponentCreator myComponentCreator = new ComponentCreator(errorMessage);
-        //Validator myValidator = myComponentCreator.makeMyValidator("PairValidator");
-       // MatchFinder myMatchFinder = myComponentCreator.makeMyMatchFinder("FlippedFinder");
-        System.out.println("This is the validator in teh engine constructor: " + engineAttributes.get(VALIDATOR));
-        System.out.println("This is the match finder in the engine constructor: " + engineAttributes.get(MATCH_FINDER));
         Validator myValidator = myComponentCreator.makeMyValidator(engineAttributes.get(VALIDATOR));
         MatchFinder myMatchFinder = myComponentCreator.makeMyMatchFinder(engineAttributes.get(MATCH_FINDER));
         myGrid = new Grid(engineAttributes, myValidator, myMatchFinder, errorMessage);
-        System.out.println("Made it to the end of the engine constructor");
     }
 
     // use for reset as well

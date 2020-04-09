@@ -15,7 +15,13 @@ public class PairValidator extends Validator {
     @Override
     public boolean checkIsValid(List<Cell> selected) {
         System.out.println("validating the cells");
-        for (Cell cell:selected) if (cell.isOpen().get()) return false;
+        for (Cell cell:selected) {
+            cell.isSelected().set(false);
+            if (cell.isOpen().get()){
+                System.out.println("One of the selected cells is already open....");
+                return false;
+            }
+        }
 
         int matchState = selected.get(0).getMyState();
         boolean matched = true;
@@ -27,12 +33,11 @@ public class PairValidator extends Validator {
         //wait 5 seconds
         for (Cell cell:selected){
             if (!matched) cell.isOpen().set(false);
-            cell.isSelected().set(false);
         }
-        System.out.println("first selected cell is " + selected.get(0).isOpen());
-        System.out.println("second selected cell is " + selected.get(1).isOpen());
-        System.out.println("first selected cell is " + selected.get(0).isSelected());
-        System.out.println("first selected cell is " + selected.get(1).isSelected());
+        System.out.println("open status of first selected cell: " + selected.get(0).isOpen());
+        System.out.println("open status of second selected cell:  " + selected.get(1).isOpen());
+        System.out.println("selected status of first selected cell:  " + selected.get(0).isSelected());
+        System.out.println("selected status of second sleected cell:  " + selected.get(1).isSelected());
         return matched;
     }
 }

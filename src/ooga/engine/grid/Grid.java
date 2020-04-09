@@ -35,19 +35,13 @@ public class Grid {
 
     public Grid(Map<String, String> gameAttributes, Validator validator, MatchFinder matchFinder, StringProperty errorMessage){
         myErrorMessage.bindBidirectional(errorMessage);
-        System.out.println("Made it to beginning of grid constructor");
         //TODO: better error handling
         try {
-           // numSelectedPerMove = Integer.parseInt(gameAttributes.get(NUM_SELECTED_PER_MOVE));
-            numSelectedPerMove = 2;
-           // addNewCells = Boolean.parseBoolean(gameAttributes.get(ADD_NEW_CELLS));
-            addNewCells = false;
-           // maxState = Integer.parseInt(gameAttributes.get(MAX_STATE_NUMBER));
-            maxState = 6;
-           // hasHiddenCells = Boolean.parseBoolean(gameAttributes.get(HAS_HIDDEN_CELLS));
-            hasHiddenCells = true;
-            //pointsPerCell = Integer.parseInt(gameAttributes.get(POINTS_PER_CELL));
-            pointsPerCell = 5;
+            numSelectedPerMove = Integer.parseInt(gameAttributes.get(NUM_SELECTED_PER_MOVE));
+            addNewCells = Boolean.parseBoolean(gameAttributes.get(ADD_NEW_CELLS));
+            maxState = Integer.parseInt(gameAttributes.get(MAX_STATE_NUMBER));
+            hasHiddenCells = Boolean.parseBoolean(gameAttributes.get(HAS_HIDDEN_CELLS));
+            pointsPerCell = Integer.parseInt(gameAttributes.get(POINTS_PER_CELL));
         } catch (Exception e){
             e.printStackTrace();
             myErrorMessage.set(e.toString());
@@ -65,9 +59,7 @@ public class Grid {
         if (myGrid==null) myGrid = new Cell[initialStates.length][initialStates[0].length];
         setupGridStates(initialStates);
         try{
-            System.out.println("TRYING TO MAKE PROG MANAGER");
             myProgressManager = new GameProgressManager(gameAttributes);
-            System.out.println("SUCESSFULLY MADE PROG MANAGER");
         } catch (Exception e){
             myErrorMessage.set(e.toString());
         }
@@ -183,7 +175,9 @@ public class Grid {
                 matchedCells.addAll(myMatchFinder.makeMatches(this));
             }
         }
-        System.out.println("found the cells to not be valid");
+        else{
+            System.out.println("found the cells to not be valid");
+        }
     }
 
     private List<Cell> getSelectedCells(){
@@ -196,7 +190,6 @@ public class Grid {
     }
 
     private void openMatchedCells(List<Cell> matchedCells){
-        System.out.println("MADE IT TO THE OPEN MATCHED CELLS METHOD");
         for (Cell cell:matchedCells) {
             cell.isOpen().set(true);
             if (cell.getMyState() == BOMB_STATE) myProgressManager.incrementLives();
