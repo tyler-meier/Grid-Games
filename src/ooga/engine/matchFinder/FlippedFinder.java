@@ -10,6 +10,7 @@ public class FlippedFinder extends MatchFinder {
 
     public FlippedFinder(){
         super();
+        System.out.println("Made a flipped finder");
     }
 
 
@@ -20,6 +21,7 @@ public class FlippedFinder extends MatchFinder {
 
     @Override
     public List<Cell> makeMatches(Grid grid){
+        System.out.println("trying to make matches for flipped");
         List<Cell> cellsToOpen = new ArrayList<>();
         int rows = grid.getRows();
         int cols = grid.getCols();
@@ -30,6 +32,7 @@ public class FlippedFinder extends MatchFinder {
                 if (cell.getMyState()==0) cellsToOpen.addAll(getUnopenedNeighbors(cell, grid));
             }
         }
+        System.out.println("going to return from match finder method");
         return cellsToOpen;
     }
 

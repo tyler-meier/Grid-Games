@@ -26,11 +26,17 @@ public class GameProgressManager{
 
     public GameProgressManager(Map<String, String> gameAttributes) throws InvalidDataException {
         try{
+            System.out.println("made it to constructor of progress manager");
             gameStats.put(SCORE, new SimpleIntegerProperty(Integer.parseInt(gameAttributes.get(SCORE))));
+            System.out.println("SCORE");
             gameStats.put(LEVEL, new SimpleIntegerProperty(Integer.parseInt(gameAttributes.get(LEVEL))));
+            System.out.println("LEVEL");
             lossStatKey = gameAttributes.get(LOSS_STAT);
-            gameStats.put(lossStatKey, new SimpleIntegerProperty(Integer.parseInt(gameAttributes.get(lossStatKey))));
+            System.out.println("LOSS STAT");
+            gameStats.put(lossStatKey, new SimpleIntegerProperty(10));
+            System.out.println("LOSS STAT KEY");
             targetScore =  Integer.parseInt(gameAttributes.get(TARGET_SCORE));
+            System.out.println("Correctly made the game manager");
         } catch (Exception e) {
             throw new InvalidDataException();
         }
@@ -58,7 +64,9 @@ public class GameProgressManager{
     // use properties to bind to avoid passing a lot
     public Map<String, IntegerProperty> getGameStats(){ return gameStats; }
 
-    public void updateScore(int amount){ changeValue(SCORE, amount); }
+    public void updateScore(int amount){
+        System.out.println("UPDATING THE SCORE NOW");
+        changeValue(SCORE, amount); }
 
     public void startTimer() {
         if (!gameStats.containsKey(TIME)) return;

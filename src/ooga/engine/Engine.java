@@ -25,13 +25,17 @@ public class Engine implements EngineBuilder {
 
     public Engine(Map<String, String> engineAttributes, StringProperty errorMessage) {
         ComponentCreator myComponentCreator = new ComponentCreator(errorMessage);
-        Validator myValidator = myComponentCreator.makeMyValidator(engineAttributes.get(VALIDATOR));
-        MatchFinder myMatchFinder = myComponentCreator.makeMyMatchFinder(engineAttributes.get(MATCH_FINDER));
+        Validator myValidator = myComponentCreator.makeMyValidator("PairValidator");
+        MatchFinder myMatchFinder = myComponentCreator.makeMyMatchFinder("FlippedFinder");
+        //Validator myValidator = myComponentCreator.makeMyValidator(engineAttributes.get(VALIDATOR));
+        //MatchFinder myMatchFinder = myComponentCreator.makeMyMatchFinder(engineAttributes.get(MATCH_FINDER));
         myGrid = new Grid(engineAttributes, myValidator, myMatchFinder, errorMessage);
+        System.out.println("Made it to the end of the engine constructor");
     }
 
     // use for reset as well
     public void setupGame(int[][] initialStates, Map<String, String> myGameAttributes){
+        System.out.println("about to call SET NEW GAME");
         myGrid.setNewGame(initialStates, myGameAttributes);
     }
 

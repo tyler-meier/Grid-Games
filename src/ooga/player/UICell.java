@@ -30,7 +30,7 @@ public class UICell {
         selected.bindBidirectional(cell.isSelected());
         open.bind(cell.isOpen());
         state.bind(cell.cellState());
-        setListeners();
+        //setListeners();
         myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + gameType);
     }
 
@@ -42,9 +42,11 @@ public class UICell {
         state.addListener((obs, oldv, newv) -> changeImage());
         // toggle selected by clicking on a cell
         myImageView.setOnMouseClicked(e -> {
+            System.out.println("a cell has been clicked");
             if (!moveInProgress.get()) selected.set(!selected.get());
         });
     }
+
 
     private void changeImage(){
          //errors bc of imageMap and hiddenImage here, define these/rename and then the method is done
@@ -63,6 +65,7 @@ public class UICell {
             Image myImage = new Image(input);
             myImageView = new ImageView(myImage);
             myImageView.setPreserveRatio(true);
+            setListeners();
             return myImage;
         }
         catch (FileNotFoundException e){

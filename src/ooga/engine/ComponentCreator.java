@@ -40,8 +40,8 @@ public class ComponentCreator {
             return (Validator) o;
         }
         catch (Exception e) {
+            e.printStackTrace();
             errorMessage.set(e.getMessage());
-            System.out.println(errorMessage);
         }
         return null;
     }
@@ -59,6 +59,7 @@ public class ComponentCreator {
             return (MatchFinder) o;
         }
         catch (Exception e) {
+            e.printStackTrace();
             errorMessage.set(e.getMessage());
         }
         return null;
@@ -72,9 +73,11 @@ public class ComponentCreator {
      */
     private Class<?> getClass(String nameOfClass, String path) {
         try{
+            System.out.println("This is the name of teh class component creator is trying ot make: " + nameOfClass);
             return Class.forName(path + nameOfClass);
         }
         catch(ClassNotFoundException e){
+            e.printStackTrace();
             errorMessage.set(e.getMessage());
         }
         return null;

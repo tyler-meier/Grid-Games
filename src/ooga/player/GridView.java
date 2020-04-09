@@ -31,8 +31,8 @@ public class GridView {
         GridPane myGrid = new GridPane();
         myGrid.setGridLinesVisible(true);
 
-        int myCellWidth = myGridSize/backendGrid.getCols();
-        int myCellHeight = myGridSize/backendGrid.getRows();
+        int myCellWidth = myGridSize/backendGrid.getRows();
+        int myCellHeight = myGridSize/backendGrid.getCols();
 
         for (int row = 0; row < backendGrid.getRows(); row++) {
             for (int col = 0; col < backendGrid.getCols(); col++) {

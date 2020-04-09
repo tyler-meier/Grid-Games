@@ -21,7 +21,7 @@ public class Cell {
 
     public Cell(int initialState, boolean isOpen, int points){
         myState.setValue(initialState);
-        open.set(isOpen);
+        open.set(!isOpen);
         selected.set(false);
         numPoints = points;
     }
@@ -31,6 +31,7 @@ public class Cell {
      * @param counter
      */
     public void setSelectionChangeListener(SelectedCellCounter counter){
+        System.out.println("this is the value of selected.get: "+selected.get());
         selected.addListener((o, oldv, newv) -> counter.changeCount(selected.get()));
     }
 
@@ -38,13 +39,18 @@ public class Cell {
      * This method returns a boolean indicating whether or not a cell is considered to be selected.
      * @return
      */
-    public BooleanProperty isSelected() { return selected; }
+    public BooleanProperty isSelected() {
+        //System.out.println(selected);
+        return selected;
+    }
 
     /**
      * This method returns a boolean indicating if the cell is considered to be open or not.
      * @return
      */
-    public BooleanProperty isOpen() { return open; }
+    public BooleanProperty isOpen() {
+        System.out.println("is the cell open? " +open);
+        return open; }
 
     public IntegerProperty cellState() { return myState; }
 
