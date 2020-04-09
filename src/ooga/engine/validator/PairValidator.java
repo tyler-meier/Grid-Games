@@ -23,9 +23,9 @@ public class PairValidator extends Validator {
         }
 
         //wait 5 seconds
-        for (Cell cell:selected){
-            if (!matched) cell.isOpen().set(false);
-        }
+//        for (Cell cell:selected){
+//            if (!matched) cell.isOpen().set(false);
+//        }
         return matched;
     }
 }
