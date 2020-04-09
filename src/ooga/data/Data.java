@@ -23,17 +23,12 @@ public class Data implements DataLink {
   private final String ENGINE_KEY_PATH = "resources.EngineKeys";
   private final String GAME_KEY_PATH = "resources.GameKeys";
   private final String DEFAULT_GAMES_PATH = "resources.DefaultGamePaths";
+  private final String DEFAULT_CONFIG_PATH = "resources.DefaultConfigPaths";
 
-  private final String LIST_OF_PREVIOUS_GAMES = "previousGame";
-  private final int GAME_INDEX = 0;
-  private final int PATH_INDEX = 1;
-  private static final String DELIMINATOR = ":";
-
-  private final ResourceBundle myGridResource = ResourceBundle.getBundle(GRID_KEY_PATH);
-  private final ResourceBundle myProfileKeyResource = ResourceBundle.getBundle(PROFILE_KEY_PATH);
   private final ResourceBundle myEngineResource = ResourceBundle.getBundle(ENGINE_KEY_PATH);
   private final ResourceBundle myGameResource = ResourceBundle.getBundle(GAME_KEY_PATH);
   private final ResourceBundle myDefaultGamePathResource = ResourceBundle.getBundle(DEFAULT_GAMES_PATH);
+  private final ResourceBundle myDefaultConfigPathResource = ResourceBundle.getBundle(DEFAULT_CONFIG_PATH);
 
 
   private String gamePath;
@@ -174,8 +169,7 @@ public class Data implements DataLink {
     String savedPath = currentUser.getSavedGame(gameType);
     if(savedPath.isEmpty())
     {
-      savedPath = myDefaultGamePathResource.getString(gameType);
-
+      savedPath = myDefaultConfigPathResource.getString(gameType);
     }
     XMLParser gridParser = new XMLParser(savedPath);
     return gridParser.getGrid();

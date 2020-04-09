@@ -23,6 +23,7 @@ class XMLParserTest {
   private final String DEFAULT_GAMES_PATH = "resources.DefaultGamePaths";
   private final String [] knownProfiles = new String[]{"todd34", "bobbyBoy"};
   private final int[][] knownGrid = new int[4][5];
+  private final String DEFAULT_CONFIG_PATH = "resources.DefaultConfigPaths";
 
 
   private final ResourceBundle myProfileResource = ResourceBundle.getBundle(PROFILE_PATH);
@@ -38,6 +39,7 @@ class XMLParserTest {
   private Map<String, String> game = new HashMap<>();
 
   private final ResourceBundle myDefaultGamePathResource = ResourceBundle.getBundle(DEFAULT_GAMES_PATH);
+  private final ResourceBundle myDefaultConfigPathResource = ResourceBundle.getBundle(DEFAULT_CONFIG_PATH);
 
 
   private final String memory_engine_path = "data/MemoryGameEngine.xml";
@@ -114,10 +116,18 @@ class XMLParserTest {
     String savedPath = currentUser.getSavedGame(gameType);
     if(savedPath.isEmpty())
     {
-      savedPath = myDefaultGamePathResource.getString(gameType);
+      savedPath = myDefaultConfigPathResource.getString(gameType);
     }
     XMLParser gridParser = new XMLParser(savedPath);
     int [][] grid = gridParser.getGrid();
+    for(int r = 0; r < grid.length; r++)
+    {
+      for(int c = 0; c < grid[0].length; c++)
+      {
+        System.out.print(grid[r][c] + " ");
+      }
+      System.out.println();
+    }
   }
 
 }
