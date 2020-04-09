@@ -39,13 +39,8 @@ public class GridView {
                 Rectangle rec = new Rectangle(myCellWidth, myCellHeight, Color.WHITE);
                 rec.setStroke(Color.BLACK);
                 rec.setStrokeWidth(1);
-                int state = backendGrid.getCell(row,col).getMyState();
-                UICell currCell = new UICell(backendGrid.getCell(row, col), myGameType);
-                Image myImage = currCell.getImage(state);
+                UICell currCell = new UICell(backendGrid.getCell(row, col), myGameType, myCellHeight, myCellWidth);
                 ImageView myImageView = currCell.getImageView();
-                myImageView.setFitHeight(myCellHeight);
-                myImageView.setFitWidth(myCellWidth);
-                currCell.setMoveInProgress(backendGrid.getInProgressProperty());
                 GridPane.setRowIndex(myImageView, col * myCellWidth);
                 GridPane.setColumnIndex(myImageView, row * myCellHeight);
                 myGrid.getChildren().add(myImageView);

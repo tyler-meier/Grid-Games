@@ -36,8 +36,6 @@ public class OpenFinder extends MatchFinder {
         for (Cell cell:selected) matchedCells.addAll(getMatches(cell, grid));
 
         if (matchedCells.size()==0) first.swap(second);
-        first.isSelected().set(false);
-        second.isSelected().set(false);
 
         return matchedCells;
     }
