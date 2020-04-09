@@ -7,7 +7,6 @@ import ooga.engine.matchFinder.MatchFinder;
 import ooga.engine.validator.Validator;
 
 
-import javax.print.DocFlavor;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -88,10 +87,10 @@ public class Grid {
             for (int c=0; c<initialStates[0].length; c++){
                 if (getCell(r, c)==null){
                     myGrid[r][c] = new Cell(initialStates[r][c], hasHiddenCells, pointsPerCell);
-                    myGrid[r][c].setSelectionChangeListener(increment -> {
+                    myGrid[r][c].setupSelection(increment -> {
                         numSelected += increment? 1 : -1;
                         if (numSelected==numSelectedPerMove) updateMyBoard();
-                    });
+                    }, moveInProgress);
                 } else {
                     getCell(r, c).cellState().set(initialStates[r][c]);
                     getCell(r, c).isOpen().set(hasHiddenCells);
@@ -99,15 +98,6 @@ public class Grid {
             }
         }
     }
-
-    /**
-     * This method returns the value of the 'move in progress" property.
-     * This property indicates whether or not a move is current being handled by the engine,
-     * letting Player know if it needs to wait before receiving user input.
-     * @return
-     */
-    public BooleanProperty getInProgressProperty() { return moveInProgress; }
-
 
     /**
      * This method returns the Cell object in the specified row and column.
@@ -140,12 +130,10 @@ public class Grid {
      */
     private void updateMyBoard(){
         moveInProgress.set(true);
-        System.out.println("about to update grid" + moveInProgress);
         updateGrid();
         if (myProgressManager.isWin()) System.out.println("win"); // win action
         else if (myProgressManager.isLoss()) System.out.println("loss"); // loss action
         moveInProgress.set(false);
-        System.out.println("done updating grid" + moveInProgress);
     }
 
     /**
@@ -153,38 +141,31 @@ public class Grid {
      */
     public void updateGrid(){
         List<Cell> selectedCells = getSelectedCells();
-        System.out.println("here is the state of first selected cell: " + selectedCells.get(0).getMyState());
-        System.out.println("here is the state of second selected cell: " + selectedCells.get(1).getMyState());
-        if(myValidator.checkIsValid(selectedCells)){
-            System.out.println("found the cells to be valid");
+         if(myValidator.checkIsValid(selectedCells)){
+            System.out.println("valid move");
             myProgressManager.incrementMoves();
-            System.out.println("incremented moves in progress manager");
             List<Cell> matchedCells = new ArrayList<>();
             //TODO: ask TA if there is a better way to do this to avoid circular dependency
-            if (numSelected>0)
-                matchedCells.addAll(myMatchFinder.makeMatches(selectedCells, this));
-            // TODO: need to find a way to increment score for memory game, below will not add memory cells to arraylist
             if (hasHiddenCells){
-                //FIXME: added line below to account for incrementing score for memory game
                 matchedCells.addAll(selectedCells);
                 matchedCells.addAll(myMatchFinder.makeMatches(this));
+            }else {
+                matchedCells.addAll(myMatchFinder.makeMatches(selectedCells, this));
             }
             while (matchedCells.size()>0){
                 if (hasHiddenCells) openMatchedCells(matchedCells);
                 else deleteMatchedCells(matchedCells);
                 matchedCells.addAll(myMatchFinder.makeMatches(this));
             }
-        }
-        else{
-            System.out.println("found the cells to not be valid");
-        }
+        } else System.out.println("invalid move");
+        for (Cell cell:selectedCells) cell.toggleSelected();
     }
 
     private List<Cell> getSelectedCells(){
         List<Cell> selected = new ArrayList<>();
         for (int r = 0; r<getRows(); r++){
             for (int c=0; c<getCols(); c++){
-                if (getCell(r,c).isSelected().get()) selected.add(getCell(r,c));
+                if (getCell(r,c).isSelected()) selected.add(getCell(r,c));
             } }
         return selected;
     }

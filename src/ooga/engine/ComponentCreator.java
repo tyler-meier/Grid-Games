@@ -73,7 +73,6 @@ public class ComponentCreator {
      */
     private Class<?> getClass(String nameOfClass, String path) {
         try{
-            System.out.println("This is the name of the class component creator is trying ot make: " + nameOfClass);
             return Class.forName(path + nameOfClass);
         }
         catch(ClassNotFoundException e){

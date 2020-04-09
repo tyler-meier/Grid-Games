@@ -1,7 +1,6 @@
 package ooga.engine.validator;
 
 import ooga.engine.Cell;
-import ooga.engine.matchFinder.MatchFinder;
 
 import java.util.List;
 
