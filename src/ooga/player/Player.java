@@ -1,5 +1,6 @@
 package ooga.player;
 
+import javafx.beans.property.StringProperty;
 import javafx.stage.Stage;
 import ooga.controller.UserLogin;
 import ooga.data.DataObject;
@@ -49,6 +50,10 @@ public class Player implements PlayerStart{
 
   public void setLoginAction(UserLogin userLogin){
     myLoginScreen.giveMeUserLogin(userLogin);
+  }
+
+  public void setNewLoginAction(UserLogin userLogin){
+    myNewProfScreen.giveMeUserLogin(userLogin);
   }
 
 
@@ -178,8 +183,8 @@ public class Player implements PlayerStart{
    * @param errorMessage the message that is to be displayed
    */
   @Override
-  public void setErrorMessage(String errorMessage){
-
+  public void setErrorMessage(StringProperty errorMessage){
+    myLoginScreen.setError(errorMessage);
   };
 
 }
