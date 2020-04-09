@@ -18,8 +18,6 @@ import ooga.data.exceptions.NoUserExistsException;
 public class Data implements DataLink {
 
   private static final String ENGINE_PATH_SKELETON = "data/%sGameDefault.xml";
-  private final String PROFILE_KEY_PATH = "resources.ProfileKeys";
-  private final String GRID_KEY_PATH = "resources.GridKeys";
   private final String ENGINE_KEY_PATH = "resources.EngineKeys";
   private final String GAME_KEY_PATH = "resources.GameKeys";
   private final String DEFAULT_GAMES_PATH = "resources.DefaultGamePaths";
@@ -137,6 +135,10 @@ public class Data implements DataLink {
   public Map<String, String> getGameAttributes(String username, String gameType) {
     UserProfile user = myProfileManager.getProfile(username);
     gamePath = user.getSavedGame(gameType);
+    if(gamePath.isEmpty())
+    {
+      gamePath = myDefaultGamePathResource.getString(gameType);
+    }
     XMLParser gameParser = new XMLParser(gamePath);
     return gameParser.getMapFromXML(myGameResource);
   }
