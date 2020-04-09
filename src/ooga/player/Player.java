@@ -1,14 +1,17 @@
 package ooga.player;
 
-import javafx.scene.Scene;
+import javafx.beans.property.StringProperty;
 import javafx.stage.Stage;
 import ooga.controller.UserLogin;
 import ooga.data.DataObject;
 import ooga.engine.Cell;
+import ooga.engine.grid.Grid;
 import ooga.player.screens.GameScreen;
 import ooga.player.screens.LoginScreen;
 import ooga.player.screens.NewProfileScreen;
 import ooga.player.screens.StartScreen;
+
+import java.io.FileNotFoundException;
 
 public class Player implements PlayerStart{
 
@@ -28,28 +31,34 @@ public class Player implements PlayerStart{
     myNewProfScreen = new NewProfileScreen(this);
     myGameScreen = new GameScreen("BejeweledAction", this);
     myStartScreen = new StartScreen(this);
-    myStage.setScene(myGameScreen.makeScene(800, 500));
+    myStage.setScene(myLoginScreen.setUpScene());
     myStage.setTitle(TITLE);
     myStage.show();
   }
 
   public void setUpStartScreen(String username){
-    //myStage.setScene(myStartScreen.setUpScene());
+    myStage.setScene(myStartScreen.setUpScene(username));
   }
   public void setUpNewProfScreen(){
     myStage.setScene(myNewProfScreen.setUpScene());
   }
 
   public void setUpGameScreen(String gameType){
-
+    myStage.setScene(myGameScreen.makeScene(800, 500));
   }
   public void setUpLoginScreen(){
     myStage.setScene(myLoginScreen.setUpScene());
   }
 
-//
-//  public void setLoginAction(UserLogin userLogin){
-//    loginScreen.setLoginButton(userLogin);
+
+  public void setLoginAction(UserLogin userLogin){
+    myLoginScreen.giveMeUserLogin(userLogin);
+  }
+
+  public void setNewLoginAction(UserLogin userLogin){
+    myNewProfScreen.giveMeUserLogin(userLogin);
+  }
+
 
   /**
    * An instance variable boolean keeps track of whether most recent progress of player is saved.
@@ -93,11 +102,11 @@ public class Player implements PlayerStart{
 
   /**
    * 2D array of grid is taken in as parameter to generate the corresponding view of the grid.
-   * @param grid
+   * @param backendGrid
    */
   @Override
-  public void setGrid(Cell[][] grid){
-
+  public void setGrid(Grid backendGrid) throws FileNotFoundException {
+    myGameScreen.setGrid(backendGrid);
   };
 
   /**
@@ -177,8 +186,8 @@ public class Player implements PlayerStart{
    * @param errorMessage the message that is to be displayed
    */
   @Override
-  public void setErrorMessage(String errorMessage){
-
+  public void setErrorMessage(StringProperty errorMessage){
+    myLoginScreen.setError(errorMessage);
   };
 
 }

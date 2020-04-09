@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<profile>
+
+  <Username>todd34</Username>
+  <Password>tod</Password>
+  <ParentalControls>on</ParentalControls>
+
+  <PreviousGame>CandyCrush /path/of/previousGame/one.xml</PreviousGame>
+  <PreviousGame>Bejeweled /path/of/previousGame/two.xml</PreviousGame>
+  <PreviousGame>Minesweeper /path/of/previousGame/three.xml</PreviousGame>
+
+  <HighScore>CandyCrush 3</HighScore>
+  <HighScore>Bejeweled 2</HighScore>
+  <HighScore>Minesweeper 5</HighScore>
+
+</profile>

@@ -1,5 +1,6 @@
 package ooga.player.screens;
 
+import java.io.FileNotFoundException;
 import java.util.*;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -23,7 +24,7 @@ public class GameScreen {
   private static final String DEFAULT_RESOURCE_PACKAGE = RESOURCES.replace("/", ".");
   private static final String DEFAULT_RESOURCE_FOLDER = "/" + RESOURCES;
   private static final String STYLESHEET = "default.css";
-  private ResourceBundle myResources;
+  private ResourceBundle myButtonResources, myStringResources;
   private Player myPlayer;
   private int myHeight;
   private int myWidth;
@@ -31,13 +32,16 @@ public class GameScreen {
   private int myScore;
   private int myLives;
   private GridView myGrid;
+  private BorderPane myRoot;
 
   public GameScreen(String gameType, Player player){
-    myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + gameType);
+    myButtonResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "ButtonCreation");
+    myStringResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "BasicStrings");
     myPlayer = player;
     myGrid = new GridView(gameType, 400);
+    myRoot = new BorderPane();
 
-    //TODO: retrieve stats from user profile
+    //TODO: retrieve stats from user profile, binding the map?
     myHighScore = 12;
     myScore = 0;
     myLives = 5;
@@ -52,11 +56,10 @@ public class GameScreen {
   public Scene makeScene(int height, int width) {
     myHeight = height;
     myWidth = width;
-    BorderPane root = new BorderPane();
-    root.setPadding(new Insets(10, 20, 10, 20));
+    myRoot.setPadding(new Insets(10, 20, 10, 20));
 
     Node toolBar = makeToolBar();
-    root.setTop(toolBar);
+    myRoot.setTop(toolBar);
 
     VBox verticalPanel = new VBox();
     Node buttonPanel = makeButtonPanel();
@@ -64,29 +67,31 @@ public class GameScreen {
     verticalPanel.setSpacing(30);
     verticalPanel.setAlignment(Pos.CENTER);
     verticalPanel.getChildren().addAll(buttonPanel, statsPanel);
-    root.setRight(verticalPanel);
+    myRoot.setRight(verticalPanel);
 
-    GridPane gameGrid = myGrid.makeGrid(10, 10);
-    gameGrid.setAlignment(Pos.CENTER);
-    root.setCenter(gameGrid);
-
-    Scene scene = new Scene(root, height, width);
+    Scene scene = new Scene(myRoot, height, width);
     scene.getStylesheets().add(getClass().getResource(DEFAULT_RESOURCE_FOLDER + STYLESHEET).toExternalForm());
 
     return scene;
   }
 
+  public void setGrid(Grid backendGrid) throws FileNotFoundException {
+    GridPane gameGrid = myGrid.setGrid(backendGrid);
+    gameGrid.setAlignment(Pos.CENTER);
+    myRoot.setCenter(gameGrid);
+  }
+
   //returns a button with correct text, associated event handler
   private Button makeButton(String text, EventHandler<ActionEvent> handler) {
     Button newButton = new Button();
-    newButton.setText(myResources.getString(text));
+    newButton.setText(myButtonResources.getString(text));
     newButton.setOnAction(handler);
     return newButton;
   }
 
   //make panel of buttons for screen
   private Node makeButtonPanel() {
-    Button loginButton = makeButton("LoginCommand", e-> myPlayer.setUpLoginScreen());
+    Button loginButton = makeButton("LogoutCommand", e-> myPlayer.setUpLoginScreen());
     Button resetButton = makeButton("ResetCommand", e-> makeScene(myHeight, myWidth));
 
     VBox buttons = new VBox();

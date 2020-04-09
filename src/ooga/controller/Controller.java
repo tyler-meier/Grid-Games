@@ -30,27 +30,31 @@ public class Controller extends Application {
     private void newWindow(Stage stage){
         Player player = new Player();
         player.startView(stage);
-//        player.setLoginAction((username, password) -> data.login(username, password)); //takes a UserLogin functional interface
+        player.setLoginAction((username, password) -> data.login(username, password)); //takes a UserLogin functional interface
+        player.setNewLoginAction(((username, password) -> data.saveNewPlayerProfile(username,password)));
 //        player.setStartGameButton(e -> buildNewEngine(player));
-//        player.setErrorMessage(data.getErrorMessage());
+        player.setErrorMessage(data.getErrorMessage());
     }
 
-//    private void buildNewEngine(Player player){
-//        String type = player.getGameType();
-//        String username = player.getUsername();
-//        Map myEngineAttributes = data.getEngineAttributes(type); //rename DataObject to something more clear
-//        Map myGameAttributes = data.getGameAttributes(username, type)
-//        int[][] initialStates = data.getGrid(username, type);
-//        Engine engine = new Engine(myEngineAttributes, data.getErrorMessage());
-//        engine.setupGame(initialStates, myGameAttributes);
-//        player.setGrid(engine.getGrid()); // need to change param type of set grid
-//        player.setSaveGameButton(e -> data.saveGame(username, type, engine.getGameAttributes(), engine.getGridConfiguration)); //not sure what getGameState's type is here: should have grid but also like lives left and score
+    private void buildNewEngine(Player player){
+        String type = player.getGameType();
+        String username = player.getUsername();
+        Map<String, String> myEngineAttributes = data.getEngineAttributes(type); //rename DataObject to something more clear
+        Map<String, String> myGameAttributes = data.getGameAttributes(username, type);
+        int[][] initialStates = data.getGrid(username, type);
+        Engine engine = new Engine(myEngineAttributes, data.getErrorMessage());
+        engine.setupGame(initialStates, myGameAttributes);
+//        player.setGameStats(engine.getGameStats());
+        player.setGrid(engine.getGrid()); // need to change param type of set grid
+        //player.setInProgressProperty(engine.getInProgressProperty());
+//        player.setSaveGameButton(e -> data.saveGame(username, type, engine.getGameAttributes(), engine.getGridConfiguration()));
 //        player.setResetButton(e -> {
-//              Map myGameAttributes = data.getGameAttributes("guest", type)
-//              int[][] initialStates = data.getGrid("guest", gameType);
-//              engine.setupGame(initialStates, myGameAttributes);
+//              Map<String, String> newGameAttributes = data.getGameAttributes("guest", type);
+//              int[][] newInitialStates = data.getGrid("guest", type);
+//              engine.setupGame(newInitialStates, newGameAttributes);
+//              player.setGameStats(engine.getGameStats());
 //        });
-//    }
+    }
 }
 
 

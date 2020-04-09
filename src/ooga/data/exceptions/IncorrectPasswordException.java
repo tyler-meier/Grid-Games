@@ -2,7 +2,7 @@ package ooga.data.exceptions;
 
 public class IncorrectPasswordException extends RuntimeException {
 
-  private String message = "The password %s does not match your username";
+  private String message = "Incorrect Password %s ";
 
   public IncorrectPasswordException(String incorrectPassword)
   {

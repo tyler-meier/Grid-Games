@@ -1,14 +1,15 @@
 package ooga.engine.grid;
 
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.*;
 import ooga.engine.Cell;
 import ooga.engine.GameProgressManager;
 import ooga.engine.matchFinder.MatchFinder;
 import ooga.engine.validator.Validator;
 
 
+import javax.print.DocFlavor;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class Grid {
@@ -17,6 +18,7 @@ public class Grid {
     private static final String MAX_STATE_NUMBER = "MaxStateNumber";
     private static final String HAS_HIDDEN_CELLS = "HasHiddenCells";
     private static final String POINTS_PER_CELL = "PointsPerCell";
+    private static final int BOMB_STATE = -1;
     private Cell[][] myGrid;
     private int numSelected = 0;
     private int numSelectedPerMove;
@@ -29,13 +31,23 @@ public class Grid {
     private int pointsPerCell;
     private BooleanProperty moveInProgress = new SimpleBooleanProperty(false);
     private GameProgressManager myProgressManager;
+    private StringProperty myErrorMessage = new SimpleStringProperty();
 
-    public Grid(Map<String, String> gameAttributes){
-        numSelectedPerMove = Integer.parseInt(gameAttributes.get(NUM_SELECTED_PER_MOVE));
-        addNewCells = Boolean.parseBoolean(gameAttributes.get(ADD_NEW_CELLS));
-        maxState = Integer.parseInt(gameAttributes.get(MAX_STATE_NUMBER));
-        hasHiddenCells = Boolean.parseBoolean(gameAttributes.get(HAS_HIDDEN_CELLS));
-        pointsPerCell = Integer.parseInt(gameAttributes.get(POINTS_PER_CELL));
+    public Grid(Map<String, String> gameAttributes, Validator validator, MatchFinder matchFinder, StringProperty errorMessage){
+        myErrorMessage.bindBidirectional(errorMessage);
+        //TODO: better error handling
+        try {
+            numSelectedPerMove = Integer.parseInt(gameAttributes.get(NUM_SELECTED_PER_MOVE));
+            addNewCells = Boolean.parseBoolean(gameAttributes.get(ADD_NEW_CELLS));
+            maxState = Integer.parseInt(gameAttributes.get(MAX_STATE_NUMBER));
+            hasHiddenCells = Boolean.parseBoolean(gameAttributes.get(HAS_HIDDEN_CELLS));
+            pointsPerCell = Integer.parseInt(gameAttributes.get(POINTS_PER_CELL));
+        } catch (Exception e){
+            myErrorMessage.set(e.toString());
+        }
+        myValidator = validator;
+        myMatchFinder = matchFinder;
+        myErrorMessage = errorMessage;
     }
 
     /**
@@ -45,17 +57,26 @@ public class Grid {
     public void setNewGame(int[][] initialStates, Map<String, String> gameAttributes){
         if (myGrid==null) myGrid = new Cell[initialStates.length][initialStates[0].length];
         setupGridStates(initialStates);
-        myProgressManager = new GameProgressManager(gameAttributes);
+        try{
+            myProgressManager = new GameProgressManager(gameAttributes);
+        } catch (Exception e){
+            myErrorMessage.set(e.toString());
+        }
         numSelected=0;
     }
 
-    /**
-     * This method returns the current score of the player.
-     * @return
-     */
-    public int getMyScore(){
-        return score;
+    public int[][] getGridConfiguration(){
+        int[][] gridStates = new int[myGrid.length][myGrid[0].length];
+        for (int col = 0; col<getCols(); col++){
+            for (int row = 1; row<getRows(); row++) {
+                gridStates[row][col] = myGrid[row][col].getMyState();
+            }
+        }
+        return gridStates;
     }
+
+    public Map<String, String> getGameAttributes() { return myProgressManager.getGameAttributes(); }
+    public Map<String, IntegerProperty> getGameStats() { return myProgressManager.getGameStats(); }
 
     /**
      * This method sets up the grid given the specified initial states of the cells.
@@ -86,21 +107,6 @@ public class Grid {
      */
     public BooleanProperty getInProgressProperty() { return moveInProgress; }
 
-    /**
-     * This method sets the Validator for the current game.
-     * @param validator
-     */
-    public void setValidator(Validator validator){
-        myValidator = validator;
-    }
-
-    /**
-     * This method sets the MatchFinder for the current game.
-     * @param matchFinder
-     */
-    public void setMatchFinder(MatchFinder matchFinder){
-        myMatchFinder = matchFinder;
-    }
 
     /**
      * This method returns the Cell object in the specified row and column.
@@ -126,10 +132,6 @@ public class Grid {
      */
     public int getCols() { return myGrid[0].length; }
 
-    public void incrementScore(int scoreToAdd){
-        score = score + scoreToAdd;
-    }
-
     /**
      * This method will return the current grid with the updated states of all the cells.
      * This method will be so the frontend can get the updated grid from the backend.
@@ -137,11 +139,73 @@ public class Grid {
      */
     private void updateMyBoard(){
         moveInProgress.set(true);
-        GridUpdater myGridUpdater = new GridUpdater(myValidator, numSelected, myMatchFinder,
-                hasHiddenCells, this, addNewCells, maxState, myProgressManager);
-        myGridUpdater.updateGrid();
+        updateGrid();
         if (myProgressManager.isWin()) System.out.println("win"); // win action
         else if (myProgressManager.isLoss()) System.out.println("loss"); // loss action
         moveInProgress.set(false);
+    }
+
+    /**
+     * This method updates the current game grid according to the move selected by the user.
+     */
+    public void updateGrid(){
+        List<Cell> selectedCells = getSelectedCells();
+        if(myValidator.checkIsValid(selectedCells)){
+            myProgressManager.incrementMoves();
+            List<Cell> matchedCells = new ArrayList<>();
+            //TODO: ask TA if there is a better way to do this to avoid circular dependency
+            if (numSelected>0) matchedCells.addAll(myMatchFinder.makeMatches(selectedCells, this));
+            if (hasHiddenCells) matchedCells.addAll(myMatchFinder.makeMatches(this));
+            while (matchedCells.size()>0){
+                if (hasHiddenCells) openMatchedCells(matchedCells);
+                else deleteMatchedCells(matchedCells);
+                matchedCells.addAll(myMatchFinder.makeMatches(this));
+            }
+        }
+    }
+
+    private List<Cell> getSelectedCells(){
+        List<Cell> selected = new ArrayList<>();
+        for (int r = 0; r<getRows(); r++){
+            for (int c=0; c<getCols(); c++){
+                if (getCell(r,c).isSelected().get()) selected.add(getCell(r,c));
+            } }
+        return selected;
+    }
+
+    private void openMatchedCells(List<Cell> matchedCells){
+        for (Cell cell:matchedCells) {
+            cell.isOpen().set(true);
+            if (cell.getMyState() == BOMB_STATE) myProgressManager.incrementLives();
+            myProgressManager.updateScore(cell.getScore());
+        }
+    }
+
+    private void deleteMatchedCells(List<Cell> matchedCells){
+        for (Cell cell:matchedCells) {
+            cell.cellState().set(-1);
+            myProgressManager.updateScore(cell.getScore());
+        }
+        for (int col = 0; col<getCols(); col++){
+            for (int row = 1; row<getRows(); row++){
+                Cell cell = getCell(row, col);
+                if (cell.getMyState()==-1){
+                    int nextRowAbove = row-1;
+                    Cell above;
+                    while (nextRowAbove>=0 && (above = getCell(nextRowAbove, col)).getMyState()!=-1){
+                        cell.swap(above);
+                        cell = above;
+                        nextRowAbove--;
+                    } } }
+            if (addNewCells) refillColumn(col);
+        }
+        matchedCells.clear();
+    }
+
+    private void refillColumn(int col){
+        for (int row = 1; row<getRows(); row++) {
+            Cell cell = getCell(row, col);
+            if (cell.getMyState()==-1) cell.randomize(maxState);
+        }
     }
 }

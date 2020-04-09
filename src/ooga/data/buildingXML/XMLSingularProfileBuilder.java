@@ -8,12 +8,12 @@ import java.util.Map;
 import ooga.data.UserProfile;
 import org.w3c.dom.Element;
 
-public class XMLProfileBuilder extends XMLBuilder {
+public class XMLSingularProfileBuilder extends XMLBuilder {
 
   private UserProfile user;
   private Map<String, List<String>> userAttributes = new HashMap<>();
 
-  public XMLProfileBuilder(String mainTag, String pathName, UserProfile user) {
+  public XMLSingularProfileBuilder(String mainTag, String pathName, UserProfile user) {
     super(mainTag, pathName);
     this.user = user;
     fillUserMap();

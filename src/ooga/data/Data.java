@@ -56,6 +56,7 @@ public class Data implements DataLink {
 
 
 
+
   /**
    * Uses the username and password to loop through the existing profiles.
    * These values are contained in a ResourceBundle. If a username and matching
@@ -82,7 +83,7 @@ public class Data implements DataLink {
     {
       errorMessage.setValue(incorrectUsername.getMessage());
     }
-    return new UserProfile();
+    return null;
   }
 
   /**

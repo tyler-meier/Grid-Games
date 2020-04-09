@@ -5,7 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import ooga.data.buildingXML.XMLBuilder;
-import ooga.data.buildingXML.XMLProfileBuilder;
+import ooga.data.buildingXML.XMLGameBuilder;
+import ooga.data.buildingXML.XMLRegisteredProfileBuilder;
+import ooga.data.buildingXML.XMLSingularProfileBuilder;
 import ooga.data.exceptions.IncorrectPasswordException;
 import ooga.data.exceptions.NoUserExistsException;
 
@@ -19,10 +21,10 @@ public class ProfileManager {
   private final String REGISTERED_PROFILES_PATH = "data/RegisteredProfiles.xml";
   private final String MAIN_TAG = "profile";
   private final String CONTAINER_TAG = MAIN_TAG + "s";
-  private final int INDEX_OF_USERNAME = 2;
-  private final int INDEX_OF_PASSWORD = 0;
-  private final int INDEX_OF_PATH = 1;
-  private final String DELIMINATOR = "::";
+  private final String SKELETON_SPACE = "%s %s";
+  private final int INDEX_OF_USERNAME = 0;
+  private final int INDEX_OF_PASSWORD = 1;
+  private final String DELIMINATOR = " ";
 
   private List<UserProfile> allProfiles;
   private XMLParser profileParser;
@@ -41,15 +43,14 @@ public class ProfileManager {
       String [] neededParts = user.split(DELIMINATOR);
       String currUsername = neededParts[INDEX_OF_USERNAME];
       String currPassword = neededParts[INDEX_OF_PASSWORD];
-      String currPath = neededParts[INDEX_OF_PATH];
-      UserProfile temp = createProfile(currUsername, currPassword, currPath);
+      UserProfile temp = readInProfile(currUsername, currPassword);
       allProfiles.add(temp);
     }
   }
 
-  private UserProfile createProfile(String currUsername, String currPassword, String currPath) {
+  private UserProfile readInProfile(String currUsername, String currPassword) {
     UserProfile temp = new UserProfile(currUsername, currPassword);
-    XMLParser tempProfileParser = new XMLParser(currPath);
+    XMLParser tempProfileParser = new XMLParser(temp.getPath());
 
     temp.setDarkMode(tempProfileParser.getBooleanElementByTag("DarkMode", "false"));
     temp.setParentalControls(tempProfileParser.getBooleanElementByTag("ParentalControls", "false"));
@@ -61,19 +62,25 @@ public class ProfileManager {
 
   private void setHighScores(UserProfile temp, XMLParser tempProfileParser) {
     List<String> highScores = tempProfileParser.getListFromXML("HighScore", "");
-    for(String entry: highScores)
+    if(!highScores.get(0).isEmpty())
     {
-      String [] parts = entry.split(" ");
-      temp.addHighScore(parts[1], Integer.parseInt(parts[2]));
+      for(String entry: highScores)
+      {
+        String [] parts = entry.split(" ");
+        temp.addHighScore(parts[0], Integer.parseInt(parts[1]));
+      }
     }
   }
 
   private void addSavedGames(UserProfile temp, XMLParser tempProfileParser) {
-    List<String> highScores = tempProfileParser.getListFromXML("PreviousGame", "");
-    for(String entry: highScores)
+    List<String> previousGames = tempProfileParser.getListFromXML("PreviousGame", "");
+    if(!previousGames.get(0).isEmpty())
     {
-      String [] parts = entry.split(" ");
-      temp.addSavedGame(parts[1], parts[2]);
+      for(String entry: previousGames)
+      {
+        String [] parts = entry.split(" ");
+        temp.addSavedGame(parts[0], parts[1]);
+      }
     }
   }
 
@@ -109,27 +116,25 @@ public class ProfileManager {
   }
 
 
-
   public UserProfile addProfile(String username, String password)
   {
     UserProfile newUser = new UserProfile(username, password);
-    XMLBuilder newProfileXML = new XMLProfileBuilder(MAIN_TAG, newUser.getPath(), newUser);
+    XMLBuilder newProfileXML = new XMLSingularProfileBuilder(MAIN_TAG, newUser.getPath(), newUser);
     allProfiles.add(newUser);
+    writeNewProfileToRegisteredList();
     return newUser;
   }
 
 
-  /*
-  public void writeUpdatedProfilesToXML()
+  private void writeNewProfileToRegisteredList()
   {
-    Map<String, List<String>> updatedMap = new HashMap<>();
-    for(String user : allProfiles.keySet())
+    List<String> profilesToWrite = new ArrayList<>();
+    for(UserProfile user : allProfiles)
     {
-      updatedMap.put(MAIN_TAG, new ArrayList(allProfiles.get(user)));
-      updatedMap.get(MAIN_TAG).add(user);
+      profilesToWrite.add(String.format(SKELETON_SPACE, user.getUsername(), user.getPassword()));
     }
-    XMLBuilder builder = new XMLProfileBuilder(CONTAINER_TAG, REGISTERED_PROFILES_PATH, updatedMap);
-  }*/
+    XMLBuilder builder = new XMLRegisteredProfileBuilder(CONTAINER_TAG, REGISTERED_PROFILES_PATH, MAIN_TAG, profilesToWrite);
+  }
 
   private boolean matchingPassword(String password, UserProfile temp)
   {

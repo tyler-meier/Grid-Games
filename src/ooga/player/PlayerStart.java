@@ -1,5 +1,6 @@
 package ooga.player;
 
+import javafx.beans.property.StringProperty;
 import ooga.engine.Cell;
 import ooga.data.DataObject;
 public interface PlayerStart {
@@ -89,7 +90,7 @@ public interface PlayerStart {
    * Sets the error message for if there was an incorrect username or such
    * @param errorMessage the message that is to be displayed
    */
-  void setErrorMessage(String errorMessage);
+  void setErrorMessage(StringProperty errorMessage);
 
 
 }

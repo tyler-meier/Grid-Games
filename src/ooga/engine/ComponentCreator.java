@@ -20,10 +20,10 @@ import java.util.logging.Logger;
 public class ComponentCreator {
     private static final String MATCH_FINDER_PATH = "ooga.engine.matchFinder.";
     private static final String VALIDATOR_PATH = "ooga.engine.validator.";
-    private StringProperty errorMessage;
+    private StringProperty errorMessage = new SimpleStringProperty();
 
-    public ComponentCreator(){
-        this.errorMessage = new SimpleStringProperty();
+    public ComponentCreator(StringProperty errorMessage){
+        this.errorMessage.bindBidirectional(errorMessage);
         //FIXME: figure out exception handling for this class
     }
 
@@ -35,9 +35,9 @@ public class ComponentCreator {
     public Validator makeMyValidator(String validatorType){
         Class<?> clazz = getClass(validatorType, VALIDATOR_PATH);
         try{
+            assert clazz != null;
             Object o = clazz.getDeclaredConstructor().newInstance();
-            Validator ret = (Validator) o;
-            return ret;
+            return (Validator) o;
         }
         catch (Exception e) {
             errorMessage.set(e.getMessage());
@@ -54,9 +54,9 @@ public class ComponentCreator {
     public MatchFinder makeMyMatchFinder(String matchFinderType){
         Class<?> clazz = getClass(matchFinderType, MATCH_FINDER_PATH);
         try{
+            assert clazz != null;
             Object o = clazz.getDeclaredConstructor().newInstance();
-            MatchFinder ret = (MatchFinder) o;
-            return ret;
+            return (MatchFinder) o;
         }
         catch (Exception e) {
             errorMessage.set(e.getMessage());
@@ -72,8 +72,7 @@ public class ComponentCreator {
      */
     private Class<?> getClass(String nameOfClass, String path) {
         try{
-            Class clazz = Class.forName(path + nameOfClass);
-            return clazz;
+            return Class.forName(path + nameOfClass);
         }
         catch(ClassNotFoundException e){
             errorMessage.set(e.getMessage());
