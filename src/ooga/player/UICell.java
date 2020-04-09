@@ -57,6 +57,7 @@ public class UICell {
     public Image getImage(int state){
         try{
             String stringInt = Integer.toString(state);
+            System.out.println(state);
             String imageName = myResources.getString(stringInt);
             String imagePath = DEFAULT_IMAGERESOURCE_PACKAGE + imageName + ".png";
             FileInputStream input = new FileInputStream(imagePath);
