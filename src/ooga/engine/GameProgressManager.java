@@ -32,8 +32,8 @@ public class GameProgressManager{
             gameStats.put(LEVEL, new SimpleIntegerProperty(Integer.parseInt(gameAttributes.get(LEVEL))));
             System.out.println("LEVEL");
             lossStatKey = gameAttributes.get(LOSS_STAT);
-            System.out.println("LOSS STAT");
-            gameStats.put(lossStatKey, new SimpleIntegerProperty(10));
+            System.out.println("LOSS STAT: " + lossStatKey);
+            gameStats.put(lossStatKey, new SimpleIntegerProperty(Integer.parseInt(gameAttributes.get(lossStatKey))));
             System.out.println("LOSS STAT KEY");
             targetScore =  Integer.parseInt(gameAttributes.get(TARGET_SCORE));
             System.out.println("Correctly made the game manager");
