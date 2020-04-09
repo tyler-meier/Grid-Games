@@ -2,6 +2,7 @@ package ooga.player.screens;
 
 import java.io.FileNotFoundException;
 import java.util.*;
+import javafx.beans.property.IntegerProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -28,9 +29,7 @@ public class GameScreen {
   private Player myPlayer;
   private int myHeight;
   private int myWidth;
-  private int myHighScore;
-  private int myScore;
-  private int myLives;
+  private int myHighScore, myScore, myLives, myLevel;
   private GridView myGrid;
   private BorderPane myRoot;
 
@@ -40,11 +39,6 @@ public class GameScreen {
     myPlayer = player;
     myGrid = new GridView(gameType, 400);
     myRoot = new BorderPane();
-
-    //TODO: retrieve stats from user profile, binding the map?
-    myHighScore = 12;
-    myScore = 0;
-    myLives = 5;
   }
 
   /**
@@ -122,12 +116,20 @@ public class GameScreen {
     Label highScore = new Label(Integer.toString(myHighScore));
     Label score = new Label(Integer.toString(myScore));
     Label lives = new Label(Integer.toString(myLives));
+    Label level = new Label(Integer.toString(myLevel));
 
-    stats.getChildren().addAll(highScore, score, lives);
+    stats.getChildren().addAll(highScore, score, lives, level);
     stats.setSpacing(10);
     stats.setAlignment(Pos.CENTER);
 
     return stats;
+  }
+
+  public void setStats(Map<String, IntegerProperty> gameStats){
+    myHighScore = gameStats.get("Score").getValue();
+    myScore = gameStats.get("Score").getValue();
+    myLives = gameStats.get("Level").getValue();    //TODO need to bind this onto the screen, not just update the instance variable
+    myLevel = gameStats.get("Level").getValue();
   }
 
 }

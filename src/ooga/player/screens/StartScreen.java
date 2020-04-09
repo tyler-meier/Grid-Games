@@ -69,7 +69,7 @@ public class StartScreen {
     VBox buttonVBox = new VBox();
 
     Button startButton = makeButton("StartCommand", e -> {
-      myPlayer.setGameType((String) games.getValue());
+      myPlayer.setGameType((String) games.getValue());  //TODO check for the empty chosen thing
       myEngine.handle(e);
       myPlayer.setUpGameScreen((String) games.getValue());
     });

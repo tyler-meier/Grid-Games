@@ -1,18 +1,17 @@
 package ooga.player;
 
+import java.util.Map;
+import javafx.beans.property.IntegerProperty;
 import javafx.event.EventHandler;
 import javafx.beans.property.StringProperty;
 import javafx.stage.Stage;
 import ooga.controller.UserLogin;
 import ooga.data.DataObject;
-import ooga.engine.Cell;
 import ooga.engine.grid.Grid;
 import ooga.player.screens.GameScreen;
 import ooga.player.screens.LoginScreen;
 import ooga.player.screens.NewProfileScreen;
 import ooga.player.screens.StartScreen;
-
-import java.io.FileNotFoundException;
 
 public class Player implements PlayerStart{
 
@@ -41,6 +40,7 @@ public class Player implements PlayerStart{
   public void setUpStartScreen(String username){
     myStage.setScene(myStartScreen.setUpScene(username));
   }
+
   public void setUpNewProfScreen(){
     myStage.setScene(myNewProfScreen.setUpScene());
   }
@@ -48,10 +48,10 @@ public class Player implements PlayerStart{
   public void setUpGameScreen(String gameType){
     myStage.setScene(myGameScreen.makeScene(800, 500));
   }
+
   public void setUpLoginScreen(){
     myStage.setScene(myLoginScreen.setUpScene());
   }
-
 
   public void setLoginAction(UserLogin userLogin){
     myLoginScreen.giveMeUserLogin(userLogin);
@@ -65,6 +65,11 @@ public class Player implements PlayerStart{
     myStartScreen.createEngine(engine);
   }
 
+  public void setGameStats(Map<String, IntegerProperty> gameStats){
+    //System.out.println(gameStats);
+    myGameScreen.setStats(gameStats);
+  }
+
 
   /**
    * An instance variable boolean keeps track of whether most recent progress of player is saved.
@@ -76,6 +81,11 @@ public class Player implements PlayerStart{
     return true;
   };
 
+  /**
+   * An instance variable gameType is set based off of what the  game chosen to play was
+   * @param type the current game chosen to  be played
+   */
+  @Override
   public void setGameType(String type){  //TODO add to api
     myGameType = type;
   }
@@ -160,7 +170,7 @@ public class Player implements PlayerStart{
   };
 
   /**
-   * starts a agame based off of the saved data
+   * starts a game based off of the saved data
    * @param myData the data that is for a saved game
    */
   @Override
