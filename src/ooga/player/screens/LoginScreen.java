@@ -29,7 +29,7 @@ public class LoginScreen {
   private Player myPlayer;
   private TextField username, password;
   private UserLogin myUserLogin;
-  private UserProfile userData;       // set these guys at some point from user input
+  private UserProfile userData;
   private Label myErrorMessage;
 
   public LoginScreen(Player thisPlayer){
