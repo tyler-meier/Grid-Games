@@ -1,0 +1,25 @@
+<grid>
+
+  <Level>0</Level>
+  <Score>0</Score>
+  <TargetScore>0</TargetScore>
+  <MovesUsed>10</MovesUsed>
+
+  <LivesLost>0</LivesLost>
+  <Time>0</Time>
+  <TotalLives>0</TotalLives>
+  <TotalMoves>0</TotalMoves>
+  <TotalTime>0</TotalTime>
+
+  <numRows>8</numRows>
+  <numColumns>8</numColumns>
+  <row>1 2 3 2 4 5 6 5</row>
+  <row>3 2 5 6 5 4 3 6</row>
+  <row>3 6 3 2 3 4 3 6</row>
+  <row>5 4 1 3 1 5 4 5</row>
+  <row>5 1 2 4 1 4 2 1</row>
+  <row>6 4 4 3 3 6 4 1</row>
+  <row>5 6 2 6 4 3 1 1</row>
+  <row>5 4 5 1 3 3 1 3</row>
+
+</grid>
