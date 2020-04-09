@@ -66,7 +66,9 @@ public class GameProgressManager{
 
     public void updateScore(int amount){
         System.out.println("UPDATING THE SCORE NOW");
-        changeValue(SCORE, amount); }
+        changeValue(SCORE, amount);
+        System.out.println("THIS IS THE UPDATED SCORE: " + gameStats.get(SCORE));
+    }
 
     public void startTimer() {
         if (!gameStats.containsKey(TIME)) return;

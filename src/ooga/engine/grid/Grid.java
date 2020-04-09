@@ -173,6 +173,7 @@ public class Grid {
                 matchedCells.addAll(myMatchFinder.makeMatches(selectedCells, this));
             // TODO: need to find a way to increment score for memory game, below will not add memory cells to arraylist
             if (hasHiddenCells){
+                //FIXME: added line below to account for incrementing score for memory game
                 matchedCells.addAll(selectedCells);
                 matchedCells.addAll(myMatchFinder.makeMatches(this));
             }

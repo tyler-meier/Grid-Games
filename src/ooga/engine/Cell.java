@@ -31,7 +31,7 @@ public class Cell {
      * @param counter
      */
     public void setSelectionChangeListener(SelectedCellCounter counter){
-        System.out.println("this is the value of selected.get: "+selected.get());
+        //System.out.println("this is the value of selected.get: "+selected.get());
         selected.addListener((o, oldv, newv) -> counter.changeCount(selected.get()));
     }
 
@@ -49,7 +49,7 @@ public class Cell {
      * @return
      */
     public BooleanProperty isOpen() {
-        System.out.println("is the cell open? " +open);
+        //System.out.println("is the cell open? " +open);
         return open; }
 
     public IntegerProperty cellState() { return myState; }

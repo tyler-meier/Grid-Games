@@ -51,7 +51,7 @@ public class Controller extends Application {
         System.out.println("this is the value of LEVEL" +
                 " in the map: " + myGameAttributes.get("Level"));
         engine.setupGame(initialStates, myGameAttributes);
-       // player.setGameStats(engine.getGameStats());
+        //player.setGameStats(engine.getGameStats());
         player.setGrid(engine.getGrid()); // need to change param type of set grid
         //player.setInProgressProperty(engine.getInProgressProperty());
 //        player.setSaveGameButton(e -> data.saveGame(username, type, engine.getGameAttributes(), engine.getGridConfiguration()));
