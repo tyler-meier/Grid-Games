@@ -5,6 +5,7 @@
   <TargetScore>30</TargetScore>
   <LossStat>MovesUsed</LossStat>
   <MovesUsed>10</MovesUsed>
+  <LossStat>MovesUsed</LossStat>
 
   <!--new loss checking so only use these:
 
