@@ -13,16 +13,17 @@ import java.util.Random;
 public class Cell {
     IntegerProperty myState = new SimpleIntegerProperty();
     BooleanProperty open = new SimpleBooleanProperty();
-    BooleanProperty selected = new SimpleBooleanProperty();
+    BooleanProperty inProgress = new SimpleBooleanProperty();
+    boolean sel = false;
     int numPoints;
     String powerUp;
     int myRow;
     int myColumn;
+    SelectedCellCounter myCounter;
 
     public Cell(int initialState, boolean isOpen, int points){
         myState.setValue(initialState);
         open.set(!isOpen);
-        selected.set(false);
         numPoints = points;
     }
 
@@ -30,18 +31,24 @@ public class Cell {
      * This method sets the listener for checking if a cell has been selected by the user.
      * @param counter
      */
-    public void setSelectionChangeListener(SelectedCellCounter counter){
-        //System.out.println("this is the value of selected.get: "+selected.get());
-        selected.addListener((o, oldv, newv) -> counter.changeCount(selected.get()));
+    public void setupSelection(SelectedCellCounter counter, BooleanProperty inProgress){
+        myCounter = counter;
+        this.inProgress.bind(inProgress);
+    }
+
+    public void toggleSelected(){
+        if (!inProgress.get()){
+            sel = !sel;
+            myCounter.changeCount(sel);
+        }
     }
 
     /**
      * This method returns a boolean indicating whether or not a cell is considered to be selected.
      * @return
      */
-    public BooleanProperty isSelected() {
-        //System.out.println(selected);
-        return selected;
+    public boolean isSelected() {
+        return sel;
     }
 
     /**
@@ -49,8 +56,8 @@ public class Cell {
      * @return
      */
     public BooleanProperty isOpen() {
-        //System.out.println("is the cell open? " +open);
-        return open; }
+        return open;
+    }
 
     public IntegerProperty cellState() { return myState; }
 

@@ -14,8 +14,6 @@ import java.util.ResourceBundle;
 
 
 public class UICell {
-    BooleanProperty moveInProgress = new SimpleBooleanProperty();
-    BooleanProperty selected = new SimpleBooleanProperty();
     BooleanProperty open = new SimpleBooleanProperty();
     IntegerProperty state = new SimpleIntegerProperty();
     ImageView myImageView = new ImageView();
@@ -26,47 +24,45 @@ public class UICell {
     private static final String DEFAULT_IMAGERESOURCE_PACKAGE = IMAGERESOURCES.replace("/", ".");
     private ResourceBundle myResources;
 
-    public UICell(Cell cell, String gameType){
-        selected.bindBidirectional(cell.isSelected());
+    public UICell(Cell cell, String gameType, int cellHeight, int cellWidth){
         open.bind(cell.isOpen());
         state.bind(cell.cellState());
-        //setListeners();
         myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + gameType);
+        setupImageView(cellHeight, cellWidth);
+        setListeners();
+        myImageView.setOnMouseClicked(e -> cell.toggleSelected());
     }
 
-    public void setMoveInProgress(BooleanProperty inProgress){ moveInProgress.bind(inProgress);}
-
+    private void setupImageView(int cellHeight, int cellWidth){
+        Image initialImage = getImage();
+        myImageView = new ImageView(initialImage);
+        myImageView.setPreserveRatio(true);
+        myImageView.setFitHeight(cellHeight);
+        myImageView.setFitWidth(cellWidth);
+    }
 
     private void setListeners(){
         open.addListener((obs, oldv, newv) -> changeImage());
         state.addListener((obs, oldv, newv) -> changeImage());
-        // toggle selected by clicking on a cell
-        myImageView.setOnMouseClicked(e -> {
-            System.out.println("a cell has been clicked");
-            if (!moveInProgress.get()) selected.set(!selected.get());
-        });
     }
 
 
     private void changeImage(){
          //errors bc of imageMap and hiddenImage here, define these/rename and then the method is done
+        myImageView.setImage(getImage());
 
-         //if (open.get()) myImage.setImage(getImage(state.get())); // however you want to get the image associated with this state
-         //else myImage.setImage(hiddenImage); // however you want to store the image displayed for "hidden" cells
+//         if (open.get()) myImageView.setImage(getImage(state.get())); // however you want to get the image associated with this state
+//         else myImageView.setImage(hiddenImage); // however you want to store the image displayed for "hidden" cells
     }
 
     //TODO: get either integer or cell to retrieve information about the cell type, return image view
-    public Image getImage(int state){
+    private Image getImage(){
         try{
-            String stringInt = Integer.toString(state);
+            String stringInt = Integer.toString(state.get());
             String imageName = myResources.getString(stringInt);
             String imagePath = IMAGERESOURCES + imageName + ".png";
             FileInputStream input = new FileInputStream(imagePath);
-            Image myImage = new Image(input);
-            myImageView = new ImageView(myImage);
-            myImageView.setPreserveRatio(true);
-            setListeners();
-            return myImage;
+            return new Image(input);
         }
         catch (FileNotFoundException e){
             //TODO: deal with exception later

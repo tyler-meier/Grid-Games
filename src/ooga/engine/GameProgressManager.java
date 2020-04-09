@@ -26,17 +26,11 @@ public class GameProgressManager{
 
     public GameProgressManager(Map<String, String> gameAttributes) throws InvalidDataException {
         try{
-            System.out.println("made it to constructor of progress manager");
             gameStats.put(SCORE, new SimpleIntegerProperty(Integer.parseInt(gameAttributes.get(SCORE))));
-            System.out.println("SCORE");
             gameStats.put(LEVEL, new SimpleIntegerProperty(Integer.parseInt(gameAttributes.get(LEVEL))));
-            System.out.println("LEVEL");
             lossStatKey = gameAttributes.get(LOSS_STAT);
-            System.out.println("LOSS STAT: " + lossStatKey);
             gameStats.put(lossStatKey, new SimpleIntegerProperty(Integer.parseInt(gameAttributes.get(lossStatKey))));
-            System.out.println("LOSS STAT KEY");
             targetScore =  Integer.parseInt(gameAttributes.get(TARGET_SCORE));
-            System.out.println("Correctly made the game manager");
         } catch (Exception e) {
             throw new InvalidDataException();
         }
@@ -65,7 +59,6 @@ public class GameProgressManager{
     public Map<String, IntegerProperty> getGameStats(){ return gameStats; }
 
     public void updateScore(int amount){
-        System.out.println("UPDATING THE SCORE NOW");
         changeValue(SCORE, amount);
         System.out.println("THIS IS THE UPDATED SCORE: " + gameStats.get(SCORE));
     }

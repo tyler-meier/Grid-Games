@@ -1,15 +1,10 @@
 package ooga.engine;
 
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import ooga.engine.grid.Grid;
 import ooga.engine.matchFinder.MatchFinder;
 import ooga.engine.validator.Validator;
 
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 
@@ -32,7 +27,6 @@ public class Engine implements EngineBuilder {
 
     // use for reset as well
     public void setupGame(int[][] initialStates, Map<String, String> myGameAttributes){
-        System.out.println("about to call SET NEW GAME");
         myGrid.setNewGame(initialStates, myGameAttributes);
     }
 
@@ -46,8 +40,4 @@ public class Engine implements EngineBuilder {
     }
 
     public int[][] getGridConfiguration() { return myGrid.getGridConfiguration(); }
-
-    public Map<String, IntegerProperty> getGameStats() { return myGrid.getGameStats(); }
-
-    public BooleanProperty getInProgressProperty() { return myGrid.getInProgressProperty(); }
 }
