@@ -171,9 +171,14 @@ public class Data implements DataLink {
   public int[][] getGrid(String user, String gameType)
   {
     //TODO: How do we know which configuration to do?
-    //XMLParser gridParser = new XMLParser(gridPath);
-    //return gridParser.getGrid();
-    return null;
+    String savedPath = currentUser.getSavedGame(gameType);
+    if(savedPath.isEmpty())
+    {
+      savedPath = myDefaultGamePathResource.getString(gameType);
+
+    }
+    XMLParser gridParser = new XMLParser(savedPath);
+    return gridParser.getGrid();
   }
 
 }

@@ -3,6 +3,8 @@ package ooga.player;
 import javafx.beans.property.StringProperty;
 import ooga.engine.Cell;
 import ooga.data.DataObject;
+import ooga.engine.grid.Grid;
+
 public interface PlayerStart {
 
   /**
@@ -37,7 +39,7 @@ public interface PlayerStart {
    * 2D array of grid is taken in as parameter to generate the corresponding view of the grid.
    * @param grid
    */
-  void setGrid(Cell[][] grid);
+  void setGrid(Grid grid);
 
   /**
    * Takes in name of XMLfile that corresponds to the progress of the player and displays view

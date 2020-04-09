@@ -10,6 +10,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+import ooga.data.ProfileManager;
+import ooga.data.UserProfile;
 import ooga.data.XMLParser;
 import org.junit.jupiter.api.Test;
 
@@ -18,7 +20,9 @@ class XMLParserTest {
   private final String GRID_PATH = "resources.GridKeys";
   private final String ENGINE_PATH = "resources.EngineKeys";
   private final String GAME_PATH = "resources.GameKeys";
+  private final String DEFAULT_GAMES_PATH = "resources.DefaultGamePaths";
   private final String [] knownProfiles = new String[]{"todd34", "bobbyBoy"};
+
 
   private final ResourceBundle myProfileResource = ResourceBundle.getBundle(PROFILE_PATH);
   private Map<String, String> profile = new HashMap<>();
@@ -32,6 +36,8 @@ class XMLParserTest {
   private final ResourceBundle myGameResource = ResourceBundle.getBundle(GAME_PATH);
   private Map<String, String> game = new HashMap<>();
 
+  private final ResourceBundle myDefaultGamePathResource = ResourceBundle.getBundle(DEFAULT_GAMES_PATH);
+
 
   private final String memory_engine_path = "data/MemoryGameEngine.xml";
   private final String memory_game_path = "data/MemoryGameDefault.xml";
@@ -39,6 +45,7 @@ class XMLParserTest {
   private final String grid_path = "data/BasicBandyCrushGidConfig.xml";
 
   private XMLParser parser;
+  private ProfileManager pm = new ProfileManager();
 
 
   @Test
@@ -63,13 +70,11 @@ class XMLParserTest {
     parser = new XMLParser(profile_path);
     Map<String, List<String>> allProfiles = new HashMap<>();
     for (String user : parser.getListFromXML("profile", null)) {
-      String[] neededParts = user.split("::");
-      String currUsername = neededParts[2];
-      String currPassword = neededParts[0];
-      String currPath = neededParts[1];
+      String[] neededParts = user.split(" ");
+      String currUsername = neededParts[0];
+      String currPassword = neededParts[1];
       allProfiles.put(currUsername, new ArrayList<>());
       allProfiles.get(currUsername).add(currPassword);
-      allProfiles.get(currUsername).add(currPath);
     }
 
     for(String person: Arrays.asList(knownProfiles))
@@ -102,8 +107,19 @@ class XMLParserTest {
   @Test
   void testGetGrid()
   {
-    parser = new XMLParser(grid_path);
-    int [][] grid = parser.getGrid();
+    UserProfile currentUser = pm.getProfile("bobbyBoy");
+    String gameType = "Memory";
+    //TODO: How do we know which configuration to do?
+    String savedPath = currentUser.getSavedGame(gameType);
+    if(savedPath.isEmpty())
+    {
+      savedPath = myDefaultGamePathResource.getString(gameType);
+      System.out.println(savedPath);
+
+    }
+    //XMLParser gridParser = new XMLParser(savedPath);
+
+    //int [][] grid = parser.getGrid();
 
   }
 
