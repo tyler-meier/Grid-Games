@@ -22,6 +22,7 @@ class XMLParserTest {
   private final String GAME_PATH = "resources.GameKeys";
   private final String DEFAULT_GAMES_PATH = "resources.DefaultGamePaths";
   private final String [] knownProfiles = new String[]{"todd34", "bobbyBoy"};
+  private final int[][] knownGrid = new int[4][5];
 
 
   private final ResourceBundle myProfileResource = ResourceBundle.getBundle(PROFILE_PATH);
@@ -114,13 +115,9 @@ class XMLParserTest {
     if(savedPath.isEmpty())
     {
       savedPath = myDefaultGamePathResource.getString(gameType);
-      System.out.println(savedPath);
-
     }
-    //XMLParser gridParser = new XMLParser(savedPath);
-
-    //int [][] grid = parser.getGrid();
-
+    XMLParser gridParser = new XMLParser(savedPath);
+    int [][] grid = gridParser.getGrid();
   }
 
 }
