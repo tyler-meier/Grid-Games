@@ -1,5 +1,6 @@
 package ooga.player;
 
+import javafx.event.EventHandler;
 import javafx.beans.property.StringProperty;
 import javafx.stage.Stage;
 import ooga.controller.UserLogin;
@@ -20,7 +21,8 @@ public class Player implements PlayerStart{
   private LoginScreen myLoginScreen;
   private NewProfileScreen myNewProfScreen;
   private GameScreen myGameScreen;
-  private  StartScreen myStartScreen;
+  private StartScreen myStartScreen;
+  private String myGameType;
 
   public Player(){
   }
@@ -59,6 +61,10 @@ public class Player implements PlayerStart{
     myNewProfScreen.giveMeUserLogin(userLogin);
   }
 
+  public void setStartGameButton(EventHandler engine){
+    myStartScreen.createEngine(engine);
+  }
+
 
   /**
    * An instance variable boolean keeps track of whether most recent progress of player is saved.
@@ -70,6 +76,10 @@ public class Player implements PlayerStart{
     return true;
   };
 
+  public void setGameType(String type){  //TODO add to api
+    myGameType = type;
+  }
+
   /**
    * An instance variable String gameType is set as the name of the game type being currently played.
    * The String is returned in this method.
@@ -77,7 +87,7 @@ public class Player implements PlayerStart{
    */
   @Override
   public String getGameType(){
-    return "";
+    return "Memory";
   };
 
   /**

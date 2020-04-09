@@ -22,7 +22,7 @@ public class UICell {
 
     private static final String RESOURCES = "ooga/player/Resources/";
     private static final String DEFAULT_RESOURCE_PACKAGE = RESOURCES.replace("/", ".");
-    private static final String IMAGERESOURCES = "ooga/player/Resources/Images/";
+    private static final String IMAGERESOURCES = "ooga/player/Resources/images/";
     private static final String DEFAULT_IMAGERESOURCE_PACKAGE = IMAGERESOURCES.replace("/", ".");
     private ResourceBundle myResources;
 
