@@ -87,7 +87,7 @@ public class Player implements PlayerStart{
    */
   @Override
   public String getGameType(){
-    return "Memory";
+    return myGameType;
   };
 
   /**

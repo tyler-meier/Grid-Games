@@ -23,6 +23,7 @@ public class StartScreen {
   private ResourceBundle myStringResources, myButtonResources;
   private Player myPlayer;
   private EventHandler myEngine;
+  private ComboBox games;
 
   public StartScreen(Player thisPlayer){
     myStringResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "BasicStrings");
@@ -54,8 +55,8 @@ public class StartScreen {
     VBox gameChoicePanel = new VBox();
 
     Label gameChoice = new Label(myStringResources.getString("GameChoice"));
-    ComboBox games = new ComboBox();
-    games.getItems().addAll("Candy Crush", "Bejeweled Action", "Bejeweled Endless", "Bejeweled Puzzle", "Minesweeper", "MemoryGame");
+    games = new ComboBox();
+    games.getItems().addAll("CandyCrush", "BejeweledAction", "BejeweledEndless", "BejeweledPuzzle", "Minesweeper", "Memory");
     //TODO fix hardcoded strings and have them be sent to gamescreen
 
     gameChoicePanel.getChildren().addAll(gameChoice, games);
@@ -68,9 +69,9 @@ public class StartScreen {
     VBox buttonVBox = new VBox();
 
     Button startButton = makeButton("StartCommand", e -> {
-      //myPlayer.getGameType()
+      myPlayer.setGameType((String) games.getValue());
       myEngine.handle(e);
-      myPlayer.setUpGameScreen("Memory");
+      myPlayer.setUpGameScreen((String) games.getValue());
     });
     Button logoutButton = makeButton("LogoutCommand", e -> myPlayer.setUpLoginScreen());
 
@@ -90,6 +91,4 @@ public class StartScreen {
   public void createEngine(EventHandler engine){
     myEngine = engine;
   }
-
-
 }
