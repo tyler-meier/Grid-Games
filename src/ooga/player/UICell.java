@@ -22,7 +22,7 @@ public class UICell {
 
     private static final String RESOURCES = "ooga/player/Resources/";
     private static final String DEFAULT_RESOURCE_PACKAGE = RESOURCES.replace("/", ".");
-    private static final String IMAGERESOURCES = "ooga/player/Resources/images/";
+    private static final String IMAGERESOURCES = "src/ooga/player/Resources/Images/";
     private static final String DEFAULT_IMAGERESOURCE_PACKAGE = IMAGERESOURCES.replace("/", ".");
     private ResourceBundle myResources;
 
@@ -57,18 +57,22 @@ public class UICell {
     public Image getImage(int state){
         try{
             String stringInt = Integer.toString(state);
-            System.out.println(state);
             String imageName = myResources.getString(stringInt);
-            String imagePath = DEFAULT_IMAGERESOURCE_PACKAGE + imageName + ".png";
+            String imagePath = IMAGERESOURCES + imageName + ".png";
             FileInputStream input = new FileInputStream(imagePath);
             Image myImage = new Image(input);
             myImageView = new ImageView(myImage);
+            myImageView.setPreserveRatio(true);
             return myImage;
         }
         catch (FileNotFoundException e){
             //TODO: deal with exception later
         }
         return null;
+    }
+
+    public ImageView getImageView() {
+        return myImageView;
     }
 //
 //     some info for if we want cells to be highlighted when selected

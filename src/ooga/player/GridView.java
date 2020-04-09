@@ -42,7 +42,9 @@ public class GridView {
                 int state = backendGrid.getCell(row,col).getMyState();
                 UICell currCell = new UICell(backendGrid.getCell(row, col), myGameType);
                 Image myImage = currCell.getImage(state);
-                ImageView myImageView = new ImageView(myImage);
+                ImageView myImageView = currCell.getImageView();
+                myImageView.setFitHeight(myCellHeight);
+                myImageView.setFitWidth(myCellWidth);
                 currCell.setMoveInProgress(backendGrid.getInProgressProperty());
                 GridPane.setRowIndex(myImageView, col * myCellWidth);
                 GridPane.setColumnIndex(myImageView, row * myCellHeight);
