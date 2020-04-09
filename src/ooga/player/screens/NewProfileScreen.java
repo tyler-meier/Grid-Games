@@ -10,6 +10,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
+import ooga.controller.UserLogin;
 import ooga.data.UserProfile;
 import ooga.player.Player;
 
@@ -25,7 +26,8 @@ public class NewProfileScreen {
   private ResourceBundle myButtonResources, myStringResources;
   private Player myPlayer;
   private TextField newUsername, newPassword;
-  private UserProfile userData;  // set these guys at some point from user input
+  private UserProfile userData;
+  private UserLogin myUserLogin;
 
 
   public NewProfileScreen(Player thisPlayer){
@@ -68,8 +70,10 @@ public class NewProfileScreen {
     VBox buttonVBox = new VBox();
 
     Button newProfButton = makeButton("CreateNewProfileCommand", e -> {
-      //userData = userLogin.getProfile(username.getText(), password.getText()); //TODO where am i getting userLogin from
-      myPlayer.setUpStartScreen(newUsername.getText());
+      userData = myUserLogin.getProfile(newUsername.getText(), newPassword.getText());
+      if (userData != null){
+        myPlayer.setUpStartScreen(userData.getUsername());
+      }
     });
     Button backButton = makeButton("BackButtonCommand", e -> myPlayer.setUpLoginScreen());
 
@@ -84,6 +88,10 @@ public class NewProfileScreen {
     newButton.setText(myButtonResources.getString(text));
     newButton.setOnAction(handler);
     return newButton;
+  }
+
+  public void giveMeUserLogin(UserLogin thisUserLogin){
+    myUserLogin = thisUserLogin;
   }
 
 }
