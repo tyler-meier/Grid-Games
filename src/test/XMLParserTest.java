@@ -42,10 +42,9 @@ class XMLParserTest {
   private final ResourceBundle myDefaultEnginePathResource = ResourceBundle.getBundle(DEFAULT_ENGINE_PATH);
 
 
-  private final String memory_engine_path = "data/MemoryGameEngine.xml";
-  private final String memory_game_path = "data/MemoryGameDefault.xml";
+  private final String memory_engine_path = "data/defaultEngines/MemoryEngine.xml";
+  private final String memory_game_path = "data/defaultGames/MemoryGameDefault.xml";
   private final String profile_path = "data/RegisteredProfiles.xml";
-  private final String grid_path = "data/BasicBandyCrushGidConfig.xml";
 
   private XMLParser parser;
   private ProfileManager pm = new ProfileManager();
@@ -106,6 +105,25 @@ class XMLParserTest {
     }
 
   }
+
+  @Test
+  void checkEngineResourcePaths()
+  {
+    for(String game: Collections.list(myDefaultEnginePathResource.getKeys()))
+    {
+      XMLParser parser = new XMLParser(myDefaultEnginePathResource.getString(game));
+    }
+  }
+
+  @Test
+  void checkDefaultGameResourcePaths()
+  {
+    for(String game: Collections.list(myDefaultGamePathResource.getKeys()))
+    {
+      XMLParser parser = new XMLParser(myDefaultGamePathResource.getString(game));
+    }
+  }
+
 
   /*
   @Test
