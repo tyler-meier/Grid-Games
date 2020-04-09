@@ -11,6 +11,8 @@ import ooga.player.screens.LoginScreen;
 import ooga.player.screens.NewProfileScreen;
 import ooga.player.screens.StartScreen;
 
+import java.io.FileNotFoundException;
+
 public class Player implements PlayerStart{
 
   private static final String TITLE = "Grid GORLS + Tyler :)";
@@ -100,10 +102,12 @@ public class Player implements PlayerStart{
 
   /**
    * 2D array of grid is taken in as parameter to generate the corresponding view of the grid.
-   * @param grid
+   * @param backendGrid
    */
   @Override
-  public void setGrid(Grid grid){
+
+  public void setGrid(Grid backendGrid){
+    myGameScreen.setGrid(backendGrid);
   };
 
   /**

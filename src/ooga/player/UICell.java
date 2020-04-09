@@ -10,6 +10,7 @@ import ooga.engine.Cell;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.ResourceBundle;
 
 
 public class UICell {
@@ -17,24 +18,30 @@ public class UICell {
     BooleanProperty selected = new SimpleBooleanProperty();
     BooleanProperty open = new SimpleBooleanProperty();
     IntegerProperty state = new SimpleIntegerProperty();
-    ImageView myImage = new ImageView();
+    ImageView myImageView = new ImageView();
 
-    public UICell(Cell cell){
+    private static final String RESOURCES = "ooga/player/Resources/";
+    private static final String DEFAULT_RESOURCE_PACKAGE = RESOURCES.replace("/", ".");
+    private static final String IMAGERESOURCES = "ooga/player/Resources/Images/";
+    private static final String DEFAULT_IMAGERESOURCE_PACKAGE = IMAGERESOURCES.replace("/", ".");
+    private ResourceBundle myResources;
+
+    public UICell(Cell cell, String gameType){
         selected.bindBidirectional(cell.isSelected());
         open.bind(cell.isOpen());
         state.bind(cell.cellState());
         setListeners();
+        myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + gameType);
     }
 
     public void setMoveInProgress(BooleanProperty inProgress){ moveInProgress.bind(inProgress);}
 
-    public ImageView getImage() { return myImage; }
 
     private void setListeners(){
         open.addListener((obs, oldv, newv) -> changeImage());
         state.addListener((obs, oldv, newv) -> changeImage());
         // toggle selected by clicking on a cell
-        myImage.setOnMouseClicked(e -> {
+        myImageView.setOnMouseClicked(e -> {
             if (!moveInProgress.get()) selected.set(!selected.get());
         });
     }
@@ -46,15 +53,23 @@ public class UICell {
          //else myImage.setImage(hiddenImage); // however you want to store the image displayed for "hidden" cells
     }
 
-//    //TODO: get either integer or cell to retrieve information about the cell type, return image view
-//    private Image getImage(int state) throws FileNotFoundException {
-////        String stringInt = Integer.toString(state);
-////        String imageName = myResources.getString(stringInt);
-////        String imagePath = DEFAULT_IMAGERESOURCE_PACKAGE + imageName + ".png";
-////        FileInputStream input = new FileInputStream(imagePath);
-////        return new Image(input);
-//    }
-
-    // some info for if we want cells to be highlighted when selected
-    // https://stackoverflow.com/questions/28253169/javafx-how-to-make-the-border-of-imageview-when-i-click-the-imageview
+    //TODO: get either integer or cell to retrieve information about the cell type, return image view
+    public Image getImage(int state){
+        try{
+            String stringInt = Integer.toString(state);
+            String imageName = myResources.getString(stringInt);
+            String imagePath = DEFAULT_IMAGERESOURCE_PACKAGE + imageName + ".png";
+            FileInputStream input = new FileInputStream(imagePath);
+            Image myImage = new Image(input);
+            myImageView = new ImageView(myImage);
+            return myImage;
+        }
+        catch (FileNotFoundException e){
+            //TODO: deal with exception later
+        }
+        return null;
+    }
+//
+//     some info for if we want cells to be highlighted when selected
+//     https://stackoverflow.com/questions/28253169/javafx-how-to-make-the-border-of-imageview-when-i-click-the-imageview
 }
