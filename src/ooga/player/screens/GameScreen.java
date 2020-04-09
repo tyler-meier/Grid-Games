@@ -38,7 +38,7 @@ public class GameScreen {
     myPlayer = player;
     myGrid = new GridView(gameType, 400);
 
-    //TODO: retrieve stats from user profile
+    //TODO: retrieve stats from user profile, binding the map?
     myHighScore = 12;
     myScore = 0;
     myLives = 5;
@@ -67,6 +67,7 @@ public class GameScreen {
     verticalPanel.getChildren().addAll(buttonPanel, statsPanel);
     root.setRight(verticalPanel);
 
+    //TODO: figure out how to call set grid here
     GridPane gameGrid = myGrid.makeGrid(10, 10);
     gameGrid.setAlignment(Pos.CENTER);
     root.setCenter(gameGrid);
