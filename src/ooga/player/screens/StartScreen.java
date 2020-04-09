@@ -22,6 +22,7 @@ public class StartScreen {
 
   private ResourceBundle myStringResources, myButtonResources;
   private Player myPlayer;
+  private EventHandler myEngine;
 
   public StartScreen(Player thisPlayer){
     myStringResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "BasicStrings");
@@ -66,7 +67,11 @@ public class StartScreen {
   private Node setUpButtons(){
     VBox buttonVBox = new VBox();
 
-    Button startButton = makeButton("StartCommand", e -> myPlayer.setUpGameScreen("GameType"));  //TODO need to get game type from data
+    Button startButton = makeButton("StartCommand", e -> {
+      //myPlayer.getGameType()
+      myEngine.handle(e);
+      myPlayer.setUpGameScreen("Memory");
+    });
     Button logoutButton = makeButton("LogoutCommand", e -> myPlayer.setUpLoginScreen());
 
     buttonVBox.getChildren().addAll(startButton, logoutButton);
@@ -81,5 +86,10 @@ public class StartScreen {
     newButton.setOnAction(handler);
     return newButton;
   }
+
+  public void createEngine(EventHandler engine){
+    myEngine = engine;
+  }
+
 
 }
