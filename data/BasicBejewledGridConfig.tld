@@ -1,5 +1,16 @@
 <?xml version="1.0"?>
 <grid>
+    <Level>0</Level>
+    <Score>0</Score>
+    <TargetScore>0</TargetScore>
+    <MovesUsed>10</MovesUsed>
+
+    <LivesLost>0</LivesLost>
+    <Time>0</Time>
+    <TotalLives>0</TotalLives>
+    <TotalMoves>0</TotalMoves>
+    <TotalTime>0</TotalTime>
+
     <numRows>8</numRows>
     <numColumns>8</numColumns>
     <row>1 2 3 2 4 5 6 5</row>

@@ -21,12 +21,12 @@ public class Data implements DataLink {
   private final String ENGINE_KEY_PATH = "resources.EngineKeys";
   private final String GAME_KEY_PATH = "resources.GameKeys";
   private final String DEFAULT_GAMES_PATH = "resources.DefaultGamePaths";
-  private final String DEFAULT_CONFIG_PATH = "resources.DefaultConfigPaths";
+  private final String DEFAULT_ENGINE_PATH = "resources.DefaultEnginePaths";
 
   private final ResourceBundle myEngineResource = ResourceBundle.getBundle(ENGINE_KEY_PATH);
   private final ResourceBundle myGameResource = ResourceBundle.getBundle(GAME_KEY_PATH);
   private final ResourceBundle myDefaultGamePathResource = ResourceBundle.getBundle(DEFAULT_GAMES_PATH);
-  private final ResourceBundle myDefaultConfigPathResource = ResourceBundle.getBundle(DEFAULT_CONFIG_PATH);
+  private final ResourceBundle myDefaultEnginePathResource = ResourceBundle.getBundle(DEFAULT_ENGINE_PATH);
 
 
   private String gamePath;
@@ -104,7 +104,7 @@ public class Data implements DataLink {
    */
   @Override
   public Map<String, String> getEngineAttributes(String gameType) {
-    String enginePath = String.format(ENGINE_PATH_SKELETON, gameType);
+    String enginePath = myDefaultEnginePathResource.getString(gameType);
     XMLParser gameParser = new XMLParser(enginePath);
     return gameParser.getMapFromXML(myEngineResource);
   }
@@ -134,10 +134,6 @@ public class Data implements DataLink {
   @Override
   public Map<String, String> getGameAttributes(String username, String gameType) {
     gamePath = currentUser.getSavedGame(gameType);
-    if(gamePath.isEmpty())
-    {
-      gamePath = myDefaultGamePathResource.getString(gameType);
-    }
     System.out.println("Game: " + gamePath);
     XMLParser gameParser = new XMLParser(gamePath);
     return gameParser.getMapFromXML(myGameResource);
@@ -169,10 +165,6 @@ public class Data implements DataLink {
   {
     //TODO: How do we know which configuration to do?
     String savedPath = currentUser.getSavedGame(gameType);
-    if(savedPath.isEmpty())
-    {
-      savedPath = myDefaultConfigPathResource.getString(gameType);
-    }
     System.out.println("Config: " + savedPath);
     XMLParser gridParser = new XMLParser(savedPath);
     return gridParser.getGrid();
