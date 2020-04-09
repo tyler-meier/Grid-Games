@@ -25,11 +25,13 @@ public class UICell {
     private static final String IMAGERESOURCES = "src/ooga/player/Resources/Images/";
     private static final String DEFAULT_IMAGERESOURCE_PACKAGE = IMAGERESOURCES.replace("/", ".");
     private ResourceBundle myResources;
+    private String currentGameType;
 
     public UICell(Cell cell, String gameType){
         selected.bindBidirectional(cell.isSelected());
         open.bind(cell.isOpen());
         state.bind(cell.cellState());
+        currentGameType = gameType;
         //setListeners();
         myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + gameType);
     }
@@ -37,14 +39,24 @@ public class UICell {
     public void setMoveInProgress(BooleanProperty inProgress){ moveInProgress.bind(inProgress);}
 
 
-    private void setListeners(){
+    private void setListeners(Image myImage){
         open.addListener((obs, oldv, newv) -> changeImage());
         state.addListener((obs, oldv, newv) -> changeImage());
         // toggle selected by clicking on a cell
+        System.out.println(currentGameType);
         myImageView.setOnMouseClicked(e -> {
-            System.out.println("a cell has been clicked");
+            System.out.println("a cell has been clicked IN UI CELLLLLL");
+            myImageView.setImage(myImage);
+            //myImageView.visibleProperty().bindBidirectional(selected);
             if (!moveInProgress.get()) selected.set(!selected.get());
         });
+//        if (currentGameType.equals("Memory")){   //TODO hard coded string
+//            myImageView.setOnMouseClicked(e -> {
+//                System.out.println("a cell has been clicked IN UI CELLLLLL");
+//                myImageView.visibleProperty().bindBidirectional(selected);
+//                if (!moveInProgress.get()) selected.set(!selected.get());
+//            });
+//        }
     }
 
 
@@ -65,7 +77,8 @@ public class UICell {
             Image myImage = new Image(input);
             myImageView = new ImageView(myImage);
             myImageView.setPreserveRatio(true);
-            setListeners();
+            myImageView.setImage(null);
+            setListeners(myImage);
             return myImage;
         }
         catch (FileNotFoundException e){
