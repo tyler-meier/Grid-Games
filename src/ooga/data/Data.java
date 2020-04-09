@@ -134,6 +134,7 @@ public class Data implements DataLink {
   @Override
   public Map<String, String> getGameAttributes(String username, String gameType) {
     UserProfile user = myProfileManager.getProfile(username);
+
     gamePath = user.getSavedGame(gameType);
     if(gamePath.isEmpty())
     {

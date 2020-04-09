@@ -55,7 +55,7 @@ public class StartScreen {
 
     Label gameChoice = new Label(myStringResources.getString("GameChoice"));
     ComboBox games = new ComboBox();
-    games.getItems().addAll("Candy Crush", "Bejeweled Action", "Bejeweled Endless", "Bejeweled Puzzle", "Minesweeper", "MemoryGame");
+    games.getItems().addAll("Candy Crush", "Bejeweled Action", "Bejeweled Endless", "Bejeweled Puzzle", "Minesweeper", "Memory");
     //TODO fix hardcoded strings and have them be sent to gamescreen
 
     gameChoicePanel.getChildren().addAll(gameChoice, games);
@@ -68,9 +68,9 @@ public class StartScreen {
     VBox buttonVBox = new VBox();
 
     Button startButton = makeButton("StartCommand", e -> {
-      //myPlayer.getGameType()
+      myPlayer.setGameType();
       myEngine.handle(e);
-      myPlayer.setUpGameScreen("Memory");
+      myPlayer.setUpGameScreen();
     });
     Button logoutButton = makeButton("LogoutCommand", e -> myPlayer.setUpLoginScreen());
 
