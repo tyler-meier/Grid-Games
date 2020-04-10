@@ -15,15 +15,9 @@ import ooga.controller.UserLogin;
 import ooga.data.UserProfile;
 import ooga.player.Player;
 
-//TODO create a superclass maybe with all of the resource shit and all of the methods that do the same thing
-
-public class LoginScreen {
+public class LoginScreen extends SuperScreen{
 
   private static final int DIMENSION = 600;
-  private static final String RESOURCES = "ooga/player/Resources/";
-  private static final String DEFAULT_RESOURCE_PACKAGE = RESOURCES.replace("/", ".");
-  private static final String DEFAULT_RESOURCE_FOLDER = "/" + RESOURCES;
-  private static final String STYLESHEET = "default.css";
 
   private ResourceBundle myStringResources, myButtonResources;
   private Player myPlayer;
@@ -33,12 +27,11 @@ public class LoginScreen {
   private Label myErrorMessage;
 
   public LoginScreen(Player thisPlayer){
-    myStringResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "BasicStrings");
-    myButtonResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "ButtonCreation");
     myErrorMessage = new Label();
     myPlayer = thisPlayer;
   }
 
+  @Override
   public Scene setUpScene(){
     Node topLoginPanel = setupLoginAndLabel();
     Node buttonPanel = setUpButtons();
@@ -49,7 +42,7 @@ public class LoginScreen {
     myCenterVBox.setAlignment(Pos.CENTER);
 
     Scene loginScreen = new Scene(myCenterVBox, DIMENSION, DIMENSION);
-    loginScreen.getStylesheets().add(getClass().getResource(DEFAULT_RESOURCE_FOLDER + STYLESHEET).toExternalForm());
+    loginScreen.getStylesheets().add(getClass().getResource(super.DEFAULT_RESOURCE_FOLDER + STYLESHEET).toExternalForm());
     return loginScreen;
   }
 
