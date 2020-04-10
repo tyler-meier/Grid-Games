@@ -23,7 +23,7 @@ public class Cell {
 
     public Cell(int initialState, boolean isOpen, int points){
         myState.setValue(initialState);
-        open.set(!isOpen);
+        open.set(isOpen);
         numPoints = points;
 //        open.addListener((o, a, b) -> {
 //            System.out.println("open is now: "+ open.get());
@@ -40,7 +40,7 @@ public class Cell {
     }
 
     public void toggleSelected(){
-        System.out.println("r: "+myRow +", c: "+myColumn + " open: "+open.get());
+        System.out.println("A cell has been selected");
         if (!inProgress.get()){
             sel = !sel;
             myCounter.changeCount(sel);
@@ -70,6 +70,7 @@ public class Cell {
     public int getColumn() { return myColumn; }
 
     public boolean isNeighbor(Cell cell) {
+        System.out.println("checking if they are neighbors");
         return (Math.abs(cell.getRow()-myRow)==1 && cell.getColumn()==myColumn) ||
             (Math.abs(cell.getColumn()-myColumn)==1 && cell.getRow()==myRow);
 
@@ -82,6 +83,7 @@ public class Cell {
         open.set(cell.open.get());
         cell.cellState().set(placeholder.getMyState());
         cell.isOpen().set(placeholder.open.get());
+        System.out.println("Open status after swap: " + cell.isOpen());
     }
 
     /**
@@ -106,6 +108,8 @@ public class Cell {
         Random random = new Random();
         // random number 1 through maxState inclusive
         int randomInteger = random.nextInt(maxState)+1;
+        System.out.println("this is the RANDOM INTEGER: " + randomInteger);
+        System.out.println("Is cell open? " + open.get());
         myState.set(randomInteger);
     }
 

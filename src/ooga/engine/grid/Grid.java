@@ -130,6 +130,7 @@ public class Grid {
      * @return
      */
     private void updateMyBoard(){
+        System.out.println("About to upadte the gird");
         updateGrid();
         if (myProgressManager.isWin()) System.out.println("win"); // win action
         else if (myProgressManager.isLoss()) System.out.println("loss"); // loss action
@@ -144,22 +145,40 @@ public class Grid {
          if(myValidator.checkIsValid(selectedCells, myProgressManager)){
             System.out.println("valid move");
             List<Cell> matchedCells = new ArrayList<>();
+
             //TODO: ask TA if there is a better way to do this to avoid circular dependency
             if (hasHiddenCells){
-                matchedCells.addAll(selectedCells);
-                matchedCells.addAll(myMatchFinder.makeMatches(this));
-            }else {
+                matchedCells.addAll(selectedCells); //we are adding the selected cells so that the points are accounted for
+                matchedCells.addAll(myMatchFinder.makeMatches(this)); //minesweeper game
+            }
+            else {
                 myProgressManager.incrementMoves();
+                System.out.println("About to find the matched cells for this game");
+
                 matchedCells.addAll(myMatchFinder.makeMatches(selectedCells, this));
+                // here, if the swap did not result in matches, the size of matched cells will be zero
             }
+
             while (matchedCells.size()>0){
-                if (hasHiddenCells) openMatchedCells(matchedCells);
-                else deleteMatchedCells(matchedCells);
-                matchedCells.addAll(myMatchFinder.makeMatches(this));
+                if (hasHiddenCells) {
+                    openMatchedCells(matchedCells);
+                }
+                else {
+                    // here we are deleting the matched cells and re-felling the board
+                    System.out.println("About to DELETE CELLS");
+                    deleteMatchedCells(matchedCells);
+                }
+                // here we are looking at the board as a whole and adding matched cells
+                //matchedCells.addAll(myMatchFinder.makeMatches(this));
             }
-         } else System.out.println("invalid move");
+         }
+         else {
+             System.out.println("invalid move");
+         }
          moveInProgress.set(false);
-        for (Cell cell:selectedCells) cell.toggleSelected();
+         for (Cell cell:selectedCells) {
+             cell.toggleSelected();
+         }
     }
 
     private List<Cell> getSelectedCells(){
@@ -185,6 +204,7 @@ public class Grid {
             cell.cellState().set(-1);
             myProgressManager.updateScore(cell.getScore());
         }
+        System.out.println("About to enter deleting cells loop");
         for (int col = 0; col<getCols(); col++){
             for (int row = 1; row<getRows(); row++){
                 Cell cell = getCell(row, col);
@@ -196,15 +216,22 @@ public class Grid {
                         cell = above;
                         nextRowAbove--;
                     } } }
-            if (addNewCells) refillColumn(col);
+            if (addNewCells) {
+                System.out.println("About to refill a column");
+                refillColumn(col);
+            }
         }
         matchedCells.clear();
     }
 
     private void refillColumn(int col){
-        for (int row = 1; row<getRows(); row++) {
+        for (int row = 0; row<getRows(); row++) {
             Cell cell = getCell(row, col);
-            if (cell.getMyState()==-1) cell.randomize(maxState);
+            if (cell.getMyState()==-1){
+                System.out.println("Row of new cell: " + cell.getRow());
+                System.out.println("Row of new cell: " + cell.getColumn());
+                cell.randomize(maxState);
+            }
         }
     }
 }

@@ -38,9 +38,11 @@ public class UICell {
         myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + gameType);
         setupImageMap();
         setupImageView(cellHeight, cellWidth);
-        setListeners();
+        //setListeners();
+        cell.cellState().addListener((obs, oldv, newv) -> changeImage());
         myImageView.setOnMouseClicked(e -> cell.toggleSelected());
         cell.isOpen().addListener((obs, oldv, newv) -> {
+            System.out.println("OpPEN STATUS IS CHANGING");
             changeImage();
         });
     }
@@ -72,12 +74,13 @@ public class UICell {
     }
 
     private void setListeners(){
-        state.addListener((obs, oldv, newv) -> changeImage());
+        //state.addListener((obs, oldv, newv) -> changeImage());
     }
 
 
     private void changeImage(){
          if (open.get()) {
+             //System.out.println("CHANGING THE IMAGE iN UI CELL");
              myImageView.setImage(getImage()); // however you want to get the image associated with this state
          }
          else {

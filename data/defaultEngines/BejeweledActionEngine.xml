@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
 <Engine>
-  <AddNewCells>false</AddNewCells>
+  <AddNewCells>true</AddNewCells>
   <Validator>SwitchValidator</Validator>
   <MatchFinder>OpenFinder</MatchFinder>
   <NumSelectedPerMove>2</NumSelectedPerMove>
-  <HasHiddenCells>false</HasHiddenCells>
-  <MaxStateNumber>10</MaxStateNumber>
+  <HasHiddenCells>true</HasHiddenCells>
+  <MaxStateNumber>6</MaxStateNumber>
 
   <!--need this as well, easier if constant for a game type (for now)-->
   <PointsPerCell>5</PointsPerCell>

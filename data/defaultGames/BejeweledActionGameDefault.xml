@@ -2,7 +2,7 @@
 
   <Level>0</Level>
   <Score>0</Score>
-  <TargetScore>0</TargetScore>
+  <TargetScore>100</TargetScore>
   <LossStat>MovesUsed</LossStat>
   <MovesUsed>10</MovesUsed>
 
