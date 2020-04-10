@@ -3,6 +3,10 @@ package ooga.data.buildingXML;
 import java.util.List;
 import org.w3c.dom.Element;
 
+/**
+ * Creates the XML that codes the list of existing
+ * profiles
+ */
 public class XMLRegisteredProfileBuilder extends XMLBuilder{
 
   private List<String> profiles;
@@ -16,6 +20,10 @@ public class XMLRegisteredProfileBuilder extends XMLBuilder{
     createDocument(mainTag, pathName);
   }
 
+  /**
+   * Adds values in the list of profiles all with the same tag "profile"
+   * @param root
+   */
   @Override
   public void addElementsToRoot(Element root)
   {

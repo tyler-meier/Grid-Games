@@ -41,7 +41,6 @@ public class UICell {
         setListeners();
         myImageView.setOnMouseClicked(e -> cell.toggleSelected());
         cell.isOpen().addListener((obs, oldv, newv) -> {
-            System.out.println("changing image");
             changeImage();
         });
     }

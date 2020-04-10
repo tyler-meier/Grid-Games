@@ -1,7 +1,5 @@
 package ooga.data;
 
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.beans.property.SimpleStringProperty;
@@ -9,6 +7,7 @@ import javafx.beans.property.StringProperty;
 import ooga.data.buildingXML.XMLBuilder;
 import ooga.data.exceptions.IncorrectPasswordException;
 import ooga.data.exceptions.NoUserExistsException;
+import ooga.data.exceptions.UserAlreadyExistsException;
 
 /**
  * The purpose of this class is to hold all the methods which need to be accessed
@@ -90,8 +89,17 @@ public class Data implements DataLink {
    */
   @Override
   public UserProfile saveNewPlayerProfile(String username, String password) {
-    currentUser = myProfileManager.addProfile(username, password);
-    return currentUser;
+    try{
+      if(myProfileManager.notExistingProfile(username))
+      {
+        currentUser = myProfileManager.addProfile(username, password);
+        return currentUser;
+      }
+    } catch(UserAlreadyExistsException e)
+    {
+      errorMessage.setValue(e.getMessage());
+    }
+    return null;
   }
 
 
@@ -116,7 +124,7 @@ public class Data implements DataLink {
    * @param engineAttributes
    */
   @Override
-  public void saveGame(String username, DataObject engineAttributes) {
+  public void saveGame(String username, Map<String, String> engineAttributes) {
 
   }
 
@@ -137,34 +145,16 @@ public class Data implements DataLink {
     {
       gamePath = currentUser.getSavedGame(gameType);
     }
-    gamePath = currentUser.getSavedGame(gameType);
     XMLParser gameParser = new XMLParser(gamePath);
     return gameParser.getMapFromXML(myGameResource);
   }
 
   /**
-   * Similar to the above method but does not have to go into a profile to get
-   * the needed path. In this case, the level 1 paths for each game exists in
-   * a ResourceBundle. After grabbing the matching path to the given gametype, this
-   * method uses the Parser to get the needed attributes just like the above method.
-   * Within this, currentEngineAttributes is set.
-   * @param gameType
+   * Gets the grid from the previously identified gamePath in getGameAttributes
    * @return
    */
   @Override
-  public Map<String, String> loadConfigurationFile(String gameType) {
-    gamePath = myDefaultGamePathResource.getString(gameType);
-    XMLParser gameParser = new XMLParser(gamePath);
-    return gameParser.getMapFromXML(myGameResource);
-  }
-
-  /**
-   *
-   * @param user
-   * @return
-   */
-  @Override
-  public int[][] getGrid(String user, String gameType)
+  public int[][] getGrid()
   {
     XMLParser gridParser = new XMLParser(gamePath);
     return gridParser.getGrid();

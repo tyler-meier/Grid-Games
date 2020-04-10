@@ -17,6 +17,12 @@ import org.w3c.dom.NodeList;
 public class XMLParser {
 
   private final int ZERO_INDEX = 0;
+  private final int EMPTY_TAG = 0;
+  private final String GRID_DELIMINATOR = " ";
+  private final String ROW_TAG = "row";
+  private final String ZERO_DEFAULT_VALUE= "0";
+  private final String NUM_ROWS_TAG= "numRows";
+  private final String NUM_COLUMNS_TAG= "numColumns";
 
   private Document doc;
 
@@ -34,7 +40,12 @@ public class XMLParser {
     }
   }
 
-
+  /**
+   * Gets a map based on the keys specified in the given
+   * resource bundle
+   * @param keysAndDefaults
+   * @return
+   */
   public Map<String, String> getMapFromXML(ResourceBundle keysAndDefaults) {
     List<String> keys = Collections.list(keysAndDefaults.getKeys());
     Map<String, String> mapToFill = new HashMap<>();
@@ -44,8 +55,86 @@ public class XMLParser {
     return mapToFill;
   }
 
+  /**
+   * Allows us to get a list of all the values
+   * with the same tag name
+   * @param tagName
+   * @param defaultVal
+   * @return
+   */
   public List<String> getListFromXML(String tagName, String defaultVal) {
     return getAllInstances(tagName, defaultVal);
+  }
+
+  /**
+   * Allows us to get a boolean element specified by the tag
+   * @param tagName
+   * @param defaultVal
+   * @return
+   */
+  public boolean getBooleanElementByTag(String tagName, String defaultVal)
+  {
+    return Boolean.parseBoolean(getStringElementByTag(tagName, defaultVal));
+  }
+
+  /**
+   * Allows us to get an integer that was encoded as a string
+   * @param tagName
+   * @param defaultVal
+   * @return
+   */
+  public int getIntegerElementByTag(String tagName, String defaultVal)
+  {
+    return Integer.parseInt(getStringElementByTag(tagName, defaultVal));
+  }
+
+  /**
+   *
+   * @return
+   */
+  public int[][] getGrid()
+  {
+    int numRows = getIntegerElementByTag(NUM_ROWS_TAG, ZERO_DEFAULT_VALUE);
+    int numCols = getIntegerElementByTag(NUM_COLUMNS_TAG, ZERO_DEFAULT_VALUE);
+    int[][] grid = new int[numRows][numCols];
+
+    NodeList nodeList = doc.getElementsByTagName(ROW_TAG);
+
+    for (int r = ZERO_INDEX; r < nodeList.getLength(); r++)
+    {
+      Node node = nodeList.item(r);
+      try{
+        String [] states = node.getTextContent().split(GRID_DELIMINATOR);
+        for(int c = ZERO_INDEX; c < numCols; c++)
+        {
+          grid[r][c] = Integer.parseInt(states[c]);
+        }
+      }
+      catch(Exception e)
+      {
+        throw new ParserException(e, ROW_TAG);
+      }
+    }
+    return grid;
+  }
+
+  /**
+   * Gets the string within tag tagName
+   * @param tagName
+   * @return
+   */
+  public String getStringElementByTag(String tagName, String defaultVal)
+  {
+    if(doc.getElementsByTagName(tagName).getLength() == EMPTY_TAG)
+    {
+      return defaultVal;
+    }
+    String ret = doc.getElementsByTagName(tagName).item(ZERO_INDEX).getTextContent();
+    if(ret.isEmpty())
+    {
+      return defaultVal;
+    }
+    return ret;
   }
 
   private List<String> getAllInstances(String tagName, String defaultVal) {
@@ -67,61 +156,5 @@ public class XMLParser {
     return ret;
   }
 
-  public boolean getBooleanElementByTag(String tagName, String defaultVal)
-  {
-    return Boolean.parseBoolean(getStringElementByTag(tagName, defaultVal));
-  }
-
-  public int getIntegerElementByTag(String tagName, String defaultVal)
-  {
-    return Integer.parseInt(getStringElementByTag(tagName, defaultVal));
-  }
-
-  public int[][] getGrid()
-  {
-    int numRows = getIntegerElementByTag("numRows", "0");
-    int numCols = getIntegerElementByTag("numColumns", "0");
-    int[][] grid = new int[numRows][numCols];
-
-    String [] rows = new String [numRows];
-    NodeList nodeList = doc.getElementsByTagName("row");
-
-    // nodeList is not iterable, so we are using for loop
-    for (int r = 0; r < nodeList.getLength(); r++)
-    {
-      Node node = nodeList.item(r);
-      try{
-        String [] states = node.getTextContent().split(" ");
-        for(int c = 0; c < numCols; c++)
-        {
-          grid[r][c] = Integer.parseInt(states[c]);
-        }
-      }
-      catch(Exception e)
-      {
-        throw new ParserException(e, "row");
-      }
-    }
-    return grid;
-  }
-
-  /**
-   * Gets the string within tag tagName
-   * @param tagName
-   * @return
-   */
-  public String getStringElementByTag(String tagName, String defaultVal)
-  {
-    if(doc.getElementsByTagName(tagName).getLength() == 0)
-    {
-      return defaultVal;
-    }
-    String ret = doc.getElementsByTagName(tagName).item(0).getTextContent();
-    if(ret.equals(""))
-    {
-      return defaultVal;
-    }
-    return ret;
-  }
 }
 

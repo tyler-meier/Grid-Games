@@ -2,6 +2,8 @@ package ooga.player.screens;
 
 import java.io.FileNotFoundException;
 import java.util.*;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -28,11 +30,15 @@ public class GameScreen {
   private Player myPlayer;
   private int myHeight;
   private int myWidth;
-  private int myHighScore;
-  private int myScore;
-  private int myLives;
   private GridView myGrid;
   private BorderPane myRoot;
+  private String myGameType;
+  private Scene thisScene;
+  IntegerProperty myHighScore = new SimpleIntegerProperty();
+  IntegerProperty myScore = new SimpleIntegerProperty();
+  IntegerProperty myLives = new SimpleIntegerProperty();
+  IntegerProperty myLevel = new SimpleIntegerProperty();
+  String myTime = "00:00:000";
 
   public GameScreen(String gameType, Player player){
     myButtonResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "ButtonCreation");
@@ -40,11 +46,6 @@ public class GameScreen {
     myPlayer = player;
     myGrid = new GridView(gameType, 400);
     myRoot = new BorderPane();
-
-    //TODO: retrieve stats from user profile, binding the map?
-    myHighScore = 12;
-    myScore = 0;
-    myLives = 5;
   }
 
   /**
@@ -53,16 +54,19 @@ public class GameScreen {
    * @param width
    * @return
    */
-  public Scene makeScene(int height, int width) {
+  public Scene makeScene(Grid backendGrid, String gameType, String currUsername, int height, int width) {
     myHeight = height;
     myWidth = width;
     myRoot.setPadding(new Insets(10, 20, 10, 20));
+    myGameType = gameType;
+    setGrid(backendGrid);
+    setStats(backendGrid.getGameStats());
 
-    Node toolBar = makeToolBar();
+    Node toolBar = makeToolBar(currUsername);
     myRoot.setTop(toolBar);
 
     VBox verticalPanel = new VBox();
-    Node buttonPanel = makeButtonPanel();
+    Node buttonPanel = makeButtonPanel(currUsername);
     Node statsPanel = makeStatsPanel();
     verticalPanel.setSpacing(30);
     verticalPanel.setAlignment(Pos.CENTER);
@@ -72,6 +76,7 @@ public class GameScreen {
     Scene scene = new Scene(myRoot, height, width);
     scene.getStylesheets().add(getClass().getResource(DEFAULT_RESOURCE_FOLDER + STYLESHEET).toExternalForm());
 
+    thisScene = scene;
     return scene;
   }
 
@@ -90,21 +95,22 @@ public class GameScreen {
   }
 
   //make panel of buttons for screen
-  private Node makeButtonPanel() {
+  private Node makeButtonPanel(String username) {
     Button loginButton = makeButton("LogoutCommand", e-> myPlayer.setUpLoginScreen());
-    Button resetButton = makeButton("ResetCommand", e-> makeScene(myHeight, myWidth));
+    //Button resetButton = makeButton("ResetCommand", e-> mak);
 
     VBox buttons = new VBox();
-    buttons.getChildren().addAll(loginButton, resetButton);
+    buttons.getChildren().addAll(loginButton);
+    //, resetButton
     buttons.setSpacing(10);
     buttons.setAlignment(Pos.CENTER);
 
     return buttons;
   }
 
-  private Node makeToolBar() {
+  private Node makeToolBar(String username) {
     HBox toolBar = new HBox();
-    Button homeButton = makeButton("HomeCommand", e-> myPlayer.setUpStartScreen(""));
+    Button homeButton = makeButton("HomeCommand", e-> myPlayer.setUpStartScreen(username));
 
     TimeKeeper timer = new TimeKeeper();
     timer.addTimeline();
@@ -119,15 +125,32 @@ public class GameScreen {
 
   private Node makeStatsPanel() {
     VBox stats = new VBox();
-    Label highScore = new Label(Integer.toString(myHighScore));
-    Label score = new Label(Integer.toString(myScore));
-    Label lives = new Label(Integer.toString(myLives));
+    Label highScore = new Label();
+    highScore.textProperty().bind(myHighScore.asString());
+    Label score = new Label();
+    score.textProperty().bind(myScore.asString());
+    Label lives = new Label();
+    lives.textProperty().bind(myLives.asString());
+    Label level = new Label();
+    level.textProperty().bind(myLevel.asString());
 
-    stats.getChildren().addAll(highScore, score, lives);
+    stats.getChildren().addAll(highScore, score, lives, level);
     stats.setSpacing(10);
     stats.setAlignment(Pos.CENTER);
 
     return stats;
+  }
+
+  public void setStats(Map<String, IntegerProperty> gameStats){
+    //TODO: how do you get high score of profile?
+    System.out.println(gameStats.get("Score").getValue());
+    myHighScore.bind(gameStats.get("Score"));
+    myScore.bind(gameStats.get("Score"));
+    //TODO: get number of lives
+    myLives.bind(gameStats.get("Level"));
+    myLevel.bind(gameStats.get("Level"));
+    //TODO: implement timekeeper
+//    gameStats.get("Time").bind(myTime);
   }
 
 }

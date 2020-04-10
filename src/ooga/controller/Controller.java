@@ -41,12 +41,13 @@ public class Controller extends Application {
         String username = player.getUsername();
         Map<String, String> myEngineAttributes = data.getEngineAttributes(type);
         Map<String, String> myGameAttributes = data.getGameAttributes(username, type);
-        int[][] initialStates = data.getGrid(username, type);
+        int[][] initialStates = data.getGrid();
         Engine engine = new Engine(myEngineAttributes, data.getErrorMessage());
         engine.setupGame(initialStates, myGameAttributes);
-        // line below is unnecessary (as is line 55) bc these are public methods in Grid, don't have to go through controller
         //player.setGameStats(engine.getGameStats());
-        player.setGrid(engine.getGrid()); // need to change param type of set grid
+        // line below is unnecessary (as is line 55) bc these are public methods in Grid, don't have to go through controller
+//        player.setGameStats(engine.getGameStats());
+        player.setUpGameScreen(engine.getGrid()); // need to change param type of set grid
 //        player.setSaveGameButton(e -> data.saveGame(username, type, engine.getGameAttributes(), engine.getGridConfiguration()));
 //        player.setResetButton(e -> {
 //              Map<String, String> newGameAttributes = data.getGameAttributes("guest", type);

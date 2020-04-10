@@ -8,6 +8,9 @@ import java.util.Map;
 import ooga.data.UserProfile;
 import org.w3c.dom.Element;
 
+/**
+ * Creates or updates the XML of the user passed
+ */
 public class XMLSingularProfileBuilder extends XMLBuilder {
 
   private UserProfile user;
@@ -18,6 +21,22 @@ public class XMLSingularProfileBuilder extends XMLBuilder {
     this.user = user;
     fillUserMap();
     createDocument(mainTag, pathName);
+  }
+
+  /**
+   * Adds elements based off the map created from the User given
+   * @param root
+   */
+  @Override
+  void addElementsToRoot(Element root) {
+    for(String tag : userAttributes.keySet())
+    {
+      for(String item : userAttributes.get(tag))
+      {
+        Element temp = createElement(tag, item);
+        root.appendChild(temp);
+      }
+    }
   }
 
   private void fillUserMap() {
@@ -51,16 +70,4 @@ public class XMLSingularProfileBuilder extends XMLBuilder {
     userAttributes.get(key).add(value);
   }
 
-
-  @Override
-  void addElementsToRoot(Element root) {
-    for(String tag : userAttributes.keySet())
-    {
-      for(String item : userAttributes.get(tag))
-      {
-        Element temp = createElement(tag, item);
-        root.appendChild(temp);
-      }
-    }
-  }
 }

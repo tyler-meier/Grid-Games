@@ -25,10 +25,11 @@ public class StartScreen {
   private EventHandler myEngine;
   private ComboBox games;
 
-  public StartScreen(Player thisPlayer){
+  public StartScreen(EventHandler engine, Player thisPlayer){
+    myPlayer = thisPlayer;
+    myEngine = engine;
     myStringResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "BasicStrings");
     myButtonResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "ButtonCreation");
-    myPlayer = thisPlayer;
   }
 
   public Scene setUpScene(String username){
@@ -69,9 +70,8 @@ public class StartScreen {
     VBox buttonVBox = new VBox();
 
     Button startButton = makeButton("StartCommand", e -> {
-      myPlayer.setGameType((String) games.getValue());
+      myPlayer.setGameType((String) games.getValue());  //TODO check for the empty chosen thing
       myEngine.handle(e);
-      myPlayer.setUpGameScreen((String) games.getValue());
     });
     Button logoutButton = makeButton("LogoutCommand", e -> myPlayer.setUpLoginScreen());
 
@@ -86,9 +86,5 @@ public class StartScreen {
     newButton.setText(myButtonResources.getString(text));
     newButton.setOnAction(handler);
     return newButton;
-  }
-
-  public void createEngine(EventHandler engine){
-    myEngine = engine;
   }
 }

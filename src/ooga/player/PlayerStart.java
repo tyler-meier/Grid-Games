@@ -15,6 +15,11 @@ public interface PlayerStart {
   boolean isGameSaved();
 
   /**
+   * An instance variable gameType is set based off of what the  game chosen to play was
+   */
+  void setGameType(String type);
+
+  /**
    * An instance variable String gameType is set as the name of the game type being currently played.
    * The String is returned in this method.
    * @return
@@ -34,12 +39,6 @@ public interface PlayerStart {
    * @return
    */
   String getPassword();
-
-  /**
-   * 2D array of grid is taken in as parameter to generate the corresponding view of the grid.
-   * @param grid
-   */
-  void setGrid(Grid grid);
 
   /**
    * Takes in name of XMLfile that corresponds to the progress of the player and displays view

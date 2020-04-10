@@ -37,12 +37,102 @@ public class ProfileManager {
 
   }
 
+  /**
+   * Given an updated user, able to update their XML file
+   * @param user
+   */
   public void updatePLayerXML(UserProfile user)
   {
     XMLBuilder newProfileXML = new XMLSingularProfileBuilder(MAIN_TAG, user.getPath(), user);
   }
 
+  /**
+   * This allows for username and password validating to login
+   * @param username
+   * @param password
+   * @return
+   * @throws IncorrectPasswordException
+   * @throws NoUserExistsException
+   */
+  public boolean isValid(String username, String password) throws IncorrectPasswordException, NoUserExistsException
+  {
+    for(UserProfile user : allProfiles)
+    {
+      if(user.getUsername().equals(username))
+      {
+        if(matchingPassword(password, user))
+        {
+          return true;
+        }
+        else
+        {
+          throw new IncorrectPasswordException(password);
+        }
+      }
+    }
+    throw new NoUserExistsException(username);
+  }
 
+  /**
+   * Used in Data to get profiles to send to frontend
+   * @param username
+   * @return
+   */
+  public UserProfile getProfile(String username)
+  {
+    for(UserProfile user : allProfiles)
+    {
+      if(user.getUsername().equals(username))
+      {
+        return user;
+      }
+    }
+    return null;
+  }
+
+
+  /**
+   * Adds a new profile to the XML configuration and
+   * adds new folder to all profiles
+   * @param username
+   * @param password
+   * @return
+   */
+  public UserProfile addProfile(String username, String password)
+  {
+    UserProfile newUser = new UserProfile(username, password);
+    XMLBuilder newProfileXML = new XMLSingularProfileBuilder(MAIN_TAG, newUser.getPath(), newUser);
+    allProfiles.add(newUser);
+    writeNewProfileToRegisteredList();
+    return newUser;
+  }
+
+
+  private void writeNewProfileToRegisteredList()
+  {
+    List<String> profilesToWrite = new ArrayList<>();
+    for(UserProfile user : allProfiles)
+    {
+      profilesToWrite.add(String.format(SKELETON_SPACE, user.getUsername(), user.getPassword()));
+    }
+    XMLBuilder builder = new XMLRegisteredProfileBuilder(CONTAINER_TAG, REGISTERED_PROFILES_PATH, MAIN_TAG, profilesToWrite);
+  }
+
+  private boolean matchingPassword(String password, UserProfile temp)
+  {
+    return password.equals(temp.getPassword());
+  }
+
+  public boolean notExistingProfile(String username) {
+    for(UserProfile existingUser: allProfiles)
+    {
+      if(existingUser.getUsername().equals(username))
+      {
+        return false;
+      }
+    }
+    return true;
+  }
 
   private void retrieveKnownProfiles() {
     for(String user : profileParser.getListFromXML(MAIN_TAG, null))
@@ -91,60 +181,4 @@ public class ProfileManager {
     }
   }
 
-  public boolean isValid(String username, String password) throws IncorrectPasswordException, NoUserExistsException
-  {
-    for(UserProfile user : allProfiles)
-    {
-      if(user.getUsername().equals(username))
-      {
-        if(matchingPassword(password, user))
-        {
-          return true;
-        }
-        else
-        {
-          throw new IncorrectPasswordException(password);
-        }
-      }
-    }
-    throw new NoUserExistsException(username);
-  }
-
-  public UserProfile getProfile(String username)
-  {
-    for(UserProfile user : allProfiles)
-    {
-      if(user.getUsername().equals(username))
-      {
-        return user;
-      }
-    }
-    return null;
-  }
-
-
-  public UserProfile addProfile(String username, String password)
-  {
-    UserProfile newUser = new UserProfile(username, password);
-    XMLBuilder newProfileXML = new XMLSingularProfileBuilder(MAIN_TAG, newUser.getPath(), newUser);
-    allProfiles.add(newUser);
-    writeNewProfileToRegisteredList();
-    return newUser;
-  }
-
-
-  private void writeNewProfileToRegisteredList()
-  {
-    List<String> profilesToWrite = new ArrayList<>();
-    for(UserProfile user : allProfiles)
-    {
-      profilesToWrite.add(String.format(SKELETON_SPACE, user.getUsername(), user.getPassword()));
-    }
-    XMLBuilder builder = new XMLRegisteredProfileBuilder(CONTAINER_TAG, REGISTERED_PROFILES_PATH, MAIN_TAG, profilesToWrite);
-  }
-
-  private boolean matchingPassword(String password, UserProfile temp)
-  {
-    return password.equals(temp.getPassword());
-  }
 }
