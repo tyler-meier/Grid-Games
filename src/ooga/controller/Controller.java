@@ -46,7 +46,7 @@ public class Controller extends Application {
         engine.setupGame(initialStates, myGameAttributes);
         //player.setGameStats(engine.getGameStats());
         // line below is unnecessary (as is line 55) bc these are public methods in Grid, don't have to go through controller
-        //player.setGameStats(engine.getGameStats());
+//        player.setGameStats(engine.getGameStats());
         player.setGrid(engine.getGrid()); // need to change param type of set grid
 //        player.setSaveGameButton(e -> data.saveGame(username, type, engine.getGameAttributes(), engine.getGridConfiguration()));
 //        player.setResetButton(e -> {

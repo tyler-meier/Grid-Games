@@ -33,7 +33,11 @@ public class GameScreen {
   private GridView myGrid;
   private BorderPane myRoot;
   private String myGameType;
-  IntegerProperty myHighScore, myScore, myLives, myLevel, myTime = new SimpleIntegerProperty();
+  IntegerProperty myHighScore = new SimpleIntegerProperty();
+  IntegerProperty myScore = new SimpleIntegerProperty();
+  IntegerProperty myLives = new SimpleIntegerProperty();
+  IntegerProperty myLevel = new SimpleIntegerProperty();
+  String myTime = "00:00:000";
 
   public GameScreen(String gameType, Player player){
     myButtonResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "ButtonCreation");
@@ -134,11 +138,14 @@ public class GameScreen {
 
   public void setStats(Map<String, IntegerProperty> gameStats){
     //TODO: how do you get high score of profile?
+    System.out.println(gameStats.get("Score").getValue());
     myHighScore.bind(gameStats.get("Score"));
     myScore.bind(gameStats.get("Score"));
+    //TODO: get number of lives
     myLives.bind(gameStats.get("Level"));
     myLevel.bind(gameStats.get("Level"));
-    gameStats.get("Time").bind(myTime);
+    //TODO: implement timekeeper
+//    gameStats.get("Time").bind(myTime);
   }
 
 }
