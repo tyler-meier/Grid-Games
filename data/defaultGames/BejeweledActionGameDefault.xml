@@ -3,13 +3,9 @@
   <Level>0</Level>
   <Score>0</Score>
   <TargetScore>0</TargetScore>
+  <LossStat>MovesUsed</LossStat>
   <MovesUsed>10</MovesUsed>
 
-  <LivesLost>0</LivesLost>
-  <Time>0</Time>
-  <TotalLives>0</TotalLives>
-  <TotalMoves>0</TotalMoves>
-  <TotalTime>0</TotalTime>
 
   <numRows>8</numRows>
   <numColumns>8</numColumns>
