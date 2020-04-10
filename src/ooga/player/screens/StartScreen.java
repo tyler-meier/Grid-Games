@@ -13,14 +13,8 @@ import javafx.scene.layout.VBox;
 import ooga.player.Player;
 
 public class StartScreen {
-
   private static final int DIMENSION = 600;
-  private static final String RESOURCES = "ooga/player/Resources/";
-  private static final String DEFAULT_RESOURCE_PACKAGE = RESOURCES.replace("/", ".");
-  private static final String DEFAULT_RESOURCE_FOLDER = "/" + RESOURCES;
-  private static final String STYLESHEET = "default.css";
 
-  private ResourceBundle myStringResources, myButtonResources;
   private Player myPlayer;
   private EventHandler myEngine;
   private ComboBox games;
@@ -28,8 +22,6 @@ public class StartScreen {
   public StartScreen(EventHandler engine, Player thisPlayer){
     myPlayer = thisPlayer;
     myEngine = engine;
-    myStringResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "BasicStrings");
-    myButtonResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "ButtonCreation");
   }
 
   public Scene setUpScene(String username){
