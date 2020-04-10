@@ -40,7 +40,7 @@ public class Cell {
     }
 
     public void toggleSelected(){
-        System.out.println("A cell has been selected");
+        //System.out.println("A cell has been selected");
         if (!inProgress.get()){
             sel = !sel;
             myCounter.changeCount(sel);
@@ -109,7 +109,6 @@ public class Cell {
         // random number 1 through maxState inclusive
         int randomInteger = random.nextInt(maxState)+1;
         System.out.println("this is the RANDOM INTEGER: " + randomInteger);
-        System.out.println("Is cell open? " + open.get());
         myState.set(randomInteger);
     }
 

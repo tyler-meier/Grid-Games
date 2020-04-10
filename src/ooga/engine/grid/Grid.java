@@ -147,7 +147,7 @@ public class Grid {
             List<Cell> matchedCells = new ArrayList<>();
 
             //TODO: ask TA if there is a better way to do this to avoid circular dependency
-            if (hasHiddenCells){
+            if (!hasHiddenCells){
                 matchedCells.addAll(selectedCells); //we are adding the selected cells so that the points are accounted for
                 matchedCells.addAll(myMatchFinder.makeMatches(this)); //minesweeper game
             }
@@ -160,7 +160,7 @@ public class Grid {
             }
 
             while (matchedCells.size()>0){
-                if (hasHiddenCells) {
+                if (!hasHiddenCells) {
                     openMatchedCells(matchedCells);
                 }
                 else {
@@ -169,7 +169,9 @@ public class Grid {
                     deleteMatchedCells(matchedCells);
                 }
                 // here we are looking at the board as a whole and adding matched cells
-                //matchedCells.addAll(myMatchFinder.makeMatches(this));
+                System.out.println("THIS IS THE SIZE OF MATCHED CELLS ARRAYLIST BEFORE: " + matchedCells.size());
+                matchedCells.addAll(myMatchFinder.makeMatches(this));
+                System.out.println("THIS IS THE SIZE OF MATCHED CELLS ARRAYLIST NOW: " + matchedCells.size());
             }
          }
          else {
@@ -217,7 +219,7 @@ public class Grid {
                         nextRowAbove--;
                     } } }
             if (addNewCells) {
-                System.out.println("About to refill a column");
+                //System.out.println("About to refill a column");
                 refillColumn(col);
             }
         }
@@ -229,7 +231,7 @@ public class Grid {
             Cell cell = getCell(row, col);
             if (cell.getMyState()==-1){
                 System.out.println("Row of new cell: " + cell.getRow());
-                System.out.println("Row of new cell: " + cell.getColumn());
+                System.out.println("Column of new cell: " + cell.getColumn());
                 cell.randomize(maxState);
             }
         }

@@ -16,6 +16,7 @@ public class OpenFinder extends MatchFinder {
     @Override
     public List<Cell> makeMatches(Grid grid) {
         // loop over all cells, if >x in a row of same kind, set these cells to -1
+        System.out.println("TRYING TO FIND MATCHES IN WHOLE GRID");
         List<Cell> matchedCells = new ArrayList<>();
         int rows = grid.getRows();
         int cols = grid.getCols();
