@@ -69,12 +69,6 @@ public class Player implements PlayerStart{
     myEngine = engine;
   }
 
-  public void setGameStats(Map<String, IntegerProperty> gameStats){
-    //System.out.println(gameStats);
-    myGameScreen.setStats(gameStats);
-  }
-
-
   /**
    * An instance variable boolean keeps track of whether most recent progress of player is saved.
    * The boolean is returned in this method.
@@ -132,6 +126,7 @@ public class Player implements PlayerStart{
 
   public void setGrid(Grid backendGrid){
     myGameScreen.setGrid(backendGrid);
+    myGameScreen.setStats(backendGrid.getGameStats());
   };
 
   /**

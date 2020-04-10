@@ -3,6 +3,7 @@ package ooga.player.screens;
 import java.io.FileNotFoundException;
 import java.util.*;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -29,10 +30,14 @@ public class GameScreen {
   private Player myPlayer;
   private int myHeight;
   private int myWidth;
-  private int myHighScore, myScore, myLives, myLevel;
   private GridView myGrid;
   private BorderPane myRoot;
   private String myGameType;
+  IntegerProperty myHighScore = new SimpleIntegerProperty();
+  IntegerProperty myScore = new SimpleIntegerProperty();
+  IntegerProperty myLives = new SimpleIntegerProperty();
+  IntegerProperty myLevel = new SimpleIntegerProperty();
+  String myTime = "00:00:000";
 
   public GameScreen(String gameType, Player player){
     myButtonResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "ButtonCreation");
@@ -115,10 +120,14 @@ public class GameScreen {
 
   private Node makeStatsPanel() {
     VBox stats = new VBox();
-    Label highScore = new Label(Integer.toString(myHighScore));
-    Label score = new Label(Integer.toString(myScore));
-    Label lives = new Label(Integer.toString(myLives));
-    Label level = new Label(Integer.toString(myLevel));
+    Label highScore = new Label();
+    highScore.textProperty().bind(myHighScore.asString());
+    Label score = new Label();
+    score.textProperty().bind(myScore.asString());
+    Label lives = new Label();
+    lives.textProperty().bind(myLives.asString());
+    Label level = new Label();
+    level.textProperty().bind(myLevel.asString());
 
     stats.getChildren().addAll(highScore, score, lives, level);
     stats.setSpacing(10);
@@ -128,10 +137,15 @@ public class GameScreen {
   }
 
   public void setStats(Map<String, IntegerProperty> gameStats){
-    myHighScore = gameStats.get("Score").getValue();
-    myScore = gameStats.get("Score").getValue();
-    myLives = gameStats.get("Level").getValue();    //TODO need to bind this onto the screen, not just update the instance variable
-    myLevel = gameStats.get("Level").getValue();
+    //TODO: how do you get high score of profile?
+    System.out.println(gameStats.get("Score").getValue());
+    myHighScore.bind(gameStats.get("Score"));
+    myScore.bind(gameStats.get("Score"));
+    //TODO: get number of lives
+    myLives.bind(gameStats.get("Level"));
+    myLevel.bind(gameStats.get("Level"));
+    //TODO: implement timekeeper
+//    gameStats.get("Time").bind(myTime);
   }
 
 }
