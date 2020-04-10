@@ -33,6 +33,7 @@ public class GameScreen {
   private GridView myGrid;
   private BorderPane myRoot;
   private String myGameType;
+  private Scene thisScene;
   IntegerProperty myHighScore = new SimpleIntegerProperty();
   IntegerProperty myScore = new SimpleIntegerProperty();
   IntegerProperty myLives = new SimpleIntegerProperty();
@@ -54,11 +55,13 @@ public class GameScreen {
    * @param width
    * @return
    */
-  public Scene makeScene(String gameType, String currUsername, int height, int width) {
+  public Scene makeScene(Grid backendGrid, String gameType, String currUsername, int height, int width) {
     myHeight = height;
     myWidth = width;
     myRoot.setPadding(new Insets(10, 20, 10, 20));
     myGameType = gameType;
+    setGrid(backendGrid);
+    setStats(backendGrid.getGameStats());
 
     Node toolBar = makeToolBar(currUsername);
     myRoot.setTop(toolBar);
@@ -74,6 +77,7 @@ public class GameScreen {
     Scene scene = new Scene(myRoot, height, width);
     scene.getStylesheets().add(getClass().getResource(DEFAULT_RESOURCE_FOLDER + STYLESHEET).toExternalForm());
 
+    thisScene = scene;
     return scene;
   }
 
@@ -94,10 +98,11 @@ public class GameScreen {
   //make panel of buttons for screen
   private Node makeButtonPanel(String username) {
     Button loginButton = makeButton("LogoutCommand", e-> myPlayer.setUpLoginScreen());
-    Button resetButton = makeButton("ResetCommand", e-> makeScene(myGameType, username, myHeight, myWidth));
+    //Button resetButton = makeButton("ResetCommand", e-> mak);
 
     VBox buttons = new VBox();
-    buttons.getChildren().addAll(loginButton, resetButton);
+    buttons.getChildren().addAll(loginButton);
+    //, resetButton
     buttons.setSpacing(10);
     buttons.setAlignment(Pos.CENTER);
 

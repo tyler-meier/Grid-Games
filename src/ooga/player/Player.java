@@ -32,7 +32,6 @@ public class Player implements PlayerStart{
   public void startView(Stage primaryStage){
     myStage = primaryStage;
     myLoginScreen = new LoginScreen(this);
-    myGameScreen = new GameScreen("BejeweledAction", this); //TODO this aint right
     myStage.setScene(myLoginScreen.setUpScene());
     myStage.setTitle(TITLE);
     myStage.show();
@@ -49,8 +48,9 @@ public class Player implements PlayerStart{
     myStage.setScene(myNewProfScreen.setUpScene());
   }
 
-  public void setUpGameScreen(){   //TODO Pass through game type?
-    myStage.setScene(myGameScreen.makeScene(myGameType, currentUsername, 800, 500));
+  public void setUpGameScreen(Grid backendGrid){   //TODO Pass through game type?
+    myGameScreen = new GameScreen(myGameType, this);
+    myStage.setScene(myGameScreen.makeScene(backendGrid, myGameType, currentUsername, 800, 500));
   }
 
   public void setUpLoginScreen(){
@@ -119,16 +119,7 @@ public class Player implements PlayerStart{
   };
 
   /**
-   * 2D array of grid is taken in as parameter to generate the corresponding view of the grid.
-   * @param backendGrid
-   */
-  @Override
-  public void setGrid(Grid backendGrid){
-    myGameScreen.setGrid(backendGrid);
-    myGameScreen.setStats(backendGrid.getGameStats());
-  };
 
-  /**
    * Takes in name of XMLfile that corresponds to the progress of the player and displays view
    * @param fileName
    */

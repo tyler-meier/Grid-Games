@@ -1,10 +1,6 @@
 package ooga.data.buildingXML;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -16,8 +12,13 @@ import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-public abstract class XMLBuilder {
+/**
+ * Class which contains basic element needed to build an XML document.
+ * This is instantiated differently depending on what kind of
+ * document you want to make
+ */
 
+public abstract class XMLBuilder {
 
   private DocumentBuilderFactory documentFactory;
   private DocumentBuilder documentBuilder;
@@ -71,7 +72,8 @@ public abstract class XMLBuilder {
   }
 
   /**
-   *
+   * Allows us to write things to the XMl in different ways depending
+   * on the type of document you want to write
    * @param root
    */
   abstract void addElementsToRoot(Element root);
@@ -89,39 +91,4 @@ public abstract class XMLBuilder {
     return e;
   }
 
-
-  /*
-
-  //needed instance variables to run main method
-
-  private static DocumentBuilderFactory documentFactory;
-  private static DocumentBuilder documentBuilder;
-  private static Document document;
-  private static final String DELIMINATOR = "::";
-  private static String pathName = "data/practiceBuilder.xml";
-
-
-    public static void main(String[] args)
-    {
-      String REGISTERED_PROFILES_PATH = "data/RegisteredProfiles.xml";
-      XMLParser profileParser = new XMLParser(REGISTERED_PROFILES_PATH);
-      Map<String, List<String>> allProfiles = new HashMap<>();
-      for(String user : profileParser.getListFromXML("profile", null))
-      {
-        String [] neededParts = user.split("::");
-        String currUsername = neededParts[2];
-        String currPassword = neededParts[0];
-        String currPath = neededParts[1];
-        allProfiles.put(currUsername, new ArrayList<>());
-        allProfiles.get(currUsername).add(currPassword);
-        allProfiles.get(currUsername).add(currPath);
-      }
-      Map<String, List<String>> updatedMap = new HashMap<>();
-      for(String user : allProfiles.keySet())
-      {
-        updatedMap.put("profile", new ArrayList(allProfiles.get(user)));
-        updatedMap.get("profile").add(user);
-      }
-      XMLBuilder builder = new XMLBuilder("profiles", REGISTERED_PROFILES_PATH, updatedMap);
-    }*/
   }

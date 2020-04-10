@@ -41,8 +41,8 @@ public class GridView {
                 rec.setStrokeWidth(1);
                 UICell currCell = new UICell(backendGrid.getCell(row, col), myGameType, myCellHeight, myCellWidth);
                 ImageView myImageView = currCell.getImageView();
-                GridPane.setRowIndex(myImageView, col * myCellWidth);
-                GridPane.setColumnIndex(myImageView, row * myCellHeight);
+                GridPane.setRowIndex(myImageView, row * myCellWidth);
+                GridPane.setColumnIndex(myImageView, col * myCellHeight);
                 myGrid.getChildren().add(myImageView);
             }
         }

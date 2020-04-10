@@ -72,7 +72,6 @@ public class StartScreen {
     Button startButton = makeButton("StartCommand", e -> {
       myPlayer.setGameType((String) games.getValue());  //TODO check for the empty chosen thing
       myEngine.handle(e);
-      myPlayer.setUpGameScreen();
     });
     Button logoutButton = makeButton("LogoutCommand", e -> myPlayer.setUpLoginScreen());
 
