@@ -31,6 +31,7 @@ public class GameScreen {
   private int myHeight;
   private int myWidth;
   private GridView myGrid;
+  private GridPane myGridPane;
   private BorderPane myRoot;
   private String myGameType;
   private Scene thisScene;
@@ -46,7 +47,6 @@ public class GameScreen {
     myStringResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "BasicStrings");
     myPlayer = player;
     myGrid = new GridView(gameType, 400);
-    myRoot = new BorderPane();
   }
 
   /**
@@ -55,13 +55,12 @@ public class GameScreen {
    * @param width
    * @return
    */
-  public Scene makeScene(Grid backendGrid, String gameType, String currUsername, int height, int width) {
+  public Scene makeScene(String gameType, String currUsername, int height, int width) {
+    myRoot = new BorderPane();
     myHeight = height;
     myWidth = width;
     myRoot.setPadding(new Insets(10, 20, 10, 20));
     myGameType = gameType;
-    setGrid(backendGrid);
-    setStats(backendGrid.getGameStats());
 
     Node toolBar = makeToolBar(currUsername);
     myRoot.setTop(toolBar);
@@ -82,9 +81,9 @@ public class GameScreen {
   }
 
   public void setGrid(Grid backendGrid){
-    GridPane gameGrid = myGrid.setGrid(backendGrid);
-    gameGrid.setAlignment(Pos.CENTER);
-    myRoot.setCenter(gameGrid);
+    myGridPane = myGrid.setGrid(backendGrid);
+    myGridPane.setAlignment(Pos.CENTER);
+    myRoot.setCenter(myGridPane);
   }
 
   //returns a button with correct text, associated event handler
@@ -98,7 +97,7 @@ public class GameScreen {
   //make panel of buttons for screen
   private Node makeButtonPanel(String username) {
     Button loginButton = makeButton("LogoutCommand", e-> myPlayer.setUpLoginScreen());
-    //Button resetButton = makeButton("ResetCommand", e-> mak);
+//    Button resetButton = makeButton("ResetCommand", e-> makeScene(myGameType, ));
 
     VBox buttons = new VBox();
     buttons.getChildren().addAll(loginButton);
@@ -136,7 +135,7 @@ public class GameScreen {
     Label level = new Label();
     level.textProperty().bind(myLevel.asString());
     Label movesleft = new Label();
-    movesleft.textProperty().bind(myLevel.asString());
+    movesleft.textProperty().bind(myMovesLeft.asString());
 
     stats.getChildren().addAll(highScore, score, lives, level, movesleft);
     stats.setSpacing(10);
@@ -153,6 +152,7 @@ public class GameScreen {
     //TODO: get number of lives
     myLives.bind(gameStats.get("Level"));
     myLevel.bind(gameStats.get("Level"));
+    System.out.println(gameStats.get("MovesUsed"));
     myMovesLeft.bind(gameStats.get("MovesUsed"));
     //TODO: implement timekeeper
 //    gameStats.get("Time").bind(myTime);

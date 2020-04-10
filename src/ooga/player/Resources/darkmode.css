@@ -1,0 +1,55 @@
+.root{
+    -fx-base: black;
+    -fx-background: black;
+}
+
+.text-area{
+    -fx-font-size: 15pt;
+    -fx-font-family: "Futura";
+}
+
+.label{
+    -fx-font-size: 20pt;
+    -fx-font-family: "Futura";
+}
+
+.button{
+    -fx-font-size: 12pt;
+    -fx-font-family: "Futura";
+    -fx-pref-width: 240px;
+    -fx-border-width: 2pt;
+    -fx-border-color: white;
+    -fx-text-fill: #EEF985;
+    -fx-background-color: #31312A;
+    -fx-alignment: CENTER;
+
+}
+
+.button:hover{
+    -fx-font-size: 12pt;
+    -fx-font-family: "Futura";
+    -fx-pref-width: 240px;
+    -fx-border-width: 2pt;
+    -fx-text-fill: #31312A;
+    -fx-background-color: #EEF985;
+    -fx-alignment: CENTER;
+}
+
+.button:pressed{
+    -fx-font-size: 12pt;
+    -fx-font-family: "Futura";
+    -fx-pref-width: 240px;
+    -fx-border-width: 2pt;
+    -fx-text-fill: #31312A;
+    -fx-background-color: #EEF985;
+    -fx-alignment: CENTER;
+}
+
+.text-field{
+    -fx-font-size: 12pt;
+    -fx-font-family: "Futura";
+    -fx-max-width: 240px;
+    -fx-padding: 2,2,2,2;
+    -fx-border-color: black;
+    -fx-border-radius: 2;
+}
