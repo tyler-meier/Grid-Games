@@ -78,9 +78,7 @@ public class UICell {
 
     private void changeImage(){
          if (open.get()) {
-             System.out.println("cell open, gettting image");
              myImageView.setImage(getImage()); // however you want to get the image associated with this state
-             System.out.println("hi");
          }
          else {
              //System.out.println("cell not open");
