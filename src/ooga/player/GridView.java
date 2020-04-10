@@ -1,7 +1,9 @@
 package ooga.player;
 
+import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -41,8 +43,8 @@ public class GridView {
                 rec.setStrokeWidth(1);
                 UICell currCell = new UICell(backendGrid.getCell(row, col), myGameType, myCellHeight, myCellWidth);
                 ImageView myImageView = currCell.getImageView();
-                GridPane.setRowIndex(myImageView, col * myCellWidth);
-                GridPane.setColumnIndex(myImageView, row * myCellHeight);
+                GridPane.setRowIndex(myImageView, row * myCellWidth);
+                GridPane.setColumnIndex(myImageView, col * myCellHeight);
                 myGrid.getChildren().add(myImageView);
             }
         }

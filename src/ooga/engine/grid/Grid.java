@@ -10,6 +10,7 @@ import ooga.engine.validator.Validator;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 public class Grid {
     private static final String NUM_SELECTED_PER_MOVE = "NumSelectedPerMove";
@@ -91,6 +92,7 @@ public class Grid {
                         numSelected += increment? 1 : -1;
                         if (numSelected==numSelectedPerMove) updateMyBoard();
                     }, moveInProgress);
+                    myGrid[r][c].setCoordinates(r,c);
                 } else {
                     getCell(r, c).cellState().set(initialStates[r][c]);
                     getCell(r, c).isOpen().set(hasHiddenCells);
@@ -156,7 +158,9 @@ public class Grid {
                 else deleteMatchedCells(matchedCells);
                 matchedCells.addAll(myMatchFinder.makeMatches(this));
             }
-         } else System.out.println("invalid move");
+         } else {
+             System.out.println("invalid move");
+         }
          moveInProgress.set(false);
         for (Cell cell:selectedCells) cell.toggleSelected();
     }

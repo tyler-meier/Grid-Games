@@ -4,13 +4,17 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderPane;
 import ooga.engine.Cell;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 
 public class UICell {
@@ -29,12 +33,17 @@ public class UICell {
 
     public UICell(Cell cell, String gameType, int cellHeight, int cellWidth){
         open.bind(cell.isOpen());
+
         state.bind(cell.cellState());
         myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + gameType);
         setupImageMap();
         setupImageView(cellHeight, cellWidth);
         setListeners();
         myImageView.setOnMouseClicked(e -> cell.toggleSelected());
+        cell.isOpen().addListener((obs, oldv, newv) -> {
+            System.out.println("changing image");
+            changeImage();
+        });
     }
 
     private void setupImageMap(){
@@ -64,17 +73,20 @@ public class UICell {
     }
 
     private void setListeners(){
-        open.addListener((obs, oldv, newv) -> changeImage());
         state.addListener((obs, oldv, newv) -> changeImage());
     }
 
 
     private void changeImage(){
-         //errors bc of imageMap and hiddenImage here, define these/rename and then the method is done
-        //myImageView.setImage(getImage());
-
-         if (open.get()) myImageView.setImage(getImage()); // however you want to get the image associated with this state
-         else myImageView.setImage(hiddenImage); // however you want to store the image displayed for "hidden" cells
+         if (open.get()) {
+             System.out.println("cell open, gettting image");
+             myImageView.setImage(getImage()); // however you want to get the image associated with this state
+             System.out.println("hi");
+         }
+         else {
+             //System.out.println("cell not open");
+             myImageView.setImage(hiddenImage); // however you want to store the image displayed for "hidden" cells
+         }
     }
 
     //TODO: get either integer or cell to retrieve information about the cell type, return image view

@@ -25,6 +25,9 @@ public class Cell {
         myState.setValue(initialState);
         open.set(!isOpen);
         numPoints = points;
+//        open.addListener((o, a, b) -> {
+//            System.out.println("open is now: "+ open.get());
+//        });
     }
 
     /**
@@ -37,6 +40,7 @@ public class Cell {
     }
 
     public void toggleSelected(){
+        System.out.println("r: "+myRow +", c: "+myColumn + " open: "+open.get());
         if (!inProgress.get()){
             sel = !sel;
             myCounter.changeCount(sel);
