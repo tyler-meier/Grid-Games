@@ -1,8 +1,7 @@
-package test;
+package data;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -11,7 +10,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import ooga.data.ProfileManager;
-import ooga.data.UserProfile;
 import ooga.data.XMLParser;
 import org.junit.jupiter.api.Test;
 

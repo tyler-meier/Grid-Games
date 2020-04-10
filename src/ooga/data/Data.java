@@ -9,6 +9,7 @@ import javafx.beans.property.StringProperty;
 import ooga.data.buildingXML.XMLBuilder;
 import ooga.data.exceptions.IncorrectPasswordException;
 import ooga.data.exceptions.NoUserExistsException;
+import ooga.data.exceptions.UserAlreadyExistsException;
 
 /**
  * The purpose of this class is to hold all the methods which need to be accessed
@@ -90,8 +91,17 @@ public class Data implements DataLink {
    */
   @Override
   public UserProfile saveNewPlayerProfile(String username, String password) {
-    currentUser = myProfileManager.addProfile(username, password);
-    return currentUser;
+    try{
+      if(myProfileManager.notExistingProfile(username))
+      {
+        currentUser = myProfileManager.addProfile(username, password);
+        return currentUser;
+      }
+    } catch(UserAlreadyExistsException e)
+    {
+      errorMessage.setValue(e.getMessage());
+    }
+    return null;
   }
 
 
