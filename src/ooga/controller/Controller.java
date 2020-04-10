@@ -41,7 +41,7 @@ public class Controller extends Application {
         String username = player.getUsername();
         Map<String, String> myEngineAttributes = data.getEngineAttributes(type);
         Map<String, String> myGameAttributes = data.getGameAttributes(username, type);
-        int[][] initialStates = data.getGrid(username, type);
+        int[][] initialStates = data.getGrid();
         Engine engine = new Engine(myEngineAttributes, data.getErrorMessage());
         engine.setupGame(initialStates, myGameAttributes);
         // line below is unnecessary (as is line 55) bc these are public methods in Grid, don't have to go through controller

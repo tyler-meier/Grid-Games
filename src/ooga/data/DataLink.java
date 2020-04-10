@@ -46,7 +46,7 @@ public interface DataLink {
    * @param username
    * @param engineAttributes
    */
-  void saveGame(String username, DataObject engineAttributes);
+  void saveGame(String username, Map<String, String> engineAttributes);
 
   /**
    * Given a profile and a gameType, the Data interface should be able to return
@@ -59,20 +59,10 @@ public interface DataLink {
   Map<String, String> getGameAttributes(String username, String gameType);
 
   /**
-   * Given a gametype, the interface should be able to load a data file
-   * representing that gameType and read all of the needed attributes
-   * to create a game. This can be done with any type of file, any method
-   * of loading and any types of attributes
-   * @param gameType
-   * @return
-   */
-  Map<String, String> loadConfigurationFile(String gameType);
-
-  /**
    *
    * @return
    */
-  int[][] getGrid(String username, String gameType);
+  int[][] getGrid();
 
   /**
    *

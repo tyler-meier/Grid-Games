@@ -5,6 +5,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 
+/**
+ * This class allows us to send all this information
+ * the frontend needs about the player
+ */
 public class UserProfile {
     private final String DEFAULT_GAME_PATH = "resources.DefaultGamePaths";
     private final ResourceBundle myGamePathResource = ResourceBundle.getBundle(DEFAULT_GAME_PATH);
@@ -39,6 +43,11 @@ public class UserProfile {
 
     }
 
+    /**
+     *
+     * @param type
+     * @return
+     */
     public boolean hasSavedGame(String type){
         return savedGames.containsKey(type);
     }
