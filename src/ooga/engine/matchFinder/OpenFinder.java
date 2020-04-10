@@ -31,18 +31,16 @@ public class OpenFinder extends MatchFinder {
     }
 
     public List<Cell> makeMatches(List<Cell> selected, Grid grid){
-        System.out.println("Inside the TWO PARAMETER makeMatches method");
         Cell first = selected.get(0);
         Cell second = selected.get(1);
         List<Cell> matchedCells = new ArrayList<>();
         for (Cell cell:selected) {
             matchedCells.addAll(getMatches(cell, grid));
         }
-        System.out.println("This is the size of matched cell array: " + matchedCells.size());
         if (matchedCells.size()==0){
             first.swap(second);
-            System.out.println("State of first cell after swapping back bc invalid move: " + first.getMyState());
-            System.out.println("State of second cell after swapping back bc invalid move: " + second.getMyState());
+            //System.out.println("State of first cell after swapping back bc invalid move: " + first.getMyState());
+            //System.out.println("State of second cell after swapping back bc invalid move: " + second.getMyState());
         }
 
         return matchedCells;
@@ -50,12 +48,8 @@ public class OpenFinder extends MatchFinder {
 
     //FIXME: for some reason, this method keeps repeating
     private List<Cell> getMatches(Cell cell, Grid grid){
-        System.out.println("About to get matches for the grid");
-        System.out.println("This is the cell being passed to vertical matches: row = " + cell.getRow() + " col = " +cell.getColumn());
         List<Cell> allMatches = getVerticalMatches(cell, grid);
-        System.out.println("sucessfully got VERTICAL MATCHES");
         allMatches.addAll(getHorizontalMatches(cell, grid));
-        System.out.println("sucessfully got HORIZONTAL MATCHES");
         return allMatches;
     }
 
