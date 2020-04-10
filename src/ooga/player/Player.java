@@ -1,28 +1,30 @@
 package ooga.player;
 
+import java.util.Map;
+import javafx.beans.property.IntegerProperty;
 import javafx.event.EventHandler;
 import javafx.beans.property.StringProperty;
 import javafx.stage.Stage;
 import ooga.controller.UserLogin;
 import ooga.data.DataObject;
-import ooga.engine.Cell;
 import ooga.engine.grid.Grid;
 import ooga.player.screens.GameScreen;
 import ooga.player.screens.LoginScreen;
 import ooga.player.screens.NewProfileScreen;
 import ooga.player.screens.StartScreen;
 
-import java.io.FileNotFoundException;
-
 public class Player implements PlayerStart{
 
   private static final String TITLE = "Grid GORLS + Tyler :)";
+
   private Stage myStage;
   private LoginScreen myLoginScreen;
   private NewProfileScreen myNewProfScreen;
   private GameScreen myGameScreen;
   private StartScreen myStartScreen;
-  private String myGameType;
+  private String myGameType, currentUsername;
+  private UserLogin myUserLogin;
+  private EventHandler myEngine;
 
   public Player(){
   }
@@ -30,39 +32,46 @@ public class Player implements PlayerStart{
   public void startView(Stage primaryStage){
     myStage = primaryStage;
     myLoginScreen = new LoginScreen(this);
-    myNewProfScreen = new NewProfileScreen(this);
-    myGameScreen = new GameScreen("BejeweledAction", this);
-    myStartScreen = new StartScreen(this);
+    myGameScreen = new GameScreen("BejeweledAction", this); //TODO this aint right
     myStage.setScene(myLoginScreen.setUpScene());
     myStage.setTitle(TITLE);
     myStage.show();
   }
 
   public void setUpStartScreen(String username){
+    myStartScreen = new StartScreen(myEngine, this);
+    currentUsername = username;
     myStage.setScene(myStartScreen.setUpScene(username));
   }
+
   public void setUpNewProfScreen(){
+    myNewProfScreen = new NewProfileScreen(myUserLogin, this);
     myStage.setScene(myNewProfScreen.setUpScene());
   }
 
-  public void setUpGameScreen(String gameType){
-    myStage.setScene(myGameScreen.makeScene(800, 500));
+  public void setUpGameScreen(){   //TODO Pass through game type?
+    myStage.setScene(myGameScreen.makeScene(myGameType, currentUsername, 800, 500));
   }
+
   public void setUpLoginScreen(){
     myStage.setScene(myLoginScreen.setUpScene());
   }
-
 
   public void setLoginAction(UserLogin userLogin){
     myLoginScreen.giveMeUserLogin(userLogin);
   }
 
   public void setNewLoginAction(UserLogin userLogin){
-    myNewProfScreen.giveMeUserLogin(userLogin);
+    myUserLogin = userLogin;
   }
 
   public void setStartGameButton(EventHandler engine){
-    myStartScreen.createEngine(engine);
+    myEngine = engine;
+  }
+
+  public void setGameStats(Map<String, IntegerProperty> gameStats){
+    //System.out.println(gameStats);
+    myGameScreen.setStats(gameStats);
   }
 
 
@@ -76,6 +85,11 @@ public class Player implements PlayerStart{
     return true;
   };
 
+  /**
+   * An instance variable gameType is set based off of what the  game chosen to play was
+   * @param type the current game chosen to  be played
+   */
+  @Override
   public void setGameType(String type){  //TODO add to api
     myGameType = type;
   }
@@ -97,7 +111,7 @@ public class Player implements PlayerStart{
    */
   @Override
   public String getUsername(){
-    return "";
+    return currentUsername;
   };
 
   /**
@@ -160,7 +174,7 @@ public class Player implements PlayerStart{
   };
 
   /**
-   * starts a agame based off of the saved data
+   * starts a game based off of the saved data
    * @param myData the data that is for a saved game
    */
   @Override

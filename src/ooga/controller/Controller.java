@@ -44,6 +44,7 @@ public class Controller extends Application {
         int[][] initialStates = data.getGrid(username, type);
         Engine engine = new Engine(myEngineAttributes, data.getErrorMessage());
         engine.setupGame(initialStates, myGameAttributes);
+        //player.setGameStats(engine.getGameStats());
         // line below is unnecessary (as is line 55) bc these are public methods in Grid, don't have to go through controller
         //player.setGameStats(engine.getGameStats());
         player.setGrid(engine.getGrid()); // need to change param type of set grid

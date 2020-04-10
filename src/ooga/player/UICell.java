@@ -23,10 +23,13 @@ public class UICell {
     private static final String IMAGERESOURCES = "src/ooga/player/Resources/Images/";
     private static final String DEFAULT_IMAGERESOURCE_PACKAGE = IMAGERESOURCES.replace("/", ".");
     private ResourceBundle myResources;
+    private String currentGameType;
 
     public UICell(Cell cell, String gameType, int cellHeight, int cellWidth){
         open.bind(cell.isOpen());
         state.bind(cell.cellState());
+        currentGameType = gameType;
+        //setListeners();
         myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + gameType);
         setupImageView(cellHeight, cellWidth);
         setListeners();
@@ -44,6 +47,13 @@ public class UICell {
     private void setListeners(){
         open.addListener((obs, oldv, newv) -> changeImage());
         state.addListener((obs, oldv, newv) -> changeImage());
+//        if (currentGameType.equals("Memory")){   //TODO hard coded string
+//            myImageView.setOnMouseClicked(e -> {
+//                System.out.println("a cell has been clicked IN UI CELLLLLL");
+//                myImageView.visibleProperty().bindBidirectional(selected);
+//                if (!moveInProgress.get()) selected.set(!selected.get());
+//            });
+//        }
     }
 
 

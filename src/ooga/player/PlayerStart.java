@@ -15,6 +15,11 @@ public interface PlayerStart {
   boolean isGameSaved();
 
   /**
+   * An instance variable gameType is set based off of what the  game chosen to play was
+   */
+  void setGameType(String type);
+
+  /**
    * An instance variable String gameType is set as the name of the game type being currently played.
    * The String is returned in this method.
    * @return

@@ -2,6 +2,7 @@ package ooga.player.screens;
 
 import java.io.FileNotFoundException;
 import java.util.*;
+import javafx.beans.property.IntegerProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -28,11 +29,10 @@ public class GameScreen {
   private Player myPlayer;
   private int myHeight;
   private int myWidth;
-  private int myHighScore;
-  private int myScore;
-  private int myLives;
+  private int myHighScore, myScore, myLives, myLevel;
   private GridView myGrid;
   private BorderPane myRoot;
+  private String myGameType;
 
   public GameScreen(String gameType, Player player){
     myButtonResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "ButtonCreation");
@@ -40,11 +40,6 @@ public class GameScreen {
     myPlayer = player;
     myGrid = new GridView(gameType, 400);
     myRoot = new BorderPane();
-
-    //TODO: retrieve stats from user profile, binding the map?
-    myHighScore = 12;
-    myScore = 0;
-    myLives = 5;
   }
 
   /**
@@ -53,16 +48,17 @@ public class GameScreen {
    * @param width
    * @return
    */
-  public Scene makeScene(int height, int width) {
+  public Scene makeScene(String gameType, String currUsername, int height, int width) {
     myHeight = height;
     myWidth = width;
     myRoot.setPadding(new Insets(10, 20, 10, 20));
+    myGameType = gameType;
 
-    Node toolBar = makeToolBar();
+    Node toolBar = makeToolBar(currUsername);
     myRoot.setTop(toolBar);
 
     VBox verticalPanel = new VBox();
-    Node buttonPanel = makeButtonPanel();
+    Node buttonPanel = makeButtonPanel(currUsername);
     Node statsPanel = makeStatsPanel();
     verticalPanel.setSpacing(30);
     verticalPanel.setAlignment(Pos.CENTER);
@@ -90,9 +86,9 @@ public class GameScreen {
   }
 
   //make panel of buttons for screen
-  private Node makeButtonPanel() {
+  private Node makeButtonPanel(String username) {
     Button loginButton = makeButton("LogoutCommand", e-> myPlayer.setUpLoginScreen());
-    Button resetButton = makeButton("ResetCommand", e-> makeScene(myHeight, myWidth));
+    Button resetButton = makeButton("ResetCommand", e-> makeScene(myGameType, username, myHeight, myWidth));
 
     VBox buttons = new VBox();
     buttons.getChildren().addAll(loginButton, resetButton);
@@ -102,9 +98,9 @@ public class GameScreen {
     return buttons;
   }
 
-  private Node makeToolBar() {
+  private Node makeToolBar(String username) {
     HBox toolBar = new HBox();
-    Button homeButton = makeButton("HomeCommand", e-> myPlayer.setUpStartScreen(""));
+    Button homeButton = makeButton("HomeCommand", e-> myPlayer.setUpStartScreen(username));
 
     TimeKeeper timer = new TimeKeeper();
     timer.addTimeline();
@@ -122,12 +118,20 @@ public class GameScreen {
     Label highScore = new Label(Integer.toString(myHighScore));
     Label score = new Label(Integer.toString(myScore));
     Label lives = new Label(Integer.toString(myLives));
+    Label level = new Label(Integer.toString(myLevel));
 
-    stats.getChildren().addAll(highScore, score, lives);
+    stats.getChildren().addAll(highScore, score, lives, level);
     stats.setSpacing(10);
     stats.setAlignment(Pos.CENTER);
 
     return stats;
+  }
+
+  public void setStats(Map<String, IntegerProperty> gameStats){
+    myHighScore = gameStats.get("Score").getValue();
+    myScore = gameStats.get("Score").getValue();
+    myLives = gameStats.get("Level").getValue();    //TODO need to bind this onto the screen, not just update the instance variable
+    myLevel = gameStats.get("Level").getValue();
   }
 
 }
