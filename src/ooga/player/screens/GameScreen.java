@@ -37,6 +37,7 @@ public class GameScreen {
   IntegerProperty myScore = new SimpleIntegerProperty();
   IntegerProperty myLives = new SimpleIntegerProperty();
   IntegerProperty myLevel = new SimpleIntegerProperty();
+  IntegerProperty myMovesLeft = new SimpleIntegerProperty();
   String myTime = "00:00:000";
 
   public GameScreen(String gameType, Player player){
@@ -119,6 +120,7 @@ public class GameScreen {
   }
 
   private Node makeStatsPanel() {
+    //TODO: refactor this, use keys from the gamestats to display correct stirng
     VBox stats = new VBox();
     Label highScore = new Label();
     highScore.textProperty().bind(myHighScore.asString());
@@ -128,8 +130,10 @@ public class GameScreen {
     lives.textProperty().bind(myLives.asString());
     Label level = new Label();
     level.textProperty().bind(myLevel.asString());
+    Label movesleft = new Label();
+    movesleft.textProperty().bind(myLevel.asString());
 
-    stats.getChildren().addAll(highScore, score, lives, level);
+    stats.getChildren().addAll(highScore, score, lives, level, movesleft);
     stats.setSpacing(10);
     stats.setAlignment(Pos.CENTER);
 
@@ -144,6 +148,7 @@ public class GameScreen {
     //TODO: get number of lives
     myLives.bind(gameStats.get("Level"));
     myLevel.bind(gameStats.get("Level"));
+    myMovesLeft.bind(gameStats.get("MovesUsed"));
     //TODO: implement timekeeper
 //    gameStats.get("Time").bind(myTime);
   }

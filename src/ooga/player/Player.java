@@ -123,7 +123,6 @@ public class Player implements PlayerStart{
    * @param backendGrid
    */
   @Override
-
   public void setGrid(Grid backendGrid){
     myGameScreen.setGrid(backendGrid);
     myGameScreen.setStats(backendGrid.getGameStats());
