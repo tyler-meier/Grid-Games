@@ -1,10 +1,7 @@
-package test;
+package data;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import ooga.data.ProfileManager;
 import org.junit.jupiter.api.Test;

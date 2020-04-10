@@ -9,6 +9,7 @@ import javafx.beans.property.StringProperty;
 import ooga.data.buildingXML.XMLBuilder;
 import ooga.data.exceptions.IncorrectPasswordException;
 import ooga.data.exceptions.NoUserExistsException;
+import ooga.data.exceptions.UserAlreadyExistsException;
 
 /**
  * The purpose of this class is to hold all the methods which need to be accessed
@@ -17,17 +18,16 @@ import ooga.data.exceptions.NoUserExistsException;
  */
 public class Data implements DataLink {
 
-  private static final String ENGINE_PATH_SKELETON = "data/%sGameDefault.xml";
   private final String ENGINE_KEY_PATH = "resources.EngineKeys";
   private final String GAME_KEY_PATH = "resources.GameKeys";
   private final String DEFAULT_GAMES_PATH = "resources.DefaultGamePaths";
   private final String DEFAULT_ENGINE_PATH = "resources.DefaultEnginePaths";
+  private final String GUEST_USER = "Guest";
 
   private final ResourceBundle myEngineResource = ResourceBundle.getBundle(ENGINE_KEY_PATH);
   private final ResourceBundle myGameResource = ResourceBundle.getBundle(GAME_KEY_PATH);
   private final ResourceBundle myDefaultGamePathResource = ResourceBundle.getBundle(DEFAULT_GAMES_PATH);
   private final ResourceBundle myDefaultEnginePathResource = ResourceBundle.getBundle(DEFAULT_ENGINE_PATH);
-
 
   private String gamePath;
   private ProfileManager myProfileManager = new ProfileManager();
@@ -91,8 +91,17 @@ public class Data implements DataLink {
    */
   @Override
   public UserProfile saveNewPlayerProfile(String username, String password) {
-    currentUser = myProfileManager.addProfile(username, password);
-    return currentUser;
+    try{
+      if(myProfileManager.notExistingProfile(username))
+      {
+        currentUser = myProfileManager.addProfile(username, password);
+        return currentUser;
+      }
+    } catch(UserAlreadyExistsException e)
+    {
+      errorMessage.setValue(e.getMessage());
+    }
+    return null;
   }
 
 
@@ -105,8 +114,8 @@ public class Data implements DataLink {
   @Override
   public Map<String, String> getEngineAttributes(String gameType) {
     String enginePath = myDefaultEnginePathResource.getString(gameType);
-    XMLParser gameParser = new XMLParser(enginePath);
-    return gameParser.getMapFromXML(myEngineResource);
+    XMLParser engineParser = new XMLParser(enginePath);
+    return engineParser.getMapFromXML(myEngineResource);
   }
 
   /**
@@ -133,8 +142,12 @@ public class Data implements DataLink {
    */
   @Override
   public Map<String, String> getGameAttributes(String username, String gameType) {
+    gamePath = myDefaultGamePathResource.getString(gameType);
+    if(!username.equals(GUEST_USER))
+    {
+      gamePath = currentUser.getSavedGame(gameType);
+    }
     gamePath = currentUser.getSavedGame(gameType);
-    System.out.println("Game: " + gamePath);
     XMLParser gameParser = new XMLParser(gamePath);
     return gameParser.getMapFromXML(myGameResource);
   }
@@ -163,10 +176,7 @@ public class Data implements DataLink {
   @Override
   public int[][] getGrid(String user, String gameType)
   {
-    //TODO: How do we know which configuration to do?
-    String savedPath = currentUser.getSavedGame(gameType);
-    System.out.println("Config: " + savedPath);
-    XMLParser gridParser = new XMLParser(savedPath);
+    XMLParser gridParser = new XMLParser(gamePath);
     return gridParser.getGrid();
   }
 

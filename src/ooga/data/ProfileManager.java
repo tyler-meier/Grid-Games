@@ -147,4 +147,15 @@ public class ProfileManager {
   {
     return password.equals(temp.getPassword());
   }
+
+  public boolean notExistingProfile(String username) {
+    for(UserProfile existingUser: allProfiles)
+    {
+      if(existingUser.getUsername().equals(username))
+      {
+        return false;
+      }
+    }
+    return true;
+  }
 }
