@@ -4,6 +4,7 @@ import ooga.engine.Cell;
 import ooga.engine.matchFinder.MatchFinder;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class PairValidator extends Validator {
 
@@ -21,6 +22,11 @@ public class PairValidator extends Validator {
             cell.isOpen().set(true);
             if (cell.getMyState()!=matchState) matched = false;
         }
+
+//        try { Thread.sleep(4000);
+//        } catch (Exception e) {
+//            System.out.println("timer issue"); }
+
 
         //wait 5 seconds
         for (Cell cell:selected){
