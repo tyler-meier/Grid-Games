@@ -1,9 +1,8 @@
 package ooga.player.screens;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
-import javafx.beans.property.StringProperty;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -17,33 +16,32 @@ import ooga.player.Player;
 
 public class LoginScreen extends SuperScreen{
 
-  private static final int DIMENSION = 600;
-
-  private ResourceBundle myStringResources, myButtonResources;
   private Player myPlayer;
   private TextField username, password;
   private UserLogin myUserLogin;
   private UserProfile userData;
-  private Label myErrorMessage;
+  private ResourceBundle myStringResources;
+  private List<Node> myNodes;
 
   public LoginScreen(Player thisPlayer){
-    myErrorMessage = new Label();
+    super(thisPlayer);
     myPlayer = thisPlayer;
+    myNodes = new ArrayList<>();
+    myStringResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "BasicStrings");
   }
 
-  @Override
   public Scene setUpScene(){
     Node topLoginPanel = setupLoginAndLabel();
     Node buttonPanel = setUpButtons();
+    myNodes.clear();
+    myNodes.add(topLoginPanel);
+    myNodes.add(buttonPanel);
+    Scene scene = styleScene(myNodes);
+    return scene;
+  }
 
-    VBox myCenterVBox = new VBox();
-    myCenterVBox.getChildren().addAll(topLoginPanel, buttonPanel, myErrorMessage);
-    myCenterVBox.setSpacing(50);
-    myCenterVBox.setAlignment(Pos.CENTER);
-
-    Scene loginScreen = new Scene(myCenterVBox, DIMENSION, DIMENSION);
-    loginScreen.getStylesheets().add(getClass().getResource(super.DEFAULT_RESOURCE_FOLDER + STYLESHEET).toExternalForm());
-    return loginScreen;
+  public void giveMeUserLogin(UserLogin thisUserLogin){
+    myUserLogin = thisUserLogin;
   }
 
   private Node setupLoginAndLabel(){
@@ -82,20 +80,4 @@ public class LoginScreen extends SuperScreen{
     buttonVBox.setAlignment(Pos.CENTER);
     return buttonVBox;
   }
-
-  private Button makeButton(String text, EventHandler<ActionEvent> handler) {
-    Button newButton = new Button();
-    newButton.setText(myButtonResources.getString(text));
-    newButton.setOnAction(handler);
-    return newButton;
-  }
-
-  public void giveMeUserLogin(UserLogin thisUserLogin){
-    myUserLogin = thisUserLogin;
-  }
-
-  public void setError(StringProperty message){
-    myErrorMessage.textProperty().bindBidirectional(message);
-  }
-
 }
