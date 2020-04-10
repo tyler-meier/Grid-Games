@@ -3,6 +3,7 @@ package ooga.player.screens;
 import java.io.FileNotFoundException;
 import java.util.*;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -29,10 +30,10 @@ public class GameScreen {
   private Player myPlayer;
   private int myHeight;
   private int myWidth;
-  private int myHighScore, myScore, myLives, myLevel;
   private GridView myGrid;
   private BorderPane myRoot;
   private String myGameType;
+  IntegerProperty myHighScore, myScore, myLives, myLevel, myTime = new SimpleIntegerProperty();
 
   public GameScreen(String gameType, Player player){
     myButtonResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "ButtonCreation");
@@ -115,10 +116,10 @@ public class GameScreen {
 
   private Node makeStatsPanel() {
     VBox stats = new VBox();
-    Label highScore = new Label(Integer.toString(myHighScore));
-    Label score = new Label(Integer.toString(myScore));
-    Label lives = new Label(Integer.toString(myLives));
-    Label level = new Label(Integer.toString(myLevel));
+    Label highScore = new Label(myHighScore.toString());
+    Label score = new Label(myScore.toString());
+    Label lives = new Label(myLives.toString());
+    Label level = new Label(myLevel.toString());
 
     stats.getChildren().addAll(highScore, score, lives, level);
     stats.setSpacing(10);
@@ -128,10 +129,12 @@ public class GameScreen {
   }
 
   public void setStats(Map<String, IntegerProperty> gameStats){
-    myHighScore = gameStats.get("Score").getValue();
-    myScore = gameStats.get("Score").getValue();
-    myLives = gameStats.get("Level").getValue();    //TODO need to bind this onto the screen, not just update the instance variable
-    myLevel = gameStats.get("Level").getValue();
+    //TODO: how do you get high score of profile?
+//    myHighScore.bind(gameStats.get("Score"));
+    myScore.bind(gameStats.get("Score"));
+    myLives.bind(gameStats.get("Level"));
+    myLevel.bind(gameStats.get("Level"));
+    gameStats.get("Time").bind(myTime);
   }
 
 }
