@@ -1,7 +1,8 @@
 package ooga.data.exceptions;
 
-import javafx.beans.property.StringProperty;
-
+/**
+ * Thrown when we can't read part of a data file
+ */
 public class ParserException extends RuntimeException {
   private String message = "Data file could not be read: %s";
 
