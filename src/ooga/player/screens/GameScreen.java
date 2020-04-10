@@ -116,10 +116,14 @@ public class GameScreen {
 
   private Node makeStatsPanel() {
     VBox stats = new VBox();
-    Label highScore = new Label(myHighScore.toString());
-    Label score = new Label(myScore.toString());
-    Label lives = new Label(myLives.toString());
-    Label level = new Label(myLevel.toString());
+    Label highScore = new Label();
+    highScore.textProperty().bind(myHighScore.asString());
+    Label score = new Label();
+    score.textProperty().bind(myScore.asString());
+    Label lives = new Label();
+    lives.textProperty().bind(myLives.asString());
+    Label level = new Label();
+    level.textProperty().bind(myLevel.asString());
 
     stats.getChildren().addAll(highScore, score, lives, level);
     stats.setSpacing(10);
@@ -130,7 +134,7 @@ public class GameScreen {
 
   public void setStats(Map<String, IntegerProperty> gameStats){
     //TODO: how do you get high score of profile?
-//    myHighScore.bind(gameStats.get("Score"));
+    myHighScore.bind(gameStats.get("Score"));
     myScore.bind(gameStats.get("Score"));
     myLives.bind(gameStats.get("Level"));
     myLevel.bind(gameStats.get("Level"));
