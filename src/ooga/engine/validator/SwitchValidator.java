@@ -1,6 +1,7 @@
 package ooga.engine.validator;
 
 import ooga.engine.Cell;
+import ooga.engine.GameProgressManager;
 
 import java.util.List;
 
@@ -10,7 +11,7 @@ public class SwitchValidator extends Validator{
         super();
     }
     @Override
-    public boolean checkIsValid(List<Cell> selected) {
+    public boolean checkIsValid(List<Cell> selected, GameProgressManager myProgressManager) {
         if (selected.size()>2) return false;
 
         Cell first = selected.get(0);

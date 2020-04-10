@@ -10,7 +10,6 @@ import ooga.engine.validator.Validator;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 public class Grid {
     private static final String NUM_SELECTED_PER_MOVE = "NumSelectedPerMove";
@@ -142,15 +141,15 @@ public class Grid {
     public void updateGrid(){
         moveInProgress.set(true);
         List<Cell> selectedCells = getSelectedCells();
-         if(myValidator.checkIsValid(selectedCells)){
+         if(myValidator.checkIsValid(selectedCells, myProgressManager)){
             System.out.println("valid move");
-            myProgressManager.incrementMoves();
             List<Cell> matchedCells = new ArrayList<>();
             //TODO: ask TA if there is a better way to do this to avoid circular dependency
             if (hasHiddenCells){
                 matchedCells.addAll(selectedCells);
                 matchedCells.addAll(myMatchFinder.makeMatches(this));
             }else {
+                myProgressManager.incrementMoves();
                 matchedCells.addAll(myMatchFinder.makeMatches(selectedCells, this));
             }
             while (matchedCells.size()>0){
@@ -158,9 +157,7 @@ public class Grid {
                 else deleteMatchedCells(matchedCells);
                 matchedCells.addAll(myMatchFinder.makeMatches(this));
             }
-         } else {
-             System.out.println("invalid move");
-         }
+         } else System.out.println("invalid move");
          moveInProgress.set(false);
         for (Cell cell:selectedCells) cell.toggleSelected();
     }

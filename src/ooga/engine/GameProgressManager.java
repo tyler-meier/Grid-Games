@@ -60,7 +60,6 @@ public class GameProgressManager{
 
     public void updateScore(int amount){
         changeValue(SCORE, amount);
-        System.out.println("THIS IS THE UPDATED SCORE: " + gameStats.get(SCORE));
     }
 
     public void startTimer() {
@@ -84,7 +83,9 @@ public class GameProgressManager{
         timer.cancel();
     }
 
-    public void incrementMoves(){ changeValue(MOVES_USED, -1); }
+    public void incrementMoves(){
+        changeValue(MOVES_USED, -1);
+    }
 
     public void incrementLives(){ changeValue(LIVES_LOST, -1); }
 
