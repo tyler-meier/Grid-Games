@@ -25,6 +25,8 @@
     <TotalTime>0</TotalTime>
     <!-- to here-->
 
+    <numRows>9</numRows>
+    <numColumns>9</numColumns>
     <row>1 2 3 4 3 2 5 3 6</row>
     <row>2 1 1 4 3 5 3 4 3</row>
     <row>5 1 4 1 5 3 3 6 2</row>

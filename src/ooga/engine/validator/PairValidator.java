@@ -1,15 +1,14 @@
 package ooga.engine.validator;
 
 import ooga.engine.Cell;
-import ooga.engine.matchFinder.MatchFinder;
+import ooga.engine.GameProgressManager;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 public class PairValidator extends Validator {
 
     @Override
-    public boolean checkIsValid(List<Cell> selected) {
+    public boolean checkIsValid(List<Cell> selected, GameProgressManager myProgressManager) {
         for (Cell cell:selected) {
             if (cell.isOpen().get()){
                 return false;
@@ -32,6 +31,7 @@ public class PairValidator extends Validator {
         for (Cell cell:selected){
             if (!matched) cell.isOpen().set(false);
         }
+        if (!matched) myProgressManager.incrementMoves();
         return matched;
     }
 }
