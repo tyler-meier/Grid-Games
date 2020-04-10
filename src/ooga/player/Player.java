@@ -1,7 +1,5 @@
 package ooga.player;
 
-import java.util.Map;
-import javafx.beans.property.IntegerProperty;
 import javafx.event.EventHandler;
 import javafx.beans.property.StringProperty;
 import javafx.stage.Stage;
@@ -48,9 +46,11 @@ public class Player implements PlayerStart{
     myStage.setScene(myNewProfScreen.setUpScene());
   }
 
-  public void setUpGameScreen(Grid backendGrid){   //TODO Pass through game type?
+  public void setUpGameScreen(Grid backendGrid){
     myGameScreen = new GameScreen(myGameType, this);
-    myStage.setScene(myGameScreen.makeScene(backendGrid, myGameType, currentUsername, 800, 500));
+    myStage.setScene(myGameScreen.makeScene(myGameType, currentUsername, 800, 500));
+    myGameScreen.setGrid(backendGrid);
+    myGameScreen.setStats(backendGrid.getGameStats());
   }
 
   public void setUpLoginScreen(){

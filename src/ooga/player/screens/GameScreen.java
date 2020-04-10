@@ -3,8 +3,6 @@ package ooga.player.screens;
 import java.util.*;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -29,6 +27,7 @@ public class GameScreen extends SuperScreen{
   private int myHeight;
   private int myWidth;
   private GridView myGrid;
+  private GridPane myGridPane;
   private BorderPane myRoot;
   private String myGameType;
   private Scene thisScene;
@@ -44,7 +43,6 @@ public class GameScreen extends SuperScreen{
     myStringResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "BasicStrings");
     myPlayer = player;
     myGrid = new GridView(gameType, 400);
-    myRoot = new BorderPane();
   }
 
   /**
@@ -53,13 +51,12 @@ public class GameScreen extends SuperScreen{
    * @param width
    * @return
    */
-  public Scene makeScene(Grid backendGrid, String gameType, String currUsername, int height, int width) {
+  public Scene makeScene(String gameType, String currUsername, int height, int width) {
+    myRoot = new BorderPane();
     myHeight = height;
     myWidth = width;
     myRoot.setPadding(new Insets(10, 20, 10, 20));
     myGameType = gameType;
-    setGrid(backendGrid);
-    setStats(backendGrid.getGameStats());
 
     Node toolBar = makeToolBar(currUsername);
     myRoot.setTop(toolBar);
@@ -80,9 +77,9 @@ public class GameScreen extends SuperScreen{
   }
 
   public void setGrid(Grid backendGrid){
-    GridPane gameGrid = myGrid.setGrid(backendGrid);
-    gameGrid.setAlignment(Pos.CENTER);
-    myRoot.setCenter(gameGrid);
+    myGridPane = myGrid.setGrid(backendGrid);
+    myGridPane.setAlignment(Pos.CENTER);
+    myRoot.setCenter(myGridPane);
   }
 
   //make panel of buttons for screen
@@ -125,10 +122,10 @@ public class GameScreen extends SuperScreen{
     lives.textProperty().bind(myLives.asString());
     Label level = new Label();
     level.textProperty().bind(myLevel.asString());
-    Label movesleft = new Label();
-    movesleft.textProperty().bind(myLevel.asString());
+    Label movesLeft = new Label();
+    movesLeft.textProperty().bind(myLevel.asString());
 
-    stats.getChildren().addAll(highScore, score, lives, level, movesleft);
+    stats.getChildren().addAll(highScore, score, lives, level, movesLeft);
     stats.setSpacing(10);
     stats.setAlignment(Pos.CENTER);
 
