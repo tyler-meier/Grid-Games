@@ -41,12 +41,6 @@ public interface PlayerStart {
   String getPassword();
 
   /**
-   * 2D array of grid is taken in as parameter to generate the corresponding view of the grid.
-   * @param grid
-   */
-  void setGrid(Grid grid);
-
-  /**
    * Takes in name of XMLfile that corresponds to the progress of the player and displays view
    * @param fileName
    */
