@@ -30,8 +30,9 @@ public class NewProfileScreen {
   private UserLogin myUserLogin;
 
 
-  public NewProfileScreen(Player thisPlayer){
+  public NewProfileScreen(UserLogin thisUserLogin, Player thisPlayer){
     myPlayer = thisPlayer;
+    myUserLogin = thisUserLogin;
     myButtonResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "ButtonCreation");
     myStringResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "BasicStrings");
   }
@@ -88,10 +89,6 @@ public class NewProfileScreen {
     newButton.setText(myButtonResources.getString(text));
     newButton.setOnAction(handler);
     return newButton;
-  }
-
-  public void giveMeUserLogin(UserLogin thisUserLogin){
-    myUserLogin = thisUserLogin;
   }
 
 }

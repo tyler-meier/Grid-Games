@@ -16,12 +16,15 @@ import ooga.player.screens.StartScreen;
 public class Player implements PlayerStart{
 
   private static final String TITLE = "Grid GORLS + Tyler :)";
+
   private Stage myStage;
   private LoginScreen myLoginScreen;
   private NewProfileScreen myNewProfScreen;
   private GameScreen myGameScreen;
   private StartScreen myStartScreen;
-  private String myGameType;
+  private String myGameType, currentUsername;
+  private UserLogin myUserLogin;
+  private EventHandler myEngine;
 
   public Player(){
   }
@@ -29,24 +32,25 @@ public class Player implements PlayerStart{
   public void startView(Stage primaryStage){
     myStage = primaryStage;
     myLoginScreen = new LoginScreen(this);
-    myNewProfScreen = new NewProfileScreen(this);
-    myGameScreen = new GameScreen("BejeweledAction", this);
-    myStartScreen = new StartScreen(this);
+    myGameScreen = new GameScreen("BejeweledAction", this); //TODO this aint right
     myStage.setScene(myLoginScreen.setUpScene());
     myStage.setTitle(TITLE);
     myStage.show();
   }
 
   public void setUpStartScreen(String username){
+    myStartScreen = new StartScreen(myEngine, this);
+    currentUsername = username;
     myStage.setScene(myStartScreen.setUpScene(username));
   }
 
   public void setUpNewProfScreen(){
+    myNewProfScreen = new NewProfileScreen(myUserLogin, this);
     myStage.setScene(myNewProfScreen.setUpScene());
   }
 
-  public void setUpGameScreen(String gameType){
-    myStage.setScene(myGameScreen.makeScene(800, 500));
+  public void setUpGameScreen(){   //TODO Pass through game type?
+    myStage.setScene(myGameScreen.makeScene(myGameType, currentUsername, 800, 500));
   }
 
   public void setUpLoginScreen(){
@@ -58,11 +62,11 @@ public class Player implements PlayerStart{
   }
 
   public void setNewLoginAction(UserLogin userLogin){
-    myNewProfScreen.giveMeUserLogin(userLogin);
+    myUserLogin = userLogin;
   }
 
   public void setStartGameButton(EventHandler engine){
-    myStartScreen.createEngine(engine);
+    myEngine = engine;
   }
 
   public void setGameStats(Map<String, IntegerProperty> gameStats){
@@ -107,7 +111,7 @@ public class Player implements PlayerStart{
    */
   @Override
   public String getUsername(){
-    return "";
+    return currentUsername;
   };
 
   /**
