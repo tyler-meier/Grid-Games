@@ -6,9 +6,12 @@ import ooga.engine.grid.Grid;
 import java.util.List;
 
 public abstract class MatchFinder {
+    //FIXME: WE NEED TO GET A PARAMETER MATCH LENGTH
+    private static final int DEFAULT_MATCH_LENGTH = 3;
     protected int matchLength;
 
     public MatchFinder(){
+        matchLength = DEFAULT_MATCH_LENGTH;
     }
 
 
