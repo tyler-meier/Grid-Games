@@ -21,7 +21,6 @@ public class GameScreen extends SuperScreen{
   private static final String RESOURCES = "ooga/player/Resources/";
   private static final String DEFAULT_RESOURCE_PACKAGE = RESOURCES.replace("/", ".");
   private static final String DEFAULT_RESOURCE_FOLDER = "/" + RESOURCES;
-  private static final String STYLESHEET = "darkmode.css";
   private ResourceBundle myStringResources;
   private Player myPlayer;
   private int myHeight;
@@ -70,7 +69,7 @@ public class GameScreen extends SuperScreen{
     myRoot.setRight(verticalPanel);
 
     Scene scene = new Scene(myRoot, height, width);
-    scene.getStylesheets().add(getClass().getResource(DEFAULT_RESOURCE_FOLDER + STYLESHEET).toExternalForm());
+    scene.getStylesheets().add(getClass().getResource(DEFAULT_RESOURCE_FOLDER + styleSheet).toExternalForm());
 
     thisScene = scene;
     return scene;
@@ -85,11 +84,10 @@ public class GameScreen extends SuperScreen{
   //make panel of buttons for screen
   private Node makeButtonPanel(String username) {
     Button loginButton = makeButton("LogoutCommand", e-> myPlayer.setUpLoginScreen());
-    //Button resetButton = makeButton("ResetCommand", e-> mak); //TODO: fix reset button
+//    Button resetButton = makeButton("ResetCommand", e-> myPlayer.setUpGameScreen(myPlayer.getGrid())); //TODO: fix reset button
 
     VBox buttons = new VBox();
     buttons.getChildren().addAll(loginButton);
-    //, resetButton
     buttons.setSpacing(10);
     buttons.setAlignment(Pos.CENTER);
 
@@ -114,29 +112,24 @@ public class GameScreen extends SuperScreen{
   private Node makeStatsPanel() {
     //TODO: refactor this, use keys from the gamestats to display correct stirng
     VBox stats = new VBox();
-    Label highScore = new Label();
-    highScore.textProperty().bind(myHighScore.asString());
-    Label score = new Label();
-    score.textProperty().bind(myScore.asString());
-    Label lives = new Label();
-    lives.textProperty().bind(myLives.asString());
-    Label level = new Label();
-    level.textProperty().bind(myLevel.asString());
-    Label movesLeft = new Label();
-    movesLeft.textProperty().bind(myLevel.asString());
-
-    stats.getChildren().addAll(highScore, score, lives, level, movesLeft);
+    stats.getChildren().addAll(makeLabel(myHighScore), makeLabel(myScore), makeLabel(myLives), makeLabel(myLevel), makeLabel(myMovesLeft));
     stats.setSpacing(10);
     stats.setAlignment(Pos.CENTER);
 
     return stats;
+
+  }
+
+  private Label makeLabel(IntegerProperty integerProperty) {
+    Label label = new Label();
+    label.textProperty().bind(integerProperty.asString());
+    return label;
   }
 
   public void setStats(Map<String, IntegerProperty> gameStats){
     //TODO: how do you get high score of profile?
-    System.out.println(gameStats.get("Score").getValue());
-    myHighScore.bind(gameStats.get("Score"));
     myScore.bind(gameStats.get("Score"));
+    myHighScore.bind(gameStats.get("Score"));
     //TODO: get number of lives
     myLives.bind(gameStats.get("Level"));
     myLevel.bind(gameStats.get("Level"));

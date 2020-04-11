@@ -19,8 +19,8 @@ public abstract class SuperScreen {
   protected static final String RESOURCES = "ooga/player/Resources/";
   protected static final String DEFAULT_RESOURCE_PACKAGE = RESOURCES.replace("/", ".");
   protected static final String DEFAULT_RESOURCE_FOLDER = "/" + RESOURCES;
-  protected static final String STYLESHEET = "default.css";
   private static final int DIMENSION = 600;
+  String styleSheet = "default.css";
 
   private ResourceBundle myButtonResources;
   private Label myErrorMessage;
@@ -54,7 +54,7 @@ public abstract class SuperScreen {
     myCenterVBox.setAlignment(Pos.CENTER);
 
     Scene scene = new Scene(myCenterVBox, DIMENSION, DIMENSION);
-    scene.getStylesheets().add(getClass().getResource(DEFAULT_RESOURCE_FOLDER + STYLESHEET).toExternalForm());
+    scene.getStylesheets().add(getClass().getResource(DEFAULT_RESOURCE_FOLDER + styleSheet).toExternalForm());
     return scene;
   }
 
@@ -68,6 +68,10 @@ public abstract class SuperScreen {
 
   public void setError(StringProperty message){
     myErrorMessage.textProperty().bindBidirectional(message);
+  }
+
+  public void setStyle(String styleSheet) {
+    this.styleSheet = styleSheet;
   }
 
 }
