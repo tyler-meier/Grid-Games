@@ -14,7 +14,6 @@ import ooga.player.screens.StartScreen;
 public class Player implements PlayerStart{
 
   private static final String TITLE = "Grid GORLS + Tyler :)";
-
   private Stage myStage;
   private LoginScreen myLoginScreen;
   private NewProfileScreen myNewProfScreen;
@@ -46,7 +45,8 @@ public class Player implements PlayerStart{
     myStage.setScene(myNewProfScreen.setUpScene());
   }
 
-  public void setUpGameScreen(Grid backendGrid){
+  public void setUpGameScreen(Grid backendGrid){   //TODO Pass through game type?
+    //does engine have a method that returns backendgrid that corresponds to default gametype xml?
     myGameScreen = new GameScreen(myGameType, this);
     myStage.setScene(myGameScreen.makeScene(myGameType, currentUsername, 800, 500));
     myGameScreen.setGrid(backendGrid);

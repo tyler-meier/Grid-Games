@@ -1,6 +1,8 @@
 package ooga.data.buildingXML;
 
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import org.w3c.dom.Element;
 
@@ -12,10 +14,18 @@ import org.w3c.dom.Element;
 public class XMLGameBuilder extends XMLBuilder {
 
   private Map<String, String> dataToWrite;
+  private int [][] grid;
+  private String ROW_TAG = "row";
+  private final String NUM_ROWS_TAG= "numRows";
+  private final String NUM_COLUMNS_TAG= "numColumns";
+  private final String ROW_DELIMINATOR = " ";
 
-  public XMLGameBuilder(String mainTag, String pathName, Map<String, String> dataToWrite) {
+  private int ZERO_INDEX = 0;
+
+  public XMLGameBuilder(String mainTag, String pathName, Map<String, String> dataToWrite, int[][] grid) {
     super(mainTag, pathName);
     this.dataToWrite = dataToWrite;
+    this.grid = grid;
     createDocument(mainTag, pathName);
   }
 
@@ -31,7 +41,31 @@ public class XMLGameBuilder extends XMLBuilder {
         Element temp = createElement(tag, dataToWrite.get(tag));
         root.appendChild(temp);
     }
+    addGrid(root);
   }
 
+  private void addGrid(Element root)
+  {
+    int numRow = grid.length;
+    int numCol = grid[ZERO_INDEX].length;
+
+    Element numRows = createElement(NUM_ROWS_TAG, Integer.toString(numRow));
+    root.appendChild(numRows);
+
+    Element numColumns = createElement(NUM_COLUMNS_TAG, Integer.toString(numCol));
+    root.appendChild(numColumns);
+
+    for(int r = ZERO_INDEX; r < numRow; r++)
+    {
+      List<String> rowValues = new ArrayList<>();
+      for(int c = ZERO_INDEX; c < numCol; c++)
+      {
+        rowValues.add(Integer.toString(grid[r][c]));
+      }
+      String row = String.join(ROW_DELIMINATOR, rowValues);
+      Element temp = createElement(ROW_TAG, row);
+      root.appendChild(temp);
+    }
+  }
 
 }

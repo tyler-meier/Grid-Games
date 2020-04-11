@@ -5,6 +5,7 @@ import java.util.ResourceBundle;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import ooga.data.buildingXML.XMLBuilder;
+import ooga.data.buildingXML.XMLGameBuilder;
 import ooga.data.exceptions.IncorrectPasswordException;
 import ooga.data.exceptions.NoUserExistsException;
 import ooga.data.exceptions.UserAlreadyExistsException;
@@ -21,6 +22,8 @@ public class Data implements DataLink {
   private final String DEFAULT_GAMES_PATH = "resources.DefaultGamePaths";
   private final String DEFAULT_ENGINE_PATH = "resources.DefaultEnginePaths";
   private final String GUEST_USER = "Guest";
+  private final String MAIN_GAME_TAG = "game";
+  private final String NEW_GAME_PATH_SKELETON = "data/%s%s.xml";
 
   private final ResourceBundle myEngineResource = ResourceBundle.getBundle(ENGINE_KEY_PATH);
   private final ResourceBundle myGameResource = ResourceBundle.getBundle(GAME_KEY_PATH);
@@ -32,6 +35,7 @@ public class Data implements DataLink {
   private StringProperty errorMessage = new SimpleStringProperty();
   private XMLBuilder xmlBuilder;
   private UserProfile currentUser;
+  private String gameType;
 
 
   public Data()
@@ -121,11 +125,13 @@ public class Data implements DataLink {
    * translate that object into Strings, utilize a parser to create a new XML
    * document and then save the path of that document to the profile of that user
    * @param username
-   * @param engineAttributes
+   * @param gameAttributes
    */
   @Override
-  public void saveGame(String username, Map<String, String> engineAttributes) {
-
+  public void saveGame(String username, Map<String, String> gameAttributes, int[][] grid) {
+    // TODO: use path
+    String path = String.format(NEW_GAME_PATH_SKELETON, username, gameType);
+    XMLBuilder newGame = new XMLGameBuilder(MAIN_GAME_TAG, username, gameAttributes, grid);
   }
 
   /**
@@ -140,6 +146,7 @@ public class Data implements DataLink {
    */
   @Override
   public Map<String, String> getGameAttributes(String username, String gameType) {
+    this.gameType = gameType;
     gamePath = myDefaultGamePathResource.getString(gameType);
     if(!username.equals(GUEST_USER))
     {

@@ -10,8 +10,8 @@ import static java.util.Map.entry;
 class ProfileManagerTest {
 
   private Map<String, String> knownProfiles = Map.ofEntries(entry("todd34", "tod"),
-                                                            entry("bobbyBoy","bob123"),
-                                                            entry("jay18","boob"));
+      entry("bobbyBoy","bob123"),
+      entry("jay18","boob"));
   private ProfileManager manager = new ProfileManager();
 
   @Test

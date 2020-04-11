@@ -44,9 +44,9 @@ public interface DataLink {
    * be found any number of ways and the attributes can be saved with whatever data
    * file you choose
    * @param username
-   * @param engineAttributes
+   * @param gameAttributes
    */
-  void saveGame(String username, Map<String, String> engineAttributes);
+  void saveGame(String username, Map<String, String> gameAttributes, int [][] grid);
 
   /**
    * Given a profile and a gameType, the Data interface should be able to return
