@@ -1,9 +1,8 @@
 package ooga.player.screens;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
-import javafx.beans.property.StringProperty;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -15,42 +14,34 @@ import ooga.controller.UserLogin;
 import ooga.data.UserProfile;
 import ooga.player.Player;
 
-//TODO create a superclass maybe with all of the resource shit and all of the methods that do the same thing
+public class LoginScreen extends SuperScreen{
 
-public class LoginScreen {
-
-  private static final int DIMENSION = 600;
-  private static final String RESOURCES = "ooga/player/Resources/";
-  private static final String DEFAULT_RESOURCE_PACKAGE = RESOURCES.replace("/", ".");
-  private static final String DEFAULT_RESOURCE_FOLDER = "/" + RESOURCES;
-  private static final String STYLESHEET = "default.css";
-
-  private ResourceBundle myStringResources, myButtonResources;
   private Player myPlayer;
   private TextField username, password;
   private UserLogin myUserLogin;
   private UserProfile userData;
-  private Label myErrorMessage;
+  private ResourceBundle myStringResources;
+  private List<Node> myNodes;
 
   public LoginScreen(Player thisPlayer){
-    myStringResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "BasicStrings");
-    myButtonResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "ButtonCreation");
-    myErrorMessage = new Label();
+    super(thisPlayer);
     myPlayer = thisPlayer;
+    myNodes = new ArrayList<>();
+    myStringResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "BasicStrings");
   }
 
   public Scene setUpScene(){
     Node topLoginPanel = setupLoginAndLabel();
     Node buttonPanel = setUpButtons();
+    myNodes.clear();
+    myNodes.add(topLoginPanel);
+    myNodes.add(buttonPanel);
+    Scene scene = styleScene(myNodes);
+    return scene;
+  }
 
-    VBox myCenterVBox = new VBox();
-    myCenterVBox.getChildren().addAll(topLoginPanel, buttonPanel, myErrorMessage);
-    myCenterVBox.setSpacing(50);
-    myCenterVBox.setAlignment(Pos.CENTER);
-
-    Scene loginScreen = new Scene(myCenterVBox, DIMENSION, DIMENSION);
-    loginScreen.getStylesheets().add(getClass().getResource(DEFAULT_RESOURCE_FOLDER + STYLESHEET).toExternalForm());
-    return loginScreen;
+  public void giveMeUserLogin(UserLogin thisUserLogin){
+    myUserLogin = thisUserLogin;
   }
 
   private Node setupLoginAndLabel(){
@@ -89,20 +80,4 @@ public class LoginScreen {
     buttonVBox.setAlignment(Pos.CENTER);
     return buttonVBox;
   }
-
-  private Button makeButton(String text, EventHandler<ActionEvent> handler) {
-    Button newButton = new Button();
-    newButton.setText(myButtonResources.getString(text));
-    newButton.setOnAction(handler);
-    return newButton;
-  }
-
-  public void giveMeUserLogin(UserLogin thisUserLogin){
-    myUserLogin = thisUserLogin;
-  }
-
-  public void setError(StringProperty message){
-    myErrorMessage.textProperty().bindBidirectional(message);
-  }
-
 }
