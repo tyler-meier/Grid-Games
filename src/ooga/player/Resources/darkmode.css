@@ -18,9 +18,9 @@
     -fx-font-family: "Futura";
     -fx-pref-width: 240px;
     -fx-border-width: 2pt;
-    -fx-border-color: white;
-    -fx-text-fill: #EEF985;
-    -fx-background-color: #31312A;
+    -fx-border-color: #86EAFD;
+    -fx-text-fill: #B8EDF7;
+    -fx-background-color: black;
     -fx-alignment: CENTER;
 
 }
@@ -30,8 +30,8 @@
     -fx-font-family: "Futura";
     -fx-pref-width: 240px;
     -fx-border-width: 2pt;
-    -fx-text-fill: #31312A;
-    -fx-background-color: #EEF985;
+    -fx-text-fill: black;
+    -fx-background-color: #B8EDF7;
     -fx-alignment: CENTER;
 }
 
@@ -40,8 +40,8 @@
     -fx-font-family: "Futura";
     -fx-pref-width: 240px;
     -fx-border-width: 2pt;
-    -fx-text-fill: #31312A;
-    -fx-background-color: #EEF985;
+    -fx-text-fill: black;
+    -fx-background-color: #B8EDF7;
     -fx-alignment: CENTER;
 }
 

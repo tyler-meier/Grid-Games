@@ -21,7 +21,7 @@ public class GameScreen extends SuperScreen{
   private static final String RESOURCES = "ooga/player/Resources/";
   private static final String DEFAULT_RESOURCE_PACKAGE = RESOURCES.replace("/", ".");
   private static final String DEFAULT_RESOURCE_FOLDER = "/" + RESOURCES;
-  private static final String STYLESHEET = "default.css";
+  private static final String STYLESHEET = "darkmode.css";
   private ResourceBundle myStringResources;
   private Player myPlayer;
   private int myHeight;
