@@ -1,4 +1,4 @@
-package data;
+package ooga.data;
 
 import static org.junit.jupiter.api.Assertions.*;
 
