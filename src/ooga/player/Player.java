@@ -50,7 +50,9 @@ public class Player implements PlayerStart{
 
   public void setUpGameScreen(Grid backendGrid){   //TODO Pass through game type?
     myGameScreen = new GameScreen(myGameType, this);
-    myStage.setScene(myGameScreen.makeScene(backendGrid, myGameType, currentUsername, 800, 500));
+    myStage.setScene(myGameScreen.makeScene(myGameType, currentUsername, 800, 500));
+    myGameScreen.setGrid(backendGrid);
+    myGameScreen.setStats(backendGrid.getGameStats());
   }
 
   public void setUpLoginScreen(){

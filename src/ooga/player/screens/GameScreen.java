@@ -1,11 +1,8 @@
 package ooga.player.screens;
 
-import java.io.FileNotFoundException;
 import java.util.*;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -15,22 +12,22 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 import ooga.engine.grid.Grid;
 import ooga.player.Player;
 import ooga.player.TimeKeeper;
 import ooga.player.GridView;
 
-public class GameScreen {
+public class GameScreen extends SuperScreen{
   private static final String RESOURCES = "ooga/player/Resources/";
   private static final String DEFAULT_RESOURCE_PACKAGE = RESOURCES.replace("/", ".");
   private static final String DEFAULT_RESOURCE_FOLDER = "/" + RESOURCES;
-  private static final String STYLESHEET = "default.css";
-  private ResourceBundle myButtonResources, myStringResources;
+  private static final String STYLESHEET = "darkmode.css";
+  private ResourceBundle myStringResources;
   private Player myPlayer;
   private int myHeight;
   private int myWidth;
   private GridView myGrid;
+  private GridPane myGridPane;
   private BorderPane myRoot;
   private String myGameType;
   private Scene thisScene;
@@ -42,11 +39,10 @@ public class GameScreen {
   String myTime = "00:00:000";
 
   public GameScreen(String gameType, Player player){
-    myButtonResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "ButtonCreation");
+    super(gameType, player);
     myStringResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "BasicStrings");
     myPlayer = player;
     myGrid = new GridView(gameType, 400);
-    myRoot = new BorderPane();
   }
 
   /**
@@ -55,13 +51,12 @@ public class GameScreen {
    * @param width
    * @return
    */
-  public Scene makeScene(Grid backendGrid, String gameType, String currUsername, int height, int width) {
+  public Scene makeScene(String gameType, String currUsername, int height, int width) {
+    myRoot = new BorderPane();
     myHeight = height;
     myWidth = width;
     myRoot.setPadding(new Insets(10, 20, 10, 20));
     myGameType = gameType;
-    setGrid(backendGrid);
-    setStats(backendGrid.getGameStats());
 
     Node toolBar = makeToolBar(currUsername);
     myRoot.setTop(toolBar);
@@ -82,23 +77,15 @@ public class GameScreen {
   }
 
   public void setGrid(Grid backendGrid){
-    GridPane gameGrid = myGrid.setGrid(backendGrid);
-    gameGrid.setAlignment(Pos.CENTER);
-    myRoot.setCenter(gameGrid);
-  }
-
-  //returns a button with correct text, associated event handler
-  private Button makeButton(String text, EventHandler<ActionEvent> handler) {
-    Button newButton = new Button();
-    newButton.setText(myButtonResources.getString(text));
-    newButton.setOnAction(handler);
-    return newButton;
+    myGridPane = myGrid.setGrid(backendGrid);
+    myGridPane.setAlignment(Pos.CENTER);
+    myRoot.setCenter(myGridPane);
   }
 
   //make panel of buttons for screen
   private Node makeButtonPanel(String username) {
     Button loginButton = makeButton("LogoutCommand", e-> myPlayer.setUpLoginScreen());
-    //Button resetButton = makeButton("ResetCommand", e-> mak);
+    //Button resetButton = makeButton("ResetCommand", e-> mak); //TODO: fix reset button
 
     VBox buttons = new VBox();
     buttons.getChildren().addAll(loginButton);
@@ -135,10 +122,10 @@ public class GameScreen {
     lives.textProperty().bind(myLives.asString());
     Label level = new Label();
     level.textProperty().bind(myLevel.asString());
-    Label movesleft = new Label();
-    movesleft.textProperty().bind(myLevel.asString());
+    Label movesLeft = new Label();
+    movesLeft.textProperty().bind(myLevel.asString());
 
-    stats.getChildren().addAll(highScore, score, lives, level, movesleft);
+    stats.getChildren().addAll(highScore, score, lives, level, movesLeft);
     stats.setSpacing(10);
     stats.setAlignment(Pos.CENTER);
 

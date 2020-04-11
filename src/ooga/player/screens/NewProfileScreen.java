@@ -1,8 +1,8 @@
 package ooga.player.screens;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -14,41 +14,32 @@ import ooga.controller.UserLogin;
 import ooga.data.UserProfile;
 import ooga.player.Player;
 
-public class NewProfileScreen {
+public class NewProfileScreen extends SuperScreen{
 
-  private static final int DIMENSION = 600;
-  private static final String RESOURCES = "ooga/player/Resources/";
-  private static final String DEFAULT_RESOURCE_PACKAGE = RESOURCES.replace("/", ".");
-  private static final String DEFAULT_RESOURCE_FOLDER = "/" + RESOURCES;
-  private static final String BUTTON_STRINGS = DEFAULT_RESOURCE_PACKAGE + "ButtonCreation";
-  private static final String STYLESHEET = "default.css";
-
-  private ResourceBundle myButtonResources, myStringResources;
+  private ResourceBundle myStringResources;
   private Player myPlayer;
   private TextField newUsername, newPassword;
   private UserProfile userData;
   private UserLogin myUserLogin;
+  private List<Node> myNodes;
 
 
   public NewProfileScreen(UserLogin thisUserLogin, Player thisPlayer){
+    super(thisUserLogin, thisPlayer);
     myPlayer = thisPlayer;
     myUserLogin = thisUserLogin;
-    myButtonResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "ButtonCreation");
+    myNodes = new ArrayList<>();
     myStringResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "BasicStrings");
   }
 
   public Scene setUpScene(){
     Node topNewProfPanel = setUpText();
-    Node buttonPanel = setUpButtons();  //TODO duplicated code, fix this
-
-    VBox myVBox = new VBox();
-    myVBox.getChildren().addAll(topNewProfPanel, buttonPanel);
-    myVBox.setSpacing(50);
-    myVBox.setAlignment(Pos.CENTER);
-
-    Scene newProfScene = new Scene(myVBox, DIMENSION, DIMENSION);
-    newProfScene.getStylesheets().add(getClass().getResource(DEFAULT_RESOURCE_FOLDER + STYLESHEET).toExternalForm());
-    return newProfScene;
+    Node buttonPanel = setUpButtons();
+    myNodes.clear();
+    myNodes.add(topNewProfPanel);
+    myNodes.add(buttonPanel);
+    Scene scene = styleScene(myNodes);
+    return scene;
   }
 
   private Node setUpText(){
@@ -82,13 +73,6 @@ public class NewProfileScreen {
     buttonVBox.setSpacing(10);
     buttonVBox.setAlignment(Pos.CENTER);
     return buttonVBox;
-  }
-
-  private Button makeButton(String text, EventHandler<ActionEvent> handler) {
-    Button newButton = new Button();
-    newButton.setText(myButtonResources.getString(text));
-    newButton.setOnAction(handler);
-    return newButton;
   }
 
 }
