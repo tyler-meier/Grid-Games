@@ -1,11 +1,8 @@
 package ooga.player.screens;
 
-import java.io.FileNotFoundException;
 import java.util.*;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -15,14 +12,17 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 import ooga.engine.grid.Grid;
 import ooga.player.Player;
 import ooga.player.TimeKeeper;
 import ooga.player.GridView;
 
-public class GameScreen extends SuperScreen {
-  private ResourceBundle myButtonResources, myStringResources;
+public class GameScreen extends SuperScreen{
+  private static final String RESOURCES = "ooga/player/Resources/";
+  private static final String DEFAULT_RESOURCE_PACKAGE = RESOURCES.replace("/", ".");
+  private static final String DEFAULT_RESOURCE_FOLDER = "/" + RESOURCES;
+  private static final String STYLESHEET = "default.css";
+  private ResourceBundle myStringResources;
   private Player myPlayer;
   private int myHeight;
   private int myWidth;
@@ -39,7 +39,7 @@ public class GameScreen extends SuperScreen {
   String myTime = "00:00:000";
 
   public GameScreen(String gameType, Player player){
-    myButtonResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "ButtonCreation");
+    super(gameType, player);
     myStringResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "BasicStrings");
     myPlayer = player;
     myGrid = new GridView(gameType, 400);
@@ -62,7 +62,7 @@ public class GameScreen extends SuperScreen {
     myRoot.setTop(toolBar);
 
     VBox verticalPanel = new VBox();
-    Node buttonPanel = setUpButtons();
+    Node buttonPanel = makeButtonPanel(currUsername);
     Node statsPanel = makeStatsPanel();
     verticalPanel.setSpacing(30);
     verticalPanel.setAlignment(Pos.CENTER);
@@ -82,9 +82,10 @@ public class GameScreen extends SuperScreen {
     myRoot.setCenter(myGridPane);
   }
 
-  public Node setUpButtons() {
+  //make panel of buttons for screen
+  private Node makeButtonPanel(String username) {
     Button loginButton = makeButton("LogoutCommand", e-> myPlayer.setUpLoginScreen());
-//    Button resetButton = makeButton("ResetCommand", e-> makeScene(myGameType, ));
+    //Button resetButton = makeButton("ResetCommand", e-> mak); //TODO: fix reset button
 
     VBox buttons = new VBox();
     buttons.getChildren().addAll(loginButton);
@@ -93,20 +94,6 @@ public class GameScreen extends SuperScreen {
     buttons.setAlignment(Pos.CENTER);
 
     return buttons;
-  }
-
-  public void setStats(Map<String, IntegerProperty> gameStats){
-    //TODO: how do you get high score of profile?
-    System.out.println(gameStats.get("Score").getValue());
-    myHighScore.bind(gameStats.get("Score"));
-    myScore.bind(gameStats.get("Score"));
-    //TODO: get number of lives
-    myLives.bind(gameStats.get("Level"));
-    myLevel.bind(gameStats.get("Level"));
-    System.out.println(gameStats.get("MovesUsed"));
-    myMovesLeft.bind(gameStats.get("MovesUsed"));
-    //TODO: implement timekeeper
-//    gameStats.get("Time").bind(myTime);
   }
 
   private Node makeToolBar(String username) {
@@ -135,14 +122,27 @@ public class GameScreen extends SuperScreen {
     lives.textProperty().bind(myLives.asString());
     Label level = new Label();
     level.textProperty().bind(myLevel.asString());
-    Label movesleft = new Label();
-    movesleft.textProperty().bind(myMovesLeft.asString());
+    Label movesLeft = new Label();
+    movesLeft.textProperty().bind(myLevel.asString());
 
-    stats.getChildren().addAll(highScore, score, lives, level, movesleft);
+    stats.getChildren().addAll(highScore, score, lives, level, movesLeft);
     stats.setSpacing(10);
     stats.setAlignment(Pos.CENTER);
 
     return stats;
+  }
+
+  public void setStats(Map<String, IntegerProperty> gameStats){
+    //TODO: how do you get high score of profile?
+    System.out.println(gameStats.get("Score").getValue());
+    myHighScore.bind(gameStats.get("Score"));
+    myScore.bind(gameStats.get("Score"));
+    //TODO: get number of lives
+    myLives.bind(gameStats.get("Level"));
+    myLevel.bind(gameStats.get("Level"));
+    myMovesLeft.bind(gameStats.get("MovesUsed"));
+    //TODO: implement timekeeper
+//    gameStats.get("Time").bind(myTime);
   }
 
 }
