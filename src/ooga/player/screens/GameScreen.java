@@ -21,11 +21,7 @@ import ooga.player.Player;
 import ooga.player.TimeKeeper;
 import ooga.player.GridView;
 
-public class GameScreen {
-  private static final String RESOURCES = "ooga/player/Resources/";
-  private static final String DEFAULT_RESOURCE_PACKAGE = RESOURCES.replace("/", ".");
-  private static final String DEFAULT_RESOURCE_FOLDER = "/" + RESOURCES;
-  private static final String STYLESHEET = "default.css";
+public class GameScreen extends SuperScreen {
   private ResourceBundle myButtonResources, myStringResources;
   private Player myPlayer;
   private int myHeight;
@@ -66,7 +62,7 @@ public class GameScreen {
     myRoot.setTop(toolBar);
 
     VBox verticalPanel = new VBox();
-    Node buttonPanel = makeButtonPanel(currUsername);
+    Node buttonPanel = setUpButtons();
     Node statsPanel = makeStatsPanel();
     verticalPanel.setSpacing(30);
     verticalPanel.setAlignment(Pos.CENTER);
@@ -86,16 +82,7 @@ public class GameScreen {
     myRoot.setCenter(myGridPane);
   }
 
-  //returns a button with correct text, associated event handler
-  private Button makeButton(String text, EventHandler<ActionEvent> handler) {
-    Button newButton = new Button();
-    newButton.setText(myButtonResources.getString(text));
-    newButton.setOnAction(handler);
-    return newButton;
-  }
-
-  //make panel of buttons for screen
-  private Node makeButtonPanel(String username) {
+  public Node setUpButtons() {
     Button loginButton = makeButton("LogoutCommand", e-> myPlayer.setUpLoginScreen());
 //    Button resetButton = makeButton("ResetCommand", e-> makeScene(myGameType, ));
 
@@ -106,6 +93,20 @@ public class GameScreen {
     buttons.setAlignment(Pos.CENTER);
 
     return buttons;
+  }
+
+  public void setStats(Map<String, IntegerProperty> gameStats){
+    //TODO: how do you get high score of profile?
+    System.out.println(gameStats.get("Score").getValue());
+    myHighScore.bind(gameStats.get("Score"));
+    myScore.bind(gameStats.get("Score"));
+    //TODO: get number of lives
+    myLives.bind(gameStats.get("Level"));
+    myLevel.bind(gameStats.get("Level"));
+    System.out.println(gameStats.get("MovesUsed"));
+    myMovesLeft.bind(gameStats.get("MovesUsed"));
+    //TODO: implement timekeeper
+//    gameStats.get("Time").bind(myTime);
   }
 
   private Node makeToolBar(String username) {
@@ -142,20 +143,6 @@ public class GameScreen {
     stats.setAlignment(Pos.CENTER);
 
     return stats;
-  }
-
-  public void setStats(Map<String, IntegerProperty> gameStats){
-    //TODO: how do you get high score of profile?
-    System.out.println(gameStats.get("Score").getValue());
-    myHighScore.bind(gameStats.get("Score"));
-    myScore.bind(gameStats.get("Score"));
-    //TODO: get number of lives
-    myLives.bind(gameStats.get("Level"));
-    myLevel.bind(gameStats.get("Level"));
-    System.out.println(gameStats.get("MovesUsed"));
-    myMovesLeft.bind(gameStats.get("MovesUsed"));
-    //TODO: implement timekeeper
-//    gameStats.get("Time").bind(myTime);
   }
 
 }
