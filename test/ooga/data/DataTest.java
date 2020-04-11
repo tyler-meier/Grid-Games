@@ -13,6 +13,7 @@ class DataTest {
   private final String GAME_PATH = "resources.GameKeys";
   private final ResourceBundle myGameResource = ResourceBundle.getBundle(GAME_PATH);
   private final String OUTPUT_SKELETON = "%s vs. %s";
+  private final String KEY_FILLER = "Whatever";
 
   private Data data = new Data();
 
@@ -63,7 +64,7 @@ class DataTest {
     }
     for(String key: myGameResource.keySet())
     {
-      data.put(key, "something");
+      data.put(key, KEY_FILLER);
     }
   }
 }
