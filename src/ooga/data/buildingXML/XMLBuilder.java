@@ -23,7 +23,6 @@ public abstract class XMLBuilder {
   private DocumentBuilderFactory documentFactory;
   private DocumentBuilder documentBuilder;
   protected Document document;
-  protected final String DELIMINATOR = "::";
 
   public XMLBuilder(String mainTag, String pathName)
   {

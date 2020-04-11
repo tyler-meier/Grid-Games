@@ -14,6 +14,7 @@ class DataTest {
   private final ResourceBundle myGameResource = ResourceBundle.getBundle(GAME_PATH);
   private final String OUTPUT_SKELETON = "%s vs. %s";
   private final String KEY_FILLER = "Whatever";
+  private final String NEW_GAME_PATH_SKELETON = "data/%s%s.xml";
 
   private Data data = new Data();
 
@@ -22,7 +23,7 @@ class DataTest {
     int[][] grid = new int [4][4];
     Map<String, String > dataToWrite = new HashMap<>();
     fillMapAndGrid(grid, dataToWrite);
-    String path = "data/jay18CandyCrush.xml";
+    String path = String.format(NEW_GAME_PATH_SKELETON, "jay18", "Action");
     data.saveGame(path, dataToWrite, grid);
 
     XMLParser printingParser = new XMLParser(path);

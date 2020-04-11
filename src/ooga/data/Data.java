@@ -129,6 +129,7 @@ public class Data implements DataLink {
    */
   @Override
   public void saveGame(String username, Map<String, String> gameAttributes, int[][] grid) {
+    // TODO: use path
     String path = String.format(NEW_GAME_PATH_SKELETON, username, gameType);
     XMLBuilder newGame = new XMLGameBuilder(MAIN_GAME_TAG, username, gameAttributes, grid);
   }
