@@ -23,7 +23,7 @@ class DataTest {
     int[][] grid = new int [4][4];
     Map<String, String > dataToWrite = new HashMap<>();
     fillMapAndGrid(grid, dataToWrite);
-    String path = String.format(NEW_GAME_PATH_SKELETON, "jay18", "Action");
+    String path = String.format(NEW_GAME_PATH_SKELETON, "jay18", "Memory");
     data.saveGame(path, dataToWrite, grid);
 
     XMLParser printingParser = new XMLParser(path);

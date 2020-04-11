@@ -23,6 +23,7 @@ public class UserProfile {
     private String path;
     private boolean parentalControls;
     private boolean darkMode;
+    private Map<String, String> totalUserMap = new HashMap<>();
 
 
     public UserProfile(String username, String password)
@@ -44,7 +45,7 @@ public class UserProfile {
     }
 
     /**
-     *
+     * Used by frontend to offer the option of saving a game
      * @param type
      * @return
      */
@@ -52,12 +53,23 @@ public class UserProfile {
         return savedGames.containsKey(type);
     }
 
+    /**
+     * Allows frontend to add a highscore to the user
+     * @param type
+     * @param score
+     */
     public void addHighScore(String type, int score){
         if (!highScores.containsKey(type) || highScores.get(type) < score) {
             highScores.put(type, score);
         }
     }
 
+    /**
+     * Allows frontend to display high scores and
+     * backend to write the score
+     * @param type
+     * @return
+     */
     public int getHighScore(String type){
         return highScores.get(type);
     }
@@ -122,5 +134,11 @@ public class UserProfile {
     {
         return String.format(TO_STRING_SKELETON, username, password, path, highScores, savedGames);
     }
+
+    public Map<String, String> getUserMap()
+    {
+        return totalUserMap;
+    }
+
 
 }

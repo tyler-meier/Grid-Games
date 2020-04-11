@@ -54,7 +54,7 @@ public class XMLSingularProfileBuilder extends XMLBuilder {
     userAttributes.put("PreviousGame", new ArrayList<>());
     for(String game : user.getAllHighScores().keySet())
     {
-      addMapEntry("PreviousGame", String.format("%s %d", game, user.getHighScore(game)));
+      addMapEntry("PreviousGame", String.format("%s %s", game, user.getHighScore(game)));
     }
 
   }

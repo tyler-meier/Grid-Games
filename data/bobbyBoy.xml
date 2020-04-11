@@ -4,6 +4,7 @@
   <Username>bobbyBoy</Username>
   <Password>bob123</Password>
   <ParentalControls>off</ParentalControls>
+  <DarkMode>true</DarkMode>
 
   <PreviousGame>CandyCrush /path/of/previousGame/one.xml</PreviousGame>
   <PreviousGame>Bejeweled /path/of/previousGame/two.xml</PreviousGame>
