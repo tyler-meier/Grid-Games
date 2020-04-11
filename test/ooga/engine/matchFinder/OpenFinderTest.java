@@ -18,6 +18,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class OpenFinderTest {
     private int[][] initialConfig = { {1,6, 5, 4, 2}, {5, 1, 3, 1, 5}, {4, 4, 4, 6, 1}, {2, 3, 4, 3, 2}};
+    private int[][] initialConfig2 = { {1,6, 5, 4, 2}, {5, 1, 3, 1, 5}, {4, 4, 6, 6, 1}, {2, 3, 4, 3, 2}};
+    private int[][] initialConfig3 = { {5,6, 5, 4, 2}, {5, 1, 3, 1, 5}, {5, 4, 6, 6, 1}, {5, 3, 4, 3, 2}};
     private Map<String, String> gameAttributes = new HashMap<>() {{
         put("NumSelectedPerMove", "2");
         put("AddNewCells", "true");
@@ -39,6 +41,14 @@ class OpenFinderTest {
         ret.add(myGrid.getCell(2,1));
         ret.add(myGrid.getCell(2,2));
         assertEquals(ret, matchFinder.makeMatches(myGrid));
+        ret.clear();
+        myGrid.setNewGame(initialConfig2, gameAttributes);
+        assertEquals(ret, matchFinder.makeMatches(myGrid));
+        ret.add(myGrid.getCell(1,0));
+        ret.add(myGrid.getCell(2,0));
+        ret.add(myGrid.getCell(3,0));
+        ret.add(myGrid.getCell(0,0));
+        myGrid.setNewGame(initialConfig3, gameAttributes);
     }
 
 }
