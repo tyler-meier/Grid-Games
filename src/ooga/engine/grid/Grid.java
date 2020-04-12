@@ -219,10 +219,11 @@ public class Grid {
                         nextRowAbove--;
                     } } }
             if (addNewCells) {
-                //System.out.println("About to refill a column");
+                System.out.println("About to refill a column");
                 refillColumn(col);
             }
         }
+        System.out.println("Clearing matched cells");
         matchedCells.clear();
     }
 

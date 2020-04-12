@@ -63,12 +63,12 @@ public class OpenFinder extends MatchFinder {
         int row = cell.getRow()-1;
         int col = cell.getColumn();
         Cell currCell;
-        while (inBounds(row,col,grid) && (currCell = grid.getCell(row,col))!=null && currCell.getMyState()==cell.getMyState()) {
+        while (cell.getMyState() != -1 && inBounds(row,col,grid) && (currCell = grid.getCell(row,col))!=null && currCell.getMyState()==cell.getMyState()) {
             verticalMatches.add(currCell);
             row--;
         }
         row = cell.getRow()+1;
-        while (inBounds(row,col,grid) && (currCell = grid.getCell(row,col))!=null && currCell.getMyState()==cell.getMyState()) {
+        while (cell.getMyState() != -1 && inBounds(row,col,grid) && (currCell = grid.getCell(row,col))!=null && currCell.getMyState()==cell.getMyState()) {
             verticalMatches.add(currCell);
             row++;
         }
@@ -84,12 +84,12 @@ public class OpenFinder extends MatchFinder {
         int row = cell.getRow();
         int col = cell.getColumn()-1;
         Cell currCell;
-        while (inBounds(row,col,grid) && (currCell = grid.getCell(row,col))!=null && currCell.getMyState()==cell.getMyState()) {
+        while (cell.getMyState() != -1 && inBounds(row,col,grid) && (currCell = grid.getCell(row,col))!=null && currCell.getMyState()==cell.getMyState()) {
             horizontalMatches.add(currCell);
             col--;
         }
         col = cell.getColumn()+1;
-        while (inBounds(row,col,grid) &&(currCell = grid.getCell(row,col))!=null && currCell.getMyState()==cell.getMyState()) {
+        while (cell.getMyState() != -1 && inBounds(row,col,grid) &&(currCell = grid.getCell(row,col))!=null && currCell.getMyState()==cell.getMyState()) {
             horizontalMatches.add(currCell);
             col++;
         }
