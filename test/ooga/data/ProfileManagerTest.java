@@ -12,7 +12,14 @@ class ProfileManagerTest {
 
   private Map<String, String> knownProfiles = Map.ofEntries(entry("todd34", "tod"),
                                                             entry("bobbyBoy","bob123"),
-                                                            entry("jay18","boob"));
+                                                            entry("jay18","boob"),
+                                                            entry("tylerm","yown"));
+
+  private Map<String, String> unknownProfiles = Map.ofEntries(entry("todd34", "3"),
+      entry("3","bob123"),
+      entry("jay18","booob"),
+      entry("yankee","yown"));
+
   private ProfileManager manager = new ProfileManager();
 
   @Test
@@ -23,6 +30,16 @@ class ProfileManagerTest {
       System.out.println(username);
       assertEquals(username, manager.getProfile(username).getUsername());
       System.out.println(manager.getProfile(username));
+    }
+
+    for(String username: unknownProfiles.keySet())
+    {
+      try{
+        assertEquals(false, manager.isValid(username, unknownProfiles.get(username)));
+      } catch(Exception e)
+      {
+        System.out.println(e.getMessage());
+      }
     }
   }
 

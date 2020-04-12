@@ -27,7 +27,7 @@ public class ProfileManager {
   private final int INDEX_OF_PASSWORD = 1;
   private final String DELIMINATOR = " ";
   private final int GAME_TYPE_INDEX = 0;
-  private final int VALUE_INDEX = 0;
+  private final int VALUE_INDEX = 1;
   private final String DEFAULT_BOOLEAN_VALUE = "false";
   private final String DEFAULT_LIST_VALUE = "";
   private final String DARK_MODE_TAG = "DarkMode";
@@ -109,7 +109,7 @@ public class ProfileManager {
    */
   public UserProfile addProfile(String username, String password) throws UserAlreadyExistsException
   {
-    if(notExistingProfile(username))
+    if(notExistingUsername(username))
     {
       UserProfile newUser = new UserProfile(username, password);
       XMLBuilder newProfileXML = new XMLSingularProfileBuilder(MAIN_TAG, newUser.getPath(), newUser);
@@ -139,7 +139,7 @@ public class ProfileManager {
     return password.equals(temp.getPassword());
   }
 
-  public boolean notExistingProfile(String username) {
+  private boolean notExistingUsername(String username) {
     for(UserProfile existingUser: allProfiles)
     {
       if(existingUser.getUsername().equals(username))
