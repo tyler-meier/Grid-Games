@@ -31,16 +31,16 @@ public class Data implements DataLink {
   private final ResourceBundle myDefaultEnginePathResource = ResourceBundle.getBundle(DEFAULT_ENGINE_PATH);
 
   private String gamePath;
-  private ProfileManager myProfileManager = new ProfileManager();
-  private StringProperty errorMessage = new SimpleStringProperty();
-  private XMLBuilder xmlBuilder;
+  private ProfileManager myProfileManager;
+  private StringProperty errorMessage;
   private UserProfile currentUser;
   private String gameType;
 
 
   public Data()
   {
-
+      myProfileManager = new ProfileManager();
+      errorMessage = new SimpleStringProperty();
   }
 
   public StringProperty getErrorMessage()
