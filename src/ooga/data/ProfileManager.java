@@ -10,6 +10,7 @@ import ooga.data.buildingXML.XMLRegisteredProfileBuilder;
 import ooga.data.buildingXML.XMLSingularProfileBuilder;
 import ooga.data.exceptions.IncorrectPasswordException;
 import ooga.data.exceptions.NoUserExistsException;
+import ooga.data.exceptions.UserAlreadyExistsException;
 
 /**
  * This class deals with all of the active profiles to cut down on the work Data has to do.
@@ -98,13 +99,20 @@ public class ProfileManager {
    * @param password
    * @return
    */
-  public UserProfile addProfile(String username, String password)
+  public UserProfile addProfile(String username, String password) throws UserAlreadyExistsException
   {
-    UserProfile newUser = new UserProfile(username, password);
-    XMLBuilder newProfileXML = new XMLSingularProfileBuilder(MAIN_TAG, newUser.getPath(), newUser);
-    allProfiles.add(newUser);
-    writeNewProfileToRegisteredList();
-    return newUser;
+    if(notExistingProfile(username))
+    {
+      UserProfile newUser = new UserProfile(username, password);
+      XMLBuilder newProfileXML = new XMLSingularProfileBuilder(MAIN_TAG, newUser.getPath(), newUser);
+      allProfiles.add(newUser);
+      writeNewProfileToRegisteredList();
+      return newUser;
+    }
+    else
+    {
+      throw new UserAlreadyExistsException(username);
+    }
   }
 
 

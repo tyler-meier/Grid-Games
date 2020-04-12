@@ -14,7 +14,7 @@ class DataTest {
   private final ResourceBundle myGameResource = ResourceBundle.getBundle(GAME_PATH);
   private final String OUTPUT_SKELETON = "%s vs. %s";
   private final String KEY_FILLER = "Whatever";
-  private final String NEW_GAME_PATH_SKELETON = "data/%s%s.xml";
+  private final String NEW_GAME_PATH_SKELETON = "data/profiles/%s%s.xml";
 
   private Data data = new Data();
 

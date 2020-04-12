@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Map;
 import ooga.data.ProfileManager;
+import ooga.data.exceptions.UserAlreadyExistsException;
 import org.junit.jupiter.api.Test;
 import static java.util.Map.entry;
 
@@ -41,9 +42,15 @@ class ProfileManagerTest {
   {
     String newUsername = "jay18";
     String newPassword = "boob";
-    manager.addProfile(newUsername, newPassword);
-    assertEquals(newUsername, manager.getProfile(newUsername).getUsername());
-    System.out.println(manager.getProfile(newUsername));
+    try {
+      manager.addProfile(newUsername, newPassword);
+      assertEquals(newUsername, manager.getProfile(newUsername).getUsername());
+      System.out.println(manager.getProfile(newUsername));
+    } catch (UserAlreadyExistsException e)
+    {
+      System.out.println(e.getMessage());
+    }
+
   }
 
 }

@@ -15,7 +15,7 @@ public class UserProfile {
     private final String TO_STRING_SKELETON = "Username: %s \nPassword: %s\nPath: %s\nHigh Scores: %s\nSavedGames: %s\n";
 
 
-    private final String PATH_SKELETON = "data/%s.xml";
+    private final String PATH_SKELETON = "data/profiles/%s.xml";
     private Map<String, String> savedGames;
     private Map<String, Integer> highScores;
     private String username;
