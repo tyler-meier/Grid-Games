@@ -22,7 +22,7 @@ public class UICell {
     private static final String DEFAULT_RESOURCE_PACKAGE = RESOURCES.replace("/", ".");
     private static final String IMAGERESOURCES = "src/ooga/player/Resources/Images/";
     private static final String DEFAULT_IMAGERESOURCE_PACKAGE = IMAGERESOURCES.replace("/", ".");
-    private static final String HIDDEN_IMAGE_PATH = "x";
+    private static final String HIDDEN_IMAGE_PATH = "question";
     private ResourceBundle myResources;
     private Map<Integer, Image> imageMap = new HashMap<>();
     private Image hiddenImage;
