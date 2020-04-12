@@ -1,7 +1,6 @@
 package ooga.data.buildingXML;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +11,14 @@ import org.w3c.dom.Element;
  * Creates or updates the XML of the user passed
  */
 public class XMLSingularProfileBuilder extends XMLBuilder {
+
+  private final String DARK_MODE_TAG = "DarkMode";
+  private final String PARENTAL_CONT_TAG = "ParentalControls";
+  private final String USERNAME_TAG = "Username";
+  private final String PASSWORD_TAG = "Password";
+  private final String HIGH_SCORE_TAG = "HighScore";
+  private final String PREVIOUS_GAME_TAG = "PreviousGame";
+  private final String ENTRY_SKELETON = "%s %s";
 
   private UserProfile user;
   private Map<String, List<String>> userAttributes = new HashMap<>();
@@ -40,21 +47,21 @@ public class XMLSingularProfileBuilder extends XMLBuilder {
   }
 
   private void fillUserMap() {
-    createMapEntry("DarkMode", Boolean.toString(user.getDarkMode()));
-    createMapEntry("ParentalControls", Boolean.toString(user.getParentalControls()));
-    createMapEntry("Username", user.getUsername());
-    createMapEntry("Password", user.getPassword());
+    createMapEntry(DARK_MODE_TAG, Boolean.toString(user.getDarkMode()));
+    createMapEntry(PARENTAL_CONT_TAG, Boolean.toString(user.getParentalControls()));
+    createMapEntry(USERNAME_TAG, user.getUsername());
+    createMapEntry(PASSWORD_TAG, user.getPassword());
 
-    userAttributes.put("HighScore", new ArrayList<>());
+    userAttributes.put(HIGH_SCORE_TAG, new ArrayList<>());
     for(String game : user.getAllSavedGamed().keySet())
     {
-      addMapEntry("HighScore", String.format("%s %s", game, user.getSavedGame(game)));
+      addMapEntry(HIGH_SCORE_TAG, String.format(ENTRY_SKELETON, game, user.getSavedGame(game)));
     }
 
-    userAttributes.put("PreviousGame", new ArrayList<>());
+    userAttributes.put(PREVIOUS_GAME_TAG, new ArrayList<>());
     for(String game : user.getAllHighScores().keySet())
     {
-      addMapEntry("PreviousGame", String.format("%s %d", game, user.getHighScore(game)));
+      addMapEntry(PREVIOUS_GAME_TAG, String.format(ENTRY_SKELETON, game, user.getHighScore(game)));
     }
 
   }
