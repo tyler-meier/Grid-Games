@@ -41,8 +41,8 @@ public class Grid {
             maxState = Integer.parseInt(gameAttributes.get(MAX_STATE_NUMBER));
             hasHiddenCells = Boolean.parseBoolean(gameAttributes.get(HAS_HIDDEN_CELLS));
             pointsPerCell = Integer.parseInt(gameAttributes.get(POINTS_PER_CELL));
-        } catch (Exception e){
-            e.printStackTrace();
+        } catch (InvalidDataException e){
+            //e.printStackTrace();
             myErrorMessage.set(e.toString());
         }
         myValidator = validator;

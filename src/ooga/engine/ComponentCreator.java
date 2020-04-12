@@ -24,7 +24,6 @@ public class ComponentCreator {
 
     public ComponentCreator(StringProperty errorMessage){
         this.errorMessage.bindBidirectional(errorMessage);
-        //FIXME: figure out exception handling for this class
     }
 
     /**
@@ -40,7 +39,7 @@ public class ComponentCreator {
             return (Validator) o;
         }
         catch (Exception e) {
-            e.printStackTrace();
+            //e.printStackTrace();
             errorMessage.set(e.getMessage());
         }
         return null;
@@ -48,7 +47,7 @@ public class ComponentCreator {
 
     /**
      * This method is going to initialize and return the correct match finder
-     * for the current game. (**Can determine the file path based off the string it is passed)
+     * for the current game.
      * @return
      */
     public MatchFinder makeMyMatchFinder(String matchFinderType){
@@ -59,7 +58,7 @@ public class ComponentCreator {
             return (MatchFinder) o;
         }
         catch (Exception e) {
-            e.printStackTrace();
+            //e.printStackTrace();
             errorMessage.set(e.getMessage());
         }
         return null;
@@ -76,7 +75,7 @@ public class ComponentCreator {
             return Class.forName(path + nameOfClass);
         }
         catch(ClassNotFoundException e){
-            e.printStackTrace();
+            //e.printStackTrace();
             errorMessage.set(e.getMessage());
         }
         return null;
