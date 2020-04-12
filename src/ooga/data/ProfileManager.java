@@ -26,6 +26,14 @@ public class ProfileManager {
   private final int INDEX_OF_USERNAME = 0;
   private final int INDEX_OF_PASSWORD = 1;
   private final String DELIMINATOR = " ";
+  private final int GAME_TYPE_INDEX = 0;
+  private final int VALUE_INDEX = 0;
+  private final String DEFAULT_BOOLEAN_VALUE = "false";
+  private final String DEFAULT_LIST_VALUE = "";
+  private final String DARK_MODE_TAG = "DarkMode";
+  private final String PARENTAL_CONT_TAG = "ParentalControls";
+  private final String HIGH_SCORE_TAG = "HighScore";
+  private final String PREVIOUS_GAME_TAG = "PreviousGame";
 
   private List<UserProfile> allProfiles;
   private XMLParser profileParser;
@@ -157,8 +165,8 @@ public class ProfileManager {
     UserProfile temp = new UserProfile(currUsername, currPassword);
     XMLParser tempProfileParser = new XMLParser(temp.getPath());
 
-    temp.setDarkMode(tempProfileParser.getBooleanElementByTag("DarkMode", "false"));
-    temp.setParentalControls(tempProfileParser.getBooleanElementByTag("ParentalControls", "false"));
+    temp.setDarkMode(tempProfileParser.getBooleanElementByTag(DARK_MODE_TAG, DEFAULT_BOOLEAN_VALUE));
+    temp.setParentalControls(tempProfileParser.getBooleanElementByTag(PARENTAL_CONT_TAG, DEFAULT_BOOLEAN_VALUE));
 
     setHighScores(temp, tempProfileParser);
     addSavedGames(temp, tempProfileParser);
@@ -166,25 +174,25 @@ public class ProfileManager {
   }
 
   private void setHighScores(UserProfile temp, XMLParser tempProfileParser) {
-    List<String> highScores = tempProfileParser.getListFromXML("HighScore", "");
-    if(!highScores.get(0).isEmpty())
+    List<String> highScores = tempProfileParser.getListFromXML(HIGH_SCORE_TAG, DEFAULT_LIST_VALUE);
+    if(!highScores.get(GAME_TYPE_INDEX).isEmpty())
     {
       for(String entry: highScores)
       {
-        String [] parts = entry.split(" ");
-        temp.addHighScore(parts[0], Integer.parseInt(parts[1]));
+        String [] parts = entry.split(DELIMINATOR);
+        temp.addHighScore(parts[GAME_TYPE_INDEX], Integer.parseInt(parts[VALUE_INDEX]));
       }
     }
   }
 
   private void addSavedGames(UserProfile temp, XMLParser tempProfileParser) {
-    List<String> previousGames = tempProfileParser.getListFromXML("PreviousGame", "");
-    if(!previousGames.get(0).isEmpty())
+    List<String> previousGames = tempProfileParser.getListFromXML(PREVIOUS_GAME_TAG, DEFAULT_LIST_VALUE);
+    if(!previousGames.get(GAME_TYPE_INDEX).isEmpty())
     {
       for(String entry: previousGames)
       {
-        String [] parts = entry.split(" ");
-        temp.addSavedGame(parts[0], parts[1]);
+        String [] parts = entry.split(DELIMINATOR);
+        temp.addSavedGame(parts[GAME_TYPE_INDEX], parts[VALUE_INDEX]);
       }
     }
   }
