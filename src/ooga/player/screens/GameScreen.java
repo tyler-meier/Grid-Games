@@ -1,7 +1,10 @@
 package ooga.player.screens;
 
 import java.util.*;
+
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -35,6 +38,8 @@ public class GameScreen extends SuperScreen{
   IntegerProperty myLives = new SimpleIntegerProperty();
   IntegerProperty myLevel = new SimpleIntegerProperty();
   IntegerProperty myMovesLeft = new SimpleIntegerProperty();
+  BooleanProperty isLoss = new SimpleBooleanProperty();
+  BooleanProperty isWin = new SimpleBooleanProperty();
   String myTime = "00:00:000";
 
   public GameScreen(String gameType, Player player){
@@ -136,6 +141,14 @@ public class GameScreen extends SuperScreen{
     myMovesLeft.bind(gameStats.get("MovesUsed"));
     //TODO: implement timekeeper
 //    gameStats.get("Time").bind(myTime);
+  }
+
+  public void setGameStatus(BooleanProperty isLoss, BooleanProperty isWin){
+    this.isLoss.bind(isLoss);
+    System.out.println("FRONTEND isLoss: " + this.isLoss);
+    this.isWin.bind(isWin);
+    this.isLoss.addListener((obs, oldv, newv) -> myPlayer.setUpStartScreen("loser"));
+    this.isWin.addListener((obs, oldv, newv) -> myPlayer.setUpStartScreen("winner"));
   }
 
 }

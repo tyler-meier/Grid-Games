@@ -44,8 +44,6 @@ public class OpenFinder extends MatchFinder {
         }
         if (matchedCells.size()==0){
             first.swap(second);
-            //System.out.println("State of first cell after swapping back bc invalid move: " + first.getMyState());
-            //System.out.println("State of second cell after swapping back bc invalid move: " + second.getMyState());
         }
 
         return matchedCells;

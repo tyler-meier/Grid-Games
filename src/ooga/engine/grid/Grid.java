@@ -78,6 +78,14 @@ public class Grid {
     public Map<String, String> getGameAttributes() { return myProgressManager.getGameAttributes(); }
     public Map<String, IntegerProperty> getGameStats() { return myProgressManager.getGameStats(); }
 
+    public BooleanProperty getLossStatus(){
+        return myProgressManager.isLoss();
+    }
+
+    public BooleanProperty getWinStatus(){
+        return myProgressManager.isWin();
+    }
+
     /**
      * This method sets up the grid given the specified initial states of the cells.
      * @param initialStates
@@ -132,8 +140,12 @@ public class Grid {
     private void updateMyBoard(){
         System.out.println("About to upadte the gird");
         updateGrid();
-        if (myProgressManager.isWin()) System.out.println("win"); // win action
-        else if (myProgressManager.isLoss()) System.out.println("loss"); // loss action
+        if (myProgressManager.isWin().getValue()){
+            System.out.println("win"); // win action
+        }
+        else if (myProgressManager.isLoss().getValue()){
+            System.out.println("loss"); // loss action
+        }
     }
 
     /**

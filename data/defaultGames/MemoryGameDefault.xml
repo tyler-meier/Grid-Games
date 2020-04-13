@@ -4,7 +4,7 @@
   <Score>0</Score>
   <TargetScore>30</TargetScore>
   <LossStat>MovesUsed</LossStat>
-  <MovesUsed>10</MovesUsed>
+  <MovesUsed>5</MovesUsed>
 
 
   <numRows>4</numRows>
