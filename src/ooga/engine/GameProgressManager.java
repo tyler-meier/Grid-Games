@@ -1,6 +1,8 @@
 package ooga.engine;
 
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import ooga.engine.grid.InvalidDataException;
 
@@ -23,6 +25,9 @@ public class GameProgressManager{
     private int targetScore;
     private Timer timer = new Timer();
     private TimerTask timerTask;
+    private BooleanProperty isLoss = new SimpleBooleanProperty();
+    private BooleanProperty isWin = new SimpleBooleanProperty();
+
 
     public GameProgressManager(Map<String, String> gameAttributes) throws InvalidDataException {
         try{
@@ -46,12 +51,14 @@ public class GameProgressManager{
         return currentAttributes;
     }
 
-    public boolean isWin(){
-        return gameStats.get(SCORE).get() >= targetScore;
+    public BooleanProperty isWin(){
+        isWin.set(gameStats.get(SCORE).get() >= targetScore);
+        return isWin;
     }
 
-    public boolean isLoss(){
-        return gameStats.get(lossStatKey).get() <= 0;
+    public BooleanProperty isLoss(){
+        isLoss.set(gameStats.get(lossStatKey).get() <= 0);
+        return isLoss;
     }
 
     // pass this to front end to always display score and level, also display loss stat and amount

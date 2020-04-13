@@ -9,12 +9,12 @@ public class PairValidator extends Validator {
 
     @Override
     public boolean checkIsValid(List<Cell> selected, GameProgressManager myProgressManager) {
+        myProgressManager.incrementMoves();
         for (Cell cell:selected) {
             if (cell.isOpen().get()){
                 return false;
             }
         }
-
         int matchState = selected.get(0).getMyState();
         boolean matched = true;
         for (Cell cell:selected){
@@ -31,7 +31,11 @@ public class PairValidator extends Validator {
         for (Cell cell:selected){
             if (!matched) cell.isOpen().set(false);
         }
-        if (!matched) myProgressManager.incrementMoves();
+        /*
+        if (!matched){
+            myProgressManager.incrementMoves();
+        }
+         */
         return matched;
     }
 }

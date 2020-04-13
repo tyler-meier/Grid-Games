@@ -2,7 +2,6 @@ package ooga.data;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,9 +46,8 @@ public class XMLParser {
    * @return
    */
   public Map<String, String> getMapFromXML(ResourceBundle keysAndDefaults) {
-    List<String> keys = Collections.list(keysAndDefaults.getKeys());
     Map<String, String> mapToFill = new HashMap<>();
-    for (String key : keys) {
+    for (String key : keysAndDefaults.keySet()) {
       mapToFill.put(key, getStringElementByTag(key, keysAndDefaults.getString(key)));
     }
     return mapToFill;

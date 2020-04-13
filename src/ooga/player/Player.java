@@ -51,6 +51,7 @@ public class Player implements PlayerStart{
     myStage.setScene(myGameScreen.makeScene(myGameType, currentUsername, 800, 500));
     myGameScreen.setGrid(backendGrid);
     myGameScreen.setStats(backendGrid.getGameStats());
+    myGameScreen.setGameStatus(backendGrid.getLossStatus(), backendGrid.getWinStatus());
   }
 
   public void setUpLoginScreen(){

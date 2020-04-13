@@ -4,17 +4,13 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Border;
-import javafx.scene.layout.BorderPane;
 import ooga.engine.Cell;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 
 
 public class UICell {
@@ -26,7 +22,7 @@ public class UICell {
     private static final String DEFAULT_RESOURCE_PACKAGE = RESOURCES.replace("/", ".");
     private static final String IMAGERESOURCES = "src/ooga/player/Resources/Images/";
     private static final String DEFAULT_IMAGERESOURCE_PACKAGE = IMAGERESOURCES.replace("/", ".");
-    private static final String HIDDEN_IMAGE_PATH = "x";
+    private static final String HIDDEN_IMAGE_PATH = "question";
     private ResourceBundle myResources;
     private Map<Integer, Image> imageMap = new HashMap<>();
     private Image hiddenImage;

@@ -5,7 +5,7 @@
   <MatchFinder>FlippedFinder</MatchFinder>
   <NumSelectedPerMove>2</NumSelectedPerMove>
   <HasHiddenCells>false</HasHiddenCells>
-  <MaxStateNumber>10</MaxStateNumber>
+  <MaxStateNumber>6</MaxStateNumber>
 
   <!--need this as well, easier if constant for a game type (for now)-->
   <PointsPerCell>5</PointsPerCell>
