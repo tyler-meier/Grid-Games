@@ -1,8 +1,5 @@
 package ooga.player.screens;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -15,18 +12,10 @@ import ooga.player.Player;
 
 public class StartScreen extends SuperScreen{
 
-  private Player myPlayer;
-  private EventHandler myEngine;
   private ComboBox games;
-  private List<Node> myNodes;
-  private ResourceBundle myStringResources;
 
   public StartScreen(EventHandler engine, Player thisPlayer){
     super(engine, thisPlayer);
-    myPlayer = thisPlayer;
-    myEngine = engine;
-    myNodes = new ArrayList<>();
-    myStringResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "BasicStrings");
   }
 
   public Scene setUpScene(String username){
@@ -52,7 +41,7 @@ public class StartScreen extends SuperScreen{
     Label gameChoice = new Label(myStringResources.getString("GameChoice"));
     games = new ComboBox();
     games.getItems().addAll("CandyCrush", "BejeweledAction", "BejeweledEndless", "BejeweledPuzzle", "Minesweeper", "Memory");
-    //TODO fix hardcoded strings and have them be sent to gamescreen
+    //TODO fix hardcoded strings and have them be sent to gamescreen, also do styling for this
 
     gameChoicePanel.getChildren().addAll(gameChoice, games);
     gameChoicePanel.setSpacing(10);

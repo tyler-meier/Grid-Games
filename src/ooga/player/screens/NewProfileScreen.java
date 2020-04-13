@@ -1,8 +1,5 @@
 package ooga.player.screens;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -16,20 +13,11 @@ import ooga.player.Player;
 
 public class NewProfileScreen extends SuperScreen{
 
-  private ResourceBundle myStringResources;
-  private Player myPlayer;
   private TextField newUsername, newPassword;
   private UserProfile userData;
-  private UserLogin myUserLogin;
-  private List<Node> myNodes;
-
 
   public NewProfileScreen(UserLogin thisUserLogin, Player thisPlayer){
     super(thisUserLogin, thisPlayer);
-    myPlayer = thisPlayer;
-    myUserLogin = thisUserLogin;
-    myNodes = new ArrayList<>();
-    myStringResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "BasicStrings");
   }
 
   public Scene setUpScene(){

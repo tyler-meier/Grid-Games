@@ -1,5 +1,6 @@
 package ooga.player.screens;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.beans.property.StringProperty;
@@ -19,30 +20,42 @@ public abstract class SuperScreen {
   protected static final String RESOURCES = "ooga/player/Resources/";
   protected static final String DEFAULT_RESOURCE_PACKAGE = RESOURCES.replace("/", ".");
   protected static final String DEFAULT_RESOURCE_FOLDER = "/" + RESOURCES;
+  protected static String styleSheet = "default.css";
   private static final int DIMENSION = 600;
-  String styleSheet = "default.css";
 
-  private ResourceBundle myButtonResources;
-  private Label myErrorMessage;
+  protected ResourceBundle myButtonResources, myStringResources;
+  protected Label myErrorMessage;
+  protected Player myPlayer;
+  protected EventHandler myEngine;
+  protected List<Node> myNodes;
+  protected String myGameType;
+  protected UserLogin myUserLogin;
 
   public SuperScreen(Player thisPlayer) {
-    myButtonResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "ButtonCreation");
-    myErrorMessage = new Label();
+    setCommonVariables(thisPlayer);
   }
 
-  public SuperScreen(UserLogin myUserLogin, Player player){
-    myButtonResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "ButtonCreation");
-    myErrorMessage = new Label();
+  public SuperScreen(UserLogin thisUserLogin, Player thisPlayer){
+    myUserLogin = thisUserLogin;
+    setCommonVariables(thisPlayer);
   }
 
   public SuperScreen(EventHandler engine, Player thisPlayer){
-    myButtonResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "ButtonCreation");
-    myErrorMessage = new Label();
+    myEngine = engine;
+    setCommonVariables(thisPlayer);
   }
 
-  public SuperScreen(String gameType, Player player){
+  public SuperScreen(String gameType, Player thisPlayer){
+    myGameType = gameType;
+    setCommonVariables(thisPlayer);
+  }
+
+  private void setCommonVariables(Player thisPlayer){
+    myStringResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "BasicStrings");
     myButtonResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "ButtonCreation");
     myErrorMessage = new Label();
+    myPlayer = thisPlayer;
+    myNodes = new ArrayList<>();
   }
 
   public Scene styleScene(List<Node> myNodes){

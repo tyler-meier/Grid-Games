@@ -1,8 +1,5 @@
 package ooga.player.screens;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -16,18 +13,12 @@ import ooga.player.Player;
 
 public class LoginScreen extends SuperScreen{
 
-  private Player myPlayer;
   private TextField username, password;
   private UserLogin myUserLogin;
   private UserProfile userData;
-  private ResourceBundle myStringResources;
-  private List<Node> myNodes;
 
   public LoginScreen(Player thisPlayer){
     super(thisPlayer);
-    myPlayer = thisPlayer;
-    myNodes = new ArrayList<>();
-    myStringResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "BasicStrings");
   }
 
   public Scene setUpScene(){
@@ -69,7 +60,7 @@ public class LoginScreen extends SuperScreen{
     Button loginButton = makeButton("LoginButtonCommand", e -> {
       userData = myUserLogin.getProfile(username.getText(), password.getText());
       if(userData != null){
-        myPlayer.setUpStartScreen(username.getText());
+        myPlayer.setUpStartScreen(userData.getUsername());
       }
     });
     Button guestButton = makeButton("GuestButtonCommand", e -> myPlayer.setUpStartScreen(myStringResources.getString("Guest")));

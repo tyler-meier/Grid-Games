@@ -24,8 +24,6 @@ public class GameScreen extends SuperScreen{
   private static final String RESOURCES = "ooga/player/Resources/";
   private static final String DEFAULT_RESOURCE_PACKAGE = RESOURCES.replace("/", ".");
   private static final String DEFAULT_RESOURCE_FOLDER = "/" + RESOURCES;
-  private ResourceBundle myStringResources;
-  private Player myPlayer;
   private int myHeight;
   private int myWidth;
   private GridView myGrid;
@@ -44,8 +42,6 @@ public class GameScreen extends SuperScreen{
 
   public GameScreen(String gameType, Player player){
     super(gameType, player);
-    myStringResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "BasicStrings");
-    myPlayer = player;
     myGrid = new GridView(gameType, 400);
   }
 
@@ -132,7 +128,7 @@ public class GameScreen extends SuperScreen{
   }
 
   public void setStats(Map<String, IntegerProperty> gameStats){
-    //TODO: how do you get high score of profile?
+    //TODO: how do you get high score of profile?, use game type that is global variable
     myScore.bind(gameStats.get("Score"));
     myHighScore.bind(gameStats.get("Score"));
     //TODO: get number of lives
