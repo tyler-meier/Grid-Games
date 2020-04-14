@@ -218,7 +218,6 @@ public class Grid {
             cell.cellState().set(-1);
             myProgressManager.updateScore(cell.getScore());
         }
-        System.out.println("About to enter deleting cells loop");
         for (int col = 0; col<getCols(); col++){
             for (int row = 1; row<getRows(); row++){
                 Cell cell = getCell(row, col);

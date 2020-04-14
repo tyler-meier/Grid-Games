@@ -145,7 +145,6 @@ public class GameScreen extends SuperScreen{
 
   public void setGameStatus(BooleanProperty isLoss, BooleanProperty isWin){
     this.isLoss.bind(isLoss);
-    System.out.println("FRONTEND isLoss: " + this.isLoss);
     this.isWin.bind(isWin);
     this.isLoss.addListener((obs, oldv, newv) -> myPlayer.setUpStartScreen("loser"));
     this.isWin.addListener((obs, oldv, newv) -> myPlayer.setUpStartScreen("winner"));
