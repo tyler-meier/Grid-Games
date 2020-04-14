@@ -3,6 +3,7 @@ package ooga.player.screens;
 import java.util.*;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -30,6 +31,7 @@ public class GameScreen extends SuperScreen{
   private BorderPane myRoot;
   private String myGameType;
   private Scene thisScene;
+  private EventHandler myEngine;
   IntegerProperty myHighScore = new SimpleIntegerProperty();
   IntegerProperty myScore = new SimpleIntegerProperty();
   IntegerProperty myLives = new SimpleIntegerProperty();
@@ -84,10 +86,10 @@ public class GameScreen extends SuperScreen{
   //make panel of buttons for screen
   private Node makeButtonPanel(String username) {
     Button loginButton = makeButton("LogoutCommand", e-> myPlayer.setUpLoginScreen());
-//    Button resetButton = makeButton("ResetCommand", e-> myPlayer.setUpGameScreen(myPlayer.getGrid())); //TODO: fix reset button
+    Button resetButton = makeButton("ResetCommand", e -> myPlayer.setResetButton());
 
     VBox buttons = new VBox();
-    buttons.getChildren().addAll(loginButton);
+    buttons.getChildren().addAll(loginButton, resetButton);
     buttons.setSpacing(10);
     buttons.setAlignment(Pos.CENTER);
 
@@ -115,9 +117,7 @@ public class GameScreen extends SuperScreen{
     stats.getChildren().addAll(makeLabel(myHighScore), makeLabel(myScore), makeLabel(myLives), makeLabel(myLevel), makeLabel(myMovesLeft));
     stats.setSpacing(10);
     stats.setAlignment(Pos.CENTER);
-
     return stats;
-
   }
 
   private Label makeLabel(IntegerProperty integerProperty) {

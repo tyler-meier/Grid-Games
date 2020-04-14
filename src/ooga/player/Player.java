@@ -71,6 +71,14 @@ public class Player implements PlayerStart{
     myEngine = engine;
   }
 
+  public void setResetButton() {
+
+  }
+
+  public void setGameStats(Map<String, IntegerProperty> gameAttributes) {
+    myGameScreen.setStats(gameAttributes);
+  }
+
   /**
    * An instance variable boolean keeps track of whether most recent progress of player is saved.
    * The boolean is returned in this method.
