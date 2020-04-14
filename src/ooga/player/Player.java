@@ -94,9 +94,9 @@ public class Player implements PlayerStart{
 
   }
 
-  public void setGameStats(Map<String, IntegerProperty> gameAttributes) {
-    myGameScreen.setStats(gameAttributes);
-  }
+//  public void setGameStats(Map<String, IntegerProperty> gameAttributes) {
+//    myGameScreen.setStats(gameAttributes);
+//  }
 
   /**
    * An instance variable boolean keeps track of whether most recent progress of player is saved.
