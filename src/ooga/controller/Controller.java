@@ -50,13 +50,13 @@ public class Controller extends Application {
 //        player.setGameStats(engine.getGameStats());
         player.setUpGameScreen(engine.getGrid()); // need to change param type of set grid
 //        player.setSaveGameButton(e -> data.saveGame(username, type, engine.getGameAttributes(), engine.getGridConfiguration()));
-//        player.setResetButton(e -> {
-//              Map<String, String> newGameAttributes = data.getGameAttributes("guest", type);
-//              //TODO: is this grid from the last identified path or the one set above?
-//              int[][] newInitialStates = data.getGrid();
-//              engine.setupGame(newInitialStates, newGameAttributes);
-//              player.setUpGameScreen(engine.getGrid());
-//        });
+        player.setResetButton(e -> {
+              Map<String, String> newGameAttributes = data.getGameAttributes("guest", type);
+              //TODO: is this grid from the last identified path or the one set above?
+              int[][] newInitialStates = data.getGrid();
+              engine.setupGame(newInitialStates, newGameAttributes);
+              player.setUpGameScreen(engine.getGrid());
+        });
     }
 }
 
