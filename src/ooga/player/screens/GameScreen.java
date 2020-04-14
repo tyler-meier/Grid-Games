@@ -1,11 +1,14 @@
 package ooga.player.screens;
 
+import java.awt.event.ActionListener;
 import java.util.*;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -39,8 +42,8 @@ public class GameScreen extends SuperScreen{
   BooleanProperty isWin = new SimpleBooleanProperty();
   String myTime = "00:00:000";
 
-  public GameScreen(String gameType, Player player){
-    super(gameType, player);
+  public GameScreen(EventHandler engine, String gameType, Player player){
+    super(engine, gameType, player);
     myGrid = new GridView(gameType, 400); //TODO: magic number
   }
 
@@ -80,13 +83,19 @@ public class GameScreen extends SuperScreen{
     myRoot.setCenter(myGridPane);
   }
 
-  //make panel of buttons for screen
   private Node makeButtonPanel() {
     Button logoutButton = makeButton("LogoutCommand", e-> myPlayer.setUpLoginScreen());
-//    Button resetGameButton = makeButton("ResetGameCommand", e-> myPlayer.setUpGameScreen(myPlayer.getGrid())); //TODO: fix reset button
+    //TODO: fix this
+    Button resetGameButton = makeButton("ResetGameCommand", e-> {
+      try {
+        myEventEngine.handle(e);
+      } catch (NullPointerException p){ //TODO: change to actual set error thing
+        System.out.println("WRONG");
+      }
+    });
 //    Button resetLevelButton = makeButton("ResetLevelCommand", e-> myPlayer.setUpGameScreen(myPlayer.getGrid()));
 
-    Node buttons = styleContents(logoutButton);
+    Node buttons = styleContents(logoutButton, resetGameButton);
     return buttons;
   }
 
@@ -97,7 +106,9 @@ public class GameScreen extends SuperScreen{
     TimeKeeper timer = new TimeKeeper();
     timer.addTimeline();
     String time = timer.getText();
-    Label stopWatch = new Label(time);
+    Label stopWatch = new Label("TIME: " + time);
+
+//    Button customView = makeButton("Customize", e-> myPlayer.setUpCustomView());
 
     toolBar.getChildren().addAll(homeButton, stopWatch);
     toolBar.setSpacing(45);

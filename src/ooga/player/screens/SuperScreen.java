@@ -14,6 +14,8 @@ import javafx.scene.layout.VBox;
 import ooga.controller.UserLogin;
 import ooga.player.Player;
 
+import javax.swing.*;
+
 /**
  * The Super Screen class, which is a super class of all of the screen classes and holds methods that they all utilize,
  * as well as instance variables that they use in their classes
@@ -67,7 +69,8 @@ public abstract class SuperScreen {
    * @param gameType the current game being played
    * @param thisPlayer the current player
    */
-  public SuperScreen(String gameType, Player thisPlayer){
+  public SuperScreen(EventHandler engine, String gameType, Player thisPlayer){
+    myEventEngine = engine;
     myGameType = gameType;
     setCommonVariables(thisPlayer);
   }
