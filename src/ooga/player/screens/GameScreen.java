@@ -41,7 +41,7 @@ public class GameScreen extends SuperScreen{
 
   public GameScreen(String gameType, Player player){
     super(gameType, player);
-    myGrid = new GridView(gameType, 400);
+    myGrid = new GridView(gameType, 400); //TODO: magic number
   }
 
   /**
@@ -86,9 +86,7 @@ public class GameScreen extends SuperScreen{
 //    Button resetGameButton = makeButton("ResetGameCommand", e-> myPlayer.setUpGameScreen(myPlayer.getGrid())); //TODO: fix reset button
 //    Button resetLevelButton = makeButton("ResetLevelCommand", e-> myPlayer.setUpGameScreen(myPlayer.getGrid()));
 
-    myContents.clear();
-    myContents.add(logoutButton);
-    Node buttons = styleContents();
+    Node buttons = styleContents(logoutButton);
     return buttons;
   }
 
