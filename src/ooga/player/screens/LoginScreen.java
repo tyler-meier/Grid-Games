@@ -1,33 +1,22 @@
 package ooga.player.screens;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.VBox;
 import ooga.controller.UserLogin;
 import ooga.data.UserProfile;
 import ooga.player.Player;
 
 public class LoginScreen extends SuperScreen{
 
-  private Player myPlayer;
   private TextField username, password;
   private UserLogin myUserLogin;
   private UserProfile userData;
-  private ResourceBundle myStringResources;
-  private List<Node> myNodes;
 
   public LoginScreen(Player thisPlayer){
     super(thisPlayer);
-    myPlayer = thisPlayer;
-    myNodes = new ArrayList<>();
-    myStringResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "BasicStrings");
   }
 
   public Scene setUpScene(){
@@ -36,7 +25,7 @@ public class LoginScreen extends SuperScreen{
     myNodes.clear();
     myNodes.add(topLoginPanel);
     myNodes.add(buttonPanel);
-    Scene scene = styleScene(myNodes);
+    Scene scene = styleScene();
     return scene;
   }
 
@@ -45,8 +34,6 @@ public class LoginScreen extends SuperScreen{
   }
 
   private Node setupLoginAndLabel(){
-    VBox topVBox = new VBox();
-
     Label loginLabel = new Label(myStringResources.getString("Login"));
     username = new TextField();
     password = new TextField();
@@ -57,27 +44,33 @@ public class LoginScreen extends SuperScreen{
     username.getText();
     password.getText();
 
-    topVBox.getChildren().addAll(loginLabel, username, password);
-    topVBox.setSpacing(10);
-    topVBox.setAlignment(Pos.CENTER);
+    myContents.clear();
+    myContents.add(loginLabel);
+    myContents.add(username);
+    myContents.add(password);
+    Node topVBox = styleContents();
     return topVBox;
   }
 
   private Node setUpButtons(){
-    VBox buttonVBox = new VBox();
-
     Button loginButton = makeButton("LoginButtonCommand", e -> {
       userData = myUserLogin.getProfile(username.getText(), password.getText());
       if(userData != null){
-        myPlayer.setUpStartScreen(username.getText());
+        myPlayer.setUsername(userData.getUsername());
+        myPlayer.setUpStartScreen();
       }
     });
-    Button guestButton = makeButton("GuestButtonCommand", e -> myPlayer.setUpStartScreen(myStringResources.getString("Guest")));
+    Button guestButton = makeButton("GuestButtonCommand", e -> {
+      myPlayer.setUsername(myStringResources.getString("Guest"));
+      myPlayer.setUpStartScreen();
+    });
     Button newProfileButton = makeButton("NewProfileCommand", e -> myPlayer.setUpNewProfScreen());
 
-    buttonVBox.getChildren().addAll(loginButton, guestButton, newProfileButton);
-    buttonVBox.setSpacing(10);
-    buttonVBox.setAlignment(Pos.CENTER);
+    myContents.clear();
+    myContents.add(loginButton);
+    myContents.add(guestButton);
+    myContents.add(newProfileButton);
+    Node buttonVBox = styleContents();
     return buttonVBox;
   }
 }
