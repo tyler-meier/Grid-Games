@@ -9,31 +9,43 @@ import ooga.controller.UserLogin;
 import ooga.data.UserProfile;
 import ooga.player.Player;
 
+/**
+ * Login Screen class that sets up the login screen for a player
+ * @author Tyler Meier
+ */
 public class LoginScreen extends SuperScreen{
 
   private TextField username, password;
   private UserLogin myUserLogin;
   private UserProfile userData;
 
+  /**
+   * Constructor of this class, calls super to set up instance variables
+   * @param thisPlayer
+   */
   public LoginScreen(Player thisPlayer){
     super(thisPlayer);
   }
 
+  /**
+   * Sets up the login scene, with the labels, text fields, and buttons
+   * @return the final completed scene to be shown
+   */
   public Scene setUpScene(){
-    Node topLoginPanel = setupLoginAndLabel();
+    Node topLoginPanel = setupText();
     Node buttonPanel = setUpButtons();
-    myNodes.clear();
-    myNodes.add(topLoginPanel);
-    myNodes.add(buttonPanel);
-    Scene scene = styleScene();
-    return scene;
+    return styleScene(topLoginPanel, buttonPanel);
   }
 
+  /**
+   * Gets the userLogin info of the player trying to log in
+   * @param thisUserLogin the data info of the player trying to log in
+   */
   public void giveMeUserLogin(UserLogin thisUserLogin){
     myUserLogin = thisUserLogin;
   }
 
-  private Node setupLoginAndLabel(){
+  private Node setupText(){
     Label loginLabel = new Label(myStringResources.getString("Login"));
     username = new TextField();
     password = new TextField();
@@ -44,12 +56,7 @@ public class LoginScreen extends SuperScreen{
     username.getText();
     password.getText();
 
-    myContents.clear();
-    myContents.add(loginLabel);
-    myContents.add(username);
-    myContents.add(password);
-    Node topVBox = styleContents();
-    return topVBox;
+    return styleContents(loginLabel, username, password);
   }
 
   private Node setUpButtons(){
@@ -66,11 +73,6 @@ public class LoginScreen extends SuperScreen{
     });
     Button newProfileButton = makeButton("NewProfileCommand", e -> myPlayer.setUpNewProfScreen());
 
-    myContents.clear();
-    myContents.add(loginButton);
-    myContents.add(guestButton);
-    myContents.add(newProfileButton);
-    Node buttonVBox = styleContents();
-    return buttonVBox;
+    return styleContents(loginButton, guestButton, newProfileButton);
   }
 }

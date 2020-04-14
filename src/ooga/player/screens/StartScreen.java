@@ -8,55 +8,56 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import ooga.player.Player;
 
+/**
+ * Start screen class which serves as the home screen of a player's profile and where a game is chosen
+ * @author Tyler Meier
+ */
 public class StartScreen extends SuperScreen{
 
-  private ComboBox games;
+  private ComboBox<String> games = new ComboBox<>();
 
+  /**
+   * Constructor of this class, calls super to set up instance variables
+   * @param thisPlayer the current player
+   * @param engine the event to create the engine
+   */
   public StartScreen(EventHandler engine, Player thisPlayer){
     super(engine, thisPlayer);
   }
 
+  /**
+   * Sets up the start/home scene, with the labels, combo box, and buttons
+   * @return the final completed scene to be shown
+   */
   public Scene setUpScene(){
     Label welcomeLabel = makeWelcomeLabel();
     Node gameChoice = makeGameChoice();
     Node buttonPanel = setUpButtons();
-    myNodes.clear();
-    myNodes.add(welcomeLabel);
-    myNodes.add(gameChoice);
-    myNodes.add(buttonPanel);
-    Scene scene = styleScene();
-    return scene;
+    return styleScene(welcomeLabel, gameChoice, buttonPanel);
   }
 
   private Label makeWelcomeLabel(){
-    Label welcome = new Label(myStringResources.getString("Welcome") + " " + myPlayer.getUsername());
-    return welcome;
+    return new Label(myStringResources.getString("Welcome") + " " + myPlayer.getUsername());
   }
 
   private Node makeGameChoice(){
     Label gameChoice = new Label(myStringResources.getString("GameChoice"));
-    games = new ComboBox();
     games.getItems().addAll("CandyCrush", "BejeweledAction", "BejeweledEndless", "BejeweledPuzzle", "Minesweeper", "Memory");
     //TODO fix hardcoded strings and have them be sent to gamescreen, also do styling for this, reflection?
 
-    myContents.clear();
-    myContents.add(gameChoice);
-    myContents.add(games);
-    Node gameChoicePanel = styleContents();
-    return gameChoicePanel;
+    return styleContents(gameChoice, games);
   }
 
   private Node setUpButtons(){
     Button startButton = makeButton("StartCommand", e -> {
-      myPlayer.setGameType((String) games.getValue());  //TODO check for the empty chosen thing
-      myEventEngine.handle(e);
+      try {
+        myPlayer.setGameType(games.getValue());
+        myEventEngine.handle(e);
+      } catch (NullPointerException p){ //TODO: change to actual set error thing
+        System.out.println("WRONG");
+      }
     });
     Button logoutButton = makeButton("LogoutCommand", e -> myPlayer.setUpLoginScreen());
-
-    myContents.clear();
-    myContents.add(startButton);
-    myContents.add(logoutButton);
-    Node buttonVBox = styleContents();
-    return buttonVBox;
+    return styleContents(startButton, logoutButton);
   }
 }

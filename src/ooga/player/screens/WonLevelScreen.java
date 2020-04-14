@@ -6,16 +6,27 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import ooga.player.Player;
 
+/**
+ * The won level screen, which pops up when a player beats the level in a game
+ * @author Tyler Meier
+ */
 public class WonLevelScreen extends SuperScreen{
 
-  public WonLevelScreen(Player player) {
-    super(player);
+  /**
+   * Constructor of this class, calls super to set up instance variables
+   * @param thisPlayer the current player
+   */
+  public WonLevelScreen(Player thisPlayer) {
+    super(thisPlayer);
   }
 
+  /**
+   * Sets up the scene once a player won a level with label and buttons
+   * @return the final completed scene to be shown
+   */
   public Scene setUpScene(){
     Parent contents = setUpContents();
-    Scene scene = finishStyling(contents);
-    return scene;
+    return finishStyling(contents);
   }
 
   private Parent setUpContents(){
@@ -23,13 +34,6 @@ public class WonLevelScreen extends SuperScreen{
     Button nextLevelButton = makeButton("NextLevelCommand", e -> myPlayer.setUpStartScreen()); //TODO: fix next level  button
     Button homeButton = makeButton("HomeCommand", e -> myPlayer.setUpStartScreen());
     Button saveButton = makeButton("SaveCommand", e-> myPlayer.setUpStartScreen()); //TODO: fix save button
-
-    myContents.clear();
-    myContents.add(winLevelLabel);
-    myContents.add(nextLevelButton);
-    myContents.add(homeButton);
-    myContents.add(saveButton);
-    Parent myVBox = (Parent) styleContents();
-    return myVBox;
+    return (Parent) styleContents(winLevelLabel, nextLevelButton, homeButton, saveButton);
   }
 }
