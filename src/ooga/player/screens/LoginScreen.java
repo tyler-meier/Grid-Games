@@ -1,52 +1,51 @@
 package ooga.player.screens;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.VBox;
 import ooga.controller.UserLogin;
 import ooga.data.UserProfile;
 import ooga.player.Player;
 
+/**
+ * Login Screen class that sets up the login screen for a player
+ * @author Tyler Meier
+ */
 public class LoginScreen extends SuperScreen{
 
-  private Player myPlayer;
   private TextField username, password;
   private UserLogin myUserLogin;
   private UserProfile userData;
-  private ResourceBundle myStringResources;
-  private List<Node> myNodes;
 
+  /**
+   * Constructor of this class, calls super to set up instance variables
+   * @param thisPlayer
+   */
   public LoginScreen(Player thisPlayer){
     super(thisPlayer);
-    myPlayer = thisPlayer;
-    myNodes = new ArrayList<>();
-    myStringResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "BasicStrings");
   }
 
+  /**
+   * Sets up the login scene, with the labels, text fields, and buttons
+   * @return the final completed scene to be shown
+   */
   public Scene setUpScene(){
-    Node topLoginPanel = setupLoginAndLabel();
+    Node topLoginPanel = setupText();
     Node buttonPanel = setUpButtons();
-    myNodes.clear();
-    myNodes.add(topLoginPanel);
-    myNodes.add(buttonPanel);
-    Scene scene = styleScene(myNodes);
-    return scene;
+    return styleScene(topLoginPanel, buttonPanel);
   }
 
+  /**
+   * Gets the userLogin info of the player trying to log in
+   * @param thisUserLogin the data info of the player trying to log in
+   */
   public void giveMeUserLogin(UserLogin thisUserLogin){
     myUserLogin = thisUserLogin;
   }
 
-  private Node setupLoginAndLabel(){
-    VBox topVBox = new VBox();
-
+  private Node setupText(){
     Label loginLabel = new Label(myStringResources.getString("Login"));
     username = new TextField();
     password = new TextField();
@@ -57,27 +56,23 @@ public class LoginScreen extends SuperScreen{
     username.getText();
     password.getText();
 
-    topVBox.getChildren().addAll(loginLabel, username, password);
-    topVBox.setSpacing(10);
-    topVBox.setAlignment(Pos.CENTER);
-    return topVBox;
+    return styleContents(loginLabel, username, password);
   }
 
   private Node setUpButtons(){
-    VBox buttonVBox = new VBox();
-
     Button loginButton = makeButton("LoginButtonCommand", e -> {
       userData = myUserLogin.getProfile(username.getText(), password.getText());
       if(userData != null){
-        myPlayer.setUpStartScreen(username.getText());
+        myPlayer.setUsername(userData.getUsername());
+        myPlayer.setUpStartScreen();
       }
     });
-    Button guestButton = makeButton("GuestButtonCommand", e -> myPlayer.setUpStartScreen(myStringResources.getString("Guest")));
+    Button guestButton = makeButton("GuestButtonCommand", e -> {
+      myPlayer.setUsername(myStringResources.getString("Guest"));
+      myPlayer.setUpStartScreen();
+    });
     Button newProfileButton = makeButton("NewProfileCommand", e -> myPlayer.setUpNewProfScreen());
 
-    buttonVBox.getChildren().addAll(loginButton, guestButton, newProfileButton);
-    buttonVBox.setSpacing(10);
-    buttonVBox.setAlignment(Pos.CENTER);
-    return buttonVBox;
+    return styleContents(loginButton, guestButton, newProfileButton);
   }
 }

@@ -41,8 +41,8 @@ public class Grid {
             maxState = Integer.parseInt(gameAttributes.get(MAX_STATE_NUMBER));
             hasHiddenCells = Boolean.parseBoolean(gameAttributes.get(HAS_HIDDEN_CELLS));
             pointsPerCell = Integer.parseInt(gameAttributes.get(POINTS_PER_CELL));
-        } catch (Exception e){
-            e.printStackTrace();
+        } catch (InvalidDataException e){
+            //e.printStackTrace();
             myErrorMessage.set(e.toString());
         }
         myValidator = validator;
@@ -77,6 +77,14 @@ public class Grid {
 
     public Map<String, String> getGameAttributes() { return myProgressManager.getGameAttributes(); }
     public Map<String, IntegerProperty> getGameStats() { return myProgressManager.getGameStats(); }
+
+    public BooleanProperty getLossStatus(){
+        return myProgressManager.isLoss();
+    }
+
+    public BooleanProperty getWinStatus(){
+        return myProgressManager.isWin();
+    }
 
     /**
      * This method sets up the grid given the specified initial states of the cells.
@@ -132,8 +140,12 @@ public class Grid {
     private void updateMyBoard(){
         System.out.println("About to upadte the gird");
         updateGrid();
-        if (myProgressManager.isWin()) System.out.println("win"); // win action
-        else if (myProgressManager.isLoss()) System.out.println("loss"); // loss action
+        if (myProgressManager.isWin().getValue()){
+            System.out.println("win"); // win action
+        }
+        else if (myProgressManager.isLoss().getValue()){
+            System.out.println("loss"); // loss action
+        }
     }
 
     /**
@@ -219,10 +231,11 @@ public class Grid {
                         nextRowAbove--;
                     } } }
             if (addNewCells) {
-                //System.out.println("About to refill a column");
+                System.out.println("About to refill a column");
                 refillColumn(col);
             }
         }
+        System.out.println("Clearing matched cells");
         matchedCells.clear();
     }
 
