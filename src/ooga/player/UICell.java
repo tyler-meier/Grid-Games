@@ -29,18 +29,13 @@ public class UICell {
 
     public UICell(Cell cell, String gameType, int cellHeight, int cellWidth){
         open.bind(cell.isOpen());
-
         state.bind(cell.cellState());
         myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + gameType);
         setupImageMap();
         setupImageView(cellHeight, cellWidth);
-        //setListeners();
         cell.cellState().addListener((obs, oldv, newv) -> changeImage());
+        cell.isOpen().addListener((obs, oldv, newv) -> changeImage());
         myImageView.setOnMouseClicked(e -> cell.toggleSelected());
-        cell.isOpen().addListener((obs, oldv, newv) -> {
-            System.out.println("OpPEN STATUS IS CHANGING");
-            changeImage();
-        });
     }
 
     private void setupImageMap(){
@@ -69,20 +64,10 @@ public class UICell {
         myImageView.setFitWidth(cellWidth);
     }
 
-    private void setListeners(){
-        //state.addListener((obs, oldv, newv) -> changeImage());
-    }
-
 
     private void changeImage(){
-         if (open.get()) {
-             //System.out.println("CHANGING THE IMAGE iN UI CELL");
-             myImageView.setImage(getImage()); // however you want to get the image associated with this state
-         }
-         else {
-             //System.out.println("cell not open");
-             myImageView.setImage(hiddenImage); // however you want to store the image displayed for "hidden" cells
-         }
+         if (open.get()) myImageView.setImage(getImage());
+         else myImageView.setImage(hiddenImage); // however you want to store the image displayed for "hidden" cells
     }
 
     //TODO: get either integer or cell to retrieve information about the cell type, return image view

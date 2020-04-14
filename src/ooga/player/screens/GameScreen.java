@@ -3,6 +3,7 @@ package ooga.player.screens;
 import java.awt.event.ActionListener;
 import java.util.*;
 
+import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -27,6 +28,8 @@ public class GameScreen extends SuperScreen{
   private static final String RESOURCES = "ooga/player/Resources/";
   private static final String DEFAULT_RESOURCE_PACKAGE = RESOURCES.replace("/", ".");
   private static final String DEFAULT_RESOURCE_FOLDER = "/" + RESOURCES;
+  private static final String TIME = "Time";
+  private static final int ONE_SECOND = 1000;
   private int myHeight;
   private int myWidth;
   private GridView myGrid;
@@ -40,7 +43,12 @@ public class GameScreen extends SuperScreen{
   IntegerProperty myMovesLeft = new SimpleIntegerProperty();
   BooleanProperty isLoss = new SimpleBooleanProperty();
   BooleanProperty isWin = new SimpleBooleanProperty();
+  private IntegerProperty lossStat = new SimpleIntegerProperty();
   String myTime = "00:00:000";
+  private Timer timer;
+  private VBox verticalPanel;
+  //TODO: make pause work with selecting
+  private boolean paused = true;
 
   public GameScreen(EventHandler engine, String gameType, Player player){
     super(engine, gameType, player);
@@ -62,12 +70,12 @@ public class GameScreen extends SuperScreen{
     Node toolBar = makeToolBar();
     myRoot.setTop(toolBar);
 
-    VBox verticalPanel = new VBox();
+    verticalPanel = new VBox();
     Node buttonPanel = makeButtonPanel();
-    Node statsPanel = makeStatsPanel();
+    //Node statsPanel = makeStatsPanel();
     verticalPanel.setSpacing(30);
     verticalPanel.setAlignment(Pos.CENTER);
-    verticalPanel.getChildren().addAll(buttonPanel, statsPanel);
+    verticalPanel.getChildren().addAll(buttonPanel);//, statsPanel);
     myRoot.setRight(verticalPanel);
 
     Scene scene = new Scene(myRoot, height, width);
@@ -118,28 +126,79 @@ public class GameScreen extends SuperScreen{
   private Node makeStatsPanel() {
     //TODO: refactor this, use keys from the gamestats to display correct stirng
     VBox stats = new VBox();
-    stats.getChildren().addAll(makeLabel(myHighScore), makeLabel(myScore), makeLabel(myLives), makeLabel(myLevel), makeLabel(myMovesLeft));
+    //stats.getChildren().addAll(makeLabel(myHighScore), makeLabel(myScore), makeLabel(myLives), makeLabel(myLevel), makeLabel(myMovesLeft), makeLabel(lossStat));
     stats.setSpacing(10);
     stats.setAlignment(Pos.CENTER);
     return stats;
   }
 
-  private Label makeLabel(IntegerProperty integerProperty) {
-    Label label = new Label();
-    label.textProperty().bind(integerProperty.asString());
-    return label;
+
+  private Node makeLabel(IntegerProperty integerProperty, String key) {
+    HBox box = new HBox();
+    Label name = new Label(key+": ");
+    Label value = new Label();
+    value.textProperty().bind(integerProperty.asString());
+    box.getChildren().addAll(name, value);
+    return box;
   }
 
   public void setStats(Map<String, IntegerProperty> gameStats){
     //TODO: how do you get high score of profile?, use game type that is global variable
-    myScore.bind(gameStats.get("Score"));
-    myHighScore.bind(gameStats.get("Score"));
-    //TODO: get number of lives
-    myLives.bind(gameStats.get("Level"));
-    myLevel.bind(gameStats.get("Level"));
-    myMovesLeft.bind(gameStats.get("MovesUsed"));
-    //TODO: implement timekeeper
+//    myScore.bind(gameStats.get("Score"));
+//    myHighScore.bind(gameStats.get("Score"));
+//    //TODO: get number of lives
+//    myLives.bind(gameStats.get("Level"));
+//    myLevel.bind(gameStats.get("Level"));
+//    myMovesLeft.bind(gameStats.get("MovesUsed"));
+//    //TODO: implement timekeeper
 //    gameStats.get("Time").bind(myTime);
+
+    VBox stats = new VBox();
+    for (String key:gameStats.keySet()){
+      IntegerProperty stat = gameStats.get(key);
+      stats.getChildren().add(makeLabel(stat, key));
+    }
+    stats.setSpacing(10);
+    stats.setAlignment(Pos.CENTER);
+    verticalPanel.getChildren().add(stats);
+    addTimeButton(gameStats);
+  }
+
+  private void addTimeButton(Map<String, IntegerProperty> gameStats){
+    if (!gameStats.containsKey(TIME)) return;
+    Button button = new Button("go");
+    button.setOnMouseClicked(e -> {
+      if (paused) {
+        startTimer(gameStats.get(TIME));
+        paused = false;
+      } else {
+        timer.cancel();
+        paused = true;
+      }
+    });
+    verticalPanel.getChildren().add(button);
+  }
+
+  private void startTimer(IntegerProperty timeProperty) {
+    timer = new Timer();
+    timer.schedule(new TimerTask() {
+      @Override
+      public void run() {
+        int time = timeProperty.get();
+        if (time<=0) {
+          timer.cancel();
+        } else decrementTime(timeProperty);
+      }
+    }, ONE_SECOND, ONE_SECOND);
+  }
+
+  private void decrementTime(IntegerProperty timeProperty){
+    Platform.runLater(() -> {
+      int time = timeProperty.get();
+      time--;
+      timeProperty.set(time);
+      System.out.println("decrementing time");
+    });
   }
 
   public void setGameStatus(BooleanProperty isLoss, BooleanProperty isWin){
