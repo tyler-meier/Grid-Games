@@ -37,16 +37,6 @@ public class PairValidator extends Validator {
             }, 2000);
         }
 
-
-        //wait 5 seconds
-//        for (Cell cell:selected){
-//            if (!matched) cell.isOpen().set(false);
-//        }
-        /*
-        if (!matched){
-            myProgressManager.incrementMoves();
-        }
-         */
         return matched;
     }
 }

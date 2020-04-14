@@ -23,6 +23,7 @@ public class UICell {
     private static final String IMAGERESOURCES = "src/ooga/player/Resources/Images/";
     private static final String DEFAULT_IMAGERESOURCE_PACKAGE = IMAGERESOURCES.replace("/", ".");
     private static final String HIDDEN_IMAGE_PATH = "question";
+    private BooleanProperty paused = new SimpleBooleanProperty();
     private ResourceBundle myResources;
     private Map<Integer, Image> imageMap = new HashMap<>();
     private Image hiddenImage;
@@ -35,7 +36,13 @@ public class UICell {
         setupImageView(cellHeight, cellWidth);
         cell.cellState().addListener((obs, oldv, newv) -> changeImage());
         cell.isOpen().addListener((obs, oldv, newv) -> changeImage());
-        myImageView.setOnMouseClicked(e -> cell.toggleSelected());
+        myImageView.setOnMouseClicked(e -> {
+            if (!paused.get()) cell.toggleSelected();
+        });
+    }
+
+    public void setPauseProperty(BooleanProperty paused){
+        this.paused.bind(paused);
     }
 
     private void setupImageMap(){

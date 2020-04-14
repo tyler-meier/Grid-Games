@@ -36,21 +36,20 @@ public class GameScreen extends SuperScreen{
   private GridPane myGridPane;
   private BorderPane myRoot;
   private Scene thisScene;
-  IntegerProperty myHighScore = new SimpleIntegerProperty();
-  IntegerProperty myScore = new SimpleIntegerProperty();
-  IntegerProperty myLives = new SimpleIntegerProperty();
-  IntegerProperty myLevel = new SimpleIntegerProperty();
-  IntegerProperty myMovesLeft = new SimpleIntegerProperty();
-  BooleanProperty isLoss = new SimpleBooleanProperty();
-  BooleanProperty isWin = new SimpleBooleanProperty();
-  private IntegerProperty lossStat = new SimpleIntegerProperty();
+//  IntegerProperty myHighScore = new SimpleIntegerProperty();
+//  IntegerProperty myScore = new SimpleIntegerProperty();
+//  IntegerProperty myLives = new SimpleIntegerProperty();
+//  IntegerProperty myLevel = new SimpleIntegerProperty();
+//  IntegerProperty myMovesLeft = new SimpleIntegerProperty();
+  private BooleanProperty isLoss = new SimpleBooleanProperty();
+  private BooleanProperty isWin = new SimpleBooleanProperty();
+  private BooleanProperty paused = new SimpleBooleanProperty(false);
   String myTime = "00:00:000";
   private Timer timer;
   private VBox verticalPanel;
   //TODO: make pause work with selecting
-  private boolean paused = true;
 
-  public GameScreen(EventHandler engine, String gameType, Player player){
+  public GameScreen(EventHandler<ActionEvent> engine, String gameType, Player player){
     super(engine, gameType, player);
     myGrid = new GridView(gameType, 400); //TODO: magic number
   }
@@ -86,7 +85,7 @@ public class GameScreen extends SuperScreen{
   }
 
   public void setGrid(Grid backendGrid){
-    myGridPane = myGrid.setGrid(backendGrid);
+    myGridPane = myGrid.setGrid(backendGrid, paused);
     myGridPane.setAlignment(Pos.CENTER);
     myRoot.setCenter(myGridPane);
   }
@@ -123,14 +122,14 @@ public class GameScreen extends SuperScreen{
     return toolBar;
   }
 
-  private Node makeStatsPanel() {
-    //TODO: refactor this, use keys from the gamestats to display correct stirng
-    VBox stats = new VBox();
-    //stats.getChildren().addAll(makeLabel(myHighScore), makeLabel(myScore), makeLabel(myLives), makeLabel(myLevel), makeLabel(myMovesLeft), makeLabel(lossStat));
-    stats.setSpacing(10);
-    stats.setAlignment(Pos.CENTER);
-    return stats;
-  }
+//  private Node makeStatsPanel() {
+//    //TODO: refactor this, use keys from the gamestats to display correct stirng
+//    VBox stats = new VBox();
+//    //stats.getChildren().addAll(makeLabel(myHighScore), makeLabel(myScore), makeLabel(myLives), makeLabel(myLevel), makeLabel(myMovesLeft), makeLabel(lossStat));
+//    stats.setSpacing(10);
+//    stats.setAlignment(Pos.CENTER);
+//    return stats;
+//  }
 
 
   private Node makeLabel(IntegerProperty integerProperty, String key) {
@@ -166,14 +165,18 @@ public class GameScreen extends SuperScreen{
 
   private void addTimeButton(Map<String, IntegerProperty> gameStats){
     if (!gameStats.containsKey(TIME)) return;
-    Button button = new Button("go");
+    Button button = new Button("Play");
+    paused.set(true);
+    //TODO: hard coded text/ where should this button be?
     button.setOnMouseClicked(e -> {
-      if (paused) {
+      if (paused.get()) {
+        button.setText("Pause");
         startTimer(gameStats.get(TIME));
-        paused = false;
+        paused.set(false);
       } else {
+        button.setText("Play");
         timer.cancel();
-        paused = true;
+        paused.set(true);
       }
     });
     verticalPanel.getChildren().add(button);
@@ -197,7 +200,6 @@ public class GameScreen extends SuperScreen{
       int time = timeProperty.get();
       time--;
       timeProperty.set(time);
-      System.out.println("decrementing time");
     });
   }
 
