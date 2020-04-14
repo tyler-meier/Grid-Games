@@ -28,6 +28,7 @@ public abstract class SuperScreen {
   protected Player myPlayer;
   protected EventHandler myEngine;
   protected List<Node> myNodes;
+  protected List<Node> myContents;
   protected String myGameType;
   protected UserLogin myUserLogin;
 
@@ -56,9 +57,10 @@ public abstract class SuperScreen {
     myErrorMessage = new Label();
     myPlayer = thisPlayer;
     myNodes = new ArrayList<>();
+    myContents = new ArrayList<>();
   }
 
-  public Scene styleScene(List<Node> myNodes){
+  public Scene styleScene(){
     VBox myCenterVBox = new VBox();
     for (Node a : myNodes){
       myCenterVBox.getChildren().add(a);
@@ -71,7 +73,16 @@ public abstract class SuperScreen {
     return scene;
   }
 
-  //returns a button with correct text, associated event handler
+  public Node styleContents(){
+    VBox myButtonVBox = new VBox();
+    for (Node b : myContents){
+      myButtonVBox.getChildren().add(b);
+    }
+    myButtonVBox.setSpacing(10);
+    myButtonVBox.setAlignment(Pos.CENTER);
+    return myButtonVBox;
+  }
+
   public Button makeButton(String text, EventHandler<ActionEvent> handler) {
     Button newButton = new Button();
     newButton.setText(myButtonResources.getString(text));

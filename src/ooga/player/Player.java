@@ -34,10 +34,9 @@ public class Player implements PlayerStart{
     myStage.show();
   }
 
-  public void setUpStartScreen(String username){
+  public void setUpStartScreen(){
     myStartScreen = new StartScreen(myEngine, this);
-    currentUsername = username;
-    myStage.setScene(myStartScreen.setUpScene(username));
+    myStage.setScene(myStartScreen.setUpScene());
   }
 
   public void setUpNewProfScreen(){
@@ -48,7 +47,7 @@ public class Player implements PlayerStart{
   public void setUpGameScreen(Grid backendGrid){   //TODO Pass through game type?
     //does engine have a method that returns backendgrid that corresponds to default gametype xml?
     myGameScreen = new GameScreen(myGameType, this);
-    myStage.setScene(myGameScreen.makeScene(myGameType, currentUsername, 800, 500));
+    myStage.setScene(myGameScreen.makeScene(800, 500));  //TODO: magic numbers, get dimensions?
     myGameScreen.setGrid(backendGrid);
     myGameScreen.setStats(backendGrid.getGameStats());
     myGameScreen.setGameStatus(backendGrid.getLossStatus(), backendGrid.getWinStatus());
@@ -100,9 +99,18 @@ public class Player implements PlayerStart{
   };
 
   /**
-   * When a player creates a new profile, their username is saved as a String instance variable playerUsername.
-   * The String is returned in this method.
-   * @return
+   * Sets the username to be the current username of the player playing
+   * @param username is the current username of the player
+   */
+  @Override
+  public void setUsername(String username){
+    currentUsername = username;
+  };
+
+  /**
+   * Gets the username of the current player of the game and who is logged in.
+   * The username string is returned in this method.
+   * @return  the current username
    */
   @Override
   public String getUsername(){

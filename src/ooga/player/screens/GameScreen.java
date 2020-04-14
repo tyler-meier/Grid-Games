@@ -29,7 +29,6 @@ public class GameScreen extends SuperScreen{
   private GridView myGrid;
   private GridPane myGridPane;
   private BorderPane myRoot;
-  private String myGameType;
   private Scene thisScene;
   IntegerProperty myHighScore = new SimpleIntegerProperty();
   IntegerProperty myScore = new SimpleIntegerProperty();
@@ -51,18 +50,17 @@ public class GameScreen extends SuperScreen{
    * @param width
    * @return
    */
-  public Scene makeScene(String gameType, String currUsername, int height, int width) {
+  public Scene makeScene(int height, int width) {
     myRoot = new BorderPane();
     myHeight = height;
     myWidth = width;
     myRoot.setPadding(new Insets(10, 20, 10, 20));
-    myGameType = gameType;
 
-    Node toolBar = makeToolBar(currUsername);
+    Node toolBar = makeToolBar();
     myRoot.setTop(toolBar);
 
     VBox verticalPanel = new VBox();
-    Node buttonPanel = makeButtonPanel(currUsername);
+    Node buttonPanel = makeButtonPanel();
     Node statsPanel = makeStatsPanel();
     verticalPanel.setSpacing(30);
     verticalPanel.setAlignment(Pos.CENTER);
@@ -83,21 +81,19 @@ public class GameScreen extends SuperScreen{
   }
 
   //make panel of buttons for screen
-  private Node makeButtonPanel(String username) {
-    Button loginButton = makeButton("LogoutCommand", e-> myPlayer.setUpLoginScreen());
+  private Node makeButtonPanel() {
+    Button logoutButton = makeButton("LogoutCommand", e-> myPlayer.setUpLoginScreen());
 //    Button resetButton = makeButton("ResetCommand", e-> myPlayer.setUpGameScreen(myPlayer.getGrid())); //TODO: fix reset button
 
-    VBox buttons = new VBox();
-    buttons.getChildren().addAll(loginButton);
-    buttons.setSpacing(10);
-    buttons.setAlignment(Pos.CENTER);
-
+    myContents.clear();
+    myContents.add(logoutButton);
+    Node buttons = styleContents();
     return buttons;
   }
 
-  private Node makeToolBar(String username) {
+  private Node makeToolBar() {
     HBox toolBar = new HBox();
-    Button homeButton = makeButton("HomeCommand", e-> myPlayer.setUpStartScreen(username));
+    Button homeButton = makeButton("HomeCommand", e-> myPlayer.setUpStartScreen());
 
     TimeKeeper timer = new TimeKeeper();
     timer.addTimeline();
@@ -106,7 +102,6 @@ public class GameScreen extends SuperScreen{
 
     toolBar.getChildren().addAll(homeButton, stopWatch);
     toolBar.setSpacing(45);
-
     return toolBar;
   }
 
@@ -116,9 +111,7 @@ public class GameScreen extends SuperScreen{
     stats.getChildren().addAll(makeLabel(myHighScore), makeLabel(myScore), makeLabel(myLives), makeLabel(myLevel), makeLabel(myMovesLeft));
     stats.setSpacing(10);
     stats.setAlignment(Pos.CENTER);
-
     return stats;
-
   }
 
   private Label makeLabel(IntegerProperty integerProperty) {
@@ -143,8 +136,8 @@ public class GameScreen extends SuperScreen{
     this.isLoss.bind(isLoss);
     System.out.println("FRONTEND isLoss: " + this.isLoss);
     this.isWin.bind(isWin);
-    this.isLoss.addListener((obs, oldv, newv) -> myPlayer.setUpStartScreen("loser"));
-    this.isWin.addListener((obs, oldv, newv) -> myPlayer.setUpStartScreen("winner"));
+    this.isLoss.addListener((obs, oldv, newv) -> myPlayer.setUpStartScreen());
+    this.isWin.addListener((obs, oldv, newv) -> myPlayer.setUpStartScreen());
   }
 
 }
