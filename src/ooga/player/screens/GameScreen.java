@@ -83,7 +83,8 @@ public class GameScreen extends SuperScreen{
   //make panel of buttons for screen
   private Node makeButtonPanel() {
     Button logoutButton = makeButton("LogoutCommand", e-> myPlayer.setUpLoginScreen());
-//    Button resetButton = makeButton("ResetCommand", e-> myPlayer.setUpGameScreen(myPlayer.getGrid())); //TODO: fix reset button
+//    Button resetGameButton = makeButton("ResetGameCommand", e-> myPlayer.setUpGameScreen(myPlayer.getGrid())); //TODO: fix reset button
+//    Button resetLevelButton = makeButton("ResetLevelCommand", e-> myPlayer.setUpGameScreen(myPlayer.getGrid()));
 
     myContents.clear();
     myContents.add(logoutButton);
@@ -134,10 +135,9 @@ public class GameScreen extends SuperScreen{
 
   public void setGameStatus(BooleanProperty isLoss, BooleanProperty isWin){
     this.isLoss.bind(isLoss);
-    System.out.println("FRONTEND isLoss: " + this.isLoss);
     this.isWin.bind(isWin);
-    this.isLoss.addListener((obs, oldv, newv) -> myPlayer.setUpStartScreen());
-    this.isWin.addListener((obs, oldv, newv) -> myPlayer.setUpStartScreen());
+    this.isLoss.addListener((obs, oldv, newv) -> myPlayer.setUpLossScreen());
+    this.isWin.addListener((obs, oldv, newv) -> myPlayer.setUpWonLevelScreen());
   }
 
 }

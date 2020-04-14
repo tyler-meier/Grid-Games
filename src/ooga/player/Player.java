@@ -8,8 +8,11 @@ import ooga.data.DataObject;
 import ooga.engine.grid.Grid;
 import ooga.player.screens.GameScreen;
 import ooga.player.screens.LoginScreen;
+import ooga.player.screens.LossScreen;
 import ooga.player.screens.NewProfileScreen;
 import ooga.player.screens.StartScreen;
+import ooga.player.screens.WonGameScreen;
+import ooga.player.screens.WonLevelScreen;
 
 public class Player implements PlayerStart{
 
@@ -19,6 +22,9 @@ public class Player implements PlayerStart{
   private NewProfileScreen myNewProfScreen;
   private GameScreen myGameScreen;
   private StartScreen myStartScreen;
+  private LossScreen myLossScreen;
+  private WonLevelScreen myWonLevelScreen;
+  private WonGameScreen myWonGameScreen;
   private String myGameType, currentUsername;
   private UserLogin myUserLogin;
   private EventHandler myEngine;
@@ -55,6 +61,21 @@ public class Player implements PlayerStart{
 
   public void setUpLoginScreen(){
     myStage.setScene(myLoginScreen.setUpScene());
+  }
+
+  public void setUpLossScreen(){
+    myLossScreen = new LossScreen(this);
+    myStage.setScene(myLossScreen.setUpScene());
+  }
+
+  public void setUpWonLevelScreen(){
+    myWonLevelScreen = new WonLevelScreen(this);
+    myStage.setScene(myWonLevelScreen.setUpScene());
+  }
+
+  public void setUpWonGameScreen(){
+    myWonGameScreen = new WonGameScreen(this);
+    myStage.setScene(myWonGameScreen.setUpScene());
   }
 
   public void setLoginAction(UserLogin userLogin){

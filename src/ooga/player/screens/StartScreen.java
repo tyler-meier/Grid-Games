@@ -49,7 +49,7 @@ public class StartScreen extends SuperScreen{
   private Node setUpButtons(){
     Button startButton = makeButton("StartCommand", e -> {
       myPlayer.setGameType((String) games.getValue());  //TODO check for the empty chosen thing
-      myEngine.handle(e);
+      myEventEngine.handle(e);
     });
     Button logoutButton = makeButton("LogoutCommand", e -> myPlayer.setUpLoginScreen());
 

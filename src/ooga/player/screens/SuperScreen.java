@@ -26,7 +26,7 @@ public abstract class SuperScreen {
   protected ResourceBundle myButtonResources, myStringResources;
   protected Label myErrorMessage;
   protected Player myPlayer;
-  protected EventHandler myEngine;
+  protected EventHandler myEventEngine;
   protected List<Node> myNodes;
   protected List<Node> myContents;
   protected String myGameType;
@@ -42,7 +42,7 @@ public abstract class SuperScreen {
   }
 
   public SuperScreen(EventHandler engine, Player thisPlayer){
-    myEngine = engine;
+    myEventEngine = engine;
     setCommonVariables(thisPlayer);
   }
 

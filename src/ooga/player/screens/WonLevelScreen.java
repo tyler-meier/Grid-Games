@@ -6,10 +6,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import ooga.player.Player;
 
-public class LossScreen extends SuperScreen {
+public class WonLevelScreen extends SuperScreen{
 
-  public LossScreen(Player thisPlayer){
-    super(thisPlayer);
+  public WonLevelScreen(Player player) {
+    super(player);
   }
 
   public Scene setUpScene(){
@@ -21,14 +21,16 @@ public class LossScreen extends SuperScreen {
   }
 
   public Node setUpContents(){
-    Label lossLabel = new Label(myStringResources.getString("Loss"));
+    Label winLevelLabel = new Label(myStringResources.getString("WonLevel"));
+    Button nextLevelButton = makeButton("NextLevelCommand", e -> myPlayer.setUpStartScreen()); //TODO: fix next level  button
     Button homeButton = makeButton("HomeCommand", e -> myPlayer.setUpStartScreen());
-    Button resetButton = makeButton("ResetLevelCommand", e-> myPlayer.setUpStartScreen()); //TODO: fix reset button
+    Button saveButton = makeButton("SaveCommand", e-> myPlayer.setUpStartScreen()); //TODO: fix save button
 
     myContents.clear();
-    myContents.add(lossLabel);
+    myContents.add(winLevelLabel);
+    myContents.add(nextLevelButton);
     myContents.add(homeButton);
-    myContents.add(resetButton);
+    myContents.add(saveButton);
     Node myVBox = styleContents();
     return myVBox;
   }
