@@ -32,7 +32,7 @@ public abstract class SuperScreen {
   protected ResourceBundle myButtonResources, myStringResources;
   protected Label myErrorMessage;
   protected Player myPlayer;
-  protected EventHandler myEventEngine;
+  protected EventHandler<ActionEvent> myEventEngine;
   protected String myGameType;
   protected UserLogin myUserLogin;
 
@@ -59,7 +59,7 @@ public abstract class SuperScreen {
    * @param engine the event handler to create the engine
    * @param thisPlayer the current player
    */
-  public SuperScreen(EventHandler engine, Player thisPlayer){
+  public SuperScreen(EventHandler<ActionEvent> engine, Player thisPlayer){
     myEventEngine = engine;
     setCommonVariables(thisPlayer);
   }
@@ -69,7 +69,7 @@ public abstract class SuperScreen {
    * @param gameType the current game being played
    * @param thisPlayer the current player
    */
-  public SuperScreen(EventHandler engine, String gameType, Player thisPlayer){
+  public SuperScreen(EventHandler<ActionEvent> engine, String gameType, Player thisPlayer){
     myEventEngine = engine;
     myGameType = gameType;
     setCommonVariables(thisPlayer);
