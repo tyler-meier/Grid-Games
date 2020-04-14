@@ -27,6 +27,12 @@ public interface PlayerStart {
   String getGameType();
 
   /**
+   * Sets the username to be the current username of the player playing
+   * @param username is the current username of the player
+   */
+  void setUsername(String username);
+
+  /**
    * When a player creates a new profile, their username is saved as a String instance variable playerUsername.
    * The String is returned in this method.
    * @return

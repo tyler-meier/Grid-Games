@@ -24,14 +24,11 @@ public class GameScreen extends SuperScreen{
   private static final String RESOURCES = "ooga/player/Resources/";
   private static final String DEFAULT_RESOURCE_PACKAGE = RESOURCES.replace("/", ".");
   private static final String DEFAULT_RESOURCE_FOLDER = "/" + RESOURCES;
-  private ResourceBundle myStringResources;
-  private Player myPlayer;
   private int myHeight;
   private int myWidth;
   private GridView myGrid;
   private GridPane myGridPane;
   private BorderPane myRoot;
-  private String myGameType;
   private Scene thisScene;
   IntegerProperty myHighScore = new SimpleIntegerProperty();
   IntegerProperty myScore = new SimpleIntegerProperty();
@@ -44,9 +41,7 @@ public class GameScreen extends SuperScreen{
 
   public GameScreen(String gameType, Player player){
     super(gameType, player);
-    myStringResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "BasicStrings");
-    myPlayer = player;
-    myGrid = new GridView(gameType, 400);
+    myGrid = new GridView(gameType, 400); //TODO: magic number
   }
 
   /**
@@ -55,18 +50,17 @@ public class GameScreen extends SuperScreen{
    * @param width
    * @return
    */
-  public Scene makeScene(String gameType, String currUsername, int height, int width) {
+  public Scene makeScene(int height, int width) {
     myRoot = new BorderPane();
     myHeight = height;
     myWidth = width;
     myRoot.setPadding(new Insets(10, 20, 10, 20));
-    myGameType = gameType;
 
-    Node toolBar = makeToolBar(currUsername);
+    Node toolBar = makeToolBar();
     myRoot.setTop(toolBar);
 
     VBox verticalPanel = new VBox();
-    Node buttonPanel = makeButtonPanel(currUsername);
+    Node buttonPanel = makeButtonPanel();
     Node statsPanel = makeStatsPanel();
     verticalPanel.setSpacing(30);
     verticalPanel.setAlignment(Pos.CENTER);
@@ -87,21 +81,18 @@ public class GameScreen extends SuperScreen{
   }
 
   //make panel of buttons for screen
-  private Node makeButtonPanel(String username) {
-    Button loginButton = makeButton("LogoutCommand", e-> myPlayer.setUpLoginScreen());
-//    Button resetButton = makeButton("ResetCommand", e-> myPlayer.setUpGameScreen(myPlayer.getGrid())); //TODO: fix reset button
+  private Node makeButtonPanel() {
+    Button logoutButton = makeButton("LogoutCommand", e-> myPlayer.setUpLoginScreen());
+//    Button resetGameButton = makeButton("ResetGameCommand", e-> myPlayer.setUpGameScreen(myPlayer.getGrid())); //TODO: fix reset button
+//    Button resetLevelButton = makeButton("ResetLevelCommand", e-> myPlayer.setUpGameScreen(myPlayer.getGrid()));
 
-    VBox buttons = new VBox();
-    buttons.getChildren().addAll(loginButton);
-    buttons.setSpacing(10);
-    buttons.setAlignment(Pos.CENTER);
-
+    Node buttons = styleContents(logoutButton);
     return buttons;
   }
 
-  private Node makeToolBar(String username) {
+  private Node makeToolBar() {
     HBox toolBar = new HBox();
-    Button homeButton = makeButton("HomeCommand", e-> myPlayer.setUpStartScreen(username));
+    Button homeButton = makeButton("HomeCommand", e-> myPlayer.setUpStartScreen());
 
     TimeKeeper timer = new TimeKeeper();
     timer.addTimeline();
@@ -110,7 +101,6 @@ public class GameScreen extends SuperScreen{
 
     toolBar.getChildren().addAll(homeButton, stopWatch);
     toolBar.setSpacing(45);
-
     return toolBar;
   }
 
@@ -120,9 +110,7 @@ public class GameScreen extends SuperScreen{
     stats.getChildren().addAll(makeLabel(myHighScore), makeLabel(myScore), makeLabel(myLives), makeLabel(myLevel), makeLabel(myMovesLeft));
     stats.setSpacing(10);
     stats.setAlignment(Pos.CENTER);
-
     return stats;
-
   }
 
   private Label makeLabel(IntegerProperty integerProperty) {
@@ -132,7 +120,7 @@ public class GameScreen extends SuperScreen{
   }
 
   public void setStats(Map<String, IntegerProperty> gameStats){
-    //TODO: how do you get high score of profile?
+    //TODO: how do you get high score of profile?, use game type that is global variable
     myScore.bind(gameStats.get("Score"));
     myHighScore.bind(gameStats.get("Score"));
     //TODO: get number of lives
@@ -146,8 +134,8 @@ public class GameScreen extends SuperScreen{
   public void setGameStatus(BooleanProperty isLoss, BooleanProperty isWin){
     this.isLoss.bind(isLoss);
     this.isWin.bind(isWin);
-    this.isLoss.addListener((obs, oldv, newv) -> myPlayer.setUpStartScreen("loser"));
-    this.isWin.addListener((obs, oldv, newv) -> myPlayer.setUpStartScreen("winner"));
+    this.isLoss.addListener((obs, oldv, newv) -> myPlayer.setUpLossScreen());
+    this.isWin.addListener((obs, oldv, newv) -> myPlayer.setUpWonLevelScreen()); //TODO: fix for when level is won or game
   }
 
 }

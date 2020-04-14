@@ -1,50 +1,47 @@
 package ooga.player.screens;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.VBox;
 import ooga.controller.UserLogin;
 import ooga.data.UserProfile;
 import ooga.player.Player;
 
+/**
+ * New Profile class that sets up the new profile screen when a user wants to create one
+ * @author Tyler Meier
+ */
 public class NewProfileScreen extends SuperScreen{
 
-  private ResourceBundle myStringResources;
-  private Player myPlayer;
   private TextField newUsername, newPassword;
   private UserProfile userData;
-  private UserLogin myUserLogin;
-  private List<Node> myNodes;
 
-
+  /**
+   * Constructor of this class, calls super to set up instance variables
+   * @param thisPlayer current player
+   * @param thisUserLogin the userLogin info for the created profile
+   */
   public NewProfileScreen(UserLogin thisUserLogin, Player thisPlayer){
     super(thisUserLogin, thisPlayer);
-    myPlayer = thisPlayer;
-    myUserLogin = thisUserLogin;
-    myNodes = new ArrayList<>();
-    myStringResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "BasicStrings");
   }
 
+  /**
+   * Sets up the new profile scene, with the label, text fields, and buttons
+   * @return the final completed scene to be shown
+   */
   public Scene setUpScene(){
     Node topNewProfPanel = setUpText();
     Node buttonPanel = setUpButtons();
-    myNodes.clear();
-    myNodes.add(topNewProfPanel);
-    myNodes.add(buttonPanel);
-    Scene scene = styleScene(myNodes);
-    return scene;
+    return styleScene(topNewProfPanel, buttonPanel);
   }
 
+  /**
+   * Sets up the login text fields and the label
+   * @return a vBox containing these nodes
+   */
   private Node setUpText(){
-    VBox topVBox = new VBox();
-
     Label profileLabel = new Label(myStringResources.getString("NewProfLabel"));
     newUsername = new TextField();
     newPassword = new TextField();
@@ -52,27 +49,23 @@ public class NewProfileScreen extends SuperScreen{
     newUsername.setPromptText(myStringResources.getString("NewUsername"));
     newPassword.setPromptText(myStringResources.getString("NewPassword"));
 
-    topVBox.getChildren().addAll(profileLabel, newUsername, newPassword);
-    topVBox.setSpacing(10);
-    topVBox.setAlignment(Pos.CENTER);
-    return topVBox;
+    return styleContents(profileLabel, newUsername, newPassword);
   }
 
+  /**
+   * Sets up the buttons for this scene and their events
+   * @return a vBox containing all of the buttons
+   */
   private Node setUpButtons(){
-    VBox buttonVBox = new VBox();
-
     Button newProfButton = makeButton("CreateNewProfileCommand", e -> {
       userData = myUserLogin.getProfile(newUsername.getText(), newPassword.getText());
       if (userData != null){
-        myPlayer.setUpStartScreen(userData.getUsername());
+        myPlayer.setUsername(userData.getUsername());
+        myPlayer.setUpStartScreen();
       }
     });
     Button backButton = makeButton("BackButtonCommand", e -> myPlayer.setUpLoginScreen());
 
-    buttonVBox.getChildren().addAll(newProfButton, backButton);
-    buttonVBox.setSpacing(10);
-    buttonVBox.setAlignment(Pos.CENTER);
-    return buttonVBox;
+    return styleContents(newProfButton, backButton);
   }
-
 }
