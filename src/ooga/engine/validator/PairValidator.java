@@ -33,7 +33,7 @@ public class PairValidator extends Validator {
                         cell.isOpen().set(false);
                     }
                 }
-            }, 2000);
+            }, 4000);
         }
 
         return matched;

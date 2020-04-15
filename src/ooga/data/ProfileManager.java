@@ -1,14 +1,19 @@
 package ooga.data;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.ResourceBundle;
 import ooga.data.buildingXML.XMLBuilder;
 import ooga.data.buildingXML.XMLGameBuilder;
 import ooga.data.buildingXML.XMLRegisteredProfileBuilder;
 import ooga.data.buildingXML.XMLSingularProfileBuilder;
+import ooga.data.exceptions.EmptyEntryException;
 import ooga.data.exceptions.IncorrectPasswordException;
+import ooga.data.exceptions.InvalidCharacterEntryException;
+import ooga.data.exceptions.NaughtyNameException;
 import ooga.data.exceptions.NoUserExistsException;
 import ooga.data.exceptions.UserAlreadyExistsException;
 
@@ -20,6 +25,9 @@ import ooga.data.exceptions.UserAlreadyExistsException;
 public class ProfileManager {
 
   private final String REGISTERED_PROFILES_PATH = "data/RegisteredProfiles.xml";
+  private final String INAPPROPRIATE_WORDS_PATH = "resources.InvalidNameEntries";
+  private final ResourceBundle myInappropriateWords = ResourceBundle.getBundle(INAPPROPRIATE_WORDS_PATH);
+
   private final String MAIN_TAG = "profile";
   private final String CONTAINER_TAG = MAIN_TAG + "s";
   private final String SKELETON_SPACE = "%s %s";
@@ -35,6 +43,7 @@ public class ProfileManager {
   private final String HIGH_SCORE_TAG = "HighScore";
   private final String PREVIOUS_GAME_TAG = "PreviousGame";
 
+  private List<String> inappropriateNameEntries;
   private List<UserProfile> allProfiles;
   private XMLParser profileParser;
 
@@ -43,6 +52,7 @@ public class ProfileManager {
     profileParser = new XMLParser(REGISTERED_PROFILES_PATH);
     allProfiles = new ArrayList<>();
     retrieveKnownProfiles();
+    inappropriateNameEntries = Collections.list(myInappropriateWords.getKeys());
 
   }
 
@@ -107,9 +117,21 @@ public class ProfileManager {
    * @param password
    * @return
    */
-  public UserProfile addProfile(String username, String password) throws UserAlreadyExistsException
+  public UserProfile addProfile(String username, String password) throws UserAlreadyExistsException, EmptyEntryException,
+      InvalidCharacterEntryException, NaughtyNameException
   {
-    //TODO: add checks
+    if(username.isEmpty() || password.isEmpty())
+    {
+      throw new EmptyEntryException();
+    }
+    if(username.contains(" ") || password.contains(" "))
+    {
+      throw new InvalidCharacterEntryException(" ");
+    }
+    if(inappropriateNameEntries.contains(username) || inappropriateNameEntries.contains(password))
+    {
+      throw new NaughtyNameException();
+    }
     if(notExistingUsername(username))
     {
       UserProfile newUser = new UserProfile(username, password);
