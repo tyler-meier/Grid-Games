@@ -66,7 +66,7 @@ public class Grid {
     public int[][] getGridConfiguration(){
         int[][] gridStates = new int[myGrid.length][myGrid[0].length];
         for (int col = 0; col<getCols(); col++){
-            for (int row = 1; row<getRows(); row++) {
+            for (int row = 0; row<getRows(); row++) {
                 gridStates[row][col] = myGrid[row][col].getMyState();
             }
         }
