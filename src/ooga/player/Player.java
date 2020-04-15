@@ -73,7 +73,7 @@ public class Player implements PlayerStart{
     myWonGameScreen = new WonGameScreen(this);
     myStage.setScene(myWonGameScreen.setUpScene());
   }
-
+//
 //  public void setUpCustomView(){
 //    myCustomView = new CustomView(this);
 //    myStage.setScene(myCustomView.setUpScene());
