@@ -6,6 +6,8 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * This class represents a cell object.
@@ -14,7 +16,7 @@ public class Cell {
     IntegerProperty myState = new SimpleIntegerProperty();
     BooleanProperty open = new SimpleBooleanProperty();
     BooleanProperty inProgress = new SimpleBooleanProperty();
-    boolean sel = false;
+    BooleanProperty selected = new SimpleBooleanProperty(false);
     int numPoints;
     String powerUp;
     int myRow;
@@ -25,9 +27,6 @@ public class Cell {
         myState.setValue(initialState);
         open.set(isOpen);
         numPoints = points;
-//        open.addListener((o, a, b) -> {
-//            System.out.println("open is now: "+ open.get());
-//        });
     }
 
     /**
@@ -40,10 +39,9 @@ public class Cell {
     }
 
     public void toggleSelected(){
-        //System.out.println("A cell has been selected");
         if (!inProgress.get()){
-            sel = !sel;
-            myCounter.changeCount(sel);
+            selected.set(!selected.get());
+            myCounter.changeCount(selected.get());
         }
     }
 
@@ -51,8 +49,8 @@ public class Cell {
      * This method returns a boolean indicating whether or not a cell is considered to be selected.
      * @return
      */
-    public boolean isSelected() {
-        return sel;
+    public BooleanProperty isSelected() {
+        return selected;
     }
 
     /**
@@ -70,7 +68,6 @@ public class Cell {
     public int getColumn() { return myColumn; }
 
     public boolean isNeighbor(Cell cell) {
-        System.out.println("checking if they are neighbors");
         return (Math.abs(cell.getRow()-myRow)==1 && cell.getColumn()==myColumn) ||
             (Math.abs(cell.getColumn()-myColumn)==1 && cell.getRow()==myRow);
 
@@ -83,7 +80,6 @@ public class Cell {
         open.set(cell.open.get());
         cell.cellState().set(placeholder.getMyState());
         cell.isOpen().set(placeholder.open.get());
-        System.out.println("Open status after swap: " + cell.isOpen());
     }
 
     /**

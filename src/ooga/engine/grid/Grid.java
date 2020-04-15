@@ -140,11 +140,10 @@ public class Grid {
          if(myValidator.checkIsValid(selectedCells, myProgressManager)){
             System.out.println("valid move");
             List<Cell> matchedCells = new ArrayList<>();
-
             //TODO: ask TA if there is a better way to do this to avoid circular dependency
             if (noHiddenCells){
-                myProgressManager.decrementMoves();
                 matchedCells.addAll(myMatchFinder.makeMatches(selectedCells, this));
+                if (matchedCells.size()>0) myProgressManager.decrementMoves();
                 // here, if the swap did not result in matches, the size of matched cells will be zero
             } else {
                 matchedCells.addAll(selectedCells); //we are adding the selected cells so that the points are accounted for
@@ -175,7 +174,7 @@ public class Grid {
         List<Cell> selected = new ArrayList<>();
         for (int r = 0; r<getRows(); r++){
             for (int c=0; c<getCols(); c++){
-                if (getCell(r,c).isSelected()) selected.add(getCell(r,c));
+                if (getCell(r,c).isSelected().get()) selected.add(getCell(r,c));
             } }
         return selected;
     }
