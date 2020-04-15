@@ -29,7 +29,6 @@ public class PairValidator extends Validator {
             timer.schedule(new TimerTask() {
                 @Override
                 public void run() {
-                    System.out.println("flipping");
                     for (Cell cell:selected){
                         cell.isOpen().set(false);
                     }

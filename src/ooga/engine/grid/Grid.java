@@ -15,7 +15,7 @@ public class Grid {
     private static final String NUM_SELECTED_PER_MOVE = "NumSelectedPerMove";
     private static final String ADD_NEW_CELLS = "AddNewCells";
     private static final String MAX_STATE_NUMBER = "MaxStateNumber";
-    private static final String NO_HIDDEN_CELLS = "HasHiddenCells";
+    private static final String NO_HIDDEN_CELLS = "NoHiddenCells";
     private static final String POINTS_PER_CELL = "PointsPerCell";
     private static final int BOMB_STATE = 9;
     private Cell[][] myGrid;
@@ -140,11 +140,10 @@ public class Grid {
          if(myValidator.checkIsValid(selectedCells, myProgressManager)){
             System.out.println("valid move");
             List<Cell> matchedCells = new ArrayList<>();
-
             //TODO: ask TA if there is a better way to do this to avoid circular dependency
             if (noHiddenCells){
-                myProgressManager.decrementMoves();
                 matchedCells.addAll(myMatchFinder.makeMatches(selectedCells, this));
+                if (matchedCells.size()>0) myProgressManager.decrementMoves();
                 // here, if the swap did not result in matches, the size of matched cells will be zero
             } else {
                 matchedCells.addAll(selectedCells); //we are adding the selected cells so that the points are accounted for
@@ -162,20 +161,16 @@ public class Grid {
                 matchedCells.addAll(myMatchFinder.makeMatches(this));
             }
          }
-         else {
-             System.out.println("invalid move");
-         }
+         else System.out.println("invalid move");
          moveInProgress.set(false);
-         for (Cell cell:selectedCells) {
-             cell.toggleSelected();
-         }
+         for (Cell cell:selectedCells) cell.toggleSelected();
     }
 
     private List<Cell> getSelectedCells(){
         List<Cell> selected = new ArrayList<>();
         for (int r = 0; r<getRows(); r++){
             for (int c=0; c<getCols(); c++){
-                if (getCell(r,c).isSelected()) selected.add(getCell(r,c));
+                if (getCell(r,c).isSelected().get()) selected.add(getCell(r,c));
             } }
         return selected;
     }

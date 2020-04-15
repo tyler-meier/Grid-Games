@@ -4,9 +4,7 @@ package ooga.engine.matchFinder;
 import ooga.engine.Cell;
 import ooga.engine.grid.Grid;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 public class OpenFinder extends MatchFinder {
 
@@ -43,7 +41,13 @@ public class OpenFinder extends MatchFinder {
             matchedCells.addAll(getMatches(cell, grid));
         }
         if (matchedCells.size()==0){
-            first.swap(second);
+            Timer timer = new Timer();
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    first.swap(second);
+                }
+            }, 1000);
         }
 
         return matchedCells;
