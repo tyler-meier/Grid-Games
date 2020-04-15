@@ -15,7 +15,7 @@ public class Grid {
     private static final String NUM_SELECTED_PER_MOVE = "NumSelectedPerMove";
     private static final String ADD_NEW_CELLS = "AddNewCells";
     private static final String MAX_STATE_NUMBER = "MaxStateNumber";
-    private static final String NO_HIDDEN_CELLS = "HasHiddenCells";
+    private static final String NO_HIDDEN_CELLS = "NoHiddenCells";
     private static final String POINTS_PER_CELL = "PointsPerCell";
     private static final int BOMB_STATE = 9;
     private Cell[][] myGrid;
@@ -161,13 +161,9 @@ public class Grid {
                 matchedCells.addAll(myMatchFinder.makeMatches(this));
             }
          }
-         else {
-             System.out.println("invalid move");
-         }
+         else System.out.println("invalid move");
          moveInProgress.set(false);
-         for (Cell cell:selectedCells) {
-             cell.toggleSelected();
-         }
+         for (Cell cell:selectedCells) cell.toggleSelected();
     }
 
     private List<Cell> getSelectedCells(){

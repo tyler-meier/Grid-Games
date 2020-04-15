@@ -188,7 +188,7 @@ public class GameScreen extends SuperScreen{
       @Override
       public void run() {
         int time = timeProperty.get();
-        if (time<=0) {
+        if (time<=0 || isWin.get()) {
           timer.cancel();
         } else decrementTime(timeProperty);
       }

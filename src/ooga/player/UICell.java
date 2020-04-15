@@ -45,7 +45,7 @@ public class UICell {
                 cell.toggleSelected();
         });
         cell.isSelected().addListener((a, oldvalue, newvalue) -> {
-            if (newvalue) myImageView.setEffect(new DropShadow(20, Color.YELLOW));
+            if (newvalue) myImageView.setEffect(new DropShadow(30, Color.YELLOW));
             else myImageView.setEffect(null);
         });
     }

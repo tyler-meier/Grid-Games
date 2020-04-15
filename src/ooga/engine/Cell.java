@@ -104,7 +104,7 @@ public class Cell {
         Random random = new Random();
         // random number 1 through maxState inclusive
         int randomInteger = random.nextInt(maxState)+1;
-        System.out.println("this is the RANDOM INTEGER: " + randomInteger);
+        System.out.println("new cell at: " + myRow + " " + myColumn);
         myState.set(randomInteger);
     }
 
