@@ -105,7 +105,7 @@ public class GameScreen extends SuperScreen{
       //myPlayer.getSaveButtonEvent().handle();
     });
 
-    Node buttons = styleContents(logoutButton, resetGameButton);
+    Node buttons = styleContents(logoutButton, resetGameButton, saveButton);
     return buttons;
   }
 
