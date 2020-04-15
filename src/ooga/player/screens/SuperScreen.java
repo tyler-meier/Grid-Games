@@ -94,6 +94,7 @@ public abstract class SuperScreen {
     }
     myCenterVBox.setSpacing(50);
     myCenterVBox.setAlignment(Pos.CENTER);
+    myCenterVBox.getChildren().add(myErrorMessage);
 
     return finishStyling(myCenterVBox);
   }

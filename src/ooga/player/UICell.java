@@ -4,8 +4,10 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
 import ooga.engine.Cell;
 
 import java.io.FileInputStream;
@@ -34,10 +36,17 @@ public class UICell {
         myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + gameType);
         setupImageMap();
         setupImageView(cellHeight, cellWidth);
-        cell.cellState().addListener((obs, oldv, newv) -> changeImage());
+        cell.cellState().addListener((obs, oldv, newv) -> {
+            changeImage();
+        });
         cell.isOpen().addListener((obs, oldv, newv) -> changeImage());
         myImageView.setOnMouseClicked(e -> {
-            if (!paused.get()) cell.toggleSelected();
+            if (!paused.get())
+                cell.toggleSelected();
+        });
+        cell.isSelected().addListener((a, oldvalue, newvalue) -> {
+            if (newvalue) myImageView.setEffect(new DropShadow(30, Color.YELLOW));
+            else myImageView.setEffect(null);
         });
     }
 
@@ -85,7 +94,4 @@ public class UICell {
     public ImageView getImageView() {
         return myImageView;
     }
-//
-//     some info for if we want cells to be highlighted when selected
-//     https://stackoverflow.com/questions/28253169/javafx-how-to-make-the-border-of-imageview-when-i-click-the-imageview
 }
