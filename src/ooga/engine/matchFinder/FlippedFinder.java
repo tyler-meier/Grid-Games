@@ -22,7 +22,7 @@ public class FlippedFinder extends MatchFinder {
         for (int r = 0; r<rows; r++){
             for (int c=0; c<cols; c++){
                 cell = grid.getCell(r, c);
-                if (cell.getMyState()==0) cellsToOpen.addAll(getUnopenedNeighbors(cell, grid));
+                if (cell.isOpen().get() && cell.getMyState()==0) cellsToOpen.addAll(getUnopenedNeighbors(cell, grid));
             }
         }
         return cellsToOpen;

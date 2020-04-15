@@ -4,12 +4,14 @@ import ooga.engine.Cell;
 import ooga.engine.GameProgressManager;
 
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class PairValidator extends Validator {
 
     @Override
     public boolean checkIsValid(List<Cell> selected, GameProgressManager myProgressManager) {
-        myProgressManager.incrementMoves();
+        myProgressManager.decrementMoves();
         for (Cell cell:selected) {
             if (cell.isOpen().get()){
                 return false;
@@ -22,20 +24,19 @@ public class PairValidator extends Validator {
             if (cell.getMyState()!=matchState) matched = false;
         }
 
-//        try { Thread.sleep(4000);
-//        } catch (Exception e) {
-//            System.out.println("timer issue"); }
-
-
-        //wait 5 seconds
-        for (Cell cell:selected){
-            if (!matched) cell.isOpen().set(false);
-        }
-        /*
         if (!matched){
-            myProgressManager.incrementMoves();
+            Timer timer = new Timer();
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    System.out.println("flipping");
+                    for (Cell cell:selected){
+                        cell.isOpen().set(false);
+                    }
+                }
+            }, 2000);
         }
-         */
+
         return matched;
     }
 }

@@ -6,13 +6,7 @@ import javafx.stage.Stage;
 import ooga.controller.UserLogin;
 import ooga.data.DataObject;
 import ooga.engine.grid.Grid;
-import ooga.player.screens.GameScreen;
-import ooga.player.screens.LoginScreen;
-import ooga.player.screens.LossScreen;
-import ooga.player.screens.NewProfileScreen;
-import ooga.player.screens.StartScreen;
-import ooga.player.screens.WonGameScreen;
-import ooga.player.screens.WonLevelScreen;
+import ooga.player.screens.*;
 
 public class Player implements PlayerStart{
 
@@ -25,9 +19,11 @@ public class Player implements PlayerStart{
   private LossScreen myLossScreen;
   private WonLevelScreen myWonLevelScreen;
   private WonGameScreen myWonGameScreen;
+//  private CustomView myCustomView;
   private String myGameType, currentUsername;
   private UserLogin myUserLogin;
   private EventHandler myEngine;
+  private EventHandler myResetEngine;
 
   public Player(){
   }
@@ -52,7 +48,7 @@ public class Player implements PlayerStart{
 
   public void setUpGameScreen(Grid backendGrid){   //TODO Pass through game type?
     //does engine have a method that returns backendgrid that corresponds to default gametype xml?
-    myGameScreen = new GameScreen(myGameType, this);
+    myGameScreen = new GameScreen(myEngine, myGameType, this);
     myStage.setScene(myGameScreen.makeScene(800, 500));  //TODO: magic numbers, get dimensions?
     myGameScreen.setGrid(backendGrid);
     myGameScreen.setStats(backendGrid.getGameStats());
@@ -78,6 +74,11 @@ public class Player implements PlayerStart{
     myStage.setScene(myWonGameScreen.setUpScene());
   }
 
+//  public void setUpCustomView(){
+//    myCustomView = new CustomView(this);
+//    myStage.setScene(myCustomView.setUpScene());
+//  }
+
   public void setLoginAction(UserLogin userLogin){
     myLoginScreen.giveMeUserLogin(userLogin);
   }
@@ -89,6 +90,14 @@ public class Player implements PlayerStart{
   public void setStartGameButton(EventHandler engine){
     myEngine = engine;
   }
+
+  public void setResetButton(EventHandler engine) {
+    myResetEngine = engine;
+  }
+
+//  public void setGameStats(Map<String, IntegerProperty> gameAttributes) {
+//    myGameScreen.setStats(gameAttributes);
+//  }
 
   /**
    * An instance variable boolean keeps track of whether most recent progress of player is saved.

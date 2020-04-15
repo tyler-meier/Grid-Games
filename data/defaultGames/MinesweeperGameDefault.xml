@@ -3,34 +3,20 @@
   <Level>0</Level>
   <Score>0</Score>
   <TargetScore>30</TargetScore>
-  <LossStat>MovesUsed</LossStat>
-  <MovesUsed>10</MovesUsed>
+  <LossStat>LivesLeft</LossStat>
+  <LivesLeft>5</LivesLeft>
 
-  <!--new loss checking so only use these:
-
-
-
-
-  this also means that all games will have to have a target score,
-  which is something we can just calculate for things like minesweeper,
-  memory, and bejeweled puzzle (just calibrate targetScore = sum of scores of all
-  cells that need to be destroyed)
-  -->
-
-  <!-- we no longer need attributes from here-->
-  <LivesLost>0</LivesLost>
-  <Time>0</Time>
-  <TotalLives>0</TotalLives>
-  <TotalMoves>0</TotalMoves>
-  <TotalTime>0</TotalTime>
-  <!-- to here-->
-
-
-  <numRows>4</numRows>
-  <numColumns>5</numColumns>
-  <row>1 6 5 4 2</row>
-  <row>5 1 3 1 5</row>
-  <row>4 4 6 6 1</row>
-  <row>2 3 4 3 2</row>
+  <numRows>10</numRows>
+  <numColumns>10</numColumns>
+  <row>0 0 2 9 3 1 0 1 2 9</row>
+  <row>1 1 4 9 9 1 0 1 9 2</row>
+  <row>1 9 4 9 4 2 1 1 1 1</row>
+  <row>1 2 9 4 5 9 3 2 3 2</row>
+  <row>1 2 3 9 9 9 4 9 9 9</row>
+  <row>9 2 4 9 7 4 5 9 5 2</row>
+  <row>2 9 3 9 9 9 4 9 2 0</row>
+  <row>1 1 2 3 9 9 3 1 2 1</row>
+  <row>0 1 2 3 3 2 3 1 2 9</row>
+  <row>0 1 9 9 1 1 9 9 2 1</row>
 
 </game>
