@@ -47,6 +47,7 @@ public class GameScreen extends SuperScreen{
   String myTime = "00:00:000";
   private Timer timer;
   private VBox verticalPanel;
+  private Button pauseButton;
   //TODO: make pause work with selecting
 
   public GameScreen(EventHandler<ActionEvent> engine, String gameType, Player player){
@@ -101,8 +102,17 @@ public class GameScreen extends SuperScreen{
       }
     });
 //    Button resetLevelButton = makeButton("ResetLevelCommand", e-> myPlayer.setUpGameScreen(myPlayer.getGrid()));
+    Button saveButton = makeButton("SaveCommand", e->{
+      if(verticalPanel.getChildren().contains(pauseButton))
+      {
+        timer.cancel();
+        pauseButton.setText("Play");
+        paused.set(true);
+      }
+      myPlayer.getSaveButtonEvent().handle(e);
+    });
 
-    Node buttons = styleContents(logoutButton, resetGameButton);
+    Node buttons = styleContents(logoutButton, resetGameButton, saveButton);
     return buttons;
   }
 
@@ -165,21 +175,21 @@ public class GameScreen extends SuperScreen{
 
   private void addTimeButton(Map<String, IntegerProperty> gameStats){
     if (!gameStats.containsKey(TIME)) return;
-    Button button = new Button("Play");
+    pauseButton = new Button("Play");
     paused.set(true);
     //TODO: hard coded text/ where should this button be?
-    button.setOnMouseClicked(e -> {
+    pauseButton.setOnMouseClicked(e -> {
       if (paused.get()) {
-        button.setText("Pause");
+        pauseButton.setText("Pause");
         startTimer(gameStats.get(TIME));
         paused.set(false);
       } else {
-        button.setText("Play");
+        pauseButton.setText("Play");
         timer.cancel();
         paused.set(true);
       }
     });
-    verticalPanel.getChildren().add(button);
+    verticalPanel.getChildren().add(pauseButton);
   }
 
   private void startTimer(IntegerProperty timeProperty) {

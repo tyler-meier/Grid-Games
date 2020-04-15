@@ -125,9 +125,21 @@ public class Data implements DataLink {
    */
   @Override
   public void saveGame(String username, Map<String, String> gameAttributes, int[][] grid) {
-    // TODO: use path
-    String path = String.format(NEW_GAME_PATH_SKELETON, username, gameType);
-    XMLBuilder newGame = new XMLGameBuilder(MAIN_GAME_TAG, username, gameAttributes, grid);
+    // TODO: use path, check
+    if(!username.equals("Guest"))
+    {
+      for(int r= 0; r < grid.length; r ++)
+      {
+        for(int c = 0; c< grid[0].length; c++)
+        {
+          //System.out.println(grid[r][c]);
+        }
+      }
+      String path = String.format(NEW_GAME_PATH_SKELETON, username, gameType);
+      XMLBuilder newGame = new XMLGameBuilder(MAIN_GAME_TAG, path, gameAttributes, grid);
+      currentUser.addSavedGame(gameType, path);
+      myProfileManager.updatePLayerXML(currentUser);
+    }
   }
 
   /**

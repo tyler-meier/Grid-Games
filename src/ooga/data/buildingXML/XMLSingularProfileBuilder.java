@@ -52,16 +52,16 @@ public class XMLSingularProfileBuilder extends XMLBuilder {
     createMapEntry(USERNAME_TAG, user.getUsername());
     createMapEntry(PASSWORD_TAG, user.getPassword());
 
-    userAttributes.put(HIGH_SCORE_TAG, new ArrayList<>());
+    userAttributes.put(PREVIOUS_GAME_TAG, new ArrayList<>());
     for(String game : user.getAllSavedGamed().keySet())
     {
-      addMapEntry(HIGH_SCORE_TAG, String.format(ENTRY_SKELETON, game, user.getSavedGame(game)));
+      addMapEntry(PREVIOUS_GAME_TAG, String.format(ENTRY_SKELETON, game, user.getSavedGame(game)));
     }
 
-    userAttributes.put(PREVIOUS_GAME_TAG, new ArrayList<>());
+    userAttributes.put(HIGH_SCORE_TAG, new ArrayList<>());
     for(String game : user.getAllHighScores().keySet())
     {
-      addMapEntry(PREVIOUS_GAME_TAG, String.format(ENTRY_SKELETON, game, user.getHighScore(game)));
+      addMapEntry(HIGH_SCORE_TAG, String.format(ENTRY_SKELETON, game, user.getHighScore(game)));
     }
 
   }
