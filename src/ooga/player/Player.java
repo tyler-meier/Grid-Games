@@ -1,5 +1,6 @@
 package ooga.player;
 
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.beans.property.StringProperty;
 import javafx.stage.Stage;
@@ -22,8 +23,7 @@ public class Player implements PlayerStart{
 //  private CustomView myCustomView;
   private String myGameType, currentUsername;
   private UserLogin myUserLogin;
-  private EventHandler myEngine;
-  private EventHandler myResetEngine;
+  private EventHandler<ActionEvent> myEngine, myResetEngine, mySaveEngine;
 
   public Player(){
   }
@@ -93,6 +93,12 @@ public class Player implements PlayerStart{
 
   public void setResetButton(EventHandler engine) {
     myResetEngine = engine;
+  }
+
+  public void setSaveButton(EventHandler engine) { mySaveEngine = engine;}
+
+  public EventHandler getSaveButtonEvent() {
+    return mySaveEngine;
   }
 
 //  public void setGameStats(Map<String, IntegerProperty> gameAttributes) {
@@ -237,6 +243,8 @@ public class Player implements PlayerStart{
   @Override
   public void setErrorMessage(StringProperty errorMessage){
     myLoginScreen.setError(errorMessage);
+//    myNewProfScreen.setError(errorMessage);
+//    myStartScreen.setError(errorMessage);
   };
 
 }

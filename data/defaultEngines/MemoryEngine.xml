@@ -4,9 +4,7 @@
   <Validator>PairValidator</Validator>
   <MatchFinder>FlippedFinder</MatchFinder>
   <NumSelectedPerMove>2</NumSelectedPerMove>
-  <HasHiddenCells>false</HasHiddenCells>
+  <NoHiddenCells>false</NoHiddenCells>
   <MaxStateNumber>6</MaxStateNumber>
-
-  <!--need this as well, easier if constant for a game type (for now)-->
   <PointsPerCell>5</PointsPerCell>
 </Engine>

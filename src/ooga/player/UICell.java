@@ -4,8 +4,10 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
 import ooga.engine.Cell;
 
 import java.io.FileInputStream;
@@ -23,24 +25,33 @@ public class UICell {
     private static final String IMAGERESOURCES = "src/ooga/player/Resources/Images/";
     private static final String DEFAULT_IMAGERESOURCE_PACKAGE = IMAGERESOURCES.replace("/", ".");
     private static final String HIDDEN_IMAGE_PATH = "question";
+    private BooleanProperty paused = new SimpleBooleanProperty();
     private ResourceBundle myResources;
     private Map<Integer, Image> imageMap = new HashMap<>();
     private Image hiddenImage;
 
     public UICell(Cell cell, String gameType, int cellHeight, int cellWidth){
         open.bind(cell.isOpen());
-
         state.bind(cell.cellState());
         myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + gameType);
         setupImageMap();
         setupImageView(cellHeight, cellWidth);
-        //setListeners();
-        cell.cellState().addListener((obs, oldv, newv) -> changeImage());
-        myImageView.setOnMouseClicked(e -> cell.toggleSelected());
-        cell.isOpen().addListener((obs, oldv, newv) -> {
-            System.out.println("OpPEN STATUS IS CHANGING");
+        cell.cellState().addListener((obs, oldv, newv) -> {
             changeImage();
         });
+        cell.isOpen().addListener((obs, oldv, newv) -> changeImage());
+        myImageView.setOnMouseClicked(e -> {
+            if (!paused.get())
+                cell.toggleSelected();
+        });
+        cell.isSelected().addListener((a, oldvalue, newvalue) -> {
+            if (newvalue) myImageView.setEffect(new DropShadow(30, Color.YELLOW));
+            else myImageView.setEffect(null);
+        });
+    }
+
+    public void setPauseProperty(BooleanProperty paused){
+        this.paused.bind(paused);
     }
 
     private void setupImageMap(){
@@ -69,20 +80,10 @@ public class UICell {
         myImageView.setFitWidth(cellWidth);
     }
 
-    private void setListeners(){
-        //state.addListener((obs, oldv, newv) -> changeImage());
-    }
-
 
     private void changeImage(){
-         if (open.get()) {
-             //System.out.println("CHANGING THE IMAGE iN UI CELL");
-             myImageView.setImage(getImage()); // however you want to get the image associated with this state
-         }
-         else {
-             //System.out.println("cell not open");
-             myImageView.setImage(hiddenImage); // however you want to store the image displayed for "hidden" cells
-         }
+         if (open.get()) myImageView.setImage(getImage());
+         else myImageView.setImage(hiddenImage); // however you want to store the image displayed for "hidden" cells
     }
 
     //TODO: get either integer or cell to retrieve information about the cell type, return image view
@@ -93,7 +94,4 @@ public class UICell {
     public ImageView getImageView() {
         return myImageView;
     }
-//
-//     some info for if we want cells to be highlighted when selected
-//     https://stackoverflow.com/questions/28253169/javafx-how-to-make-the-border-of-imageview-when-i-click-the-imageview
 }
