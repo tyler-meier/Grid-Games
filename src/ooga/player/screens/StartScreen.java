@@ -42,7 +42,7 @@ public class StartScreen extends SuperScreen{
 
   private Node makeGameChoice(){
     Label gameChoice = new Label(myStringResources.getString("GameChoice"));
-    games.getItems().addAll("CandyCrush", "BejeweledAction", "BejeweledEndless", "BejeweledPuzzle", "Minesweeper", "Memory");
+    games.getItems().addAll("CandyCrush", "BejeweledAction", "BejeweledEndless", "BejeweledPuzzle", "Minesweeper", "Memory", "ClassicMemory");
     //TODO fix hardcoded strings and have them be sent to gamescreen, also do styling for this, reflection?
 
     return styleContents(gameChoice, games);

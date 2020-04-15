@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<Engine>
+    <AddNewCells>false</AddNewCells>
+    <Validator>PairValidator</Validator>
+    <MatchFinder>FlippedFinder</MatchFinder>
+    <NumSelectedPerMove>4</NumSelectedPerMove>
+    <NoHiddenCells>false</NoHiddenCells>
+    <MaxStateNumber>14</MaxStateNumber>
+    <PointsPerCell>5</PointsPerCell>
+</Engine>
