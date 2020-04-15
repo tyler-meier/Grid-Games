@@ -15,18 +15,17 @@ public class Grid {
     private static final String NUM_SELECTED_PER_MOVE = "NumSelectedPerMove";
     private static final String ADD_NEW_CELLS = "AddNewCells";
     private static final String MAX_STATE_NUMBER = "MaxStateNumber";
-    private static final String HAS_HIDDEN_CELLS = "HasHiddenCells";
+    private static final String NO_HIDDEN_CELLS = "NoHiddenCells";
     private static final String POINTS_PER_CELL = "PointsPerCell";
-    private static final int BOMB_STATE = -1;
+    private static final int BOMB_STATE = 9;
     private Cell[][] myGrid;
     private int numSelected = 0;
     private int numSelectedPerMove;
     private Validator myValidator;
     private MatchFinder myMatchFinder;
-    private int score = 0;
     private boolean addNewCells;
     private int maxState;
-    private boolean hasHiddenCells;
+    private boolean noHiddenCells;
     private int pointsPerCell;
     private BooleanProperty moveInProgress = new SimpleBooleanProperty(false);
     private GameProgressManager myProgressManager;
@@ -39,10 +38,9 @@ public class Grid {
             numSelectedPerMove = Integer.parseInt(gameAttributes.get(NUM_SELECTED_PER_MOVE));
             addNewCells = Boolean.parseBoolean(gameAttributes.get(ADD_NEW_CELLS));
             maxState = Integer.parseInt(gameAttributes.get(MAX_STATE_NUMBER));
-            hasHiddenCells = Boolean.parseBoolean(gameAttributes.get(HAS_HIDDEN_CELLS));
+            noHiddenCells = Boolean.parseBoolean(gameAttributes.get(NO_HIDDEN_CELLS));
             pointsPerCell = Integer.parseInt(gameAttributes.get(POINTS_PER_CELL));
         } catch (InvalidDataException e){
-            //e.printStackTrace();
             myErrorMessage.set(e.toString());
         }
         myValidator = validator;
@@ -94,15 +92,15 @@ public class Grid {
         for (int r = 0; r<initialStates.length; r++){
             for (int c=0; c<initialStates[0].length; c++){
                 if (getCell(r, c)==null){
-                    myGrid[r][c] = new Cell(initialStates[r][c], hasHiddenCells, pointsPerCell);
+                    myGrid[r][c] = new Cell(initialStates[r][c], noHiddenCells, pointsPerCell);
                     myGrid[r][c].setupSelection(increment -> {
                         numSelected += increment? 1 : -1;
-                        if (numSelected==numSelectedPerMove) updateMyBoard();
+                        if (numSelected==numSelectedPerMove) updateGrid();
                     }, moveInProgress);
                     myGrid[r][c].setCoordinates(r,c);
                 } else {
                     getCell(r, c).cellState().set(initialStates[r][c]);
-                    getCell(r, c).isOpen().set(hasHiddenCells);
+                    getCell(r, c).isOpen().set(noHiddenCells);
                 }
             }
         }
@@ -115,8 +113,8 @@ public class Grid {
      * @return
      */
     public Cell getCell(int row, int col){
-        if (row<0 || row>myGrid.length) return null;
-        if (col<0 || col>myGrid[0].length) return null;
+        if (row<0 || row>=myGrid.length) return null;
+        if (col<0 || col>=myGrid[0].length) return null;
         return myGrid[row][col];
     }
 
@@ -132,21 +130,6 @@ public class Grid {
      */
     public int getCols() { return myGrid[0].length; }
 
-    /**
-     * This method will return the current grid with the updated states of all the cells.
-     * This method will be so the frontend can get the updated grid from the backend.
-     * @return
-     */
-    private void updateMyBoard(){
-        System.out.println("About to upadte the gird");
-        updateGrid();
-        if (myProgressManager.isWin().getValue()){
-            System.out.println("win"); // win action
-        }
-        else if (myProgressManager.isLoss().getValue()){
-            System.out.println("loss"); // loss action
-        }
-    }
 
     /**
      * This method updates the current game grid according to the move selected by the user.
@@ -157,49 +140,37 @@ public class Grid {
          if(myValidator.checkIsValid(selectedCells, myProgressManager)){
             System.out.println("valid move");
             List<Cell> matchedCells = new ArrayList<>();
-
             //TODO: ask TA if there is a better way to do this to avoid circular dependency
-            if (!hasHiddenCells){
+            if (noHiddenCells){
+                matchedCells.addAll(myMatchFinder.makeMatches(selectedCells, this));
+                if (matchedCells.size()>0) myProgressManager.decrementMoves();
+                // here, if the swap did not result in matches, the size of matched cells will be zero
+            } else {
                 matchedCells.addAll(selectedCells); //we are adding the selected cells so that the points are accounted for
                 matchedCells.addAll(myMatchFinder.makeMatches(this)); //minesweeper game
             }
-            else {
-                myProgressManager.incrementMoves();
-                System.out.println("About to find the matched cells for this game");
-
-                matchedCells.addAll(myMatchFinder.makeMatches(selectedCells, this));
-                // here, if the swap did not result in matches, the size of matched cells will be zero
-            }
-
             while (matchedCells.size()>0){
-                if (!hasHiddenCells) {
+                if (!noHiddenCells) {
                     openMatchedCells(matchedCells);
                 }
                 else {
                     // here we are deleting the matched cells and re-felling the board
-                    System.out.println("About to DELETE CELLS");
                     deleteMatchedCells(matchedCells);
                 }
                 // here we are looking at the board as a whole and adding matched cells
-                System.out.println("THIS IS THE SIZE OF MATCHED CELLS ARRAYLIST BEFORE: " + matchedCells.size());
                 matchedCells.addAll(myMatchFinder.makeMatches(this));
-                System.out.println("THIS IS THE SIZE OF MATCHED CELLS ARRAYLIST NOW: " + matchedCells.size());
             }
          }
-         else {
-             System.out.println("invalid move");
-         }
+         else System.out.println("invalid move");
          moveInProgress.set(false);
-         for (Cell cell:selectedCells) {
-             cell.toggleSelected();
-         }
+         for (Cell cell:selectedCells) cell.toggleSelected();
     }
 
     private List<Cell> getSelectedCells(){
         List<Cell> selected = new ArrayList<>();
         for (int r = 0; r<getRows(); r++){
             for (int c=0; c<getCols(); c++){
-                if (getCell(r,c).isSelected()) selected.add(getCell(r,c));
+                if (getCell(r,c).isSelected().get()) selected.add(getCell(r,c));
             } }
         return selected;
     }
@@ -207,7 +178,7 @@ public class Grid {
     private void openMatchedCells(List<Cell> matchedCells){
         for (Cell cell:matchedCells) {
             cell.isOpen().set(true);
-            if (cell.getMyState() == BOMB_STATE) myProgressManager.incrementLives();
+            if (cell.getMyState() == BOMB_STATE) myProgressManager.decrementLives();
             myProgressManager.updateScore(cell.getScore());
         }
         matchedCells.clear();
@@ -229,12 +200,8 @@ public class Grid {
                         cell = above;
                         nextRowAbove--;
                     } } }
-            if (addNewCells) {
-                System.out.println("About to refill a column");
-                refillColumn(col);
-            }
+            if (addNewCells) refillColumn(col);
         }
-        System.out.println("Clearing matched cells");
         matchedCells.clear();
     }
 
@@ -242,8 +209,6 @@ public class Grid {
         for (int row = 0; row<getRows(); row++) {
             Cell cell = getCell(row, col);
             if (cell.getMyState()==-1){
-                System.out.println("Row of new cell: " + cell.getRow());
-                System.out.println("Column of new cell: " + cell.getColumn());
                 cell.randomize(maxState);
             }
         }

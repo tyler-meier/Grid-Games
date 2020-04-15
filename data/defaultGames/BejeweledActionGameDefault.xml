@@ -3,8 +3,8 @@
   <Level>0</Level>
   <Score>0</Score>
   <TargetScore>100</TargetScore>
-  <LossStat>MovesUsed</LossStat>
-  <MovesUsed>10</MovesUsed>
+  <LossStat>Time</LossStat>
+  <Time>60</Time>
 
   <numRows>8</numRows>
   <numColumns>8</numColumns>

@@ -1,5 +1,6 @@
 package ooga.player;
 
+import javafx.beans.property.BooleanProperty;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
@@ -23,7 +24,7 @@ public class GridView {
 
 //    //code for the method to set up the front end grid with binding--move this to where it makes the most sense
 //    //when you're ready to use it, rename things and ask if anything is unclear
-    public GridPane setGrid(Grid backendGrid){ // ideally we'll be able to make this run one cell at a time
+    public GridPane setGrid(Grid backendGrid, BooleanProperty paused){ // ideally we'll be able to make this run one cell at a time
 //        //so we don't need it to be a 2D array, or we just make a Grid object in back end
         GridPane myGrid = new GridPane();
         myGrid.setGridLinesVisible(true);
@@ -38,6 +39,7 @@ public class GridView {
                 rec.setStrokeWidth(1);
                 UICell currCell = new UICell(backendGrid.getCell(row, col), myGameType, myCellHeight, myCellWidth);
                 ImageView myImageView = currCell.getImageView();
+                currCell.setPauseProperty(paused);
                 GridPane.setRowIndex(myImageView, row * myCellWidth);
                 GridPane.setColumnIndex(myImageView, col * myCellHeight);
                 myGrid.getChildren().add(myImageView);
