@@ -38,6 +38,9 @@ public class Cell {
         this.inProgress.bind(inProgress);
     }
 
+    /**
+     * This method toggles (switches) the selected property of a cell
+     */
     public void toggleSelected(){
         if (!inProgress.get()){
             selected.set(!selected.get());
@@ -61,19 +64,45 @@ public class Cell {
         return open;
     }
 
+    /**
+     * This method returns the state of a cell.
+     * @return
+     */
     public IntegerProperty cellState() { return myState; }
 
+    /**
+     * This method returns the row number of a cell.
+     * @return
+     */
     public int getRow() { return myRow; }
 
+    /**
+     * This method returns the column number of a cell.
+     * @return
+     */
     public int getColumn() { return myColumn; }
 
+    /**
+     * This method determines whether or not two cells are considered to be neighbors.
+     * @param cell
+     * @return
+     */
     public boolean isNeighbor(Cell cell) {
         return (Math.abs(cell.getRow()-myRow)==1 && cell.getColumn()==myColumn) ||
             (Math.abs(cell.getColumn()-myColumn)==1 && cell.getRow()==myRow);
 
     }
+
+    /**
+     * This method returns the score of the current game.
+     * @return
+     */
     public int getScore(){ return numPoints; }
 
+    /**
+     * This method swaps the position of two cells
+     * @param cell
+     */
     public void swap(Cell cell){
         Cell placeholder = new Cell(myState.get(), open.get(), numPoints);
         myState.set(cell.getMyState());
@@ -100,6 +129,10 @@ public class Cell {
         return myState.get();
     }
 
+    /**
+     * Assigns a random number (between 1 and max state) for the state of a new cell.
+     * @param maxState
+     */
     public void randomize(int maxState){
         Random random = new Random();
         // random number 1 through maxState inclusive

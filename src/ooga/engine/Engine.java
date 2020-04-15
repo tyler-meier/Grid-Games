@@ -39,5 +39,9 @@ public class Engine implements EngineBuilder {
         return myGrid.getGameAttributes();
     }
 
+    /**
+     * Returns the configuration of the backend grid in the form of a 2D array.
+     * @return
+     */
     public int[][] getGridConfiguration() { return myGrid.getGridConfiguration(); }
 }
