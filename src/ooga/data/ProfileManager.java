@@ -109,6 +109,7 @@ public class ProfileManager {
    */
   public UserProfile addProfile(String username, String password) throws UserAlreadyExistsException
   {
+    //TODO: add checks
     if(notExistingUsername(username))
     {
       UserProfile newUser = new UserProfile(username, password);
