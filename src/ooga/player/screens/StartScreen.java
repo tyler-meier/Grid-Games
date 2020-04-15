@@ -53,8 +53,8 @@ public class StartScreen extends SuperScreen{
       try {
         myPlayer.setGameType(games.getValue());
         myEventEngine.handle(e);
-      } catch (NullPointerException p){ //TODO: change to actual set error thing
-        System.out.println("WRONG");
+      } catch (NullPointerException p){ //TODO: fix string
+        myErrorMessage.textProperty().setValue("No game chosen");
       }
     });
     Button logoutButton = makeButton("LogoutCommand", e -> myPlayer.setUpLoginScreen());
