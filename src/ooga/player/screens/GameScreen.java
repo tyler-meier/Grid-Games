@@ -101,8 +101,11 @@ public class GameScreen extends SuperScreen{
       }
     });
 //    Button resetLevelButton = makeButton("ResetLevelCommand", e-> myPlayer.setUpGameScreen(myPlayer.getGrid()));
+    Button saveButton = makeButton("Save Command", e->{
+      //myPlayer.getSaveButtonEvent().handle();
+    });
 
-    Node buttons = styleContents(logoutButton, resetGameButton);
+    Node buttons = styleContents(logoutButton, resetGameButton, saveButton);
     return buttons;
   }
 
