@@ -39,12 +39,6 @@ public class GameScreen extends SuperScreen{
   private GridView myGrid;
   private GridPane myGridPane;
   private BorderPane myRoot;
-  private Scene thisScene;
-//  IntegerProperty myHighScore = new SimpleIntegerProperty();
-//  IntegerProperty myScore = new SimpleIntegerProperty();
-//  IntegerProperty myLives = new SimpleIntegerProperty();
-//  IntegerProperty myLevel = new SimpleIntegerProperty();
-//  IntegerProperty myMovesLeft = new SimpleIntegerProperty();
   private BooleanProperty isLoss = new SimpleBooleanProperty();
   private BooleanProperty isWin = new SimpleBooleanProperty();
   private BooleanProperty paused = new SimpleBooleanProperty(false);
@@ -87,8 +81,8 @@ public class GameScreen extends SuperScreen{
     Scene scene = new Scene(myRoot, height, width);
     scene.getStylesheets().add(getClass().getResource(DEFAULT_RESOURCE_FOLDER + styleSheet).toExternalForm());
 
-    thisScene = scene;
-    return scene;
+    myScene = scene;
+    return myScene;
   }
 
   public void setGrid(Grid backendGrid){
@@ -109,8 +103,10 @@ public class GameScreen extends SuperScreen{
         pauseButton.setText(myStringResources.getString("Play"));
         paused.set(true);
       }
-      myPlayer.getMyUserProfile().addHighScore(myGameType, score.getValue());
-      myPlayer.getSaveButtonEvent().handle(e);
+      if(myPlayer.getMyUserProfile()!=null){
+        myPlayer.getMyUserProfile().addHighScore(myGameType, score.getValue());
+        myPlayer.getSaveButtonEvent().handle(e);
+      }
     });
 
     Node buttons = styleContents(logoutButton, resetGameButton, saveButton, myErrorMessage);
@@ -126,10 +122,10 @@ public class GameScreen extends SuperScreen{
 //    String time = timer.getText();
 //    Label stopWatch = new Label("TIME: " + time);
 
-//    Button customView = makeButton("Customize", e-> myPlayer.setUpCustomView());
     Label name = new Label(myGameType);
+    Button customView = makeButton("CustomCommand", e-> myPlayer.setUpCustomView());
 
-    toolBar.getChildren().addAll(homeButton, name);
+    toolBar.getChildren().addAll(homeButton, customView, name);
     toolBar.setSpacing(SPACING_2);
     return toolBar;
   }
