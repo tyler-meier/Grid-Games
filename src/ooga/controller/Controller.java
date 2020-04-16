@@ -43,16 +43,18 @@ public class Controller extends Application {
         Map<String, String> myEngineAttributes = data.getEngineAttributes(type);
         Map<String, String> myGameAttributes = data.getGameAttributes(username, type);
         int[][] initialStates = data.getGrid();
+        boolean[][] openCellConfiguration = data.getOpenCells();
         Engine engine = new Engine(myEngineAttributes, data.getErrorMessage());
-        engine.setupGame(initialStates, myGameAttributes);
+        engine.setupGame(initialStates, myGameAttributes, openCellConfiguration);
         System.out.println("GAME HAS BEEN SET UP CORRECTLY");
-        player.setSaveButton(e -> data.saveGame(player.getUsername(), engine.getGameAttributes(), engine.getGridConfiguration()));
+        player.setSaveButton(e -> data.saveGame(player.getUsername(), engine.getGameAttributes(), engine.getGridConfiguration(), engine.getOpenCellConfiguration()));
         player.setUpGameScreen(engine.getGrid(), data.getErrorMessage());
         player.setResetButton(e -> {
               Map<String, String> newGameAttributes = data.getGameAttributes(player.getUsername(), type);
               //TODO: is this grid from the last identified path or the one set above?
               int[][] newInitialStates = data.getGrid();
-              engine.setupGame(newInitialStates, newGameAttributes);
+                boolean[][] newOpenCells = data.getOpenCells();
+              engine.setupGame(newInitialStates, newGameAttributes, newOpenCells);
               player.setUpGameScreen(engine.getGrid(), data.getErrorMessage());
         });
     }
