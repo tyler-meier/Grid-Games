@@ -45,14 +45,8 @@ public class Controller extends Application {
         Engine engine = new Engine(myEngineAttributes, data.getErrorMessage());
         engine.setupGame(initialStates, myGameAttributes);
         System.out.println("GAME HAS BEEN SET UP CORRECTLY");
-
-        //player.setSaveButton(data.saveGame(player.getUsername(), engine.getGameAttributes(), engine.getGridConfiguration()));
-
-        //player.setGameStats(engine.getGameStats());
-        // line below is unnecessary (as is line 55) bc these are public methods in Grid, don't have to go through controller
-//        player.setGameStats(engine.getGameStats());
-        player.setUpGameScreen(engine.getGrid()); // need to change param type of set grid
-//        player.setSaveGameButton(e -> data.saveGame(username, type, engine.getGameAttributes(), engine.getGridConfiguration()));
+        player.setSaveButton(e -> data.saveGame(player.getUsername(), engine.getGameAttributes(), engine.getGridConfiguration()));
+        player.setUpGameScreen(engine.getGrid());
         player.setResetButton(e -> {
               Map<String, String> newGameAttributes = data.getGameAttributes("guest", type);
               //TODO: is this grid from the last identified path or the one set above?

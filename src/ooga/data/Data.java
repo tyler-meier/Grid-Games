@@ -6,7 +6,10 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import ooga.data.buildingXML.XMLBuilder;
 import ooga.data.buildingXML.XMLGameBuilder;
+import ooga.data.exceptions.EmptyEntryException;
 import ooga.data.exceptions.IncorrectPasswordException;
+import ooga.data.exceptions.InvalidCharacterEntryException;
+import ooga.data.exceptions.NaughtyNameException;
 import ooga.data.exceptions.NoUserExistsException;
 import ooga.data.exceptions.UserAlreadyExistsException;
 
@@ -72,13 +75,9 @@ public class Data implements DataLink {
         currentUser = myProfileManager.getProfile(username);
         return currentUser;
       }
-    } catch (IncorrectPasswordException incorrectPassword)
+    } catch (NoUserExistsException | IncorrectPasswordException e)
     {
-      errorMessage.setValue(incorrectPassword.getMessage());
-    }
-    catch(NoUserExistsException incorrectUsername)
-    {
-      errorMessage.setValue(incorrectUsername.getMessage());
+      errorMessage.setValue(e.getMessage());
     }
     return null;
   }
@@ -95,9 +94,12 @@ public class Data implements DataLink {
   public UserProfile saveNewPlayerProfile(String username, String password) {
     try{
         currentUser = myProfileManager.addProfile(username, password);
-    } catch(UserAlreadyExistsException e)
+    }
+    catch(EmptyEntryException | UserAlreadyExistsException
+        | NaughtyNameException | InvalidCharacterEntryException e)
     {
       errorMessage.setValue(e.getMessage());
+      System.out.println(errorMessage.get());
     }
     return null;
   }
@@ -125,9 +127,18 @@ public class Data implements DataLink {
    */
   @Override
   public void saveGame(String username, Map<String, String> gameAttributes, int[][] grid) {
-    // TODO: use path
-    String path = String.format(NEW_GAME_PATH_SKELETON, username, gameType);
-    XMLBuilder newGame = new XMLGameBuilder(MAIN_GAME_TAG, username, gameAttributes, grid);
+    if(!username.equals("Guest"))
+    {
+      String path = String.format(NEW_GAME_PATH_SKELETON, username, gameType);
+      XMLBuilder newGame = new XMLGameBuilder(MAIN_GAME_TAG, path, gameAttributes, grid);
+      currentUser.addSavedGame(gameType, path);
+      myProfileManager.updatePLayerXML(currentUser);
+    }
+    else
+    {
+      errorMessage.setValue("You can't save as a guest!");
+      System.out.println(errorMessage.get());
+    }
   }
 
   /**
