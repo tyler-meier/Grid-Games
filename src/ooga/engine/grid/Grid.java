@@ -59,6 +59,10 @@ public class Grid {
         numSelected=0;
     }
 
+    /**
+     * This method returns the states of the grid in the form of a 2D array
+     * @return
+     */
     public int[][] getGridConfiguration(){
         int[][] gridStates = new int[myGrid.length][myGrid[0].length];
         for (int col = 0; col<getCols(); col++){
@@ -69,13 +73,30 @@ public class Grid {
         return gridStates;
     }
 
+    /**
+     * This method returns the attributes of the current game in a string to string mapping.
+     * @return
+     */
     public Map<String, String> getGameAttributes() { return myProgressManager.getGameAttributes(); }
+
+    /**
+     * This method returns the attributes of the current game in a string to integer property mapping.
+     * @return
+     */
     public Map<String, IntegerProperty> getGameStats() { return myProgressManager.getGameStats(); }
 
+    /**
+     * This method returns whether or not the game has been lost.
+     * @return
+     */
     public BooleanProperty getLossStatus(){
         return myProgressManager.isLoss();
     }
 
+    /**
+     * This method returns whether or not the game has been won.
+     * @return
+     */
     public BooleanProperty getWinStatus(){
         return myProgressManager.isWin();
     }
