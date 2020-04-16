@@ -50,7 +50,6 @@ public class Controller extends Application {
         player.setSaveButton(e -> data.saveGame(player.getUsername(), engine.getGameAttributes(), engine.getGridConfiguration(), engine.getOpenCellConfiguration()));
         player.setResetButton(e -> {
             Map<String, String> newGameAttributes = data.getGameAttributes("Guest", type);
-            //TODO: is this grid from the last identified path or the one set above?
             int[][] newInitialStates = data.getGrid();
             boolean[][] newOpenCells = data.getOpenCells();
             engine.setupGame(newInitialStates, newGameAttributes, newOpenCells);
