@@ -38,7 +38,7 @@ class DataTest {
     jay.addHighScore("Memory", 55);
 
     UserProfile tyler = data.login("tylerm", "yown");
-    tyler.addHighScore("title", 4);
+    tyler.addHighScore("Memory", 4);
     tyler.setDarkMode(true);
     tyler.setParentalControls(true);
 
