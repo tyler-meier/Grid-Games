@@ -31,9 +31,9 @@ public class WonGameScreen extends SuperScreen{
 
   private Parent setUpContents(){
     Label winGameLabel = new Label(myStringResources.getString("WonGame"));
-    Button homeButton = makeButton("HomeCommand", e -> myPlayer.setUpStartScreen());
-    Button saveButton = makeButton("SaveCommand", e-> myPlayer.setUpStartScreen()); //TODO: fix save button, do i need this here?
-    Button resetGameButton = makeButton("ResetGameCommand", e-> myPlayer.setUpStartScreen()); //TODO: fix the reset button
+    Button homeButton = makeButton("HomeCommand", e -> myPlayer.setUpStartScreen(myErrorMessage.textProperty()));
+    Button saveButton = makeButton("SaveCommand", e-> myPlayer.setUpStartScreen(myErrorMessage.textProperty())); //TODO: fix save button, do i need this here?
+    Button resetGameButton = makeButton("ResetGameCommand", e-> myPlayer.setUpStartScreen(myErrorMessage.textProperty())); //TODO: fix the reset button
     return (Parent) styleContents(winGameLabel, homeButton, saveButton, resetGameButton);
   }
 }

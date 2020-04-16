@@ -64,14 +64,14 @@ public class LoginScreen extends SuperScreen{
       userData = myUserLogin.getProfile(username.getText(), password.getText());
       if(userData != null){
         myPlayer.setUsername(userData.getUsername());
-        myPlayer.setUpStartScreen();
+        myPlayer.setUpStartScreen(myErrorMessage.textProperty());
       }
     });
     Button guestButton = makeButton("GuestButtonCommand", e -> {
       myPlayer.setUsername(myStringResources.getString("Guest"));
-      myPlayer.setUpStartScreen();
+      myPlayer.setUpStartScreen(myErrorMessage.textProperty());
     });
-    Button newProfileButton = makeButton("NewProfileCommand", e -> myPlayer.setUpNewProfScreen());
+    Button newProfileButton = makeButton("NewProfileCommand", e -> myPlayer.setUpNewProfScreen(myErrorMessage.textProperty()));
 
     return styleContents(loginButton, guestButton, newProfileButton);
   }
