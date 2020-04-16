@@ -2,15 +2,17 @@
 <game>
     <Level>0</Level>
     <Score>0</Score>
-    <TargetScore>100</TargetScore>
+    <TargetScore>500</TargetScore>
     <LossStat>MovesLeft</LossStat>
     <MovesLeft>10</MovesLeft>
 
-    <numRows>4</numRows>
+    <numRows>6</numRows>
     <numColumns>5</numColumns>
-    <row>1 6 5 4 2</row>
-    <row>5 1 3 1 5</row>
-    <row>4 4 6 6 1</row>
-    <row>2 3 4 3 2</row>
+    <row>1 5 6 6 1</row>
+    <row>1 5 4 3 6</row>
+    <row>2 4 3 4 1</row>
+    <row>1 5 2 4 1</row>
+    <row>2 4 3 2 2</row>
+    <row>2 3 4 3 3</row>
 
 </game>
