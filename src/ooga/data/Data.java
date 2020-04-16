@@ -174,6 +174,12 @@ public class Data implements DataLink {
     return gridParser.getGrid();
   }
 
+  public boolean[][] getOpenCells()
+  {
+      return null;
+  }
+
+
   private void setCurrentUser(UserProfile newCurrent)
   {
     currentUser = newCurrent;
