@@ -76,7 +76,7 @@ public class Grid {
         }
         return gridStates;
     }
-    
+
     public boolean[][] getOpenCellConfiguration(){
         if (noHiddenCells) return null;
         boolean[][] openCells = new boolean[myGrid.length][myGrid[0].length];

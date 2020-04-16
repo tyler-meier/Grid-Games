@@ -119,11 +119,13 @@ public class XMLParser {
 
   public boolean[][] getUncoveredCellGrid()
   {
+
     int numRows = getIntegerElementByTag(NUM_ROWS_TAG, ZERO_DEFAULT_VALUE);
     int numCols = getIntegerElementByTag(NUM_COLUMNS_TAG, ZERO_DEFAULT_VALUE);
     boolean[][] grid = new boolean[numRows][numCols];
 
     NodeList nodeList = doc.getElementsByTagName(UNCOVERED_CELL_TAG);
+    if (nodeList.getLength()==0) return null;
 
     for (int r = ZERO_INDEX; r < nodeList.getLength(); r++)
     {
