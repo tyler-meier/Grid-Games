@@ -46,13 +46,13 @@ public class Controller extends Application {
         engine.setupGame(initialStates, myGameAttributes);
         System.out.println("GAME HAS BEEN SET UP CORRECTLY");
         player.setSaveButton(e -> data.saveGame(player.getUsername(), engine.getGameAttributes(), engine.getGridConfiguration()));
-        player.setUpGameScreen(engine.getGrid());
+        player.setUpGameScreen(engine.getGrid(), data.getErrorMessage());
         player.setResetButton(e -> {
-              Map<String, String> newGameAttributes = data.getGameAttributes("guest", type);
+              Map<String, String> newGameAttributes = data.getGameAttributes(player.getUsername(), type);
               //TODO: is this grid from the last identified path or the one set above?
               int[][] newInitialStates = data.getGrid();
               engine.setupGame(newInitialStates, newGameAttributes);
-              player.setUpGameScreen(engine.getGrid());
+              player.setUpGameScreen(engine.getGrid(), data.getErrorMessage());
         });
     }
 }

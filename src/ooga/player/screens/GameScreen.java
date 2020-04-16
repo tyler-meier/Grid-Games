@@ -1,6 +1,5 @@
 package ooga.player.screens;
 
-import java.awt.event.ActionListener;
 import java.util.*;
 
 import javafx.application.Platform;
@@ -112,13 +111,13 @@ public class GameScreen extends SuperScreen{
       myPlayer.getSaveButtonEvent().handle(e);
     });
 
-    Node buttons = styleContents(logoutButton, resetGameButton, saveButton);
+    Node buttons = styleContents(logoutButton, resetGameButton, saveButton, myErrorMessage);
     return buttons;
   }
 
   private Node makeToolBar() {
     HBox toolBar = new HBox();
-    Button homeButton = makeButton("HomeCommand", e-> myPlayer.setUpStartScreen());
+    Button homeButton = makeButton("HomeCommand", e-> myPlayer.setUpStartScreen(myErrorMessage.textProperty()));
 
     TimeKeeper timer = new TimeKeeper();
     timer.addTimeline();
