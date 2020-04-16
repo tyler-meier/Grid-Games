@@ -18,17 +18,30 @@ class DataTest {
 
   private Data data = new Data();
 
-  @Test
-  void saveGame() {
-    int[][] grid = new int [4][4];
-    Map<String, String > dataToWrite = new HashMap<>();
-    fillMapAndGrid(grid, dataToWrite);
-    String path = String.format(NEW_GAME_PATH_SKELETON, "jay18", "Memory");
-    data.saveGame(path, dataToWrite, grid);
+//  @Test
+//  void saveGame() {
+//    int[][] grid = new int [4][4];
+//    Map<String, String > dataToWrite = new HashMap<>();
+//    fillMapAndGrid(grid, dataToWrite);
+//    String path = String.format(NEW_GAME_PATH_SKELETON, "jay18", "Memory");
+//    data.saveGame(path, dataToWrite, grid);
+//
+//    XMLParser printingParser = new XMLParser(path);
+//    assertEqualsGrids(grid, printingParser.getGrid());
+//    assertEqualsMaps(dataToWrite, printingParser.getMapFromXML(myGameResource));
+//  }
 
-    XMLParser printingParser = new XMLParser(path);
-    assertEqualsGrids(grid, printingParser.getGrid());
-    assertEqualsMaps(dataToWrite, printingParser.getMapFromXML(myGameResource));
+  @Test
+  void editProfileTest()
+  {
+    UserProfile jay = data.login("jay18", "boob");
+    jay.addHighScore("Memory", 55);
+
+    UserProfile tyler = data.login("tylerm", "yown");
+    tyler.addHighScore("title", 4);
+    tyler.setDarkMode(true);
+    tyler.setParentalControls(true);
+
   }
 
   private void assertEqualsMaps(Map<String, String> dataToWrite, Map<String, String> mapFromXML) {

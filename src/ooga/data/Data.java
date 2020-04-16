@@ -72,7 +72,7 @@ public class Data implements DataLink {
     try{
       if(myProfileManager.isValid(username, password))
       {
-        currentUser = myProfileManager.getProfile(username);
+        setCurrentUser(myProfileManager.getProfile(username));
         return currentUser;
       }
     } catch (NoUserExistsException | IncorrectPasswordException e)
@@ -173,5 +173,12 @@ public class Data implements DataLink {
     XMLParser gridParser = new XMLParser(gamePath);
     return gridParser.getGrid();
   }
+
+  private void setCurrentUser(UserProfile newCurrent)
+  {
+    currentUser = newCurrent;
+    currentUser.setSaveAction(e -> myProfileManager.updatePLayerXML(currentUser));
+  }
+
 
 }
