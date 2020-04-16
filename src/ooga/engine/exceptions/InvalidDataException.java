@@ -1,4 +1,4 @@
-package ooga.engine.grid;
+package ooga.engine.exceptions;
 
 public class InvalidDataException extends  RuntimeException {
     private static final String MESSAGE = "bad data :((";

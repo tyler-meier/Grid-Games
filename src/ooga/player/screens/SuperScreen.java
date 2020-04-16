@@ -29,7 +29,7 @@ public abstract class SuperScreen {
   protected String styleSheet = "default.css";
   private static final int DIMENSION = 600;
 
-  protected ResourceBundle myButtonResources, myStringResources;
+  protected ResourceBundle myButtonResources, myStringResources, myGameNameResources;
   protected Label myErrorMessage;
   protected Player myPlayer;
   protected EventHandler<ActionEvent> myEventEngine;
@@ -78,6 +78,7 @@ public abstract class SuperScreen {
   private void setCommonVariables(Player thisPlayer){
     myStringResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "BasicStrings");
     myButtonResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "ButtonCreation");
+    myGameNameResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "NamesOfGames");
     myErrorMessage = new Label();
     myPlayer = thisPlayer;
   }
