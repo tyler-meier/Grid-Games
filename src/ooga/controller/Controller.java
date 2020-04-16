@@ -1,9 +1,10 @@
 package ooga.controller;
 
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.stage.Stage;
 import ooga.data.Data;
-import ooga.data.DataObject;
 import ooga.engine.Engine;
 import ooga.player.Player;
 
@@ -47,15 +48,15 @@ public class Controller extends Application {
         engine.setupGame(initialStates, myGameAttributes, openCellConfiguration);
         System.out.println("GAME HAS BEEN SET UP CORRECTLY");
         player.setSaveButton(e -> data.saveGame(player.getUsername(), engine.getGameAttributes(), engine.getGridConfiguration(), engine.getOpenCellConfiguration()));
-        player.setUpGameScreen(engine.getGrid(), data.getErrorMessage());
         player.setResetButton(e -> {
-              Map<String, String> newGameAttributes = data.getGameAttributes("Guest", type);
-              //TODO: is this grid from the last identified path or the one set above?
-              int[][] newInitialStates = data.getGrid();
-                boolean[][] newOpenCells = data.getOpenCells();
-              engine.setupGame(newInitialStates, newGameAttributes, newOpenCells);
-              player.setUpGameScreen(engine.getGrid(), data.getErrorMessage());
+            Map<String, String> newGameAttributes = data.getGameAttributes("Guest", type);
+            int[][] newInitialStates = data.getGrid();
+            boolean[][] newOpenCells = data.getOpenCells();
+            engine.setupGame(newInitialStates, newGameAttributes, newOpenCells);
+            player.setUpGameScreen(engine.getGrid(), data.getErrorMessage());
         });
+
+        player.setUpGameScreen(engine.getGrid(), data.getErrorMessage());
     }
 }
 
