@@ -54,17 +54,12 @@ public class Grid {
      */
     public void setNewGame(int[][] initialStates, Map<String, String> gameAttributes, boolean[][] openCells){
         if (myGrid==null) myGrid = new Cell[initialStates.length][initialStates[0].length];
-<<<<<<< HEAD
-        setupGridStates(initialStates);
-        myProgressManager = new GameProgressManager(gameAttributes, myErrorMessage);
-=======
         setupGridStates(initialStates, openCells);
         try{
-            myProgressManager = new GameProgressManager(gameAttributes);
+            myProgressManager = new GameProgressManager(gameAttributes, myErrorMessage);
         } catch (Exception e){
             myErrorMessage.set(e.toString());
         }
->>>>>>> aecea0da993802beb6b10c56bbe65141cf67c646
         numSelected=0;
     }
 
@@ -81,13 +76,7 @@ public class Grid {
         }
         return gridStates;
     }
-
-<<<<<<< HEAD
-    /**
-     * This method returns the attributes of the current game in a string to string mapping.
-     * @return
-     */
-=======
+    
     public boolean[][] getOpenCellConfiguration(){
         if (noHiddenCells) return null;
         boolean[][] openCells = new boolean[myGrid.length][myGrid[0].length];
@@ -99,7 +88,6 @@ public class Grid {
         return openCells;
     }
 
->>>>>>> aecea0da993802beb6b10c56bbe65141cf67c646
     public Map<String, String> getGameAttributes() { return myProgressManager.getGameAttributes(); }
 
     /**
