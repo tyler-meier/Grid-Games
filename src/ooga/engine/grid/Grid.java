@@ -52,9 +52,9 @@ public class Grid {
      * This method resets the grid to have the specified states for the cells.
      * @param initialStates
      */
-    public void setNewGame(int[][] initialStates, Map<String, String> gameAttributes){
+    public void setNewGame(int[][] initialStates, Map<String, String> gameAttributes, boolean[][] openCells){
         if (myGrid==null) myGrid = new Cell[initialStates.length][initialStates[0].length];
-        setupGridStates(initialStates);
+        setupGridStates(initialStates, openCells);
         try{
             myProgressManager = new GameProgressManager(gameAttributes);
         } catch (Exception e){
@@ -73,6 +73,17 @@ public class Grid {
         return gridStates;
     }
 
+    public boolean[][] getOpenCellConfiguration(){
+        if (noHiddenCells) return null;
+        boolean[][] openCells = new boolean[myGrid.length][myGrid[0].length];
+        for (int col = 0; col<getCols(); col++){
+            for (int row = 0; row<getRows(); row++) {
+                openCells[row][col] = myGrid[row][col].isOpen().get();
+            }
+        }
+        return openCells;
+    }
+
     public Map<String, String> getGameAttributes() { return myProgressManager.getGameAttributes(); }
     public Map<String, IntegerProperty> getGameStats() { return myProgressManager.getGameStats(); }
 
@@ -88,11 +99,12 @@ public class Grid {
      * This method sets up the grid given the specified initial states of the cells.
      * @param initialStates
      */
-    private void setupGridStates(int[][] initialStates){
+    private void setupGridStates(int[][] initialStates, boolean[][] openCells){
         for (int r = 0; r<initialStates.length; r++){
             for (int c=0; c<initialStates[0].length; c++){
                 if (getCell(r, c)==null){
-                    myGrid[r][c] = new Cell(initialStates[r][c], noHiddenCells, pointsPerCell);
+                    boolean isOpen = (openCells!=null) ? openCells[r][c] : noHiddenCells;
+                    myGrid[r][c] = new Cell(initialStates[r][c], isOpen, pointsPerCell);
                     myGrid[r][c].setupSelection(increment -> {
                         numSelected += increment? 1 : -1;
                         if (numSelected==numSelectedPerMove) updateGrid();

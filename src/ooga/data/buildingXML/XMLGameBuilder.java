@@ -13,19 +13,22 @@ import org.w3c.dom.Element;
 
 public class XMLGameBuilder extends XMLBuilder {
 
-  private Map<String, String> dataToWrite;
-  private int [][] grid;
-  private String ROW_TAG = "row";
   private final String NUM_ROWS_TAG= "numRows";
   private final String NUM_COLUMNS_TAG= "numColumns";
   private final String ROW_DELIMINATOR = " ";
 
+  private Map<String, String> dataToWrite;
+  private int [][] grid;
+  private String ROW_TAG = "row";
+  private boolean [][] uncoveredCells;
+
   private int ZERO_INDEX = 0;
 
-  public XMLGameBuilder(String mainTag, String pathName, Map<String, String> dataToWrite, int[][] grid) {
+  public XMLGameBuilder(String mainTag, String pathName, Map<String, String> dataToWrite, int[][] grid, boolean[][] uncoveredCells) {
     super(mainTag, pathName);
     this.dataToWrite = dataToWrite;
     this.grid = grid;
+    this.uncoveredCells = uncoveredCells;
     createDocument(mainTag, pathName);
   }
 
