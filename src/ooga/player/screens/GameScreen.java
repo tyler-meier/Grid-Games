@@ -39,12 +39,6 @@ public class GameScreen extends SuperScreen{
   private GridView myGrid;
   private GridPane myGridPane;
   private BorderPane myRoot;
-  private Scene thisScene;
-//  IntegerProperty myHighScore = new SimpleIntegerProperty();
-//  IntegerProperty myScore = new SimpleIntegerProperty();
-//  IntegerProperty myLives = new SimpleIntegerProperty();
-//  IntegerProperty myLevel = new SimpleIntegerProperty();
-//  IntegerProperty myMovesLeft = new SimpleIntegerProperty();
   private BooleanProperty isLoss = new SimpleBooleanProperty();
   private BooleanProperty isWin = new SimpleBooleanProperty();
   private BooleanProperty paused = new SimpleBooleanProperty(false);
@@ -86,8 +80,8 @@ public class GameScreen extends SuperScreen{
     Scene scene = new Scene(myRoot, height, width);
     scene.getStylesheets().add(getClass().getResource(DEFAULT_RESOURCE_FOLDER + styleSheet).toExternalForm());
 
-    thisScene = scene;
-    return scene;
+    myScene = scene;
+    return myScene;
   }
 
   public void setGrid(Grid backendGrid){
@@ -124,7 +118,7 @@ public class GameScreen extends SuperScreen{
     String time = timer.getText();
     //Label stopWatch = new Label("TIME: " + time);
 
-//    Button customView = makeButton("Customize", e-> myPlayer.setUpCustomView());
+    Button customView = makeButton("CustomCommand", e-> myPlayer.setUpCustomView());
 
     toolBar.getChildren().addAll(homeButton);
     toolBar.setSpacing(SPACING_2);
