@@ -6,6 +6,7 @@ import javafx.beans.property.StringProperty;
 import javafx.stage.Stage;
 import ooga.controller.UserLogin;
 import ooga.data.DataObject;
+import ooga.data.UserProfile;
 import ooga.engine.grid.Grid;
 import ooga.player.screens.*;
 
@@ -23,6 +24,7 @@ public class Player implements PlayerStart{
   private CustomView myCustomView;
   private String myGameType, currentUsername;
   private UserLogin myUserLogin;
+  private UserProfile myUserProfile;
   private EventHandler<ActionEvent> myEngine, myResetEngine, mySaveEngine;
 
   public Player(){
@@ -113,6 +115,14 @@ public class Player implements PlayerStart{
 
   public EventHandler<ActionEvent> getSaveButtonEvent() {
     return mySaveEngine;
+  }
+
+  public void setUserProfile(UserProfile thisUserProfile){
+    myUserProfile = thisUserProfile;
+  }
+
+  public UserProfile getMyUserProfile(){
+    return myUserProfile;
   }
 
   /**

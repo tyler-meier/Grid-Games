@@ -11,7 +11,6 @@ import ooga.controller.UserLogin;
 import ooga.data.UserProfile;
 import ooga.player.Player;
 
-
 /**
  * Login Screen class that sets up the login screen for a player
  * @author Tyler Meier
@@ -19,8 +18,6 @@ import ooga.player.Player;
 public class LoginScreen extends SuperScreen{
 
   private TextField username, password;
-  private UserLogin myUserLogin;
-  private UserProfile userData;
   private Button newWindowButton;
 
   /**
@@ -69,9 +66,10 @@ public class LoginScreen extends SuperScreen{
 
   private Node setUpButtons(){
     Button loginButton = makeButton("LoginButtonCommand", e -> {
-      userData = myUserLogin.getProfile(username.getText(), password.getText());
-      if(userData != null){
-        myPlayer.setUsername(userData.getUsername());
+      UserProfile myUserProfile = myUserLogin.getProfile(username.getText(), password.getText());
+      if(myUserProfile != null){
+        myPlayer.setUserProfile(myUserProfile);
+        myPlayer.setUsername(myUserProfile.getUsername());
         myPlayer.setUpStartScreen(myErrorMessage.textProperty());
       }
     });
