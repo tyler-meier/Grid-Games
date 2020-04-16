@@ -11,7 +11,6 @@ import ooga.controller.UserLogin;
 import ooga.data.UserProfile;
 import ooga.player.Player;
 
-
 /**
  * Login Screen class that sets up the login screen for a player
  * @author Tyler Meier
