@@ -52,7 +52,7 @@ public class Controller extends Application {
               Map<String, String> newGameAttributes = data.getGameAttributes("Guest", type);
               //TODO: is this grid from the last identified path or the one set above?
               int[][] newInitialStates = data.getGrid();
-                boolean[][] newOpenCells = data.getOpenCells();
+              boolean[][] newOpenCells = data.getOpenCells();
               engine.setupGame(newInitialStates, newGameAttributes, newOpenCells);
               player.setUpGameScreen(engine.getGrid(), data.getErrorMessage());
         });
