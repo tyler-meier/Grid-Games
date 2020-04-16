@@ -29,6 +29,11 @@ public class GameScreen extends SuperScreen{
   private static final String DEFAULT_RESOURCE_FOLDER = "/" + RESOURCES;
   private static final String TIME = "Time";
   private static final int ONE_SECOND = 1000;
+  private static final int PADDING_TOP_BOTTOM = 10;
+  private static final int PADDING_LEFT_RIGHT = 20;
+  private static final int GRID_SIZE = 400;
+  private static final int SPACING_1 = 30;
+  private static final int SPACING_2 = 45;
   private int myHeight;
   private int myWidth;
   private GridView myGrid;
@@ -43,7 +48,7 @@ public class GameScreen extends SuperScreen{
   private BooleanProperty isLoss = new SimpleBooleanProperty();
   private BooleanProperty isWin = new SimpleBooleanProperty();
   private BooleanProperty paused = new SimpleBooleanProperty(false);
-  String myTime = "00:00:000";
+  //String myTime = "00:00:000";
   private Timer timer;
   private VBox verticalPanel;
   private Button pauseButton;
@@ -52,7 +57,7 @@ public class GameScreen extends SuperScreen{
 
   public GameScreen(EventHandler<ActionEvent> engine, String gameType, Player player){
     super(engine, gameType, player);
-    myGrid = new GridView(gameType, 400); //TODO: magic number
+    myGrid = new GridView(gameType, GRID_SIZE); //TODO: magic number
   }
 
   /**
@@ -65,7 +70,7 @@ public class GameScreen extends SuperScreen{
     myRoot = new BorderPane();
     myHeight = height;
     myWidth = width;
-    myRoot.setPadding(new Insets(10, 20, 10, 20));
+    myRoot.setPadding(new Insets(PADDING_TOP_BOTTOM, PADDING_LEFT_RIGHT, PADDING_TOP_BOTTOM, PADDING_LEFT_RIGHT));
 
     Node toolBar = makeToolBar();
     myRoot.setTop(toolBar);
@@ -73,7 +78,7 @@ public class GameScreen extends SuperScreen{
     verticalPanel = new VBox();
     Node buttonPanel = makeButtonPanel();
     //Node statsPanel = makeStatsPanel();
-    verticalPanel.setSpacing(30);
+    verticalPanel.setSpacing(SPACING_1);
     verticalPanel.setAlignment(Pos.CENTER);
     verticalPanel.getChildren().addAll(buttonPanel);//, statsPanel);
     myRoot.setRight(verticalPanel);
@@ -100,7 +105,7 @@ public class GameScreen extends SuperScreen{
       if(verticalPanel.getChildren().contains(pauseButton))
       {
         timer.cancel();
-        pauseButton.setText("Play");
+        pauseButton.setText(myStringResources.getString("Play"));
         paused.set(true);
       }
       myPlayer.getSaveButtonEvent().handle(e);
@@ -117,12 +122,12 @@ public class GameScreen extends SuperScreen{
     TimeKeeper timer = new TimeKeeper();
     timer.addTimeline();
     String time = timer.getText();
-    Label stopWatch = new Label("TIME: " + time);
+    //Label stopWatch = new Label("TIME: " + time);
 
 //    Button customView = makeButton("Customize", e-> myPlayer.setUpCustomView());
 
-    toolBar.getChildren().addAll(homeButton, stopWatch);
-    toolBar.setSpacing(45);
+    //toolBar.getChildren().addAll(homeButton, stopWatch);
+    toolBar.setSpacing(SPACING_2);
     return toolBar;
   }
 
@@ -140,7 +145,8 @@ public class GameScreen extends SuperScreen{
     VBox stats = new VBox();
     for (String key:gameStats.keySet()){
       IntegerProperty stat = gameStats.get(key);
-      stats.getChildren().add(makeLabel(stat, key));
+      System.out.println(key);
+      stats.getChildren().add(makeLabel(stat, myStringResources.getString(key)));
     }
     stats.setSpacing(10);
     stats.setAlignment(Pos.CENTER);
@@ -150,16 +156,16 @@ public class GameScreen extends SuperScreen{
 
   private void addTimeButton(Map<String, IntegerProperty> gameStats){
     if (!gameStats.containsKey(TIME)) return;
-    pauseButton = new Button("Play");
+    pauseButton = new Button(myStringResources.getString("Play"));
     paused.set(true);
     //TODO: hard coded text/ where should this button be?
     pauseButton.setOnMouseClicked(e -> {
       if (paused.get()) {
-        pauseButton.setText("Pause");
+        pauseButton.setText(myStringResources.getString("Pause"));
         startTimer(gameStats.get(TIME));
         paused.set(false);
       } else {
-        pauseButton.setText("Play");
+        pauseButton.setText(myStringResources.getString("Play"));
         timer.cancel();
         paused.set(true);
       }

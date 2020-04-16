@@ -1,5 +1,7 @@
 package ooga.engine.validator;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import ooga.engine.Cell;
 import ooga.engine.GameProgressManager;
 
@@ -18,11 +20,12 @@ class PairValidatorTest {
         put("LossStat", "MovesUsed");
         put("MovesUsed", "10");
     }};
+    private StringProperty myErrorMessage = new SimpleStringProperty();
 
     @org.junit.jupiter.api.Test
     void checkIsValid() {
         PairValidator pairValidator = new PairValidator();
-        GameProgressManager gp = new GameProgressManager(attributes);
+        GameProgressManager gp = new GameProgressManager(attributes, myErrorMessage);
         List<Cell> cells = new ArrayList<>();
         Cell cellA = new Cell(1, true, 1);
         Cell cellB = new Cell(2, false, 1);
