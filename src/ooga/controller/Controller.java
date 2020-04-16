@@ -30,8 +30,8 @@ public class Controller extends Application {
         Player player = new Player();
         player.startView(stage);
         player.setNewWindow(e->newWindow(new Stage()));
-        player.setLoginAction((username, password) -> data.login(username, password));
-        player.setNewLoginAction(((username, password) -> data.saveNewPlayerProfile(username,password)));
+        player.setLoginAction(data::login);
+        player.setNewLoginAction(data::saveNewPlayerProfile);
         player.setStartGameButton(e -> buildNewEngine(player, data));
         player.setErrorMessage(data.getErrorMessage());
     }
