@@ -1,5 +1,7 @@
 package ooga.player.screens;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -8,6 +10,7 @@ import javafx.scene.control.TextField;
 import ooga.controller.UserLogin;
 import ooga.data.UserProfile;
 import ooga.player.Player;
+
 
 /**
  * Login Screen class that sets up the login screen for a player
@@ -18,6 +21,7 @@ public class LoginScreen extends SuperScreen{
   private TextField username, password;
   private UserLogin myUserLogin;
   private UserProfile userData;
+  private Button newWindowButton;
 
   /**
    * Constructor of this class, calls super to set up instance variables
@@ -43,6 +47,10 @@ public class LoginScreen extends SuperScreen{
    */
   public void giveMeUserLogin(UserLogin thisUserLogin){
     myUserLogin = thisUserLogin;
+  }
+
+  public void setNewWindow(EventHandler<ActionEvent> newWindowAction){
+    newWindowButton.setOnAction(newWindowAction);
   }
 
   private Node setupText(){
@@ -71,8 +79,9 @@ public class LoginScreen extends SuperScreen{
       myPlayer.setUsername(myStringResources.getString("Guest"));
       myPlayer.setUpStartScreen(myErrorMessage.textProperty());
     });
+    newWindowButton = new Button("Add New Window");
     Button newProfileButton = makeButton("NewProfileCommand", e -> myPlayer.setUpNewProfScreen(myErrorMessage.textProperty()));
 
-    return styleContents(loginButton, guestButton, newProfileButton);
+    return styleContents(loginButton, guestButton, newProfileButton, newWindowButton);
   }
 }

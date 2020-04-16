@@ -38,6 +38,7 @@ public class Data implements DataLink {
   private StringProperty errorMessage;
   private UserProfile currentUser;
   private String gameType;
+  private XMLParser gameParser;
 
 
   public Data()
@@ -72,7 +73,7 @@ public class Data implements DataLink {
     try{
       if(myProfileManager.isValid(username, password))
       {
-        currentUser = myProfileManager.getProfile(username);
+        setCurrentUser(myProfileManager.getProfile(username));
         return currentUser;
       }
     } catch (NoUserExistsException | IncorrectPasswordException e)
@@ -93,7 +94,7 @@ public class Data implements DataLink {
   @Override
   public UserProfile saveNewPlayerProfile(String username, String password) {
     try{
-        currentUser = myProfileManager.addProfile(username, password);
+      setCurrentUser(myProfileManager.addProfile(username, password));
     }
     catch(EmptyEntryException | UserAlreadyExistsException
         | NaughtyNameException | InvalidCharacterEntryException e)
@@ -126,11 +127,11 @@ public class Data implements DataLink {
    * @param gameAttributes
    */
   @Override
-  public void saveGame(String username, Map<String, String> gameAttributes, int[][] grid) {
+  public void saveGame(String username, Map<String, String> gameAttributes, int[][] grid, boolean[][] uncoveredCells) {
     if(!username.equals(GUEST_USER))
     {
       String path = String.format(NEW_GAME_PATH_SKELETON, username, gameType);
-      XMLBuilder newGame = new XMLGameBuilder(MAIN_GAME_TAG, path, gameAttributes, grid);
+      XMLBuilder newGame = new XMLGameBuilder(MAIN_GAME_TAG, path, gameAttributes, grid, uncoveredCells);
       currentUser.addSavedGame(gameType, path);
       myProfileManager.updatePLayerXML(currentUser);
     }
@@ -159,7 +160,7 @@ public class Data implements DataLink {
     {
       gamePath = currentUser.getSavedGame(gameType);
     }
-    XMLParser gameParser = new XMLParser(gamePath);
+    gameParser = new XMLParser(gamePath);
     return gameParser.getMapFromXML(myGameResource);
   }
 
@@ -170,8 +171,20 @@ public class Data implements DataLink {
   @Override
   public int[][] getGrid()
   {
-    XMLParser gridParser = new XMLParser(gamePath);
-    return gridParser.getGrid();
+    return gameParser.getGrid();
   }
+
+  public boolean[][] getOpenCells()
+  {
+      return gameParser.getUncoveredCellGrid();
+  }
+
+
+  private void setCurrentUser(UserProfile newCurrent)
+  {
+    currentUser = newCurrent;
+    currentUser.setSaveAction(e -> myProfileManager.updatePLayerXML(currentUser));
+  }
+
 
 }

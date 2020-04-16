@@ -46,7 +46,7 @@ public interface DataLink {
    * @param username
    * @param gameAttributes
    */
-  void saveGame(String username, Map<String, String> gameAttributes, int [][] grid);
+  void saveGame(String username, Map<String, String> gameAttributes, int [][] grid, boolean[][] uncoveredCells);
 
   /**
    * Given a profile and a gameType, the Data interface should be able to return

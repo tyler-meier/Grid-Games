@@ -46,11 +46,19 @@ public class StartScreen extends SuperScreen{
 
   private Node makeGameChoice(){
     Label gameChoice = new Label(myStringResources.getString("GameChoice"));
+<<<<<<< HEAD
     for(String key : Collections.list(myGameNameResources.getKeys())){
         nameOfGameMapping.put(myGameNameResources.getString(key), key);
         games.getItems().add(myGameNameResources.getString(key));
     }
     //games.getItems().addAll("CandyCrush", "BejeweledAction", "BejeweledEndless", "BejeweledPuzzle", "Minesweeper", "Memory", "ClassicMemory");
+=======
+    //for(String key : resourceBundle.ketySet())
+    //{
+    //  games.getItems().add(key);
+    //}
+    games.getItems().addAll("CandyCrush", "BejeweledAction", "BejeweledEndless", "BejeweledPuzzle", "Minesweeper", "Memory", "ClassicMemory");
+>>>>>>> aecea0da993802beb6b10c56bbe65141cf67c646
     //TODO fix hardcoded strings and have them be sent to gamescreen, also do styling for this, reflection?
 
     return styleContents(gameChoice, games);
@@ -59,7 +67,12 @@ public class StartScreen extends SuperScreen{
   private Node setUpButtons(){
     Button startButton = makeButton("StartCommand", e -> {
       try {
+<<<<<<< HEAD
         myPlayer.setGameType(nameOfGameMapping.get(games.getValue()));
+=======
+        //myPlayer.setGameType(resourceBundle.getStringValue(games.getValue()));
+        myPlayer.setGameType(games.getValue());
+>>>>>>> aecea0da993802beb6b10c56bbe65141cf67c646
         myEventEngine.handle(e);
       } catch (NullPointerException p){ //TODO: fix string
         myErrorMessage.textProperty().setValue("No game chosen");
