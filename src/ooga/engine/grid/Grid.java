@@ -3,6 +3,7 @@ package ooga.engine.grid;
 import javafx.beans.property.*;
 import ooga.engine.Cell;
 import ooga.engine.GameProgressManager;
+import ooga.engine.exceptions.InvalidDataException;
 import ooga.engine.matchFinder.MatchFinder;
 import ooga.engine.validator.Validator;
 
@@ -33,7 +34,6 @@ public class Grid {
 
     public Grid(Map<String, String> gameAttributes, Validator validator, MatchFinder matchFinder, StringProperty errorMessage){
         myErrorMessage.bindBidirectional(errorMessage);
-        //TODO: better error handling
         try {
             numSelectedPerMove = Integer.parseInt(gameAttributes.get(NUM_SELECTED_PER_MOVE));
             addNewCells = Boolean.parseBoolean(gameAttributes.get(ADD_NEW_CELLS));
@@ -56,13 +56,17 @@ public class Grid {
         if (myGrid==null) myGrid = new Cell[initialStates.length][initialStates[0].length];
         setupGridStates(initialStates, openCells);
         try{
-            myProgressManager = new GameProgressManager(gameAttributes);
+            myProgressManager = new GameProgressManager(gameAttributes, myErrorMessage);
         } catch (Exception e){
             myErrorMessage.set(e.toString());
         }
         numSelected=0;
     }
 
+    /**
+     * This method returns the states of the grid in the form of a 2D array
+     * @return
+     */
     public int[][] getGridConfiguration(){
         int[][] gridStates = new int[myGrid.length][myGrid[0].length];
         for (int col = 0; col<getCols(); col++){
@@ -85,12 +89,25 @@ public class Grid {
     }
 
     public Map<String, String> getGameAttributes() { return myProgressManager.getGameAttributes(); }
+
+    /**
+     * This method returns the attributes of the current game in a string to integer property mapping.
+     * @return
+     */
     public Map<String, IntegerProperty> getGameStats() { return myProgressManager.getGameStats(); }
 
+    /**
+     * This method returns whether or not the game has been lost.
+     * @return
+     */
     public BooleanProperty getLossStatus(){
         return myProgressManager.isLoss();
     }
 
+    /**
+     * This method returns whether or not the game has been won.
+     * @return
+     */
     public BooleanProperty getWinStatus(){
         return myProgressManager.isWin();
     }
@@ -156,20 +173,17 @@ public class Grid {
             if (noHiddenCells){
                 matchedCells.addAll(myMatchFinder.makeMatches(selectedCells, this));
                 if (matchedCells.size()>0) myProgressManager.decrementMoves();
-                // here, if the swap did not result in matches, the size of matched cells will be zero
             } else {
-                matchedCells.addAll(selectedCells); //we are adding the selected cells so that the points are accounted for
-                matchedCells.addAll(myMatchFinder.makeMatches(this)); //minesweeper game
+                matchedCells.addAll(selectedCells);
+                matchedCells.addAll(myMatchFinder.makeMatches(this));
             }
             while (matchedCells.size()>0){
                 if (!noHiddenCells) {
                     openMatchedCells(matchedCells);
                 }
                 else {
-                    // here we are deleting the matched cells and re-felling the board
                     deleteMatchedCells(matchedCells);
                 }
-                // here we are looking at the board as a whole and adding matched cells
                 matchedCells.addAll(myMatchFinder.makeMatches(this));
             }
          }
