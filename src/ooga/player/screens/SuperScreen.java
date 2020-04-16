@@ -36,7 +36,6 @@ public abstract class SuperScreen {
   protected EventHandler<ActionEvent> myEventEngine;
   protected String myGameType;
   protected UserLogin myUserLogin;
-  protected UserProfile myUserProfile;
 
   /**
    * Constructor for super screen class that sets the instance variables

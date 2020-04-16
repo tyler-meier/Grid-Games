@@ -6,6 +6,7 @@ import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -46,7 +47,7 @@ public class GameScreen extends SuperScreen{
   private Timer timer;
   private VBox verticalPanel;
   private Button pauseButton;
-  private IntegerProperty score;
+  private IntegerProperty score = new SimpleIntegerProperty();
   //TODO: make pause work with selecting
 
   public GameScreen(EventHandler<ActionEvent> engine, String gameType, Player player){
@@ -108,6 +109,7 @@ public class GameScreen extends SuperScreen{
         pauseButton.setText("Play");
         paused.set(true);
       }
+      myPlayer.getMyUserProfile().addHighScore(myGameType, score.getValue());
       myPlayer.getSaveButtonEvent().handle(e);
     });
 
@@ -119,14 +121,15 @@ public class GameScreen extends SuperScreen{
     HBox toolBar = new HBox();
     Button homeButton = makeButton("HomeCommand", e-> myPlayer.setUpStartScreen(myErrorMessage.textProperty()));
 
-    TimeKeeper timer = new TimeKeeper();
-    timer.addTimeline();
-    String time = timer.getText();
-    Label stopWatch = new Label("TIME: " + time);
+//    TimeKeeper timer = new TimeKeeper();
+//    timer.addTimeline();
+//    String time = timer.getText();
+//    Label stopWatch = new Label("TIME: " + time);
 
 //    Button customView = makeButton("Customize", e-> myPlayer.setUpCustomView());
+    Label name = new Label(myGameType);
 
-    toolBar.getChildren().addAll(homeButton, stopWatch);
+    toolBar.getChildren().addAll(homeButton, name);
     toolBar.setSpacing(45);
     return toolBar;
   }
@@ -169,7 +172,9 @@ public class GameScreen extends SuperScreen{
       IntegerProperty stat = gameStats.get(key);
       stats.getChildren().add(makeLabel(stat, key));
     }
-    //stats.getChildren().add(new HBox(new Label("High Score: "), new Label(myUserProfile.getHighScore(myGameType))));
+    if (myPlayer.getMyUserProfile() != null){
+      stats.getChildren().add(new HBox(new Label("High Score: "), new Label(myPlayer.getMyUserProfile().getHighScore(myGameType))));
+    }
     stats.setSpacing(10);
     stats.setAlignment(Pos.CENTER);
     verticalPanel.getChildren().add(stats);
@@ -219,8 +224,14 @@ public class GameScreen extends SuperScreen{
   public void setGameStatus(BooleanProperty isLoss, BooleanProperty isWin){
     this.isLoss.bind(isLoss);
     this.isWin.bind(isWin);
-    this.isLoss.addListener((obs, oldv, newv) -> myPlayer.setUpLossScreen());
-    this.isWin.addListener((obs, oldv, newv) -> myPlayer.setUpWonLevelScreen()); //TODO: fix for when level is won or game
+    this.isLoss.addListener((obs, oldv, newv) -> {
+      myPlayer.getMyUserProfile().addHighScore(myGameType, score.getValue());
+      myPlayer.setUpLossScreen();
+    });
+    this.isWin.addListener((obs, oldv, newv) -> {
+      myPlayer.getMyUserProfile().addHighScore(myGameType, score.getValue());
+      myPlayer.setUpWonLevelScreen();
+    }); //TODO: fix for when level is won or game
   }
 
 }

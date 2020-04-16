@@ -8,6 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import ooga.controller.UserLogin;
+import ooga.data.UserProfile;
 import ooga.player.Player;
 
 
@@ -66,8 +67,9 @@ public class LoginScreen extends SuperScreen{
 
   private Node setUpButtons(){
     Button loginButton = makeButton("LoginButtonCommand", e -> {
-      myUserProfile = myUserLogin.getProfile(username.getText(), password.getText());
+      UserProfile myUserProfile = myUserLogin.getProfile(username.getText(), password.getText());
       if(myUserProfile != null){
+        myPlayer.setUserProfile(myUserProfile);
         myPlayer.setUsername(myUserProfile.getUsername());
         myPlayer.setUpStartScreen(myErrorMessage.textProperty());
       }

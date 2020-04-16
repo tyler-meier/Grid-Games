@@ -79,12 +79,12 @@ public class UserProfile {
      * @param type
      * @return
      */
-    public int getHighScore(String type){
+    public String getHighScore(String type){
         if(!highScores.containsKey(type))
         {
-            return 0;
+            return "0";
         }
-        return highScores.get(type);
+        return highScores.get(type).toString();
     }
 
     public String getSavedGame(String type){
