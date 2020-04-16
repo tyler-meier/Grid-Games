@@ -72,6 +72,10 @@ public class Player implements PlayerStart{
     myStage.setScene(myWonLevelScreen.setUpScene());
   }
 
+  public void setNewWindow(EventHandler<ActionEvent> newWindowAction){
+    myLoginScreen.setNewWindow(newWindowAction);
+  }
+
   public void setUpWonGameScreen(){
     myWonGameScreen = new WonGameScreen(this);
     myStage.setScene(myWonGameScreen.setUpScene());

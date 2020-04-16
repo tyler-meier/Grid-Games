@@ -42,6 +42,10 @@ public class StartScreen extends SuperScreen{
 
   private Node makeGameChoice(){
     Label gameChoice = new Label(myStringResources.getString("GameChoice"));
+    //for(String key : resourceBundle.ketySet())
+    //{
+    //  games.getItems().add(key);
+    //}
     games.getItems().addAll("CandyCrush", "BejeweledAction", "BejeweledEndless", "BejeweledPuzzle", "Minesweeper", "Memory", "ClassicMemory");
     //TODO fix hardcoded strings and have them be sent to gamescreen, also do styling for this, reflection?
 
@@ -51,6 +55,7 @@ public class StartScreen extends SuperScreen{
   private Node setUpButtons(){
     Button startButton = makeButton("StartCommand", e -> {
       try {
+        //myPlayer.setGameType(resourceBundle.getStringValue(games.getValue()));
         myPlayer.setGameType(games.getValue());
         myEventEngine.handle(e);
       } catch (NullPointerException p){ //TODO: fix string
