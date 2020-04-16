@@ -126,7 +126,7 @@ public class GameScreen extends SuperScreen{
 
 //    Button customView = makeButton("Customize", e-> myPlayer.setUpCustomView());
 
-    //toolBar.getChildren().addAll(homeButton, stopWatch);
+    toolBar.getChildren().addAll(homeButton);
     toolBar.setSpacing(SPACING_2);
     return toolBar;
   }
