@@ -20,7 +20,7 @@ public class Player implements PlayerStart{
   private LossScreen myLossScreen;
   private WonLevelScreen myWonLevelScreen;
   private WonGameScreen myWonGameScreen;
-//  private CustomView myCustomView;
+  private CustomView myCustomView;
   private String myGameType, currentUsername;
   private UserLogin myUserLogin;
   private EventHandler<ActionEvent> myEngine, myResetEngine, mySaveEngine;
@@ -36,18 +36,27 @@ public class Player implements PlayerStart{
     myStage.show();
   }
 
+  /**
+   * sets up new start screen
+   */
   public void setUpStartScreen(){
     myStartScreen = new StartScreen(myEngine, this);
     myStage.setScene(myStartScreen.setUpScene());
   }
 
+  /**
+   * sets up new profile screen
+   */
   public void setUpNewProfScreen(){
     myNewProfScreen = new NewProfileScreen(myUserLogin, this);
     myStage.setScene(myNewProfScreen.setUpScene());
   }
 
+  /**
+   * sets up game screen
+   * @param backendGrid
+   */
   public void setUpGameScreen(Grid backendGrid){   //TODO Pass through game type?
-    //does engine have a method that returns backendgrid that corresponds to default gametype xml?
     myGameScreen = new GameScreen(myEngine, myGameType, this);
     myStage.setScene(myGameScreen.makeScene(800, 500));  //TODO: magic numbers, get dimensions?
     myGameScreen.setGrid(backendGrid);
@@ -55,15 +64,24 @@ public class Player implements PlayerStart{
     myGameScreen.setGameStatus(backendGrid.getLossStatus(), backendGrid.getWinStatus());
   }
 
+  /**
+   * sets up login screen
+   */
   public void setUpLoginScreen(){
     myStage.setScene(myLoginScreen.setUpScene());
   }
 
+  /**
+   * creates scene when game is lost, sets on stage
+   */
   public void setUpLossScreen(){
     myLossScreen = new LossScreen(this);
     myStage.setScene(myLossScreen.setUpScene());
   }
 
+  /**
+   * creates screen when game is won, sets on stage
+   */
   public void setUpWonLevelScreen(){
     myWonLevelScreen = new WonLevelScreen(this);
     myStage.setScene(myWonLevelScreen.setUpScene());
@@ -73,11 +91,11 @@ public class Player implements PlayerStart{
     myWonGameScreen = new WonGameScreen(this);
     myStage.setScene(myWonGameScreen.setUpScene());
   }
-//
-//  public void setUpCustomView(){
-//    myCustomView = new CustomView(this);
-//    myStage.setScene(myCustomView.setUpScene());
-//  }
+
+  public void setUpCustomView(){
+    myCustomView = new CustomView(this);
+    myCustomView.display();
+  }
 
   public void setLoginAction(UserLogin userLogin){
     myLoginScreen.giveMeUserLogin(userLogin);
@@ -100,6 +118,16 @@ public class Player implements PlayerStart{
   public EventHandler getSaveButtonEvent() {
     return mySaveEngine;
   }
+
+  /**
+   * changes css style of all screens
+   * @param modeType
+   */
+  public void setMode(String modeType) {
+    //TODO: get rid of redundant code
+    myCustomView.setStyle(modeType);
+    myGameScreen.setStyle(modeType);
+}
 
 //  public void setGameStats(Map<String, IntegerProperty> gameAttributes) {
 //    myGameScreen.setStats(gameAttributes);

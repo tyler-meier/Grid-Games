@@ -22,7 +22,7 @@ public class UICell {
 
     private static final String RESOURCES = "ooga/player/Resources/";
     private static final String DEFAULT_RESOURCE_PACKAGE = RESOURCES.replace("/", ".");
-    private static final String IMAGERESOURCES = "src/ooga/player/Resources/Images/";
+    private static final String IMAGERESOURCES = "src/ooga/player/Resources/images/";
     private static final String DEFAULT_IMAGERESOURCE_PACKAGE = IMAGERESOURCES.replace("/", ".");
     private static final String HIDDEN_IMAGE_PATH = "question";
     private BooleanProperty paused = new SimpleBooleanProperty();
@@ -79,7 +79,6 @@ public class UICell {
         myImageView.setFitHeight(cellHeight);
         myImageView.setFitWidth(cellWidth);
     }
-
 
     private void changeImage(){
          if (open.get()) myImageView.setImage(getImage());

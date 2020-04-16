@@ -35,12 +35,6 @@ public class GameScreen extends SuperScreen{
   private GridView myGrid;
   private GridPane myGridPane;
   private BorderPane myRoot;
-  private Scene thisScene;
-//  IntegerProperty myHighScore = new SimpleIntegerProperty();
-//  IntegerProperty myScore = new SimpleIntegerProperty();
-//  IntegerProperty myLives = new SimpleIntegerProperty();
-//  IntegerProperty myLevel = new SimpleIntegerProperty();
-//  IntegerProperty myMovesLeft = new SimpleIntegerProperty();
   private BooleanProperty isLoss = new SimpleBooleanProperty();
   private BooleanProperty isWin = new SimpleBooleanProperty();
   private BooleanProperty paused = new SimpleBooleanProperty(false);
@@ -80,8 +74,8 @@ public class GameScreen extends SuperScreen{
     Scene scene = new Scene(myRoot, height, width);
     scene.getStylesheets().add(getClass().getResource(DEFAULT_RESOURCE_FOLDER + styleSheet).toExternalForm());
 
-    thisScene = scene;
-    return scene;
+    myScene = scene;
+    return myScene;
   }
 
   public void setGrid(Grid backendGrid){
@@ -101,7 +95,7 @@ public class GameScreen extends SuperScreen{
       }
     });
 //    Button resetLevelButton = makeButton("ResetLevelCommand", e-> myPlayer.setUpGameScreen(myPlayer.getGrid()));
-    Button saveButton = makeButton("Save Command", e->{
+    Button saveButton = makeButton("SaveCommand", e->{
       //myPlayer.getSaveButtonEvent().handle();
     });
 
@@ -118,22 +112,12 @@ public class GameScreen extends SuperScreen{
     String time = timer.getText();
     Label stopWatch = new Label("TIME: " + time);
 
-//    Button customView = makeButton("Customize", e-> myPlayer.setUpCustomView());
+    Button customView = makeButton("CustomCommand", e-> myPlayer.setUpCustomView());
 
-    toolBar.getChildren().addAll(homeButton, stopWatch);
+    toolBar.getChildren().addAll(homeButton, stopWatch, customView);
     toolBar.setSpacing(45);
     return toolBar;
   }
-
-//  private Node makeStatsPanel() {
-//    //TODO: refactor this, use keys from the gamestats to display correct stirng
-//    VBox stats = new VBox();
-//    //stats.getChildren().addAll(makeLabel(myHighScore), makeLabel(myScore), makeLabel(myLives), makeLabel(myLevel), makeLabel(myMovesLeft), makeLabel(lossStat));
-//    stats.setSpacing(10);
-//    stats.setAlignment(Pos.CENTER);
-//    return stats;
-//  }
-
 
   private Node makeLabel(IntegerProperty integerProperty, String key) {
     HBox box = new HBox();
@@ -145,16 +129,6 @@ public class GameScreen extends SuperScreen{
   }
 
   public void setStats(Map<String, IntegerProperty> gameStats){
-    //TODO: how do you get high score of profile?, use game type that is global variable
-//    myScore.bind(gameStats.get("Score"));
-//    myHighScore.bind(gameStats.get("Score"));
-//    //TODO: get number of lives
-//    myLives.bind(gameStats.get("Level"));
-//    myLevel.bind(gameStats.get("Level"));
-//    myMovesLeft.bind(gameStats.get("MovesUsed"));
-//    //TODO: implement timekeeper
-//    gameStats.get("Time").bind(myTime);
-
     VBox stats = new VBox();
     for (String key:gameStats.keySet()){
       IntegerProperty stat = gameStats.get(key);
