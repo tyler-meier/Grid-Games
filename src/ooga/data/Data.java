@@ -38,6 +38,7 @@ public class Data implements DataLink {
   private StringProperty errorMessage;
   private UserProfile currentUser;
   private String gameType;
+  private XMLParser gameParser;
 
 
   public Data()
@@ -159,7 +160,7 @@ public class Data implements DataLink {
     {
       gamePath = currentUser.getSavedGame(gameType);
     }
-    XMLParser gameParser = new XMLParser(gamePath);
+    gameParser = new XMLParser(gamePath);
     return gameParser.getMapFromXML(myGameResource);
   }
 
@@ -170,13 +171,12 @@ public class Data implements DataLink {
   @Override
   public int[][] getGrid()
   {
-    XMLParser gridParser = new XMLParser(gamePath);
-    return gridParser.getGrid();
+    return gameParser.getGrid();
   }
 
   public boolean[][] getOpenCells()
   {
-      return null;
+      return gameParser.getUncoveredCellGrid();
   }
 
 
