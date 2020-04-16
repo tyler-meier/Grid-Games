@@ -47,6 +47,7 @@ public class GameScreen extends SuperScreen{
   private Timer timer;
   private VBox verticalPanel;
   private Button pauseButton;
+  private Button resetGameButton;
   //TODO: make pause work with selecting
 
   public GameScreen(EventHandler<ActionEvent> engine, String gameType, Player player){
@@ -93,13 +94,7 @@ public class GameScreen extends SuperScreen{
   private Node makeButtonPanel() {
     Button logoutButton = makeButton("LogoutCommand", e-> myPlayer.setUpLoginScreen());
     //TODO: fix this
-    Button resetGameButton = makeButton("ResetGameCommand", e-> {
-      try {
-        myEventEngine.handle(e);
-      } catch (NullPointerException p){ //TODO: change to actual set error thing
-        System.out.println("WRONG");
-      }
-    });
+    Button resetGameButton = makeButton("ResetGameCommand", myEventEngine);
 //    Button resetLevelButton = makeButton("ResetLevelCommand", e-> myPlayer.setUpGameScreen(myPlayer.getGrid()));
     Button saveButton = makeButton("SaveCommand", e->{
       if(verticalPanel.getChildren().contains(pauseButton))
@@ -131,15 +126,6 @@ public class GameScreen extends SuperScreen{
     return toolBar;
   }
 
-//  private Node makeStatsPanel() {
-//    //TODO: refactor this, use keys from the gamestats to display correct stirng
-//    VBox stats = new VBox();
-//    //stats.getChildren().addAll(makeLabel(myHighScore), makeLabel(myScore), makeLabel(myLives), makeLabel(myLevel), makeLabel(myMovesLeft), makeLabel(lossStat));
-//    stats.setSpacing(10);
-//    stats.setAlignment(Pos.CENTER);
-//    return stats;
-//  }
-
 
   private Node makeLabel(IntegerProperty integerProperty, String key) {
     HBox box = new HBox();
@@ -151,16 +137,6 @@ public class GameScreen extends SuperScreen{
   }
 
   public void setStats(Map<String, IntegerProperty> gameStats){
-    //TODO: how do you get high score of profile?, use game type that is global variable
-//    myScore.bind(gameStats.get("Score"));
-//    myHighScore.bind(gameStats.get("Score"));
-//    //TODO: get number of lives
-//    myLives.bind(gameStats.get("Level"));
-//    myLevel.bind(gameStats.get("Level"));
-//    myMovesLeft.bind(gameStats.get("MovesUsed"));
-//    //TODO: implement timekeeper
-//    gameStats.get("Time").bind(myTime);
-
     VBox stats = new VBox();
     for (String key:gameStats.keySet()){
       IntegerProperty stat = gameStats.get(key);
