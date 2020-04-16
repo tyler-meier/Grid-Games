@@ -203,11 +203,15 @@ public class GameScreen extends SuperScreen{
     this.isLoss.bind(isLoss);
     this.isWin.bind(isWin);
     this.isLoss.addListener((obs, oldv, newv) -> {
-      myPlayer.getMyUserProfile().addHighScore(myGameType, score.getValue());
+      if(myPlayer.getMyUserProfile() != null){
+        myPlayer.getMyUserProfile().addHighScore(myGameType, score.getValue());
+      }
       myPlayer.setUpLossScreen();
     });
     this.isWin.addListener((obs, oldv, newv) -> {
-      myPlayer.getMyUserProfile().addHighScore(myGameType, score.getValue());
+      if(myPlayer.getMyUserProfile() != null){
+        myPlayer.getMyUserProfile().addHighScore(myGameType, score.getValue());
+      }
       myPlayer.setUpWonLevelScreen();
     }); //TODO: fix for when level is won or game
   }
