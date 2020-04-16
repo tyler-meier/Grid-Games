@@ -6,7 +6,6 @@ import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -47,6 +46,7 @@ public class GameScreen extends SuperScreen{
   private Timer timer;
   private VBox verticalPanel;
   private Button pauseButton;
+  private IntegerProperty score;
   //TODO: make pause work with selecting
 
   public GameScreen(EventHandler<ActionEvent> engine, String gameType, Player player){
@@ -146,6 +146,9 @@ public class GameScreen extends SuperScreen{
     Label name = new Label(key+": ");
     Label value = new Label();
     value.textProperty().bind(integerProperty.asString());
+    if (key.equals("Score")){
+      score.bind(integerProperty);
+    }
     box.getChildren().addAll(name, value);
     return box;
   }
@@ -166,6 +169,7 @@ public class GameScreen extends SuperScreen{
       IntegerProperty stat = gameStats.get(key);
       stats.getChildren().add(makeLabel(stat, key));
     }
+    //stats.getChildren().add(new HBox(new Label("High Score: "), new Label(myUserProfile.getHighScore(myGameType))));
     stats.setSpacing(10);
     stats.setAlignment(Pos.CENTER);
     verticalPanel.getChildren().add(stats);
