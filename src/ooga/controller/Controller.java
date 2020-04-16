@@ -11,8 +11,6 @@ import java.util.Map;
 
 
 public class Controller extends Application {
-    private Data data = new Data();
-
     public static void main(String[] args) {
         launch(args);
     }
@@ -28,16 +26,17 @@ public class Controller extends Application {
     }
 
     private void newWindow(Stage stage){
+        Data data = new Data();
         Player player = new Player();
         player.startView(stage);
         player.setNewWindow(e->newWindow(new Stage()));
         player.setLoginAction((username, password) -> data.login(username, password));
         player.setNewLoginAction(((username, password) -> data.saveNewPlayerProfile(username,password)));
-        player.setStartGameButton(e -> buildNewEngine(player));
+        player.setStartGameButton(e -> buildNewEngine(player, data));
         player.setErrorMessage(data.getErrorMessage());
     }
 
-    private void buildNewEngine(Player player){
+    private void buildNewEngine(Player player, Data data){
         String type = player.getGameType();
         String username = player.getUsername();
         Map<String, String> myEngineAttributes = data.getEngineAttributes(type);
