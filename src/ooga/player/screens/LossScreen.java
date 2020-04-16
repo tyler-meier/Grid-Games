@@ -31,8 +31,8 @@ public class LossScreen extends SuperScreen {
 
   private Parent setUpContents(){
     Label lossLabel = new Label(myStringResources.getString("Loss"));
-    Button homeButton = makeButton("HomeCommand", e -> myPlayer.setUpStartScreen());
-    Button resetButton = makeButton("ResetLevelCommand", e-> myPlayer.setUpStartScreen()); //TODO: fix reset button
+    Button homeButton = makeButton("HomeCommand", e -> myPlayer.setUpStartScreen(myErrorMessage.textProperty()));
+    Button resetButton = makeButton("ResetLevelCommand", e-> myPlayer.setUpStartScreen(myErrorMessage.textProperty())); //TODO: fix reset button
     return (Parent) styleContents(lossLabel, homeButton, resetButton);
   }
 }
