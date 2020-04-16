@@ -22,6 +22,7 @@ public class XMLParser {
   private final String ZERO_DEFAULT_VALUE= "0";
   private final String NUM_ROWS_TAG= "numRows";
   private final String NUM_COLUMNS_TAG= "numColumns";
+  private final String UNCOVERED_CELL_TAG = "uncoveredCellRow";
 
   private Document doc;
 
@@ -115,6 +116,36 @@ public class XMLParser {
     }
     return grid;
   }
+
+  public boolean[][] getUncoveredCellGrid()
+  {
+
+    int numRows = getIntegerElementByTag(NUM_ROWS_TAG, ZERO_DEFAULT_VALUE);
+    int numCols = getIntegerElementByTag(NUM_COLUMNS_TAG, ZERO_DEFAULT_VALUE);
+    boolean[][] grid = new boolean[numRows][numCols];
+
+    NodeList nodeList = doc.getElementsByTagName(UNCOVERED_CELL_TAG);
+    if (nodeList.getLength()==0) return null;
+
+    for (int r = ZERO_INDEX; r < nodeList.getLength(); r++)
+    {
+      Node node = nodeList.item(r);
+      try{
+        String [] states = node.getTextContent().split(GRID_DELIMINATOR);
+        for(int c = ZERO_INDEX; c < numCols; c++)
+        {
+          grid[r][c] = Boolean.parseBoolean(states[c]);
+        }
+      }
+      catch(Exception e)
+      {
+        return null;
+      }
+    }
+    return grid;
+
+  }
+
 
   /**
    * Gets the string within tag tagName

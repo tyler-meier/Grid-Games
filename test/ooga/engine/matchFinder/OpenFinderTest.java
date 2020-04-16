@@ -34,7 +34,7 @@ class OpenFinderTest {
         MatchFinder matchFinder = new OpenFinder();
         StringProperty errorMessage = new SimpleStringProperty();
         Grid myGrid = new Grid(gameAttributes, validator, matchFinder, errorMessage);
-        myGrid.setNewGame(initialConfig, gameAttributes);
+        myGrid.setNewGame(initialConfig, gameAttributes, null);
         // now we have a grid with states and everything
         List<Cell> ret = new ArrayList<>();
         ret.add(myGrid.getCell(2,0));
@@ -42,13 +42,13 @@ class OpenFinderTest {
         ret.add(myGrid.getCell(2,2));
         assertEquals(ret, matchFinder.makeMatches(myGrid));
         ret.clear();
-        myGrid.setNewGame(initialConfig2, gameAttributes);
+        myGrid.setNewGame(initialConfig2, gameAttributes, null);
         assertEquals(ret, matchFinder.makeMatches(myGrid));
         ret.add(myGrid.getCell(1,0));
         ret.add(myGrid.getCell(2,0));
         ret.add(myGrid.getCell(3,0));
         ret.add(myGrid.getCell(0,0));
-        myGrid.setNewGame(initialConfig3, gameAttributes);
+        myGrid.setNewGame(initialConfig3, gameAttributes, null);
     }
 
 }

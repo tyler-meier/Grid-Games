@@ -61,7 +61,7 @@ public class NewProfileScreen extends SuperScreen{
       userData = myUserLogin.getProfile(newUsername.getText(), newPassword.getText());
       if (userData != null){
         myPlayer.setUsername(userData.getUsername());
-        myPlayer.setUpStartScreen();
+        myPlayer.setUpStartScreen(myErrorMessage.textProperty());
       }
     });
     Button backButton = makeButton("BackButtonCommand", e -> myPlayer.setUpLoginScreen());

@@ -4,6 +4,8 @@ package ooga.data;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 
 /**
  * This class allows us to send all this information
@@ -24,6 +26,7 @@ public class UserProfile {
     private boolean parentalControls;
     private boolean darkMode;
     private Map<String, String> totalUserMap = new HashMap<>();
+    private EventHandler<ActionEvent> mySaveAction;
 
 
     public UserProfile(String username, String password)
@@ -61,7 +64,13 @@ public class UserProfile {
     public void addHighScore(String type, int score){
         if (!highScores.containsKey(type) || highScores.get(type) < score) {
             highScores.put(type, score);
+            save();
         }
+
+    }
+
+    public void setSaveAction(EventHandler<ActionEvent> saveAction){
+        mySaveAction = saveAction;
     }
 
     /**
@@ -71,6 +80,10 @@ public class UserProfile {
      * @return
      */
     public int getHighScore(String type){
+        if(!highScores.containsKey(type))
+        {
+            return 0;
+        }
         return highScores.get(type);
     }
 
@@ -85,6 +98,7 @@ public class UserProfile {
     public void setDarkMode(boolean stateOfDarkMode)
     {
         darkMode = stateOfDarkMode;
+        save();
     }
 
     public boolean getDarkMode()
@@ -95,6 +109,7 @@ public class UserProfile {
     public void setParentalControls(boolean stateOfParentalControls)
     {
         parentalControls = stateOfParentalControls;
+        save();
     }
 
     public boolean getParentalControls()
@@ -139,6 +154,12 @@ public class UserProfile {
     {
         return totalUserMap;
     }
+
+    private void save()
+    {
+        if (mySaveAction!=null) mySaveAction.handle(new ActionEvent());
+    }
+
 
 
 }

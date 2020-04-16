@@ -36,32 +36,26 @@ public class Player implements PlayerStart{
     myStage.show();
   }
 
-  /**
-   * sets up new start screen
-   */
-  public void setUpStartScreen(){
+  public void setUpStartScreen(StringProperty dataError){
     myStartScreen = new StartScreen(myEngine, this);
+    myStartScreen.setError(dataError);
     myStage.setScene(myStartScreen.setUpScene());
   }
 
-  /**
-   * sets up new profile screen
-   */
-  public void setUpNewProfScreen(){
+  public void setUpNewProfScreen(StringProperty dataError){
     myNewProfScreen = new NewProfileScreen(myUserLogin, this);
+    myNewProfScreen.setError(dataError);
     myStage.setScene(myNewProfScreen.setUpScene());
   }
 
-  /**
-   * sets up game screen
-   * @param backendGrid
-   */
-  public void setUpGameScreen(Grid backendGrid){   //TODO Pass through game type?
-    myGameScreen = new GameScreen(myEngine, myGameType, this);
+  public void setUpGameScreen(Grid backendGrid, StringProperty dataError){   //TODO Pass through game type?
+    //does engine have a method that returns backendgrid that corresponds to default gametype xml?
+    myGameScreen = new GameScreen(myResetEngine, myGameType, this);
     myStage.setScene(myGameScreen.makeScene(800, 500));  //TODO: magic numbers, get dimensions?
     myGameScreen.setGrid(backendGrid);
     myGameScreen.setStats(backendGrid.getGameStats());
     myGameScreen.setGameStatus(backendGrid.getLossStatus(), backendGrid.getWinStatus());
+    myGameScreen.setError(dataError);
   }
 
   /**
@@ -87,6 +81,10 @@ public class Player implements PlayerStart{
     myStage.setScene(myWonLevelScreen.setUpScene());
   }
 
+  public void setNewWindow(EventHandler<ActionEvent> newWindowAction){
+    myLoginScreen.setNewWindow(newWindowAction);
+  }
+
   public void setUpWonGameScreen(){
     myWonGameScreen = new WonGameScreen(this);
     myStage.setScene(myWonGameScreen.setUpScene());
@@ -105,17 +103,15 @@ public class Player implements PlayerStart{
     myUserLogin = userLogin;
   }
 
-  public void setStartGameButton(EventHandler engine){
+  public void setStartGameButton(EventHandler<ActionEvent> engine){
     myEngine = engine;
   }
 
-  public void setResetButton(EventHandler engine) {
-    myResetEngine = engine;
-  }
+  public void setResetButton(EventHandler<ActionEvent> engine) { myResetEngine = engine; }
 
-  public void setSaveButton(EventHandler engine) { mySaveEngine = engine;}
+  public void setSaveButton(EventHandler<ActionEvent> engine) { mySaveEngine = engine;}
 
-  public EventHandler getSaveButtonEvent() {
+  public EventHandler<ActionEvent> getSaveButtonEvent() {
     return mySaveEngine;
   }
 

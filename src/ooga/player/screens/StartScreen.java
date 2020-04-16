@@ -8,6 +8,9 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import ooga.player.Player;
 
+import java.lang.reflect.Array;
+import java.util.*;
+
 /**
  * Start screen class which serves as the home screen of a player's profile and where a game is chosen
  * @author Tyler Meier
@@ -15,6 +18,7 @@ import ooga.player.Player;
 public class StartScreen extends SuperScreen{
 
   private ComboBox<String> games = new ComboBox<>();
+  private Map<String, String> nameOfGameMapping = new HashMap<>();
 
   /**
    * Constructor of this class, calls super to set up instance variables
@@ -42,7 +46,10 @@ public class StartScreen extends SuperScreen{
 
   private Node makeGameChoice(){
     Label gameChoice = new Label(myStringResources.getString("GameChoice"));
-    games.getItems().addAll("CandyCrush", "BejeweledAction", "BejeweledEndless", "BejeweledPuzzle", "Minesweeper", "Memory");
+    for(String key : Collections.list(myGameNameResources.getKeys())){
+        nameOfGameMapping.put(myGameNameResources.getString(key), key);
+        games.getItems().add(myGameNameResources.getString(key));
+    }
     //TODO fix hardcoded strings and have them be sent to gamescreen, also do styling for this, reflection?
 
     return styleContents(gameChoice, games);
@@ -51,7 +58,7 @@ public class StartScreen extends SuperScreen{
   private Node setUpButtons(){
     Button startButton = makeButton("StartCommand", e -> {
       try {
-        myPlayer.setGameType(games.getValue());
+        myPlayer.setGameType(nameOfGameMapping.get(games.getValue()));
         myEventEngine.handle(e);
       } catch (NullPointerException p){ //TODO: fix string
         myErrorMessage.textProperty().setValue("No game chosen");
@@ -60,4 +67,5 @@ public class StartScreen extends SuperScreen{
     Button logoutButton = makeButton("LogoutCommand", e -> myPlayer.setUpLoginScreen());
     return styleContents(startButton, logoutButton);
   }
+
 }
