@@ -43,10 +43,9 @@ public interface DataLink {
    * must be able to save that information to the profile. The profile can
    * be found any number of ways and the attributes can be saved with whatever data
    * file you choose
-   * @param username
    * @param gameAttributes
    */
-  void saveGame(String username, Map<String, String> gameAttributes, int [][] grid, boolean[][] uncoveredCells);
+  void saveGame(Map<String, String> gameAttributes, int [][] grid, boolean[][] uncoveredCells);
 
   /**
    * Given a profile and a gameType, the Data interface should be able to return

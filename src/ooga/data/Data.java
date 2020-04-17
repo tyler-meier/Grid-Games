@@ -123,23 +123,15 @@ public class Data implements DataLink {
    * Given a profile and the current engine attributes, the method will
    * translate that object into Strings, utilize a parser to create a new XML
    * document and then save the path of that document to the profile of that user
-   * @param username
    * @param gameAttributes
    */
   @Override
-  public void saveGame(String username, Map<String, String> gameAttributes, int[][] grid, boolean[][] uncoveredCells) {
-    if(!username.equals(GUEST_USER))
-    {
-      String path = String.format(NEW_GAME_PATH_SKELETON, username, gameType);
+  public void saveGame(Map<String, String> gameAttributes, int[][] grid, boolean[][] uncoveredCells) {
+      String path = String.format(NEW_GAME_PATH_SKELETON, currentUser.getUsername(), gameType);
       XMLBuilder newGame = new XMLGameBuilder(MAIN_GAME_TAG, path, gameAttributes, grid, uncoveredCells);
       currentUser.addSavedGame(gameType, path);
       myProfileManager.updatePLayerXML(currentUser);
-    }
-    else
-    {
-      errorMessage.setValue("You can't save as a guest!");
-      System.out.println(errorMessage.get());
-    }
+      errorMessage.setValue("Game Saved!");
   }
 
   /**
