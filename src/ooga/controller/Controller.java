@@ -52,7 +52,6 @@ public class Controller extends Application {
             engine.setupGame(newInitialStates, newGameAttributes, newOpenCells);
             player.setUpGameScreen(engine.getGrid(), data.getErrorMessage());
         });
-
         player.setUpGameScreen(engine.getGrid(), data.getErrorMessage());
     }
 }
