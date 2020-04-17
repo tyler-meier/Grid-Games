@@ -33,7 +33,7 @@ public class WonLevelScreen extends SuperScreen{
     Label winLevelLabel = new Label(myStringResources.getString("WonLevel"));
     Button nextLevelButton = makeButton("NextLevelCommand", e -> myPlayer.setUpStartScreen(myErrorMessage.textProperty())); //TODO: fix next level  button
     Button homeButton = makeButton("HomeCommand", e -> myPlayer.setUpStartScreen(myErrorMessage.textProperty()));
-    Button saveButton = makeButton("SaveCommand", e-> myPlayer.setUpStartScreen(myErrorMessage.textProperty())); //TODO: fix save button
+    Button saveButton = makeButton("SaveCommand", myEventEngine);
     return (Parent) styleContents(winLevelLabel, nextLevelButton, homeButton, saveButton);
   }
 }
