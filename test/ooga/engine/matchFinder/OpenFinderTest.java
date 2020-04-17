@@ -26,6 +26,7 @@ class OpenFinderTest {
         put("MaxStateNumber", "6");
         put("HasHiddenCells", "true");
         put("PointsPerCell", "5");
+        put("SecondsOpen", "5");
     }};
 
     @Test
