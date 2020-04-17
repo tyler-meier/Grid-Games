@@ -11,7 +11,6 @@ public class PairValidator extends Validator {
 
     @Override
     public boolean checkIsValid(List<Cell> selected, GameProgressManager myProgressManager) {
-        myProgressManager.decrementMoves();
         for (Cell cell:selected) {
             if (cell.isOpen().get()){
                 return false;
@@ -25,6 +24,7 @@ public class PairValidator extends Validator {
         }
 
         if (!matched){
+            myProgressManager.decrementMoves();
             Timer timer = new Timer();
             timer.schedule(new TimerTask() {
                 @Override
