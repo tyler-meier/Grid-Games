@@ -1,8 +1,6 @@
 package ooga.controller;
 
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.stage.Stage;
 import ooga.data.Data;
 import ooga.engine.Engine;

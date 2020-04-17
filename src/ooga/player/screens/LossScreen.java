@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import ooga.player.Player;
+import ooga.player.screens.SuperScreen;
 
 /**
  * The loss screen, which pops up when a player loses a level of a game

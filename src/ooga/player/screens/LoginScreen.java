@@ -10,15 +10,15 @@ import javafx.scene.control.TextField;
 import ooga.controller.UserLogin;
 import ooga.data.UserProfile;
 import ooga.player.Player;
+import ooga.player.screens.SuperScreen;
 
 /**
  * Login Screen class that sets up the login screen for a player
  * @author Tyler Meier
  */
-public class LoginScreen extends SuperScreen{
+public class LoginScreen extends SuperScreen {
 
   private TextField username, password;
-  private Button newWindowButton;
 
   /**
    * Constructor of this class, calls super to set up instance variables
@@ -34,6 +34,7 @@ public class LoginScreen extends SuperScreen{
    */
   public Scene setUpScene(){
     Node topLoginPanel = setupText();
+    topLoginPanel.setId("topPanel");  //for testing
     Node buttonPanel = setUpButtons();
     myErrorMessage.textProperty().setValue("");
     return styleScene(topLoginPanel, buttonPanel);
@@ -47,21 +48,12 @@ public class LoginScreen extends SuperScreen{
     myUserLogin = thisUserLogin;
   }
 
-  public void setNewWindow(EventHandler<ActionEvent> newWindowAction){
-    newWindowButton.setOnAction(newWindowAction);
-  }
-
   private Node setupText(){
     Label loginLabel = new Label(myStringResources.getString("Login"));
     username = new TextField();
     password = new TextField();
-
     username.setPromptText(myStringResources.getString("TypeUsername"));
     password.setPromptText(myStringResources.getString("TypePassword"));
-
-    username.getText();
-    password.getText();
-
     return styleContents(loginLabel, username, password);
   }
 
@@ -78,9 +70,14 @@ public class LoginScreen extends SuperScreen{
       myPlayer.setUsername(myStringResources.getString("Guest"));
       myPlayer.setUpStartScreen(myErrorMessage.textProperty());
     });
-    newWindowButton = new Button("Add New Window");
+    Button newWindowButton = makeButton("NewWindowCommand", e -> myPlayer.getNewWindow().handle(e));
     Button newProfileButton = makeButton("NewProfileCommand", e -> myPlayer.setUpNewProfScreen(myErrorMessage.textProperty()));
 
+    //setting ID for testing
+    loginButton.setId("login");
+    guestButton.setId("guest");
+    newWindowButton.setId("window");
+    newProfileButton.setId("newprof");
     return styleContents(loginButton, guestButton, newProfileButton, newWindowButton);
   }
 }

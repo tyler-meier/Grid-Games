@@ -7,12 +7,13 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import ooga.player.Player;
+import ooga.player.screens.SuperScreen;
 
 /**
  * The won game screen, which pops up when a player has completely beat a game
  * @author Tyler Meier
  */
-public class WonGameScreen extends SuperScreen{
+public class WonGameScreen extends SuperScreen {
 
   /**
    * Constructor of this class, calls super to set up instance variables
