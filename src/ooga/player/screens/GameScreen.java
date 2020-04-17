@@ -107,6 +107,10 @@ public class GameScreen extends SuperScreen{
         myPlayer.getMyUserProfile().addHighScore(myGameType, score.getValue());
         myPlayer.getSaveButtonEvent().handle(e);
       }
+      else{
+        myErrorMessage.textProperty().setValue("You can't save as a guest");
+        myErrorMessage.setWrapText(true);
+      }
     });
 
     Node buttons = styleContents(logoutButton, resetGameButton, saveButton, myErrorMessage);

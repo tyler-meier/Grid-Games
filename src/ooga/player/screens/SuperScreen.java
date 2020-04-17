@@ -152,6 +152,7 @@ public abstract class SuperScreen {
    */
   public void setError(StringProperty message){
     myErrorMessage.textProperty().bindBidirectional(message);
+    myErrorMessage.textProperty().setValue("");
   }
 
   /**
