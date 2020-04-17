@@ -6,6 +6,7 @@ import javafx.beans.property.StringProperty;
 import javafx.stage.Stage;
 import ooga.controller.UserLogin;
 import ooga.data.DataObject;
+import ooga.data.UserProfile;
 import ooga.engine.grid.Grid;
 import ooga.player.screens.*;
 
@@ -20,9 +21,10 @@ public class Player implements PlayerStart{
   private LossScreen myLossScreen;
   private WonLevelScreen myWonLevelScreen;
   private WonGameScreen myWonGameScreen;
-//  private CustomView myCustomView;
+  private CustomView myCustomView;
   private String myGameType, currentUsername;
   private UserLogin myUserLogin;
+  private UserProfile myUserProfile;
   private EventHandler<ActionEvent> myEngine, myResetEngine, mySaveEngine;
 
   public Player(){
@@ -58,15 +60,24 @@ public class Player implements PlayerStart{
     myGameScreen.setError(dataError);
   }
 
+  /**
+   * sets up login screen
+   */
   public void setUpLoginScreen(){
     myStage.setScene(myLoginScreen.setUpScene());
   }
 
+  /**
+   * creates scene when game is lost, sets on stage
+   */
   public void setUpLossScreen(){
     myLossScreen = new LossScreen(this);
     myStage.setScene(myLossScreen.setUpScene());
   }
 
+  /**
+   * creates screen when game is won, sets on stage
+   */
   public void setUpWonLevelScreen(){
     myWonLevelScreen = new WonLevelScreen(this);
     myStage.setScene(myWonLevelScreen.setUpScene());
@@ -81,10 +92,10 @@ public class Player implements PlayerStart{
     myStage.setScene(myWonGameScreen.setUpScene());
   }
 
-//  public void setUpCustomView(){
-//    myCustomView = new CustomView(this);
-//    myStage.setScene(myCustomView.setUpScene());
-//  }
+  public void setUpCustomView(){
+    myCustomView = new CustomView(this);
+    myCustomView.display();
+  }
 
   public void setLoginAction(UserLogin userLogin){
     myLoginScreen.giveMeUserLogin(userLogin);
@@ -105,6 +116,24 @@ public class Player implements PlayerStart{
   public EventHandler<ActionEvent> getSaveButtonEvent() {
     return mySaveEngine;
   }
+
+  public void setUserProfile(UserProfile thisUserProfile){
+    myUserProfile = thisUserProfile;
+  }
+
+  public UserProfile getMyUserProfile(){
+    return myUserProfile;
+  }
+
+  /**
+   * changes css style of all screens
+   * @param modeType
+   */
+  public void setMode(String modeType) {
+    //TODO: get rid of redundant code
+    myCustomView.setStyle(modeType);
+    myGameScreen.setStyle(modeType);
+}
 
 //  public void setGameStats(Map<String, IntegerProperty> gameAttributes) {
 //    myGameScreen.setStats(gameAttributes);

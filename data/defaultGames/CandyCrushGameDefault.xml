@@ -2,7 +2,7 @@
 <grid>
     <Level>0</Level>
     <Score>0</Score>
-    <TargetScore>30</TargetScore>
+    <TargetScore>100</TargetScore>
     <LossStat>MovesLeft</LossStat>
     <MovesLeft>20</MovesLeft>
 

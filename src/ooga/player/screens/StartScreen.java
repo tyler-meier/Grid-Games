@@ -7,8 +7,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import ooga.player.Player;
-
-import java.lang.reflect.Array;
 import java.util.*;
 
 /**
@@ -50,8 +48,6 @@ public class StartScreen extends SuperScreen{
         nameOfGameMapping.put(myGameNameResources.getString(key), key);
         games.getItems().add(myGameNameResources.getString(key));
     }
-    //TODO fix hardcoded strings and have them be sent to gamescreen, also do styling for this, reflection?
-
     return styleContents(gameChoice, games);
   }
 
@@ -60,12 +56,11 @@ public class StartScreen extends SuperScreen{
       try {
         myPlayer.setGameType(nameOfGameMapping.get(games.getValue()));
         myEventEngine.handle(e);
-      } catch (NullPointerException p){ //TODO: fix string
-        myErrorMessage.textProperty().setValue("No game chosen");
+      } catch (NullPointerException p){
+        myErrorMessage.textProperty().setValue(myStringResources.getString("BlankChoice"));
       }
     });
     Button logoutButton = makeButton("LogoutCommand", e -> myPlayer.setUpLoginScreen());
     return styleContents(startButton, logoutButton);
   }
-
 }

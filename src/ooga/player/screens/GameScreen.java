@@ -39,12 +39,6 @@ public class GameScreen extends SuperScreen{
   private GridView myGrid;
   private GridPane myGridPane;
   private BorderPane myRoot;
-  private Scene thisScene;
-//  IntegerProperty myHighScore = new SimpleIntegerProperty();
-//  IntegerProperty myScore = new SimpleIntegerProperty();
-//  IntegerProperty myLives = new SimpleIntegerProperty();
-//  IntegerProperty myLevel = new SimpleIntegerProperty();
-//  IntegerProperty myMovesLeft = new SimpleIntegerProperty();
   private BooleanProperty isLoss = new SimpleBooleanProperty();
   private BooleanProperty isWin = new SimpleBooleanProperty();
   private BooleanProperty paused = new SimpleBooleanProperty(false);
@@ -52,6 +46,7 @@ public class GameScreen extends SuperScreen{
   private Timer timer;
   private VBox verticalPanel;
   private Button pauseButton;
+  private IntegerProperty score = new SimpleIntegerProperty();
   private Button resetGameButton;
   //TODO: make pause work with selecting
 
@@ -86,8 +81,8 @@ public class GameScreen extends SuperScreen{
     Scene scene = new Scene(myRoot, height, width);
     scene.getStylesheets().add(getClass().getResource(DEFAULT_RESOURCE_FOLDER + styleSheet).toExternalForm());
 
-    thisScene = scene;
-    return scene;
+    myScene = scene;
+    return myScene;
   }
 
   public void setGrid(Grid backendGrid){
@@ -108,7 +103,10 @@ public class GameScreen extends SuperScreen{
         pauseButton.setText(myStringResources.getString("Play"));
         paused.set(true);
       }
-      myPlayer.getSaveButtonEvent().handle(e);
+      if(myPlayer.getMyUserProfile()!=null){
+        myPlayer.getMyUserProfile().addHighScore(myGameType, score.getValue());
+        myPlayer.getSaveButtonEvent().handle(e);
+      }
     });
 
     Node buttons = styleContents(logoutButton, resetGameButton, saveButton, myErrorMessage);
@@ -119,14 +117,15 @@ public class GameScreen extends SuperScreen{
     HBox toolBar = new HBox();
     Button homeButton = makeButton("HomeCommand", e-> myPlayer.setUpStartScreen(myErrorMessage.textProperty()));
 
-    TimeKeeper timer = new TimeKeeper();
-    timer.addTimeline();
-    String time = timer.getText();
-    //Label stopWatch = new Label("TIME: " + time);
+//    TimeKeeper timer = new TimeKeeper();
+//    timer.addTimeline();
+//    String time = timer.getText();
+//    Label stopWatch = new Label("TIME: " + time);
 
-//    Button customView = makeButton("Customize", e-> myPlayer.setUpCustomView());
+    Label name = new Label(myGameType);
+    Button customView = makeButton("CustomCommand", e-> myPlayer.setUpCustomView());
 
-    toolBar.getChildren().addAll(homeButton);
+    toolBar.getChildren().addAll(homeButton, customView, name);
     toolBar.setSpacing(SPACING_2);
     return toolBar;
   }
@@ -137,6 +136,9 @@ public class GameScreen extends SuperScreen{
     Label name = new Label(key+": ");
     Label value = new Label();
     value.textProperty().bind(integerProperty.asString());
+    if (key.equals("Score")){
+      score.bind(integerProperty);
+    }
     box.getChildren().addAll(name, value);
     return box;
   }
@@ -147,6 +149,9 @@ public class GameScreen extends SuperScreen{
       IntegerProperty stat = gameStats.get(key);
       System.out.println(key);
       stats.getChildren().add(makeLabel(stat, myStringResources.getString(key)));
+    }
+    if (myPlayer.getMyUserProfile() != null){
+      stats.getChildren().add(new HBox(new Label("High Score: "), new Label(myPlayer.getMyUserProfile().getHighScore(myGameType))));
     }
     stats.setSpacing(10);
     stats.setAlignment(Pos.CENTER);
@@ -197,8 +202,18 @@ public class GameScreen extends SuperScreen{
   public void setGameStatus(BooleanProperty isLoss, BooleanProperty isWin){
     this.isLoss.bind(isLoss);
     this.isWin.bind(isWin);
-    this.isLoss.addListener((obs, oldv, newv) -> myPlayer.setUpLossScreen());
-    this.isWin.addListener((obs, oldv, newv) -> myPlayer.setUpWonLevelScreen()); //TODO: fix for when level is won or game
+    this.isLoss.addListener((obs, oldv, newv) -> {
+      if(myPlayer.getMyUserProfile() != null){
+        myPlayer.getMyUserProfile().addHighScore(myGameType, score.getValue());
+      }
+      myPlayer.setUpLossScreen();
+    });
+    this.isWin.addListener((obs, oldv, newv) -> {
+      if(myPlayer.getMyUserProfile() != null){
+        myPlayer.getMyUserProfile().addHighScore(myGameType, score.getValue());
+      }
+      myPlayer.setUpWonLevelScreen();
+    }); //TODO: fix for when level is won or game
   }
 
 }

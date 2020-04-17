@@ -1,7 +1,10 @@
 package ooga.player.screens;
 
 import java.util.ResourceBundle;
+
+import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -12,6 +15,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import ooga.controller.UserLogin;
+import ooga.data.UserProfile;
 import ooga.player.Player;
 
 import javax.swing.*;
@@ -28,6 +32,7 @@ public abstract class SuperScreen {
   protected static final String DEFAULT_RESOURCE_FOLDER = "/" + RESOURCES;
   protected String styleSheet = "default.css";
   private static final int DIMENSION = 600;
+  protected Scene myScene;
 
   protected ResourceBundle myButtonResources, myStringResources, myGameNameResources;
   protected Label myErrorMessage;
@@ -107,9 +112,9 @@ public abstract class SuperScreen {
    * @return completed scene to be shown
    */
   public Scene finishStyling(Parent contents){
-    Scene scene = new Scene(contents, DIMENSION, DIMENSION);
-    scene.getStylesheets().add(getClass().getResource(DEFAULT_RESOURCE_FOLDER + styleSheet).toExternalForm());
-    return scene;
+    myScene = new Scene(contents, DIMENSION, DIMENSION);
+    myScene.getStylesheets().add(getClass().getResource(DEFAULT_RESOURCE_FOLDER + styleSheet).toExternalForm());
+    return myScene;
   }
 
   /**
@@ -154,6 +159,9 @@ public abstract class SuperScreen {
    * @param styleSheet specific one
    */
   public void setStyle(String styleSheet) {
+    myScene.getStylesheets().clear();
     this.styleSheet = styleSheet;
+    myScene.getStylesheets().add(getClass().getResource(DEFAULT_RESOURCE_FOLDER + styleSheet).toExternalForm());
   }
+
 }
