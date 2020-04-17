@@ -8,6 +8,8 @@ import ooga.engine.matchFinder.MatchFinder;
 import java.util.List;
 
 public abstract class Validator {
+    protected GameProgressManager myProgressManager;
+    protected int time = 1000;
 
     public Validator(){
     }
@@ -16,5 +18,8 @@ public abstract class Validator {
      * is valid for the specific game they are playing. How the validity is determined
      * is based on if the game is Pair- oriented, or Match - oriented.
      */
-    public abstract boolean checkIsValid(List<Cell> selected, GameProgressManager myProgressManager);
+    public abstract boolean checkIsValid(List<Cell> selected);
+
+    public void setTime(double seconds) { time = (int) (1000*seconds); }
+    public void setMyProgressManager(GameProgressManager manager) { myProgressManager = manager;}
 }

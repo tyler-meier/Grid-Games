@@ -7,4 +7,5 @@
   <NoHiddenCells>false</NoHiddenCells>
   <MaxStateNumber>10</MaxStateNumber>
   <PointsPerCell>10</PointsPerCell>
+  <SecondsOpen>0</SecondsOpen>
 </Engine>
