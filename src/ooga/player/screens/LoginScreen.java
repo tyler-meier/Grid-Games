@@ -34,6 +34,7 @@ public class LoginScreen extends SuperScreen {
    */
   public Scene setUpScene(){
     Node topLoginPanel = setupText();
+    topLoginPanel.setId("topPanel");  //for testing
     Node buttonPanel = setUpButtons();
     myErrorMessage.textProperty().setValue("");
     return styleScene(topLoginPanel, buttonPanel);
