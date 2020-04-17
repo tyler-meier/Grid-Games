@@ -25,7 +25,7 @@ public class Player implements PlayerStart{
   private String myGameType, currentUsername;
   private UserLogin myUserLogin;
   private UserProfile myUserProfile;
-  private EventHandler<ActionEvent> myEngine, myResetEngine, mySaveEngine;
+  private EventHandler<ActionEvent> myEngine, myResetEngine, mySaveEngine, myNewWindow;
 
   public Player(){
   }
@@ -65,6 +65,7 @@ public class Player implements PlayerStart{
    */
   public void setUpLoginScreen(){
     myStage.setScene(myLoginScreen.setUpScene());
+    myLoginScreen.setNewWindow(myNewWindow);
   }
 
   /**
@@ -84,6 +85,7 @@ public class Player implements PlayerStart{
   }
 
   public void setNewWindow(EventHandler<ActionEvent> newWindowAction){
+    myNewWindow = newWindowAction;
     myLoginScreen.setNewWindow(newWindowAction);
   }
 
