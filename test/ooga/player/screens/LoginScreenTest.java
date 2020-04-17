@@ -52,7 +52,8 @@ class LoginScreenTest extends DukeApplicationTest {
 //    thisOne.getChildren().addAll(thisLabel, one, two);
 //    thisOne.setSpacing(10);
 //    thisOne.setAlignment(Pos.CENTER);
+//    Node actual = myLoginScreen.setupText();
 //
-//    assertEquals(thisOne, topPanel);
+//    assertEquals(thisOne, actual);
 //  }
 }
