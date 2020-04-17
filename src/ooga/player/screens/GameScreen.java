@@ -122,7 +122,7 @@ public class GameScreen extends SuperScreen{
 //    String time = timer.getText();
 //    Label stopWatch = new Label("TIME: " + time);
 
-    Label name = new Label(myGameType);
+    Label name = new Label(myGameNameResources.getString(myGameType));
     Button customView = makeButton("CustomCommand", e-> myPlayer.setUpCustomView());
 
     toolBar.getChildren().addAll(homeButton, customView, name);
@@ -151,7 +151,7 @@ public class GameScreen extends SuperScreen{
       stats.getChildren().add(makeLabel(stat, myStringResources.getString(key)));
     }
     if (myPlayer.getMyUserProfile() != null){
-      stats.getChildren().add(new HBox(new Label("High Score: "), new Label(myPlayer.getMyUserProfile().getHighScore(myGameType))));
+      stats.getChildren().add(new HBox(new Label(myStringResources.getString("High")), new Label(myPlayer.getMyUserProfile().getHighScore(myGameType))));
     }
     stats.setSpacing(10);
     stats.setAlignment(Pos.CENTER);

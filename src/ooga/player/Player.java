@@ -71,7 +71,7 @@ public class Player implements PlayerStart{
    * creates scene when game is lost, sets on stage
    */
   public void setUpLossScreen(){
-    myLossScreen = new LossScreen(this);
+    myLossScreen = new LossScreen(myResetEngine, this);
     myStage.setScene(myLossScreen.setUpScene());
   }
 
@@ -88,7 +88,7 @@ public class Player implements PlayerStart{
   }
 
   public void setUpWonGameScreen(){
-    myWonGameScreen = new WonGameScreen(this);
+    myWonGameScreen = new WonGameScreen(myResetEngine,this);
     myStage.setScene(myWonGameScreen.setUpScene());
   }
 
