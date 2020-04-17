@@ -15,25 +15,24 @@ public class GameProgressManager{
     private static final String MOVES_LEFT = "MovesLeft";
     private Map<String, IntegerProperty> gameStats = new HashMap<>();
     private String lossStatKey;
-    private int targetScore;
     private BooleanProperty isLoss = new SimpleBooleanProperty();
     private BooleanProperty isWin = new SimpleBooleanProperty();
-    private StringProperty myErrorMessage = new SimpleStringProperty();
 
 
     public GameProgressManager(Map<String, String> gameAttributes, StringProperty errorMessage){
+        StringProperty myErrorMessage = new SimpleStringProperty();
         try{
             myErrorMessage.bindBidirectional(errorMessage);
             gameStats.put(SCORE, new SimpleIntegerProperty(Integer.parseInt(gameAttributes.get(SCORE))));
             gameStats.put(LEVEL, new SimpleIntegerProperty(Integer.parseInt(gameAttributes.get(LEVEL))));
             lossStatKey = gameAttributes.get(LOSS_STAT);
             gameStats.put(lossStatKey, new SimpleIntegerProperty(Integer.parseInt(gameAttributes.get(lossStatKey))));
-            targetScore =  Integer.parseInt(gameAttributes.get(TARGET_SCORE));
+            gameStats.put(TARGET_SCORE, new SimpleIntegerProperty(Integer.parseInt(gameAttributes.get(TARGET_SCORE))));
             gameStats.get(lossStatKey).addListener((a, b, c) ->{
                 isLoss.set(gameStats.get(lossStatKey).get() <= 0);
             });
             gameStats.get(SCORE).addListener((a, b, c) -> {
-                isWin.set(gameStats.get(SCORE).get() >= targetScore);
+                isWin.set(gameStats.get(SCORE).get() >= gameStats.get(TARGET_SCORE).get());
             });
         } catch (InvalidDataException e) {
             myErrorMessage.set(e.toString());

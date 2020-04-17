@@ -1,27 +1,20 @@
 package ooga.player.screens;
 
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import ooga.player.Player;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import ooga.player.Player;
+import ooga.player.screens.SuperScreen;
 
-public class CustomView extends SuperScreen{
+public class CustomView extends SuperScreen {
 
     private static final String IMAGERESOURCES = "src/ooga/player/Resources/images/preferences/";
 

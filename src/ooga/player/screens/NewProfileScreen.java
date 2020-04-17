@@ -8,12 +8,13 @@ import javafx.scene.control.TextField;
 import ooga.controller.UserLogin;
 import ooga.data.UserProfile;
 import ooga.player.Player;
+import ooga.player.screens.SuperScreen;
 
 /**
  * New Profile class that sets up the new profile screen when a user wants to create one
  * @author Tyler Meier
  */
-public class NewProfileScreen extends SuperScreen{
+public class NewProfileScreen extends SuperScreen {
 
   private TextField newUsername, newPassword;
   private UserProfile userData;

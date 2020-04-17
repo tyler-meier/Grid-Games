@@ -11,7 +11,7 @@ public class SwitchValidator extends Validator{
         super();
     }
     @Override
-    public boolean checkIsValid(List<Cell> selected, GameProgressManager myProgressManager) {
+    public boolean checkIsValid(List<Cell> selected) {
         if (selected.size()>2) return false;
 
         Cell first = selected.get(0);

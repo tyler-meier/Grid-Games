@@ -1,7 +1,6 @@
 package ooga.engine.validator;
 
 import ooga.engine.Cell;
-import ooga.engine.GameProgressManager;
 
 import java.util.List;
 import java.util.Timer;
@@ -10,8 +9,7 @@ import java.util.TimerTask;
 public class PairValidator extends Validator {
 
     @Override
-    public boolean checkIsValid(List<Cell> selected, GameProgressManager myProgressManager) {
-        myProgressManager.decrementMoves();
+    public boolean checkIsValid(List<Cell> selected) {
         for (Cell cell:selected) {
             if (cell.isOpen().get()){
                 return false;
@@ -25,6 +23,7 @@ public class PairValidator extends Validator {
         }
 
         if (!matched){
+            myProgressManager.decrementMoves();
             Timer timer = new Timer();
             timer.schedule(new TimerTask() {
                 @Override
@@ -33,7 +32,7 @@ public class PairValidator extends Validator {
                         cell.isOpen().set(false);
                     }
                 }
-            }, 4000);
+            }, time);
         }
 
         return matched;

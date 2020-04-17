@@ -15,6 +15,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import ooga.controller.UserLogin;
+import ooga.data.UserProfile;
 import ooga.player.Player;
 
 import javax.swing.*;
@@ -151,6 +152,7 @@ public abstract class SuperScreen {
    */
   public void setError(StringProperty message){
     myErrorMessage.textProperty().bindBidirectional(message);
+    myErrorMessage.textProperty().setValue("");
   }
 
   /**

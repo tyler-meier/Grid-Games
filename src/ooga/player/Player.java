@@ -6,6 +6,7 @@ import javafx.beans.property.StringProperty;
 import javafx.stage.Stage;
 import ooga.controller.UserLogin;
 import ooga.data.DataObject;
+import ooga.data.UserProfile;
 import ooga.engine.grid.Grid;
 import ooga.player.screens.*;
 
@@ -23,7 +24,8 @@ public class Player implements PlayerStart{
   private CustomView myCustomView;
   private String myGameType, currentUsername;
   private UserLogin myUserLogin;
-  private EventHandler<ActionEvent> myEngine, myResetEngine, mySaveEngine;
+  private UserProfile myUserProfile;
+  private EventHandler<ActionEvent> myEngine, myResetEngine, mySaveEngine, myNewWindow;
 
   public Player(){
   }
@@ -69,7 +71,7 @@ public class Player implements PlayerStart{
    * creates scene when game is lost, sets on stage
    */
   public void setUpLossScreen(){
-    myLossScreen = new LossScreen(this);
+    myLossScreen = new LossScreen(myResetEngine, this);
     myStage.setScene(myLossScreen.setUpScene());
   }
 
@@ -81,18 +83,20 @@ public class Player implements PlayerStart{
     myStage.setScene(myWonLevelScreen.setUpScene());
   }
 
-  public void setNewWindow(EventHandler<ActionEvent> newWindowAction){
-    myLoginScreen.setNewWindow(newWindowAction);
-  }
-
   public void setUpWonGameScreen(){
-    myWonGameScreen = new WonGameScreen(this);
+    myWonGameScreen = new WonGameScreen(myResetEngine,this);
     myStage.setScene(myWonGameScreen.setUpScene());
   }
 
   public void setUpCustomView(){
     myCustomView = new CustomView(this);
     myCustomView.display();
+  }
+  public void setNewWindow(EventHandler<ActionEvent> newWindowAction){
+    myNewWindow = newWindowAction;
+  }
+  public EventHandler<ActionEvent> getNewWindow(){
+    return myNewWindow;
   }
 
   public void setLoginAction(UserLogin userLogin){
@@ -113,6 +117,14 @@ public class Player implements PlayerStart{
 
   public EventHandler<ActionEvent> getSaveButtonEvent() {
     return mySaveEngine;
+  }
+
+  public void setUserProfile(UserProfile thisUserProfile){
+    myUserProfile = thisUserProfile;
+  }
+
+  public UserProfile getMyUserProfile(){
+    return myUserProfile;
   }
 
   /**
@@ -267,8 +279,6 @@ public class Player implements PlayerStart{
   @Override
   public void setErrorMessage(StringProperty errorMessage){
     myLoginScreen.setError(errorMessage);
-//    myNewProfScreen.setError(errorMessage);
-//    myStartScreen.setError(errorMessage);
   };
 
 }
