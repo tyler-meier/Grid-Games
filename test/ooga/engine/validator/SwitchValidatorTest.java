@@ -21,10 +21,10 @@ class SwitchValidatorTest {
         cellB.setCoordinates(0, 1);
         cells.add(cellA);
         cells.add(cellB);
-        assertTrue(switchValidator.checkIsValid(cells, null));
+        assertTrue(switchValidator.checkIsValid(cells));
         cellB.setCoordinates(10, 1);
-        assertFalse(switchValidator.checkIsValid(cells, null));
+        assertFalse(switchValidator.checkIsValid(cells));
         cells.add(cellC);
-        assertFalse(switchValidator.checkIsValid(cells, null));
+        assertFalse(switchValidator.checkIsValid(cells));
     }
 }

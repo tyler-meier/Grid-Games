@@ -18,6 +18,7 @@ public class Grid {
     private static final String MAX_STATE_NUMBER = "MaxStateNumber";
     private static final String NO_HIDDEN_CELLS = "NoHiddenCells";
     private static final String POINTS_PER_CELL = "PointsPerCell";
+    private static final String SECONDS_OPEN = "SecondsOpen";
     private static final int BOMB_STATE = 9;
     private Cell[][] myGrid;
     private int numSelected = 0;
@@ -28,6 +29,7 @@ public class Grid {
     private int maxState;
     private boolean noHiddenCells;
     private int pointsPerCell;
+    private double secondsOpen;
     private BooleanProperty moveInProgress = new SimpleBooleanProperty(false);
     private GameProgressManager myProgressManager;
     private StringProperty myErrorMessage = new SimpleStringProperty();
@@ -40,12 +42,14 @@ public class Grid {
             maxState = Integer.parseInt(gameAttributes.get(MAX_STATE_NUMBER));
             noHiddenCells = Boolean.parseBoolean(gameAttributes.get(NO_HIDDEN_CELLS));
             pointsPerCell = Integer.parseInt(gameAttributes.get(POINTS_PER_CELL));
+            secondsOpen = Double.parseDouble(gameAttributes.get(SECONDS_OPEN));
         } catch (InvalidDataException e){
             myErrorMessage.set(e.toString());
         }
         myValidator = validator;
         myMatchFinder = matchFinder;
         myErrorMessage = errorMessage;
+        myValidator.setTime(secondsOpen);
     }
 
     /**
@@ -57,6 +61,7 @@ public class Grid {
         setupGridStates(initialStates, openCells);
         try{
             myProgressManager = new GameProgressManager(gameAttributes, myErrorMessage);
+            myValidator.setMyProgressManager(myProgressManager);
         } catch (Exception e){
             myErrorMessage.set(e.toString());
         }
@@ -166,7 +171,7 @@ public class Grid {
     public void updateGrid(){
         moveInProgress.set(true);
         List<Cell> selectedCells = getSelectedCells();
-         if(myValidator.checkIsValid(selectedCells, myProgressManager)){
+         if(myValidator.checkIsValid(selectedCells)){
             System.out.println("valid move");
             List<Cell> matchedCells = new ArrayList<>();
             //TODO: ask TA if there is a better way to do this to avoid circular dependency
