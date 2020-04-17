@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <grid>
-    <Level>0</Level>
+    <Level>1</Level>
     <Score>0</Score>
     <TargetScore>100</TargetScore>
     <LossStat>MovesLeft</LossStat>
