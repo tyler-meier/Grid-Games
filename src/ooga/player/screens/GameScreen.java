@@ -147,7 +147,6 @@ public class GameScreen extends SuperScreen{
     VBox stats = new VBox();
     for (String key:gameStats.keySet()){
       IntegerProperty stat = gameStats.get(key);
-      System.out.println(key);
       stats.getChildren().add(makeLabel(stat, myStringResources.getString(key)));
     }
     if (myPlayer.getMyUserProfile() != null){

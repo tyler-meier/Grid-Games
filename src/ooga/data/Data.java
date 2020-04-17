@@ -176,7 +176,7 @@ public class Data implements DataLink {
 
   public boolean[][] getOpenCells()
   {
-      return gameParser.getUncoveredCellGrid();
+    return gameParser.getUncoveredCellGrid();
   }
 
 
