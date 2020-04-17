@@ -6,14 +6,15 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import ooga.player.Player;
 import java.util.*;
+import ooga.player.Player;
+import ooga.player.screens.SuperScreen;
 
 /**
  * Start screen class which serves as the home screen of a player's profile and where a game is chosen
  * @author Tyler Meier
  */
-public class StartScreen extends SuperScreen{
+public class StartScreen extends SuperScreen {
 
   private ComboBox<String> games = new ComboBox<>();
   private Map<String, String> nameOfGameMapping = new HashMap<>();

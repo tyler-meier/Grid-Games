@@ -19,11 +19,11 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import ooga.engine.grid.Grid;
-import ooga.player.Player;
-import ooga.player.TimeKeeper;
 import ooga.player.GridView;
+import ooga.player.Player;
+import ooga.player.screens.SuperScreen;
 
-public class GameScreen extends SuperScreen{
+public class GameScreen extends SuperScreen {
   private static final String RESOURCES = "ooga/player/Resources/";
   private static final String DEFAULT_RESOURCE_PACKAGE = RESOURCES.replace("/", ".");
   private static final String DEFAULT_RESOURCE_FOLDER = "/" + RESOURCES;

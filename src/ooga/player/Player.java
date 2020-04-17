@@ -279,8 +279,6 @@ public class Player implements PlayerStart{
   @Override
   public void setErrorMessage(StringProperty errorMessage){
     myLoginScreen.setError(errorMessage);
-//    myNewProfScreen.setError(errorMessage);
-//    myStartScreen.setError(errorMessage);
   };
 
 }

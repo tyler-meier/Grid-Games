@@ -10,12 +10,13 @@ import javafx.scene.control.TextField;
 import ooga.controller.UserLogin;
 import ooga.data.UserProfile;
 import ooga.player.Player;
+import ooga.player.screens.SuperScreen;
 
 /**
  * Login Screen class that sets up the login screen for a player
  * @author Tyler Meier
  */
-public class LoginScreen extends SuperScreen{
+public class LoginScreen extends SuperScreen {
 
   private TextField username, password;
   private Button newWindowButton;
@@ -55,13 +56,8 @@ public class LoginScreen extends SuperScreen{
     Label loginLabel = new Label(myStringResources.getString("Login"));
     username = new TextField();
     password = new TextField();
-
     username.setPromptText(myStringResources.getString("TypeUsername"));
     password.setPromptText(myStringResources.getString("TypePassword"));
-
-    username.getText();
-    password.getText();
-
     return styleContents(loginLabel, username, password);
   }
 
