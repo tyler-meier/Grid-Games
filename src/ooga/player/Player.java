@@ -65,7 +65,6 @@ public class Player implements PlayerStart{
    */
   public void setUpLoginScreen(){
     myStage.setScene(myLoginScreen.setUpScene());
-    myLoginScreen.setNewWindow(myNewWindow);
   }
 
   /**
@@ -84,11 +83,6 @@ public class Player implements PlayerStart{
     myStage.setScene(myWonLevelScreen.setUpScene());
   }
 
-  public void setNewWindow(EventHandler<ActionEvent> newWindowAction){
-    myNewWindow = newWindowAction;
-    myLoginScreen.setNewWindow(newWindowAction);
-  }
-
   public void setUpWonGameScreen(){
     myWonGameScreen = new WonGameScreen(myResetEngine,this);
     myStage.setScene(myWonGameScreen.setUpScene());
@@ -97,6 +91,12 @@ public class Player implements PlayerStart{
   public void setUpCustomView(){
     myCustomView = new CustomView(this);
     myCustomView.display();
+  }
+  public void setNewWindow(EventHandler<ActionEvent> newWindowAction){
+    myNewWindow = newWindowAction;
+  }
+  public EventHandler<ActionEvent> getNewWindow(){
+    return myNewWindow;
   }
 
   public void setLoginAction(UserLogin userLogin){

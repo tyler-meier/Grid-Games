@@ -19,7 +19,6 @@ import ooga.player.screens.SuperScreen;
 public class LoginScreen extends SuperScreen {
 
   private TextField username, password;
-  private Button newWindowButton;
 
   /**
    * Constructor of this class, calls super to set up instance variables
@@ -48,10 +47,6 @@ public class LoginScreen extends SuperScreen {
     myUserLogin = thisUserLogin;
   }
 
-  public void setNewWindow(EventHandler<ActionEvent> newWindowAction){
-    newWindowButton.setOnAction(newWindowAction);
-  }
-
   private Node setupText(){
     Label loginLabel = new Label(myStringResources.getString("Login"));
     username = new TextField();
@@ -74,9 +69,14 @@ public class LoginScreen extends SuperScreen {
       myPlayer.setUsername(myStringResources.getString("Guest"));
       myPlayer.setUpStartScreen(myErrorMessage.textProperty());
     });
-    newWindowButton = new Button("Add New Window");
+    Button newWindowButton = makeButton("NewWindowCommand", e -> myPlayer.getNewWindow().handle(e));
     Button newProfileButton = makeButton("NewProfileCommand", e -> myPlayer.setUpNewProfScreen(myErrorMessage.textProperty()));
 
+    //setting ID for testing
+    loginButton.setId("login");
+    guestButton.setId("guest");
+    newWindowButton.setId("window");
+    newProfileButton.setId("newprof");
     return styleContents(loginButton, guestButton, newProfileButton, newWindowButton);
   }
 }
