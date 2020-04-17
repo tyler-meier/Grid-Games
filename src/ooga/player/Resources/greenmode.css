@@ -1,6 +1,6 @@
 .root{
-    -fx-base: #F7D5F3;
-    -fx-background: #F7D5F3;
+    -fx-base: #BAFF40;
+    -fx-background: #BAFF40;
 }
 
 .text-area{
@@ -18,9 +18,9 @@
     -fx-font-family: "Futura";
     -fx-pref-width: 220px;
     -fx-border-width: 3pt;
-    -fx-border-color: #FF96F3;
-    -fx-text-fill: white;
-    -fx-background-color: #FF96F3;
+    -fx-border-color: black;
+    -fx-text-fill: darkgreen;
+    -fx-background-color: white;
     -fx-alignment: CENTER;
 
 }
@@ -30,8 +30,9 @@
     -fx-font-family: "Futura";
     -fx-pref-width: 220px;
     -fx-border-width: 3pt;
-    -fx-text-fill: #FF11E4;
-    -fx-background-color: white;
+    -fx-border-color: forestgreen;
+    -fx-text-fill: white;
+    -fx-background-color: darkgreen;
     -fx-alignment: CENTER;
 }
 
@@ -40,15 +41,16 @@
     -fx-font-family: "Futura";
     -fx-pref-width: 220px;
     -fx-border-width: 3pt;
-    -fx-text-fill: #FF11E4;
-    -fx-background-color: white;
+    -fx-border-color: forestgreen;
+    -fx-text-fill: white;
+    -fx-background-color: darkgreen;
     -fx-alignment: CENTER;
 }
 
 .text-field{
     -fx-font-size: 12pt;
     -fx-font-family: "Futura";
-    -fx-max-width: 220px;
+    -fx-max-width: 240px;
     -fx-padding: 2,2,2,2;
     -fx-border-color: black;
     -fx-border-radius: 2;

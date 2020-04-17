@@ -120,7 +120,7 @@ public class GameScreen extends SuperScreen{
 
     Button customView = makeButton("CustomCommand", e-> myPlayer.setUpCustomView());
 
-    toolBar.getChildren().addAll(homeButton);
+    toolBar.getChildren().addAll(homeButton, customView);
     toolBar.setSpacing(SPACING_2);
     return toolBar;
   }

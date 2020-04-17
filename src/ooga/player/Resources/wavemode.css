@@ -1,15 +1,15 @@
-.root{
-    -fx-base: #F7D5F3;
-    -fx-background: #F7D5F3;
+.root {
+    -fx-base: white;
+    -fx-background: white;
 }
 
 .text-area{
-    -fx-font-size: 15pt;
+    -fx-font-size: 12pt;
     -fx-font-family: "Futura";
 }
 
 .label{
-    -fx-font-size: 20pt;
+    -fx-font-size: 18pt;
     -fx-font-family: "Futura";
 }
 
@@ -17,10 +17,10 @@
     -fx-font-size: 12pt;
     -fx-font-family: "Futura";
     -fx-pref-width: 220px;
-    -fx-border-width: 3pt;
-    -fx-border-color: #FF96F3;
-    -fx-text-fill: white;
-    -fx-background-color: #FF96F3;
+    -fx-border-width: 4pt;
+    -fx-border-color: darkblue;
+    -fx-text-fill: linear-gradient(white, lightblue, lightskyblue);
+    -fx-background-color: blue;
     -fx-alignment: CENTER;
 
 }
@@ -29,8 +29,9 @@
     -fx-font-size: 12pt;
     -fx-font-family: "Futura";
     -fx-pref-width: 220px;
-    -fx-border-width: 3pt;
-    -fx-text-fill: #FF11E4;
+    -fx-border-width: 4pt;
+    -fx-border-color: darkblue;
+    -fx-text-fill: mediumblue;
     -fx-background-color: white;
     -fx-alignment: CENTER;
 }
@@ -39,8 +40,9 @@
     -fx-font-size: 12pt;
     -fx-font-family: "Futura";
     -fx-pref-width: 220px;
-    -fx-border-width: 3pt;
-    -fx-text-fill: #FF11E4;
+    -fx-border-width: 4pt;
+    -fx-border-color: darkblue;
+    -fx-text-fill: mediumblue;
     -fx-background-color: white;
     -fx-alignment: CENTER;
 }
@@ -48,8 +50,8 @@
 .text-field{
     -fx-font-size: 12pt;
     -fx-font-family: "Futura";
-    -fx-max-width: 220px;
+    -fx-max-width: 240px;
     -fx-padding: 2,2,2,2;
-    -fx-border-color: black;
+    -fx-border-color: white;
     -fx-border-radius: 2;
 }
