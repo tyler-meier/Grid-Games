@@ -43,7 +43,7 @@ public class DukeApplicationTest extends ApplicationTest {
         try {
           ApplicationTest.launch(Controller.class);
         } catch (Exception e) {
-          e.printStackTrace();
+          e.printStackTrace();  //FIXME: stack trace
         }
       }
     };

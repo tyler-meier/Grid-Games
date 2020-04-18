@@ -1,13 +1,9 @@
 package ooga.player.screens;
 
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.VBox;
 import ooga.player.Player;
-import ooga.player.screens.SuperScreen;
 
 /**
  * The won game screen, which pops up when a player has completely beat a game
@@ -19,8 +15,8 @@ public class WonGameScreen extends SuperScreen {
    * Constructor of this class, calls super to set up instance variables
    * @param thisPlayer the current player
    */
-  public WonGameScreen(EventHandler<ActionEvent> event, Player thisPlayer) {
-    super(event, thisPlayer);
+  public WonGameScreen(Player thisPlayer) {
+    super(thisPlayer);
   }
 
   /**
@@ -28,15 +24,12 @@ public class WonGameScreen extends SuperScreen {
    * @return the final completed scene to be shown
    */
   public Scene setUpScene(){
-    Parent contents = setUpContents();
+    VBox contents = setUpContents();
     return finishStyling(contents);
   }
 
-  private Parent setUpContents(){
+  private VBox setUpContents(){
     Label winGameLabel = new Label(myStringResources.getString("WonGame"));
-    Button homeButton = makeButton("HomeCommand", e -> myPlayer.setUpStartScreen(myErrorMessage.textProperty()));
-    Button saveButton = makeButton("SaveCommand", e-> myPlayer.setUpStartScreen(myErrorMessage.textProperty())); //TODO: fix save button, do i need this here?
-    Button resetGameButton = makeButton("ResetGameCommand", myEventEngine);
-    return (Parent) styleContents(winGameLabel, homeButton, saveButton, resetGameButton);
+    return styleContents(winGameLabel, makeHomeButton(), makeResetGameButton(), makeSaveButton());
   }
 }
