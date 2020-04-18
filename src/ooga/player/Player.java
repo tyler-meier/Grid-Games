@@ -18,9 +18,9 @@ public class Player implements PlayerStart{
   private GameScreen myGameScreen;
   private CustomView myCustomView;
   private String myGameType, currentUsername;
-  private UserLogin myUserLogin;
+  private UserLogin myNewUserLogin, myUserLogin;
   private UserProfile myUserProfile;
-  private EventHandler<ActionEvent> myEngine, myResetEngine, mySaveEngine, myNewWindow;
+  private EventHandler<ActionEvent> myEngineEvent, myResetEvent, mySaveEvent, myNewWindowEvent;
 
   public Player(){
   }
@@ -34,19 +34,19 @@ public class Player implements PlayerStart{
   }
 
   public void setUpStartScreen(StringProperty dataError){
-    StartScreen myStartScreen = new StartScreen(myEngine, this);
+    StartScreen myStartScreen = new StartScreen(this);
     myStartScreen.setError(dataError);
     myStage.setScene(myStartScreen.setUpScene());
   }
 
   public void setUpNewProfScreen(StringProperty dataError){
-    NewProfileScreen myNewProfScreen = new NewProfileScreen(myUserLogin, this);
+    NewProfileScreen myNewProfScreen = new NewProfileScreen(this);
     myNewProfScreen.setError(dataError);
     myStage.setScene(myNewProfScreen.setUpScene());
   }
 
   public void setUpGameScreen(Grid backendGrid, StringProperty dataError){
-    myGameScreen = new GameScreen(myResetEngine, myGameType, this);
+    myGameScreen = new GameScreen(myGameType, this);
     myStage.setScene(myGameScreen.makeScene());
     myGameScreen.setGrid(backendGrid);
     myGameScreen.setStats(backendGrid.getGameStats());
@@ -65,7 +65,7 @@ public class Player implements PlayerStart{
    * creates scene when game is lost, sets on stage
    */
   public void setUpLossScreen(){
-    LossScreen myLossScreen = new LossScreen(myResetEngine, this);
+    LossScreen myLossScreen = new LossScreen(this);
     myStage.setScene(myLossScreen.setUpScene());
   }
 
@@ -78,7 +78,7 @@ public class Player implements PlayerStart{
   }
 
   public void setUpWonGameScreen(){
-    WonGameScreen myWonGameScreen = new WonGameScreen(myResetEngine, this);
+    WonGameScreen myWonGameScreen = new WonGameScreen(this);
     myStage.setScene(myWonGameScreen.setUpScene());
   }
 
@@ -87,30 +87,46 @@ public class Player implements PlayerStart{
     myCustomView.display();
   }
   public void setNewWindow(EventHandler<ActionEvent> newWindowAction){
-    myNewWindow = newWindowAction;
+    myNewWindowEvent = newWindowAction;
   }
-  public EventHandler<ActionEvent> getNewWindow(){
-    return myNewWindow;
+  public EventHandler<ActionEvent> getNewWindowEvent(){
+    return myNewWindowEvent;
   }
 
   public void setLoginAction(UserLogin userLogin){
-    myLoginScreen.giveMeUserLogin(userLogin);
-  }
-
-  public void setNewLoginAction(UserLogin userLogin){
     myUserLogin = userLogin;
   }
 
-  public void setStartGameButton(EventHandler<ActionEvent> engine){
-    myEngine = engine;
+  public void setNewLoginAction(UserLogin userLogin){
+    myNewUserLogin = userLogin;
   }
 
-  public void setResetButton(EventHandler<ActionEvent> engine) { myResetEngine = engine; }
+  public UserLogin getMyUserLogin(){
+    return myUserLogin;
+  }
 
-  public void setSaveButton(EventHandler<ActionEvent> engine) { mySaveEngine = engine;}
+  public UserLogin getMyNewUserLogin(){
+    return myNewUserLogin;
+  }
+
+  public void setStartGameButton(EventHandler<ActionEvent> event){
+    myEngineEvent = event;
+  }
+
+  public EventHandler<ActionEvent> getStartGameButtonEvent(){
+    return myEngineEvent;
+  }
+
+  public void setResetButton(EventHandler<ActionEvent> event) { myResetEvent = event; }
+
+  public EventHandler<ActionEvent> getResetButtonEvent(){
+    return myResetEvent;
+  }
+
+  public void setSaveButton(EventHandler<ActionEvent> engine) { mySaveEvent = engine;}
 
   public EventHandler<ActionEvent> getSaveButtonEvent() {
-    return mySaveEngine;
+    return mySaveEvent;
   }
 
   public void setUserProfile(UserProfile thisUserProfile){

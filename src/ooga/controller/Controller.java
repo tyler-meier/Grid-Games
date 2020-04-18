@@ -5,7 +5,6 @@ import javafx.stage.Stage;
 import ooga.data.Data;
 import ooga.engine.Engine;
 import ooga.player.Player;
-
 import java.util.Map;
 
 

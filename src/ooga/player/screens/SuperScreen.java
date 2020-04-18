@@ -1,10 +1,9 @@
 package ooga.player.screens;
 
 import java.util.ResourceBundle;
-
-import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.StringProperty;
-import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -14,11 +13,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
-import ooga.controller.UserLogin;
-import ooga.data.UserProfile;
 import ooga.player.Player;
-
-import javax.swing.*;
 
 /**
  * The Super Screen class, which is a super class of all of the screen classes and holds methods that they all utilize,
@@ -30,17 +25,16 @@ public abstract class SuperScreen {
   protected static final String RESOURCES = "ooga/player/Resources/";
   protected static final String DEFAULT_RESOURCE_PACKAGE = RESOURCES.replace("/", ".");
   protected static final String DEFAULT_RESOURCE_FOLDER = "/" + RESOURCES;
-  private static final int DIMENSION = 600;
+  private static final int DIMENSION = 650;
   private static final int MAIN_SPACING = 50;
 
   protected ResourceBundle myButtonResources, myStringResources, myGameNameResources;
   protected Label myErrorMessage;
   protected Player myPlayer;
-  protected EventHandler<ActionEvent> myEventEngine;
   protected String myGameType;
   protected String styleSheet = "default.css";
-  protected UserLogin myUserLogin;
   protected Scene myScene;
+  protected IntegerProperty highScore = new SimpleIntegerProperty();
 
   /**
    * Constructor for super screen class that sets the instance variables
@@ -52,31 +46,10 @@ public abstract class SuperScreen {
 
   /**
    * Constructor for super screen class that sets the instance variables
-   * @param thisUserLogin data from the current player
-   * @param thisPlayer the current player
-   */
-  public SuperScreen(UserLogin thisUserLogin, Player thisPlayer){
-    myUserLogin = thisUserLogin;
-    setCommonVariables(thisPlayer);
-  }
-
-  /**
-   * Constructor for super screen class that sets the instance variables
-   * @param engine the event handler to create the engine
-   * @param thisPlayer the current player
-   */
-  public SuperScreen(EventHandler<ActionEvent> engine, Player thisPlayer){
-    myEventEngine = engine;
-    setCommonVariables(thisPlayer);
-  }
-
-  /**
-   * Constructor for super screen class that sets the instance variables
    * @param gameType the current game being played
    * @param thisPlayer the current player
    */
-  public SuperScreen(EventHandler<ActionEvent> engine, String gameType, Player thisPlayer){
-    myEventEngine = engine;
+  public SuperScreen(String gameType, Player thisPlayer){
     myGameType = gameType;
     setCommonVariables(thisPlayer);
   }
@@ -102,7 +75,6 @@ public abstract class SuperScreen {
     myCenterVBox.setSpacing(MAIN_SPACING);
     myCenterVBox.setAlignment(Pos.CENTER);
     myCenterVBox.getChildren().add(myErrorMessage);
-
     return finishStyling(myCenterVBox);
   }
 
@@ -165,5 +137,4 @@ public abstract class SuperScreen {
     this.styleSheet = styleSheet;
     myScene.getStylesheets().add(getClass().getResource(DEFAULT_RESOURCE_FOLDER + styleSheet).toExternalForm());
   }
-
 }
