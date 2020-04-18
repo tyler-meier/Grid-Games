@@ -15,12 +15,7 @@ public class Player implements PlayerStart{
   private static final String TITLE = "Grid GORLS + Tyler :)";
   private Stage myStage;
   private LoginScreen myLoginScreen;
-  private NewProfileScreen myNewProfScreen;
   private GameScreen myGameScreen;
-  private StartScreen myStartScreen;
-  private LossScreen myLossScreen;
-  private WonLevelScreen myWonLevelScreen;
-  private WonGameScreen myWonGameScreen;
   private CustomView myCustomView;
   private String myGameType, currentUsername;
   private UserLogin myUserLogin;
@@ -39,21 +34,20 @@ public class Player implements PlayerStart{
   }
 
   public void setUpStartScreen(StringProperty dataError){
-    myStartScreen = new StartScreen(myEngine, this);
+    StartScreen myStartScreen = new StartScreen(myEngine, this);
     myStartScreen.setError(dataError);
     myStage.setScene(myStartScreen.setUpScene());
   }
 
   public void setUpNewProfScreen(StringProperty dataError){
-    myNewProfScreen = new NewProfileScreen(myUserLogin, this);
+    NewProfileScreen myNewProfScreen = new NewProfileScreen(myUserLogin, this);
     myNewProfScreen.setError(dataError);
     myStage.setScene(myNewProfScreen.setUpScene());
   }
 
-  public void setUpGameScreen(Grid backendGrid, StringProperty dataError){   //TODO Pass through game type?
-    //does engine have a method that returns backendgrid that corresponds to default gametype xml?
+  public void setUpGameScreen(Grid backendGrid, StringProperty dataError){
     myGameScreen = new GameScreen(myResetEngine, myGameType, this);
-    myStage.setScene(myGameScreen.makeScene(800, 500));  //TODO: magic numbers, get dimensions?
+    myStage.setScene(myGameScreen.makeScene());
     myGameScreen.setGrid(backendGrid);
     myGameScreen.setStats(backendGrid.getGameStats());
     myGameScreen.setGameStatus(backendGrid.getLossStatus(), backendGrid.getWinStatus());
@@ -71,7 +65,7 @@ public class Player implements PlayerStart{
    * creates scene when game is lost, sets on stage
    */
   public void setUpLossScreen(){
-    myLossScreen = new LossScreen(myResetEngine, this);
+    LossScreen myLossScreen = new LossScreen(myResetEngine, this);
     myStage.setScene(myLossScreen.setUpScene());
   }
 
@@ -79,12 +73,12 @@ public class Player implements PlayerStart{
    * creates screen when game is won, sets on stage
    */
   public void setUpWonLevelScreen(){
-    myWonLevelScreen = new WonLevelScreen(this);
+    WonLevelScreen myWonLevelScreen = new WonLevelScreen(this);
     myStage.setScene(myWonLevelScreen.setUpScene());
   }
 
   public void setUpWonGameScreen(){
-    myWonGameScreen = new WonGameScreen(myResetEngine,this);
+    WonGameScreen myWonGameScreen = new WonGameScreen(myResetEngine, this);
     myStage.setScene(myWonGameScreen.setUpScene());
   }
 

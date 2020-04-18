@@ -30,16 +30,17 @@ public abstract class SuperScreen {
   protected static final String RESOURCES = "ooga/player/Resources/";
   protected static final String DEFAULT_RESOURCE_PACKAGE = RESOURCES.replace("/", ".");
   protected static final String DEFAULT_RESOURCE_FOLDER = "/" + RESOURCES;
-  protected String styleSheet = "default.css";
   private static final int DIMENSION = 600;
-  protected Scene myScene;
+  private static final int MAIN_SPACING = 50;
 
   protected ResourceBundle myButtonResources, myStringResources, myGameNameResources;
   protected Label myErrorMessage;
   protected Player myPlayer;
   protected EventHandler<ActionEvent> myEventEngine;
   protected String myGameType;
+  protected String styleSheet = "default.css";
   protected UserLogin myUserLogin;
+  protected Scene myScene;
 
   /**
    * Constructor for super screen class that sets the instance variables
@@ -98,7 +99,7 @@ public abstract class SuperScreen {
     for (Node a : myNodes){
       myCenterVBox.getChildren().add(a);
     }
-    myCenterVBox.setSpacing(50);
+    myCenterVBox.setSpacing(MAIN_SPACING);
     myCenterVBox.setAlignment(Pos.CENTER);
     myCenterVBox.getChildren().add(myErrorMessage);
 
@@ -122,7 +123,7 @@ public abstract class SuperScreen {
    * @param myContents endless parameters of each individual root node
    * @return this node VBox
    */
-  public Node styleContents(Node ... myContents){
+  public VBox styleContents(Node ... myContents){
     VBox myButtonVBox = new VBox();
     for (Node b : myContents){
       myButtonVBox.getChildren().add(b);
