@@ -16,13 +16,14 @@ import org.junit.jupiter.api.Test;
 
 class LoginScreenTest extends DukeApplicationTest {
 
-  private Player player = new Player();
+  private Player player;
   private LoginScreen myLoginScreen = new LoginScreen(player);
   private Button login, guest, window, newprof;
   private Node topPanel;
 
   @Override
   public void start(Stage stage){
+    player = new Player(stage);
     Scene myScene = myLoginScreen.setUpScene();
     stage.setScene(myScene);
     stage.show();
