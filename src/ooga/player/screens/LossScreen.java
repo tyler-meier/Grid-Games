@@ -1,7 +1,6 @@
 package ooga.player.screens;
 
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import ooga.player.Player;
@@ -31,8 +30,6 @@ public class LossScreen extends SuperScreen {
 
   private VBox setUpContents(){
     Label lossLabel = new Label(myStringResources.getString("Loss"));
-    Button homeButton = makeButton("HomeCommand", e -> myPlayer.setUpStartScreen(myErrorMessage.textProperty()));
-    Button resetButton = makeButton("ResetLevelCommand", myPlayer.getResetButtonEvent());
-    return styleContents(lossLabel, homeButton, resetButton);
+    return styleContents(lossLabel, makeHomeButton(), makeSaveButton(), makeResetGameButton());
   }
 }

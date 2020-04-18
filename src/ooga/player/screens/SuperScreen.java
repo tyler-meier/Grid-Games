@@ -106,19 +106,6 @@ public abstract class SuperScreen {
   }
 
   /**
-   * Creates the button given the parameters
-   * @param text the text to be displayed on the button (key to find text)
-   * @param handler the event(s) that the button will do
-   * @return the newly created buttons
-   */
-  public Button makeButton(String text, EventHandler<ActionEvent> handler) {
-    Button newButton = new Button();
-    newButton.setText(myButtonResources.getString(text));
-    newButton.setOnAction(handler);
-    return newButton;
-  }
-
-  /**
    * Allows an error message to be displayed if there  is an error by setting the message
    * binds with the backend to know when an error is thrown
    * @param message the message that will be displayed
@@ -136,5 +123,59 @@ public abstract class SuperScreen {
     myScene.getStylesheets().clear();
     this.styleSheet = styleSheet;
     myScene.getStylesheets().add(getClass().getResource(DEFAULT_RESOURCE_FOLDER + styleSheet).toExternalForm());
+  }
+
+  /**
+   * Sets up the generic save button
+   * @return save button
+   */
+  public Button makeSaveButton(){
+    return makeButton("SaveCommand", e->{
+      if(myPlayer.getMyUserProfile() != null) {
+        myPlayer.getMyUserProfile().addHighScore(myGameType, highScore.getValue());
+        myPlayer.getSaveButtonEvent().handle(e);
+      }
+      else {
+        myErrorMessage.textProperty().setValue(myStringResources.getString("GuestSave"));
+        myErrorMessage.setWrapText(true);
+      }
+    });
+  }
+
+  /**
+   * Sets up the generic home button
+   * @return home button
+   */
+  public Button makeHomeButton(){
+    return makeButton("HomeCommand", e -> myPlayer.setUpStartScreen(myErrorMessage.textProperty()));
+  }
+
+  /**
+   * Sets up the generic logout button
+   * @return logout button
+   */
+  public Button makeLogoutButton(){
+    return makeButton("LogoutCommand", e -> myPlayer.setUpLoginScreen());
+  }
+
+  /**
+   * Sets up the generic reset game button
+   * @return reset game button
+   */
+  public Button makeResetGameButton(){
+    return makeButton("ResetGameCommand", myPlayer.getResetButtonEvent());
+  }
+
+  /**
+   * Creates the button given the parameters
+   * @param text the text to be displayed on the button (key to find text)
+   * @param handler the event(s) that the button will do
+   * @return the newly created button
+   */
+  public Button makeButton(String text, EventHandler<ActionEvent> handler) {
+    Button newButton = new Button();
+    newButton.setText(myButtonResources.getString(text));
+    newButton.setOnAction(handler);
+    return newButton;
   }
 }

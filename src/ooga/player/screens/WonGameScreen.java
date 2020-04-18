@@ -1,7 +1,6 @@
 package ooga.player.screens;
 
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import ooga.player.Player;
@@ -31,8 +30,6 @@ public class WonGameScreen extends SuperScreen {
 
   private VBox setUpContents(){
     Label winGameLabel = new Label(myStringResources.getString("WonGame"));
-    Button homeButton = makeButton("HomeCommand", e -> myPlayer.setUpStartScreen(myErrorMessage.textProperty()));
-    Button resetGameButton = makeButton("ResetGameCommand", myPlayer.getResetButtonEvent());
-    return styleContents(winGameLabel, homeButton, resetGameButton);
+    return styleContents(winGameLabel, makeHomeButton(), makeResetGameButton(), makeSaveButton());
   }
 }

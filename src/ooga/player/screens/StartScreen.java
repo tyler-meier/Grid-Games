@@ -58,7 +58,6 @@ public class StartScreen extends SuperScreen {
         myErrorMessage.textProperty().setValue(myStringResources.getString("BlankChoice"));
       }
     });
-    Button logoutButton = makeButton("LogoutCommand", e -> myPlayer.setUpLoginScreen());
-    return styleContents(startButton, logoutButton);
+    return styleContents(startButton, makeLogoutButton());
   }
 }

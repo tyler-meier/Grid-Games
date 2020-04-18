@@ -6,9 +6,6 @@ import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -75,10 +72,9 @@ public class GameScreen extends SuperScreen {
 
   private HBox makeToolBar() {
     HBox toolBar = new HBox();
-    Button homeButton = makeButton("HomeCommand", e-> myPlayer.setUpStartScreen(myErrorMessage.textProperty()));
     Button customView = makeButton("CustomCommand", e-> myPlayer.setUpCustomView());
     Label name = new Label(myGameNameResources.getString(myGameType));
-    toolBar.getChildren().addAll(homeButton, customView, name);
+    toolBar.getChildren().addAll(makeHomeButton(), customView, name);
     toolBar.setSpacing(SPACING_2);
     return toolBar;
   }
@@ -91,15 +87,13 @@ public class GameScreen extends SuperScreen {
   }
 
   private VBox makeButtonPanel() {
-    Button logoutButton = makeButton("LogoutCommand", e-> myPlayer.setUpLoginScreen());
-    Button resetGameButton = makeButton("ResetGameCommand", myPlayer.getResetButtonEvent());
 //    Button resetLevelButton = makeButton("ResetLevelCommand", e-> myPlayer.setUpGameScreen(myPlayer.getGrid()));
-    VBox buttons = styleContents(logoutButton, resetGameButton, makeSaveButton(), myErrorMessage);
+    VBox buttons = styleContents(makeLogoutButton(), makeResetGameButton(), makeThisSaveButton(), myErrorMessage);
     return buttons;
   }
 
-  private Button makeSaveButton(){
-    Button saveButton = makeButton("SaveCommand", e->{
+  private Button makeThisSaveButton(){
+    Button saveButton = makeButton("SaveCommand", e->{   //TODO: see if you  can get this method out somehow
       if(verticalPanel.getChildren().contains(pausePlayButton)) {
         timer.cancel();
         pausePlayButton.setText(myButtonResources.getString("PlayCommand"));

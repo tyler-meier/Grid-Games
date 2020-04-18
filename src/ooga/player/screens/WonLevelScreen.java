@@ -32,17 +32,6 @@ public class WonLevelScreen extends SuperScreen {
   private VBox setUpContents(){
     Label winLevelLabel = new Label(myStringResources.getString("WonLevel"));
     Button nextLevelButton = makeButton("NextLevelCommand", e -> myPlayer.setUpStartScreen(myErrorMessage.textProperty())); //TODO: fix next level  button
-    Button homeButton = makeButton("HomeCommand", e -> myPlayer.setUpStartScreen(myErrorMessage.textProperty()));
-    Button saveButton = makeButton("SaveCommand", e-> {
-      if(myPlayer.getMyUserProfile() != null) {
-        myPlayer.getMyUserProfile().addHighScore(myGameType, highScore.getValue());
-        myPlayer.getSaveButtonEvent().handle(e);
-      }
-      else {
-        myErrorMessage.textProperty().setValue(myStringResources.getString("GuestSave"));
-        myErrorMessage.setWrapText(true);
-      }
-    });
-    return styleContents(winLevelLabel, nextLevelButton, homeButton, saveButton, myErrorMessage);
+    return styleContents(winLevelLabel, nextLevelButton, makeHomeButton(), makeSaveButton(), myErrorMessage);
   }
 }
