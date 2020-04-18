@@ -2,7 +2,7 @@
 <game>
     <Level>1</Level>
     <Score>0</Score>
-    <TargetScore>500</TargetScore>
+    <TargetScore>150</TargetScore>
     <LossStat>MovesLeft</LossStat>
     <MovesLeft>10</MovesLeft>
 
