@@ -25,4 +25,18 @@ public interface EngineBuilder {
      * @param initialConfig
      */
     void setupGame(int[][] initialConfig, Map<String, String> gameAttributes, boolean[][] openCells);
+
+    /**
+     * Returns the configuration of the backend grid in the form of a 2D array.
+     * @return
+     */
+    int[][] getGridConfiguration();
+
+    /**
+     * Returns the isOpen state of all the cells in the grid, in the form of a 2D array.
+     * @return
+     */
+    boolean[][] getOpenCellConfiguration();
+
+
 }

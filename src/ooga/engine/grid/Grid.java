@@ -57,19 +57,16 @@ public class Grid {
      * @param initialStates
      */
     public void setNewGame(int[][] initialStates, Map<String, String> gameAttributes, boolean[][] openCells){
+        // this method does not need try catch, as the error is caught in the constructor of GameProgressManager
         if (myGrid==null) myGrid = new Cell[initialStates.length][initialStates[0].length];
         setupGridStates(initialStates, openCells);
-        try{
-            myProgressManager = new GameProgressManager(gameAttributes, myErrorMessage);
-            myValidator.setMyProgressManager(myProgressManager);
-        } catch (Exception e){
-            myErrorMessage.set(e.toString());
-        }
+        myProgressManager = new GameProgressManager(gameAttributes, myErrorMessage);
+        myValidator.setMyProgressManager(myProgressManager);
         numSelected=0;
     }
 
     /**
-     * This method returns the states of the grid in the form of a 2D array
+     * This method returns the states of the grid in the form of a 2D array.
      * @return
      */
     public int[][] getGridConfiguration(){
@@ -82,6 +79,10 @@ public class Grid {
         return gridStates;
     }
 
+    /**
+     * This method returns the open status of all cells in the grid, in the form of a 2D array.
+     * @return
+     */
     public boolean[][] getOpenCellConfiguration(){
         if (noHiddenCells) return null;
         boolean[][] openCells = new boolean[myGrid.length][myGrid[0].length];
@@ -93,6 +94,10 @@ public class Grid {
         return openCells;
     }
 
+    /**
+     * This method returns the attributes of the current game in a string to string mapping.
+     * @return
+     */
     public Map<String, String> getGameAttributes() { return myProgressManager.getGameAttributes(); }
 
     /**
@@ -115,29 +120,6 @@ public class Grid {
      */
     public BooleanProperty getWinStatus(){
         return myProgressManager.isWin();
-    }
-
-    /**
-     * This method sets up the grid given the specified initial states of the cells.
-     * @param initialStates
-     */
-    private void setupGridStates(int[][] initialStates, boolean[][] openCells){
-        for (int r = 0; r<initialStates.length; r++){
-            for (int c=0; c<initialStates[0].length; c++){
-                if (getCell(r, c)==null){
-                    boolean isOpen = (openCells!=null) ? openCells[r][c] : noHiddenCells;
-                    myGrid[r][c] = new Cell(initialStates[r][c], isOpen, pointsPerCell);
-                    myGrid[r][c].setupSelection(increment -> {
-                        numSelected += increment? 1 : -1;
-                        if (numSelected==numSelectedPerMove) updateGrid();
-                    }, moveInProgress);
-                    myGrid[r][c].setCoordinates(r,c);
-                } else {
-                    getCell(r, c).cellState().set(initialStates[r][c]);
-                    getCell(r, c).isOpen().set(noHiddenCells);
-                }
-            }
-        }
     }
 
     /**
@@ -174,27 +156,51 @@ public class Grid {
          if(myValidator.checkIsValid(selectedCells)){
             System.out.println("valid move");
             List<Cell> matchedCells = new ArrayList<>();
-            //TODO: ask TA if there is a better way to do this to avoid circular dependency
-            if (noHiddenCells){
-                matchedCells.addAll(myMatchFinder.makeMatches(selectedCells, this));
-                if (matchedCells.size()>0) myProgressManager.decrementMoves();
-            } else {
-                matchedCells.addAll(selectedCells);
-                matchedCells.addAll(myMatchFinder.makeMatches(this));
-            }
-            while (matchedCells.size()>0){
-                if (!noHiddenCells) {
-                    openMatchedCells(matchedCells);
-                }
-                else {
-                    deleteMatchedCells(matchedCells);
-                }
-                matchedCells.addAll(myMatchFinder.makeMatches(this));
-            }
+            findMatchedCells(matchedCells, selectedCells);
+            handleMatchedCells(matchedCells);
          }
          else System.out.println("invalid move");
          moveInProgress.set(false);
          for (Cell cell:selectedCells) cell.toggleSelected();
+    }
+
+    private void findMatchedCells(List<Cell> matchedCells, List<Cell> selectedCells){
+        if (noHiddenCells){
+            matchedCells.addAll(myMatchFinder.makeMatches(selectedCells, this));
+            if (matchedCells.size()>0) myProgressManager.decrementMoves();
+        } else {
+            matchedCells.addAll(selectedCells);
+            matchedCells.addAll(myMatchFinder.makeMatches(this));
+        }
+    }
+
+    private void handleMatchedCells(List<Cell> matchedCells){
+        while (matchedCells.size()>0){
+            if (!noHiddenCells) {
+                openMatchedCells(matchedCells);
+            }
+            else {
+                deleteMatchedCells(matchedCells);
+            }
+            matchedCells.addAll(myMatchFinder.makeMatches(this));
+        }
+    }
+
+    private void setupGridStates(int[][] initialStates, boolean[][] openCells){
+        for (int r = 0; r<initialStates.length; r++){
+            for (int c=0; c<initialStates[0].length; c++){
+                if (getCell(r, c)==null){
+                    boolean isOpen = (openCells!=null) ? openCells[r][c] : noHiddenCells;
+                    myGrid[r][c] = new Cell(initialStates[r][c], isOpen, pointsPerCell);
+                    myGrid[r][c].setupSelection(increment -> {
+                        numSelected += increment? 1 : -1;
+                        if (numSelected==numSelectedPerMove) updateGrid();
+                    }, moveInProgress);
+                    myGrid[r][c].setCoordinates(r,c);
+                } else {
+                    getCell(r, c).cellState().set(initialStates[r][c]);
+                    getCell(r, c).isOpen().set(noHiddenCells);
+                } } }
     }
 
     private List<Cell> getSelectedCells(){

@@ -25,7 +25,7 @@ public class Engine implements EngineBuilder {
         myGrid = new Grid(engineAttributes, myValidator, myMatchFinder, errorMessage);
     }
 
-    // use for reset as well
+    @Override
     public void setupGame(int[][] initialStates, Map<String, String> myGameAttributes, boolean[][] openCells){
         myGrid.setNewGame(initialStates, myGameAttributes, openCells);
     }
@@ -35,15 +35,14 @@ public class Engine implements EngineBuilder {
         return myGrid;
     }
 
+    @Override
     public Map<String, String> getGameAttributes() {
         return myGrid.getGameAttributes();
     }
 
-    /**
-     * Returns the configuration of the backend grid in the form of a 2D array.
-     * @return
-     */
+    @Override
     public int[][] getGridConfiguration() { return myGrid.getGridConfiguration(); }
 
+    @Override
     public boolean[][] getOpenCellConfiguration() { return myGrid.getOpenCellConfiguration(); }
 }

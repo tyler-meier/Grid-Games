@@ -21,7 +21,6 @@ public class PairValidator extends Validator {
             cell.isOpen().set(true);
             if (cell.getMyState()!=matchState) matched = false;
         }
-
         if (!matched){
             myProgressManager.decrementMoves();
             Timer timer = new Timer();
