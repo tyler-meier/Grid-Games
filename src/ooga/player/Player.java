@@ -24,7 +24,7 @@ public class Player implements PlayerStart{
   private String myGameType, currentUsername;
   private UserLogin myNewUserLogin, myUserLogin;
   private UserProfile myUserProfile;
-  private EventHandler<ActionEvent> myEngineEvent, myResetEvent, mySaveEvent, myNewWindowEvent;
+  private EventHandler<ActionEvent> myEngineEvent, myResetEvent, mySaveEvent, myNewWindowEvent, myUserDefEngineEvent;
 
   public Player(Stage primaryStage){
     myStage = primaryStage;
@@ -207,11 +207,11 @@ public class Player implements PlayerStart{
   }
 
   public void setUserMadeStartButton(EventHandler<ActionEvent> event){
-    myEngineEvent = event;
+    myUserDefEngineEvent = event;
   }
 
   public EventHandler<ActionEvent> getUserMAdeStartButton(){
-    return myEngineEvent;
+    return myUserDefEngineEvent;
   }
 
   /**

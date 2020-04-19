@@ -37,10 +37,10 @@ public class UserDefinedGameScreenOne extends SuperScreen {
     public Scene setUpScene(){
         Label newGameLabel = makeNewGameLabel();
         VBox engineCharacteristicSelection = makeEngineCharSelection();
-        ScrollPane myEngineScroller = new ScrollPane();
-        myEngineScroller.setContent(engineCharacteristicSelection);
+        //ScrollPane myEngineScroller = new ScrollPane();
+        //myEngineScroller.setContent(engineCharacteristicSelection);
         VBox nextButton = setUpButtons();
-        return styleScene(newGameLabel, myEngineScroller, nextButton);
+        return styleScene(newGameLabel, engineCharacteristicSelection, nextButton);
     }
 
     private Label makeNewGameLabel(){

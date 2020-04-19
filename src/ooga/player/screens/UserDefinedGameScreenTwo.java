@@ -1,5 +1,6 @@
 package ooga.player.screens;
 
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -40,7 +41,7 @@ public class UserDefinedGameScreenTwo extends SuperScreen {
         ScrollPane myGameScroller = new ScrollPane();
         myGameScroller.setContent(gameCharacteristicSelection);
         VBox goButton = setUpButtons();
-        return styleScene(myGameScroller, goButton);
+        return styleScene(gameCharacteristicSelection, goButton);
     }
 
     public Map<String,String> getUserSelectedEngineAttributes(){

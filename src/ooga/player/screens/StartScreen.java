@@ -55,6 +55,7 @@ public class StartScreen extends SuperScreen {
         myPlayer.setGameType(nameOfGameMapping.get(games.getValue()));
         myPlayer.getStartGameButtonEvent().handle(e);
       } catch (NullPointerException p){
+        p.printStackTrace();
         myErrorMessage.textProperty().setValue(myStringResources.getString("BlankChoice"));
       }
     });
