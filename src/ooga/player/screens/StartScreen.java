@@ -58,6 +58,9 @@ public class StartScreen extends SuperScreen {
         myErrorMessage.textProperty().setValue(myStringResources.getString("BlankChoice"));
       }
     });
-    return styleContents(startButton, makeLogoutButton());
+    Button makeNewGameButton = makeButton("MakeNewGame", e-> {
+        myPlayer.setUpMakeNewGameScreenOne();
+    });
+    return styleContents(startButton, makeLogoutButton(), makeNewGameButton);
   }
 }

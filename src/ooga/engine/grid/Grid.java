@@ -49,6 +49,7 @@ public class Grid {
         myValidator = validator;
         myMatchFinder = matchFinder;
         myErrorMessage = errorMessage;
+        System.out.println("seconds open: " + secondsOpen);
         myValidator.setTime(secondsOpen);
     }
 

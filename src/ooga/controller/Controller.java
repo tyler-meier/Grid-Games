@@ -30,6 +30,7 @@ public class Controller extends Application {
         player.setUserLogin(data::login);
         player.setNewLogin(data::saveNewPlayerProfile);
         player.setStartGameButton(e -> buildNewEngine(player, data));
+        player.setUserMadeStartButton(e -> buildNewEngineUserMade(player, data));
         player.setErrorMessage(data.getErrorMessage());
     }
 
@@ -50,6 +51,32 @@ public class Controller extends Application {
             engine.setupGame(newInitialStates, newGameAttributes, newOpenCells);
             player.setUpGameScreen(engine.getGrid(), data.getErrorMessage());
         });
+        player.setUpGameScreen(engine.getGrid(), data.getErrorMessage());
+    }
+
+    private void buildNewEngineUserMade(Player player, Data data){
+        String type = player.getGameType();
+        String username = player.getUsername();
+        System.out.println("Right before making the maps");
+        Map<String, String> myEngineAttributes = player.getUserMadeEngineAttributesMap();
+        Map<String, String> myGameAttributes = player.getUserMadeGameAttributesMap();
+        System.out.println("Right after making the maps");
+        int[][] initialStates = { {1,6, 5, 4, 2}, {5, 1, 3, 1, 5}, {4, 4, 4, 6, 1}, {2, 3, 4, 3, 2}};
+        boolean[][] openCellConfiguration = { {true ,true, true, true, true}, {true, true, true, true, true}, {true, true, true, true, true}, {true, true, true, true, true}};
+        System.out.println("set the initial grid config");
+        Engine engine = new Engine(myEngineAttributes, data.getErrorMessage());
+        engine.setupGame(initialStates, myGameAttributes, openCellConfiguration);
+        /*
+        player.setSaveButton(e -> data.saveGame(engine.getGameAttributes(), engine.getGridConfiguration(), engine.getOpenCellConfiguration()));
+        player.setResetButton(e -> {
+            Map<String, String> newGameAttributes = data.getGameAttributes("Guest", type);
+            int[][] newInitialStates = data.getGrid();
+            boolean[][] newOpenCells = data.getOpenCells();
+            engine.setupGame(newInitialStates, newGameAttributes, newOpenCells);
+            player.setUpGameScreen(engine.getGrid(), data.getErrorMessage());
+        });
+
+         */
         player.setUpGameScreen(engine.getGrid(), data.getErrorMessage());
     }
 }

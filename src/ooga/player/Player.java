@@ -9,6 +9,8 @@ import ooga.data.UserProfile;
 import ooga.engine.grid.Grid;
 import ooga.player.screens.*;
 
+import java.util.Map;
+
 public class Player implements PlayerStart{
 
   private static final String TITLE = "Grid GORLS + Tyler :)";
@@ -17,6 +19,8 @@ public class Player implements PlayerStart{
   private LoginScreen myLoginScreen;
   private GameScreen myGameScreen;
   private CustomView myCustomView;
+  private UserDefinedGameScreenOne myUserDefinedGameScreenOne;
+  private UserDefinedGameScreenTwo myUserDefinedGameScreenTwo;
   private String myGameType, currentUsername;
   private UserLogin myNewUserLogin, myUserLogin;
   private UserProfile myUserProfile;
@@ -102,6 +106,24 @@ public class Player implements PlayerStart{
     myStage.setScene(myWonGameScreen.setUpScene());
   }
 
+  public void setUpMakeNewGameScreenOne(){
+    myUserDefinedGameScreenOne = new UserDefinedGameScreenOne(this);
+    myStage.setScene(myUserDefinedGameScreenOne.setUpScene());
+  }
+
+  public void setUpMakeNewGameScreenTwo(Map<String, String> selectedEngineAttributes, Map<String, String> selectedGameAttributes){
+    myUserDefinedGameScreenTwo = new UserDefinedGameScreenTwo(this);
+    myStage.setScene(myUserDefinedGameScreenTwo.setUpScene(selectedEngineAttributes, selectedGameAttributes));
+  }
+
+  public Map<String,String> getUserMadeEngineAttributesMap(){
+    return myUserDefinedGameScreenTwo.getUserSelectedEngineAttributes();
+  }
+
+  public Map<String, String> getUserMadeGameAttributesMap(){
+    return myUserDefinedGameScreenTwo.getUserSelectedGameAttributes();
+  }
+
   /**
    *
    */
@@ -174,12 +196,21 @@ public class Player implements PlayerStart{
     myEngineEvent = event;
   }
 
+
   /**
    *
    * @return
    */
   @Override
   public EventHandler<ActionEvent> getStartGameButtonEvent(){
+    return myEngineEvent;
+  }
+
+  public void setUserMadeStartButton(EventHandler<ActionEvent> event){
+    myEngineEvent = event;
+  }
+
+  public EventHandler<ActionEvent> getUserMAdeStartButton(){
     return myEngineEvent;
   }
 
