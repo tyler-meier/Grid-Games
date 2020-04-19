@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<game>
+  <Level>1</Level>
+  <Score>0</Score>
+  <TargetScore>710</TargetScore>
+  <LossStat>LivesLeft</LossStat>
+  <LivesLeft>5</LivesLeft>
+
+  <numRows>10</numRows>
+  <numColumns>10</numColumns>
+  <row>0 0 2 9 3 1 0 1 2 9</row>
+  <row>1 1 4 9 9 1 0 1 9 2</row>
+  <row>1 9 4 9 4 2 1 1 1 1</row>
+  <row>1 2 9 4 5 9 3 2 3 2</row>
+  <row>1 2 3 9 9 9 4 9 9 9</row>
+  <row>9 2 4 9 7 4 5 9 5 2</row>
+  <row>2 9 3 9 9 9 4 9 2 0</row>
+  <row>1 1 2 3 9 9 3 1 2 1</row>
+  <row>0 1 2 3 3 2 3 1 2 9</row>
+  <row>0 1 9 9 1 1 9 9 2 1</row>
+
+</game>

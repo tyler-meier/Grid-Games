@@ -27,6 +27,8 @@ public class Data implements DataLink {
   private final String GUEST_USER = "Guest";
   private final String MAIN_GAME_TAG = "game";
   private final String NEW_GAME_PATH_SKELETON = "data/profiles/%s%s.xml";
+  private final String LEVEL_PATH_SKELETON = "data/defaultGames/%s/level_%d.xml";
+  private final int LOAD_SAVED_GAME = -1;
 
   private final ResourceBundle myEngineResource = ResourceBundle.getBundle(ENGINE_KEY_PATH);
   private final ResourceBundle myGameResource = ResourceBundle.getBundle(GAME_KEY_PATH);
@@ -134,6 +136,15 @@ public class Data implements DataLink {
       errorMessage.setValue("Game Saved!");
   }
 
+  public void saveGameLevel(Map<String, String> gameAttributes, int[][] grid, boolean[][] uncoveredCells) {
+    String path = String.format(NEW_GAME_PATH_SKELETON, currentUser.getUsername(), gameType);
+    XMLBuilder newGame = new XMLGameBuilder(MAIN_GAME_TAG, path, gameAttributes, grid, uncoveredCells);
+    currentUser.addSavedGame(gameType, path);
+    myProfileManager.updatePLayerXML(currentUser);
+    errorMessage.setValue("Game Saved!");
+  }
+
+
   /**
    * Given a profile and the type of game, this method will go into that
    * profile and grab the path of where the last saved value of that game exists.
@@ -170,6 +181,19 @@ public class Data implements DataLink {
   {
     return gameParser.getUncoveredCellGrid();
   }
+
+
+  public Map<String, String> getGameLevelAttributes(String username, String gameType, int level) {
+    this.gameType = gameType;
+    gamePath = String.format(LEVEL_PATH_SKELETON, gameType, level);
+    if(!username.equals(GUEST_USER) && level == LOAD_SAVED_GAME)
+    {
+      gamePath = currentUser.getSavedGame(gameType);
+    }
+    gameParser = new XMLParser(gamePath);
+    return gameParser.getMapFromXML(myGameResource);
+  }
+
 
 
   private void setCurrentUser(UserProfile newCurrent)
