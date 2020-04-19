@@ -6,9 +6,6 @@ import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -19,134 +16,115 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import ooga.engine.grid.Grid;
-import ooga.player.Player;
-import ooga.player.TimeKeeper;
 import ooga.player.GridView;
+import ooga.player.Player;
 
-public class GameScreen extends SuperScreen{
-  private static final String RESOURCES = "ooga/player/Resources/";
-  private static final String DEFAULT_RESOURCE_PACKAGE = RESOURCES.replace("/", ".");
-  private static final String DEFAULT_RESOURCE_FOLDER = "/" + RESOURCES;
+public class GameScreen extends SuperScreen {
   private static final String TIME = "Time";
+  private static final String SCORE = "Score";
   private static final int ONE_SECOND = 1000;
   private static final int PADDING_TOP_BOTTOM = 10;
   private static final int PADDING_LEFT_RIGHT = 20;
   private static final int GRID_SIZE = 400;
   private static final int SPACING_1 = 30;
   private static final int SPACING_2 = 45;
-  private int myHeight;
-  private int myWidth;
+  private static final int SPACING_3 = 10;
+  private static final int WIDTH = 900;
+  private static final int HEIGHT = 600;
   private GridView myGrid;
-  private GridPane myGridPane;
   private BorderPane myRoot;
   private BooleanProperty isLoss = new SimpleBooleanProperty();
   private BooleanProperty isWin = new SimpleBooleanProperty();
   private BooleanProperty paused = new SimpleBooleanProperty(false);
-  //String myTime = "00:00:000";
+  //private String myTime = "00:00:000";
   private Timer timer;
-  private VBox verticalPanel;
-  private Button pauseButton;
-  private IntegerProperty score = new SimpleIntegerProperty();
-  private Button resetGameButton;
-  //TODO: make pause work with selecting
+  private VBox verticalPanel = new VBox();
+  private Button pausePlayButton, resetGameButton;
 
-  public GameScreen(EventHandler<ActionEvent> engine, String gameType, Player player){
-    super(engine, gameType, player);
-    myGrid = new GridView(gameType, GRID_SIZE); //TODO: magic number
+  /**
+   *
+   * @param gameType
+   * @param player
+   */
+  public GameScreen(String gameType, Player player){
+    super(gameType, player);
+    myGrid = new GridView(gameType, GRID_SIZE);
   }
 
   /**
-   * returns scene for game
-   * @param height
-   * @param width
+   *
    * @return
    */
-  public Scene makeScene(int height, int width) {
+  public Scene makeScene() {
     myRoot = new BorderPane();
-    myHeight = height;
-    myWidth = width;
     myRoot.setPadding(new Insets(PADDING_TOP_BOTTOM, PADDING_LEFT_RIGHT, PADDING_TOP_BOTTOM, PADDING_LEFT_RIGHT));
 
-    Node toolBar = makeToolBar();
+    HBox toolBar = makeToolBar();
+    makeSideBar();
     myRoot.setTop(toolBar);
-
-    verticalPanel = new VBox();
-    Node buttonPanel = makeButtonPanel();
-    //Node statsPanel = makeStatsPanel();
-    verticalPanel.setSpacing(SPACING_1);
-    verticalPanel.setAlignment(Pos.CENTER);
-    verticalPanel.getChildren().addAll(buttonPanel);//, statsPanel);
     myRoot.setRight(verticalPanel);
 
-    Scene scene = new Scene(myRoot, height, width);
+    Scene scene = new Scene(myRoot, WIDTH, HEIGHT);
     scene.getStylesheets().add(getClass().getResource(DEFAULT_RESOURCE_FOLDER + styleSheet).toExternalForm());
-
     myScene = scene;
     return myScene;
   }
 
-  public void setGrid(Grid backendGrid){
-    myGridPane = myGrid.setGrid(backendGrid, paused);
-    myGridPane.setAlignment(Pos.CENTER);
-    myRoot.setCenter(myGridPane);
-  }
-
-  private Node makeButtonPanel() {
-    Button logoutButton = makeButton("LogoutCommand", e-> myPlayer.setUpLoginScreen());
-    //TODO: fix this
-    Button resetGameButton = makeButton("ResetGameCommand", myEventEngine);
-//    Button resetLevelButton = makeButton("ResetLevelCommand", e-> myPlayer.setUpGameScreen(myPlayer.getGrid()));
-    Button saveButton = makeButton("SaveCommand", e->{
-      if(verticalPanel.getChildren().contains(pauseButton))
-      {
-        timer.cancel();
-        pauseButton.setText(myStringResources.getString("Play"));
-        paused.set(true);
-      }
-      if(myPlayer.getMyUserProfile()!=null){
-        myPlayer.getMyUserProfile().addHighScore(myGameType, score.getValue());
-        myPlayer.getSaveButtonEvent().handle(e);
-      }
-      else{
-        myErrorMessage.textProperty().setValue("You can't save as a guest");
-        myErrorMessage.setWrapText(true);
-      }
-    });
-
-    Node buttons = styleContents(logoutButton, resetGameButton, saveButton, myErrorMessage);
-    return buttons;
-  }
-
-  private Node makeToolBar() {
+  private HBox makeToolBar() {
     HBox toolBar = new HBox();
-    Button homeButton = makeButton("HomeCommand", e-> myPlayer.setUpStartScreen(myErrorMessage.textProperty()));
-
-//    TimeKeeper timer = new TimeKeeper();
-//    timer.addTimeline();
-//    String time = timer.getText();
-//    Label stopWatch = new Label("TIME: " + time);
-
-    Label name = new Label(myGameNameResources.getString(myGameType));
     Button customView = makeButton("CustomCommand", e-> myPlayer.setUpCustomView());
-
-    toolBar.getChildren().addAll(homeButton, customView, name);
+    Label name = new Label(myGameNameResources.getString(myGameType));
+    toolBar.getChildren().addAll(makeHomeButton(), customView, name);
     toolBar.setSpacing(SPACING_2);
     return toolBar;
   }
 
-
-  private Node makeLabel(IntegerProperty integerProperty, String key) {
-    HBox box = new HBox();
-    Label name = new Label(key+": ");
-    Label value = new Label();
-    value.textProperty().bind(integerProperty.asString());
-    if (key.equals("Score")){
-      score.bind(integerProperty);
-    }
-    box.getChildren().addAll(name, value);
-    return box;
+  private void makeSideBar() {
+    VBox buttonPanel = makeButtonPanel();
+    verticalPanel.setSpacing(SPACING_1);
+    verticalPanel.setAlignment(Pos.CENTER);
+    verticalPanel.getChildren().add(buttonPanel);
   }
 
+  private VBox makeButtonPanel() {
+//    Button resetLevelButton = makeButton("ResetLevelCommand", e-> myPlayer.setUpGameScreen(myPlayer.getGrid()));
+    VBox buttons = styleContents(makeLogoutButton(), makeResetGameButton(), makeThisSaveButton(), myErrorMessage);
+    return buttons;
+  }
+
+  private Button makeThisSaveButton(){
+    Button saveButton = makeButton("SaveCommand", e->{   //TODO: see if you  can get this method out somehow
+      if(verticalPanel.getChildren().contains(pausePlayButton)) {
+        timer.cancel();
+        pausePlayButton.setText(myButtonResources.getString("PlayCommand"));
+        paused.set(true);
+      }
+      if(myPlayer.getMyUserProfile() != null) {
+        myPlayer.getMyUserProfile().addHighScore(myGameType, highScore.getValue());
+        myPlayer.getSaveButtonEvent().handle(e);
+      }
+      else {
+        myErrorMessage.textProperty().setValue(myStringResources.getString("GuestSave"));
+        myErrorMessage.setWrapText(true);
+      }
+    });
+    return saveButton;
+  }
+
+  /**
+   *
+   * @param backendGrid
+   */
+  public void setGrid(Grid backendGrid){
+    GridPane myGridPane = myGrid.setGrid(backendGrid, paused);
+    myGridPane.setAlignment(Pos.CENTER);
+    myRoot.setCenter(myGridPane);
+  }
+
+  /**
+   *
+   * @param gameStats
+   */
   public void setStats(Map<String, IntegerProperty> gameStats){
     VBox stats = new VBox();
     for (String key:gameStats.keySet()){
@@ -156,29 +134,40 @@ public class GameScreen extends SuperScreen{
     if (myPlayer.getMyUserProfile() != null){
       stats.getChildren().add(new HBox(new Label(myStringResources.getString("High")), new Label(myPlayer.getMyUserProfile().getHighScore(myGameType))));
     }
-    stats.setSpacing(10);
+    stats.setSpacing(SPACING_3);
     stats.setAlignment(Pos.CENTER);
     verticalPanel.getChildren().add(stats);
-    addTimeButton(gameStats);
+    makePausePlayButton(gameStats);
   }
 
-  private void addTimeButton(Map<String, IntegerProperty> gameStats){
+  private Node makeLabel(IntegerProperty integerProperty, String key) {
+    HBox box = new HBox();
+    Label name = new Label(key+": ");
+    Label value = new Label();
+    value.textProperty().bind(integerProperty.asString());
+    if (key.equals(SCORE)){
+      highScore.bind(integerProperty);
+    }
+    box.getChildren().addAll(name, value);
+    return box;
+  }
+
+  private void makePausePlayButton(Map<String, IntegerProperty> gameStats){
     if (!gameStats.containsKey(TIME)) return;
-    pauseButton = new Button(myStringResources.getString("Play"));
+    pausePlayButton = new Button(myButtonResources.getString("PlayCommand"));
     paused.set(true);
-    //TODO: hard coded text/ where should this button be?
-    pauseButton.setOnMouseClicked(e -> {
+    pausePlayButton.setOnMouseClicked(e -> {
       if (paused.get()) {
-        pauseButton.setText(myStringResources.getString("Pause"));
+        pausePlayButton.setText(myButtonResources.getString("PauseCommand"));
         startTimer(gameStats.get(TIME));
         paused.set(false);
       } else {
-        pauseButton.setText(myStringResources.getString("Play"));
+        pausePlayButton.setText(myButtonResources.getString("PlayCommand"));
         timer.cancel();
         paused.set(true);
       }
     });
-    verticalPanel.getChildren().add(pauseButton);
+    verticalPanel.getChildren().add(pausePlayButton);
   }
 
   private void startTimer(IntegerProperty timeProperty) {
@@ -202,21 +191,25 @@ public class GameScreen extends SuperScreen{
     });
   }
 
+  /**
+   *
+   * @param isLoss
+   * @param isWin
+   */
   public void setGameStatus(BooleanProperty isLoss, BooleanProperty isWin){
     this.isLoss.bind(isLoss);
     this.isWin.bind(isWin);
     this.isLoss.addListener((obs, oldv, newv) -> {
       if(myPlayer.getMyUserProfile() != null){
-        myPlayer.getMyUserProfile().addHighScore(myGameType, score.getValue());
+        myPlayer.getMyUserProfile().addHighScore(myGameType, highScore.getValue());
       }
       myPlayer.setUpLossScreen();
     });
     this.isWin.addListener((obs, oldv, newv) -> {
       if(myPlayer.getMyUserProfile() != null){
-        myPlayer.getMyUserProfile().addHighScore(myGameType, score.getValue());
+        myPlayer.getMyUserProfile().addHighScore(myGameType, highScore.getValue());
       }
       myPlayer.setUpWonLevelScreen();
     }); //TODO: fix for when level is won or game
   }
-
 }

@@ -1,13 +1,10 @@
 package ooga.controller;
 
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.stage.Stage;
 import ooga.data.Data;
 import ooga.engine.Engine;
 import ooga.player.Player;
-
 import java.util.Map;
 
 
@@ -28,11 +25,10 @@ public class Controller extends Application {
 
     private void newWindow(Stage stage){
         Data data = new Data();
-        Player player = new Player();
-        player.startView(stage);
+        Player player = new Player(stage);
         player.setNewWindow(e->newWindow(new Stage()));
-        player.setLoginAction(data::login);
-        player.setNewLoginAction(data::saveNewPlayerProfile);
+        player.setUserLogin(data::login);
+        player.setNewLogin(data::saveNewPlayerProfile);
         player.setStartGameButton(e -> buildNewEngine(player, data));
         player.setErrorMessage(data.getErrorMessage());
     }
@@ -54,7 +50,6 @@ public class Controller extends Application {
             engine.setupGame(newInitialStates, newGameAttributes, newOpenCells);
             player.setUpGameScreen(engine.getGrid(), data.getErrorMessage());
         });
-
         player.setUpGameScreen(engine.getGrid(), data.getErrorMessage());
     }
 }

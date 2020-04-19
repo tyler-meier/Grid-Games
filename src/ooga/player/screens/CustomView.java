@@ -1,7 +1,5 @@
 package ooga.player.screens;
 
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -9,18 +7,16 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import ooga.player.Player;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import ooga.player.Player;
+import ooga.player.screens.SuperScreen;
 
-public class CustomView extends SuperScreen{
+public class CustomView extends SuperScreen {
 
     private static final String IMAGERESOURCES = "src/ooga/player/Resources/images/preferences/";
 
@@ -44,22 +40,25 @@ public class CustomView extends SuperScreen{
     public void display() {
         Stage popUpWindow = new Stage();
         popUpWindow.initModality(Modality.APPLICATION_MODAL);
-        popUpWindow.setTitle("Set your mode");
+        popUpWindow.setTitle("Preferences");
 
-        Button closeButton = makeButton("CloseCommand", e-> popUpWindow.close());
-        Button defaultButton = makeImageButtons("default");
-        Button darkMode = makeImageButtons("darkmode");
-
-        popUpWindow.setScene(styleScene(closeButton, defaultButton, darkMode));
+        popUpWindow.setScene(finishStyling(makePanel()));
         popUpWindow.showAndWait();
     }
 
     //make node that contains all the buttons
-    private Node makePanel(){
+    private Parent makePanel(){
+        Label label = new Label("Pick your theme");
         Button defaultButton = makeImageButtons("default");
         Button darkMode = makeImageButtons("darkmode");
+        Button rainbowMode = makeImageButtons("rainbow");
+        Button greenMode = makeImageButtons("greenmode");
+        Button waveMode = makeImageButtons("wavemode");
 
-        return styleContents(defaultButton, darkMode);
+        VBox panel = new VBox(styleContents(label, defaultButton, darkMode, rainbowMode, greenMode, waveMode));
+        panel.setSpacing(6);
+
+        return panel;
     }
 
     //make buttons that represent a new mode
@@ -69,11 +68,11 @@ public class CustomView extends SuperScreen{
             String imagePath = IMAGERESOURCES + modeType + ".png";
             FileInputStream input = new FileInputStream(imagePath);
             Image image = new Image(input);
-            Button mode = makeButton("ModeCommand", e-> myPlayer.setMode(modeType + ".css"));
+            Button mode = makeButton(modeType, e-> myPlayer.setMode(modeType + ".css"));
             ImageView modeImageView = new ImageView(image);
             modeImageView.setPreserveRatio(true);
-            modeImageView.setFitHeight(200);
-            modeImageView.setFitWidth(200);
+            modeImageView.setFitHeight(80);
+            modeImageView.setFitWidth(80);
             mode.setGraphic(modeImageView);
             return mode;
         } catch (FileNotFoundException e) {

@@ -1,10 +1,9 @@
 package ooga.player.screens;
 
 import java.util.ResourceBundle;
-
-import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.StringProperty;
-import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -14,11 +13,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
-import ooga.controller.UserLogin;
-import ooga.data.UserProfile;
 import ooga.player.Player;
-
-import javax.swing.*;
 
 /**
  * The Super Screen class, which is a super class of all of the screen classes and holds methods that they all utilize,
@@ -30,16 +25,16 @@ public abstract class SuperScreen {
   protected static final String RESOURCES = "ooga/player/Resources/";
   protected static final String DEFAULT_RESOURCE_PACKAGE = RESOURCES.replace("/", ".");
   protected static final String DEFAULT_RESOURCE_FOLDER = "/" + RESOURCES;
-  protected String styleSheet = "default.css";
-  private static final int DIMENSION = 600;
-  protected Scene myScene;
+  private static final int DIMENSION = 650;
+  private static final int MAIN_SPACING = 50;
 
   protected ResourceBundle myButtonResources, myStringResources, myGameNameResources;
   protected Label myErrorMessage;
   protected Player myPlayer;
-  protected EventHandler<ActionEvent> myEventEngine;
   protected String myGameType;
-  protected UserLogin myUserLogin;
+  protected String styleSheet = "default.css";
+  protected Scene myScene;
+  protected IntegerProperty highScore = new SimpleIntegerProperty();
 
   /**
    * Constructor for super screen class that sets the instance variables
@@ -51,31 +46,10 @@ public abstract class SuperScreen {
 
   /**
    * Constructor for super screen class that sets the instance variables
-   * @param thisUserLogin data from the current player
-   * @param thisPlayer the current player
-   */
-  public SuperScreen(UserLogin thisUserLogin, Player thisPlayer){
-    myUserLogin = thisUserLogin;
-    setCommonVariables(thisPlayer);
-  }
-
-  /**
-   * Constructor for super screen class that sets the instance variables
-   * @param engine the event handler to create the engine
-   * @param thisPlayer the current player
-   */
-  public SuperScreen(EventHandler<ActionEvent> engine, Player thisPlayer){
-    myEventEngine = engine;
-    setCommonVariables(thisPlayer);
-  }
-
-  /**
-   * Constructor for super screen class that sets the instance variables
    * @param gameType the current game being played
    * @param thisPlayer the current player
    */
-  public SuperScreen(EventHandler<ActionEvent> engine, String gameType, Player thisPlayer){
-    myEventEngine = engine;
+  public SuperScreen(String gameType, Player thisPlayer){
     myGameType = gameType;
     setCommonVariables(thisPlayer);
   }
@@ -98,10 +72,9 @@ public abstract class SuperScreen {
     for (Node a : myNodes){
       myCenterVBox.getChildren().add(a);
     }
-    myCenterVBox.setSpacing(50);
+    myCenterVBox.setSpacing(MAIN_SPACING);
     myCenterVBox.setAlignment(Pos.CENTER);
     myCenterVBox.getChildren().add(myErrorMessage);
-
     return finishStyling(myCenterVBox);
   }
 
@@ -122,7 +95,7 @@ public abstract class SuperScreen {
    * @param myContents endless parameters of each individual root node
    * @return this node VBox
    */
-  public Node styleContents(Node ... myContents){
+  public VBox styleContents(Node ... myContents){
     VBox myButtonVBox = new VBox();
     for (Node b : myContents){
       myButtonVBox.getChildren().add(b);
@@ -130,19 +103,6 @@ public abstract class SuperScreen {
     myButtonVBox.setSpacing(10);
     myButtonVBox.setAlignment(Pos.CENTER);
     return myButtonVBox;
-  }
-
-  /**
-   * Creates the button given the parameters
-   * @param text the text to be displayed on the button (key to find text)
-   * @param handler the event(s) that the button will do
-   * @return the newly created buttons
-   */
-  public Button makeButton(String text, EventHandler<ActionEvent> handler) {
-    Button newButton = new Button();
-    newButton.setText(myButtonResources.getString(text));
-    newButton.setOnAction(handler);
-    return newButton;
   }
 
   /**
@@ -165,4 +125,57 @@ public abstract class SuperScreen {
     myScene.getStylesheets().add(getClass().getResource(DEFAULT_RESOURCE_FOLDER + styleSheet).toExternalForm());
   }
 
+  /**
+   * Sets up the generic save button
+   * @return save button
+   */
+  public Button makeSaveButton(){
+    return makeButton("SaveCommand", e->{
+      if(myPlayer.getMyUserProfile() != null) {
+        myPlayer.getMyUserProfile().addHighScore(myGameType, highScore.getValue());
+        myPlayer.getSaveButtonEvent().handle(e);
+      }
+      else {
+        myErrorMessage.textProperty().setValue(myStringResources.getString("GuestSave"));
+        myErrorMessage.setWrapText(true);
+      }
+    });
+  }
+
+  /**
+   * Sets up the generic home button
+   * @return home button
+   */
+  public Button makeHomeButton(){
+    return makeButton("HomeCommand", e -> myPlayer.setUpStartScreen(myErrorMessage.textProperty()));
+  }
+
+  /**
+   * Sets up the generic logout button
+   * @return logout button
+   */
+  public Button makeLogoutButton(){
+    return makeButton("LogoutCommand", e -> myPlayer.setUpLoginScreen());
+  }
+
+  /**
+   * Sets up the generic reset game button
+   * @return reset game button
+   */
+  public Button makeResetGameButton(){
+    return makeButton("ResetGameCommand", myPlayer.getResetButtonEvent());
+  }
+
+  /**
+   * Creates the button given the parameters
+   * @param text the text to be displayed on the button (key to find text)
+   * @param handler the event(s) that the button will do
+   * @return the newly created button
+   */
+  public Button makeButton(String text, EventHandler<ActionEvent> handler) {
+    Button newButton = new Button();
+    newButton.setText(myButtonResources.getString(text));
+    newButton.setOnAction(handler);
+    return newButton;
+  }
 }

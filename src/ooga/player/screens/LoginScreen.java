@@ -1,13 +1,10 @@
 package ooga.player.screens;
 
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import ooga.controller.UserLogin;
+import javafx.scene.layout.VBox;
 import ooga.data.UserProfile;
 import ooga.player.Player;
 
@@ -15,14 +12,13 @@ import ooga.player.Player;
  * Login Screen class that sets up the login screen for a player
  * @author Tyler Meier
  */
-public class LoginScreen extends SuperScreen{
+public class LoginScreen extends SuperScreen {
 
   private TextField username, password;
-  private Button newWindowButton;
 
   /**
    * Constructor of this class, calls super to set up instance variables
-   * @param thisPlayer
+   * @param thisPlayer current player
    */
   public LoginScreen(Player thisPlayer){
     super(thisPlayer);
@@ -33,41 +29,25 @@ public class LoginScreen extends SuperScreen{
    * @return the final completed scene to be shown
    */
   public Scene setUpScene(){
-    Node topLoginPanel = setupText();
-    Node buttonPanel = setUpButtons();
+    VBox topLoginPanel = setupText();
+    topLoginPanel.setId("topPanel");  //for testing
+    VBox buttonPanel = setUpButtons();
     myErrorMessage.textProperty().setValue("");
     return styleScene(topLoginPanel, buttonPanel);
   }
 
-  /**
-   * Gets the userLogin info of the player trying to log in
-   * @param thisUserLogin the data info of the player trying to log in
-   */
-  public void giveMeUserLogin(UserLogin thisUserLogin){
-    myUserLogin = thisUserLogin;
-  }
-
-  public void setNewWindow(EventHandler<ActionEvent> newWindowAction){
-    newWindowButton.setOnAction(newWindowAction);
-  }
-
-  private Node setupText(){
+  private VBox setupText(){
     Label loginLabel = new Label(myStringResources.getString("Login"));
     username = new TextField();
     password = new TextField();
-
     username.setPromptText(myStringResources.getString("TypeUsername"));
     password.setPromptText(myStringResources.getString("TypePassword"));
-
-    username.getText();
-    password.getText();
-
     return styleContents(loginLabel, username, password);
   }
 
-  private Node setUpButtons(){
+  private VBox setUpButtons(){
     Button loginButton = makeButton("LoginButtonCommand", e -> {
-      UserProfile myUserProfile = myUserLogin.getProfile(username.getText(), password.getText());
+      UserProfile myUserProfile = myPlayer.getMyUserLogin().getProfile(username.getText(), password.getText());
       if(myUserProfile != null){
         myPlayer.setUserProfile(myUserProfile);
         myPlayer.setUsername(myUserProfile.getUsername());
@@ -78,9 +58,17 @@ public class LoginScreen extends SuperScreen{
       myPlayer.setUsername(myStringResources.getString("Guest"));
       myPlayer.setUpStartScreen(myErrorMessage.textProperty());
     });
-    newWindowButton = new Button("Add New Window");
+    Button newWindowButton = makeButton("NewWindowCommand", e -> myPlayer.getNewWindowEvent().handle(e));
     Button newProfileButton = makeButton("NewProfileCommand", e -> myPlayer.setUpNewProfScreen(myErrorMessage.textProperty()));
-
+    setForTesting(loginButton, guestButton, newWindowButton, newProfileButton);
     return styleContents(loginButton, guestButton, newProfileButton, newWindowButton);
+  }
+
+  private void setForTesting(Button loginButton, Button guestButton, Button newWindowButton, Button newProfileButton){
+    //setting ID for testing
+    loginButton.setId("login");
+    guestButton.setId("guest");
+    newWindowButton.setId("window");
+    newProfileButton.setId("newprof");
   }
 }
