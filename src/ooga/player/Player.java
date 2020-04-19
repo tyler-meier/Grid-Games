@@ -21,6 +21,7 @@ public class Player implements PlayerStart{
   private CustomView myCustomView;
   private UserDefinedGameScreenOne myUserDefinedGameScreenOne;
   private UserDefinedGameScreenTwo myUserDefinedGameScreenTwo;
+  private UserDefinedGameScreenThree myUserDefinedGameScreenThree;
   private String myGameType, currentUsername;
   private UserLogin myNewUserLogin, myUserLogin;
   private UserProfile myUserProfile;
@@ -111,13 +112,18 @@ public class Player implements PlayerStart{
     myStage.setScene(myUserDefinedGameScreenOne.setUpScene());
   }
 
-  public void setUpMakeNewGameScreenTwo(Map<String, String> selectedEngineAttributes, Map<String, String> selectedGameAttributes){
+  public void setUpMakeNewGameScreenTwo(){
     myUserDefinedGameScreenTwo = new UserDefinedGameScreenTwo(this);
-    myStage.setScene(myUserDefinedGameScreenTwo.setUpScene(selectedEngineAttributes, selectedGameAttributes));
+    myStage.setScene(myUserDefinedGameScreenTwo.setUpScene());
+  }
+
+  public void setUpMakeNewGameScreenThree(int numRows, int numCols){
+    myUserDefinedGameScreenThree = new UserDefinedGameScreenThree(this);
+    myStage.setScene(myUserDefinedGameScreenThree.setUpScene(numRows, numCols));
   }
 
   public Map<String,String> getUserMadeEngineAttributesMap(){
-    return myUserDefinedGameScreenTwo.getUserSelectedEngineAttributes();
+    return myUserDefinedGameScreenOne.getUserSelectedEngineAttributes();
   }
 
   public Map<String, String> getUserMadeGameAttributesMap(){

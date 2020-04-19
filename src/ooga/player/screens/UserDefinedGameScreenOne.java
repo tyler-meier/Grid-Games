@@ -18,7 +18,6 @@ import javafx.scene.control.Label;
 public class UserDefinedGameScreenOne extends SuperScreen {
     private static final String KEYS_RESOURCES_PATH = "resources.";
     private Map<String, String> selectedEngineAttributes = new HashMap<>();
-    private Map<String, String> selectedGameAttributes = new HashMap<>();
     private ResourceBundle engineKeysResources;
     private ComboBox<String> addNewCells = new ComboBox<>();
     private ComboBox<String> validator = new ComboBox<>();
@@ -37,18 +36,22 @@ public class UserDefinedGameScreenOne extends SuperScreen {
     public Scene setUpScene(){
         Label newGameLabel = makeNewGameLabel();
         VBox engineCharacteristicSelection = makeEngineCharSelection();
-        //ScrollPane myEngineScroller = new ScrollPane();
-        //myEngineScroller.setContent(engineCharacteristicSelection);
+        ScrollPane myEngineScroller = new ScrollPane();
+        myEngineScroller.setContent(engineCharacteristicSelection);
         VBox nextButton = setUpButtons();
-        return styleScene(newGameLabel, engineCharacteristicSelection, nextButton);
+        return styleScene(newGameLabel, myEngineScroller, nextButton);
     }
+
+    public Map<String,String> getUserSelectedEngineAttributes(){
+        return selectedEngineAttributes;
+    }
+
 
     private Label makeNewGameLabel(){
         return new Label("Please select the characteristics of your custom game !");
     }
 
     private VBox makeEngineCharSelection(){
-        // adding all the engine keys to the map, mapped to the default for now
         for(String key : Collections.list(engineKeysResources.getKeys())){
             selectedEngineAttributes.put(key, engineKeysResources.getString(key));
         }
@@ -77,7 +80,7 @@ public class UserDefinedGameScreenOne extends SuperScreen {
     private VBox setUpButtons(){
         Button startButton = makeButton("Next", e -> {
             makeEngineMap();
-            myPlayer.setUpMakeNewGameScreenTwo(selectedEngineAttributes, selectedGameAttributes);
+            myPlayer.setUpMakeNewGameScreenTwo();
         });
 
         return styleContents(startButton);
@@ -93,9 +96,5 @@ public class UserDefinedGameScreenOne extends SuperScreen {
         selectedEngineAttributes.put("PointsPerCell", this.pointsPerCell.getValue());
         selectedEngineAttributes.put("SecondsOpen", this.secondsOpen.getValue());
     }
-
-
-    //TODO: now we need to get the input from the combo boxes and set the values in the maps accordingly
-
 
 }

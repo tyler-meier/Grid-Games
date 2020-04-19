@@ -57,13 +57,12 @@ public class Controller extends Application {
     private void buildNewEngineUserMade(Player player, Data data){
         String type = player.getGameType();
         String username = player.getUsername();
-        System.out.println("Right before making the maps");
         Map<String, String> myEngineAttributes = player.getUserMadeEngineAttributesMap();
         Map<String, String> myGameAttributes = player.getUserMadeGameAttributesMap();
-        System.out.println("Right after making the maps");
-        int[][] initialStates = { {1,6, 5, 4, 2}, {5, 1, 3, 1, 5}, {4, 4, 4, 6, 1}, {2, 3, 4, 3, 2}};
+        // TODO: need to make the initial states dynamic
+        int[][] initialStates = {{1,6, 5, 4, 2}, {5, 1, 3, 1, 5}, {4, 4, 4, 6, 1}, {2, 3, 4, 3, 2}};
+        // TODO: need to make open cell configuration dynamic
         boolean[][] openCellConfiguration = { {true ,true, true, true, true}, {true, true, true, true, true}, {true, true, true, true, true}, {true, true, true, true, true}};
-        System.out.println("set the initial grid config");
         Engine engine = new Engine(myEngineAttributes, data.getErrorMessage());
         engine.setupGame(initialStates, myGameAttributes, openCellConfiguration);
         /*
@@ -75,7 +74,6 @@ public class Controller extends Application {
             engine.setupGame(newInitialStates, newGameAttributes, newOpenCells);
             player.setUpGameScreen(engine.getGrid(), data.getErrorMessage());
         });
-
          */
         player.setUpGameScreen(engine.getGrid(), data.getErrorMessage());
     }

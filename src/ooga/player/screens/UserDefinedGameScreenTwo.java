@@ -18,10 +18,10 @@ public class UserDefinedGameScreenTwo extends SuperScreen {
     //TODO: still need to make initial grid config dynamic
     //TODO: need to do exception handling for this part
     //TODO: need to figure out how to give data the correct info for user made game so reset and save works
-    
+    //TODO: put strings in resource file
+    //TODO: Change some drop-downs to text boxes so user can type in their own numbers
+    //TODO: still need to make images dynamic
     private static final String KEYS_RESOURCES_PATH = "resources.";
-
-    private Map<String, String> selectedEngineAttributes = new HashMap<>();
     private Map<String, String> selectedGameAttributes = new HashMap<>();
     private ComboBox<String> level = new ComboBox<>();
     private ComboBox<String> score = new ComboBox<>();
@@ -30,6 +30,8 @@ public class UserDefinedGameScreenTwo extends SuperScreen {
     private ComboBox<String> livesLeft = new ComboBox<>();
     private ComboBox<String> movesLeft = new ComboBox<>();
     private ComboBox<String> time = new ComboBox<>();
+    private ComboBox<String> numRows = new ComboBox<>();
+    private ComboBox<String> numCols = new ComboBox<>();
     private ResourceBundle gameKeysResources;
 
 
@@ -38,23 +40,18 @@ public class UserDefinedGameScreenTwo extends SuperScreen {
         gameKeysResources = ResourceBundle.getBundle(KEYS_RESOURCES_PATH + "GameKeys");
     }
 
-    public Scene setUpScene(Map<String, String> selectedEngineAttributes, Map<String, String> selectedGameAttributes){
-        this.selectedEngineAttributes = selectedEngineAttributes; //here the engine one should already be set up
-        this.selectedGameAttributes = selectedGameAttributes;
+    public Scene setUpScene(){
         VBox gameCharacteristicSelection = makeGameCharSelection();
         ScrollPane myGameScroller = new ScrollPane();
         myGameScroller.setContent(gameCharacteristicSelection);
-        VBox goButton = setUpButtons();
-        return styleScene(gameCharacteristicSelection, goButton);
-    }
-
-    public Map<String,String> getUserSelectedEngineAttributes(){
-        return selectedEngineAttributes;
+        VBox nextButton = setUpButtons();
+        return styleScene(myGameScroller, nextButton);
     }
 
     public Map<String, String> getUserSelectedGameAttributes(){
         return selectedGameAttributes;
     }
+
 
     private VBox makeGameCharSelection(){
         for(String key : Collections.list(gameKeysResources.getKeys())){
@@ -74,10 +71,28 @@ public class UserDefinedGameScreenTwo extends SuperScreen {
         this.movesLeft.getItems().addAll("5", "10", "20");
         Label Time = new Label("Time");
         this.time.getItems().addAll("60");
+        Label numRows = new Label("Number of Rows");
+        this.numRows.getItems().addAll("4");
+        Label numCols = new Label("Number of Cols");
+        this.numCols.getItems().addAll("4");
         return styleContents(Level, this.level, Score, this.score,
                 TargetScore, this.targetScore, LossStat, this.lossStat, LivesLeft,
-                this.livesLeft, MovesLeft, this.movesLeft, Time, this.time);
+                this.livesLeft, MovesLeft, this.movesLeft, Time, this.time, numRows,
+                this.numRows, numCols, this.numCols);
     }
+
+    /*
+    private VBox setUpButtons(){
+        Button startButton = makeButton("Next", e -> {
+            makeGamesMap();
+            myPlayer.setUpMakeNewGameScreenThree(getSelectedNumRows(), getSelectedNumCols());
+            //myPlayer.setGameType("UserMadeGame");
+            //myPlayer.getUserMAdeStartButton().handle(e);
+        });
+
+        return styleContents(startButton);
+    }
+     */
 
     private VBox setUpButtons(){
         Button startButton = makeButton("StartCommand", e -> {
@@ -90,7 +105,6 @@ public class UserDefinedGameScreenTwo extends SuperScreen {
                 myErrorMessage.textProperty().setValue(myStringResources.getString("BlankChoice"));
             }
         });
-
         return styleContents(startButton);
     }
 
@@ -102,5 +116,17 @@ public class UserDefinedGameScreenTwo extends SuperScreen {
         selectedGameAttributes.put("MovesLeft", this.movesLeft.getValue());
         selectedGameAttributes.put("LivesLeft", this.livesLeft.getValue());
         selectedGameAttributes.put("Time", this.time.getValue());
+        selectedGameAttributes.put("numRows", this.numRows.getValue());
+        selectedGameAttributes.put("numCols", this.numCols.getValue());
+    }
+
+    private int getSelectedNumRows(){
+        System.out.println(Integer.parseInt(selectedGameAttributes.get("numRows")));
+        return Integer.parseInt(selectedGameAttributes.get("numRows"));
+    }
+
+    private int getSelectedNumCols(){
+        System.out.println(Integer.parseInt(selectedGameAttributes.get("numCols")));
+        return Integer.parseInt(selectedGameAttributes.get("numCols"));
     }
 }
