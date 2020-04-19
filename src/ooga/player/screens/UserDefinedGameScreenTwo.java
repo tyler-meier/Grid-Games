@@ -15,6 +15,10 @@ import java.util.Map;
 import java.util.ResourceBundle;
 
 public class UserDefinedGameScreenTwo extends SuperScreen {
+    //TODO: still need to make initial grid config dynamic
+    //TODO: need to do exception handling for this part
+    //TODO: need to figure out how to give data the correct info for user made game so reset and save works
+    
     private static final String KEYS_RESOURCES_PATH = "resources.";
 
     private Map<String, String> selectedEngineAttributes = new HashMap<>();
