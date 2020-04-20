@@ -60,7 +60,7 @@ public class Controller extends Application {
         Map<String, String> myEngineAttributes = player.getUserMadeEngineAttributesMap();
         Map<String, String> myGameAttributes = player.getUserMadeGameAttributesMap();
         // TODO: need to make the initial states dynamic
-        int[][] initialStates = {{1,6, 5, 4, 2}, {5, 1, 3, 1, 5}, {4, 4, 4, 6, 1}, {2, 3, 4, 3, 2}};
+        int[][] initialStates = player.getUserDefinedInitialStates();
         // TODO: need to make open cell configuration dynamic
         boolean[][] openCellConfiguration = { {true ,true, true, true, true}, {true, true, true, true, true}, {true, true, true, true, true}, {true, true, true, true, true}};
         Engine engine = new Engine(myEngineAttributes, data.getErrorMessage());

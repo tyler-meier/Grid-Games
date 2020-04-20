@@ -2,10 +2,7 @@ package ooga.player.screens;
 
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import ooga.player.Player;
 
@@ -15,23 +12,20 @@ import java.util.Map;
 import java.util.ResourceBundle;
 
 public class UserDefinedGameScreenTwo extends SuperScreen {
-    //TODO: still need to make initial grid config dynamic
-    //TODO: need to do exception handling for this part
     //TODO: need to figure out how to give data the correct info for user made game so reset and save works
     //TODO: put strings in resource file
-    //TODO: Change some drop-downs to text boxes so user can type in their own numbers
     //TODO: still need to make images dynamic
     private static final String KEYS_RESOURCES_PATH = "resources.";
     private Map<String, String> selectedGameAttributes = new HashMap<>();
     private ComboBox<String> level = new ComboBox<>();
-    private ComboBox<String> score = new ComboBox<>();
-    private ComboBox<String> targetScore = new ComboBox<>();
+    private TextField score = new TextField();
+    private TextField targetScore = new TextField();
     private ComboBox<String> lossStat = new ComboBox<>();
-    private ComboBox<String> livesLeft = new ComboBox<>();
-    private ComboBox<String> movesLeft = new ComboBox<>();
-    private ComboBox<String> time = new ComboBox<>();
-    private ComboBox<String> numRows = new ComboBox<>();
-    private ComboBox<String> numCols = new ComboBox<>();
+    private TextField livesLeft = new TextField();
+    private TextField movesLeft = new TextField();
+    private TextField time = new TextField();
+    private TextField numRows = new TextField();
+    private TextField numCols = new TextField();
     private ResourceBundle gameKeysResources;
 
 
@@ -41,17 +35,21 @@ public class UserDefinedGameScreenTwo extends SuperScreen {
     }
 
     public Scene setUpScene(){
+        Label newGameLabel = makeNewGameLabel();
         VBox gameCharacteristicSelection = makeGameCharSelection();
         ScrollPane myGameScroller = new ScrollPane();
         myGameScroller.setContent(gameCharacteristicSelection);
         VBox nextButton = setUpButtons();
-        return styleScene(myGameScroller, nextButton);
+        return styleScene(newGameLabel, myGameScroller, nextButton);
     }
 
     public Map<String, String> getUserSelectedGameAttributes(){
         return selectedGameAttributes;
     }
 
+    private Label makeNewGameLabel(){
+        return new Label("Please finish selecting the attributes of your game!");
+    }
 
     private VBox makeGameCharSelection(){
         for(String key : Collections.list(gameKeysResources.getKeys())){
@@ -60,28 +58,28 @@ public class UserDefinedGameScreenTwo extends SuperScreen {
         Label Level = new Label("Level");
         this.level.getItems().addAll("1");
         Label Score = new Label("Starting Score");
-        this.score.getItems().addAll("0");
+       // this.score.getItems().addAll("0");
         Label TargetScore = new Label("Target Score");
-        this.targetScore.getItems().addAll("10", "100", "500");
+        //this.targetScore.getItems().addAll("10", "100", "500");
         Label LossStat = new Label("Loss Stat");
         this.lossStat.getItems().addAll("MovesLeft", "Time", "LivesLeft");
         Label LivesLeft = new Label("Lives");
-        this.livesLeft.getItems().addAll("5", "10");
+        //this.livesLeft.getItems().addAll("5", "10");
         Label MovesLeft = new Label("Moves Left");
-        this.movesLeft.getItems().addAll("5", "10", "20");
-        Label Time = new Label("Time");
-        this.time.getItems().addAll("60");
+        //this.movesLeft.getItems().addAll("5", "10", "20");
+        Label Time = new Label("Time (seconds)");
+        //this.time.getItems().addAll("60");
         Label numRows = new Label("Number of Rows");
-        this.numRows.getItems().addAll("4");
+        //this.numRows.getItems().addAll("4");
         Label numCols = new Label("Number of Cols");
-        this.numCols.getItems().addAll("4");
+        //this.numCols.getItems().addAll("4");
         return styleContents(Level, this.level, Score, this.score,
                 TargetScore, this.targetScore, LossStat, this.lossStat, LivesLeft,
                 this.livesLeft, MovesLeft, this.movesLeft, Time, this.time, numRows,
                 this.numRows, numCols, this.numCols);
     }
 
-    /*
+
     private VBox setUpButtons(){
         Button startButton = makeButton("Next", e -> {
             makeGamesMap();
@@ -92,8 +90,9 @@ public class UserDefinedGameScreenTwo extends SuperScreen {
 
         return styleContents(startButton);
     }
-     */
 
+
+    /*
     private VBox setUpButtons(){
         Button startButton = makeButton("StartCommand", e -> {
             try {
@@ -108,25 +107,25 @@ public class UserDefinedGameScreenTwo extends SuperScreen {
         return styleContents(startButton);
     }
 
+     */
+
     private void makeGamesMap(){
         selectedGameAttributes.put("Level", this.level.getValue());
-        selectedGameAttributes.put("Score", this.score.getValue());
-        selectedGameAttributes.put("TargetScore", this.targetScore.getValue());
+        selectedGameAttributes.put("Score", this.score.getText());
+        selectedGameAttributes.put("TargetScore", this.targetScore.getText());
         selectedGameAttributes.put("LossStat", this.lossStat.getValue());
-        selectedGameAttributes.put("MovesLeft", this.movesLeft.getValue());
-        selectedGameAttributes.put("LivesLeft", this.livesLeft.getValue());
-        selectedGameAttributes.put("Time", this.time.getValue());
-        selectedGameAttributes.put("numRows", this.numRows.getValue());
-        selectedGameAttributes.put("numCols", this.numCols.getValue());
+        selectedGameAttributes.put("MovesLeft", this.movesLeft.getText());
+        selectedGameAttributes.put("LivesLeft", this.livesLeft.getText());
+        selectedGameAttributes.put("Time", this.time.getText());
+        selectedGameAttributes.put("numRows", this.numRows.getText());
+        selectedGameAttributes.put("numCols", this.numCols.getText());
     }
 
     private int getSelectedNumRows(){
-        System.out.println(Integer.parseInt(selectedGameAttributes.get("numRows")));
         return Integer.parseInt(selectedGameAttributes.get("numRows"));
     }
 
     private int getSelectedNumCols(){
-        System.out.println(Integer.parseInt(selectedGameAttributes.get("numCols")));
         return Integer.parseInt(selectedGameAttributes.get("numCols"));
     }
 }

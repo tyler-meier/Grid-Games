@@ -130,6 +130,10 @@ public class Player implements PlayerStart{
     return myUserDefinedGameScreenTwo.getUserSelectedGameAttributes();
   }
 
+  public int[][] getUserDefinedInitialStates(){
+    return myUserDefinedGameScreenThree.getUserSelectedInitialStates();
+  }
+
   /**
    *
    */
