@@ -54,19 +54,19 @@ public class UserDefinedGameScreenOne extends SuperScreen {
         }
         Label addNewCells = new Label(myStringResources.getString("AddNewCells"));
         this.addNewCells.getItems().addAll(myStringResources.getString("True"), myStringResources.getString("False"));
-        Label validator = new Label("Type of Validator");
-        this.validator.getItems().addAll("PairValidator", "SwitchValidator");
-        Label matchFinder = new Label("Type of Match Finder");
-        this.matchFinder.getItems().addAll("FlippedFinder", "OpenFinder");
-        Label numSelectedPerMove = new Label("Number of cells to select per move");
+        Label validator = new Label(myStringResources.getString("TypeOfValidator"));
+        this.validator.getItems().addAll(myStringResources.getString("Pair"), myStringResources.getString("Switch"));
+        Label matchFinder = new Label(myStringResources.getString("TypeOfMatchFinder"));
+        this.matchFinder.getItems().addAll(myStringResources.getString("Flipped"), myStringResources.getString("Open"));
+        Label numSelectedPerMove = new Label(myStringResources.getString("NumCells"));
         //this.numSelectedPerMove.getText();
-        Label noHiddenCells = new Label("Does not have hidden Cells?");
-        this.noHiddenCells.getItems().addAll("True", "False");
-        Label maxStateNumber = new Label("Max state number");
+        Label noHiddenCells = new Label(myStringResources.getString("HasHiddenCells"));
+        this.noHiddenCells.getItems().addAll(myStringResources.getString("True"), myStringResources.getString("False"));
+        Label maxStateNumber = new Label(myStringResources.getString("MaxStateNum"));
         //this.maxStateNumber.getItems().addAll("6");
-        Label pointsPerCell = new Label("How many points per cell?");
+        Label pointsPerCell = new Label(myStringResources.getString("PointsPerCell"));
         //this.pointsPerCell.getItems().addAll("5", "10");
-        Label secondsOpen = new Label("How many seconds open?");
+        Label secondsOpen = new Label(myStringResources.getString("SecondsOpen"));
         //this.secondsOpen.getItems().addAll("0", "2", "4");
         return styleContents(addNewCells, this.addNewCells, validator, this.validator,
                 matchFinder, this.matchFinder, numSelectedPerMove, this.numSelectedPerMove, noHiddenCells,

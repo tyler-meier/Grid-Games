@@ -1,7 +1,5 @@
 package ooga.player.screens;
 
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.StringProperty;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -27,7 +25,6 @@ public class UserDefinedGameScreenThree extends SuperScreen {
         numberColumns = numCols;
         Label prompt = makeLabel();
         Label warning = makeWarningLabel();
-        // need to figure out how to let the user select the state for every single cell
         GridPane enterStates = setUpGridConfig();
         VBox goButton = setUpButtons();
         return styleScene(prompt, warning, enterStates, goButton);
@@ -47,20 +44,17 @@ public class UserDefinedGameScreenThree extends SuperScreen {
                 myGrid.setRowIndex(state, row);
                 myGrid.setColumnIndex(state, col);
                 myGrid.getChildren().add(state);
-                System.out.println("number of children in the grid: " + myGrid.getChildren().size());
-                //initialStates[row][col].bind((StringProperty)state.getText());
             }
         }
-        // now initialStates should have all of the input states given by the user
         return myGrid;
     }
 
     private Label makeLabel(){
-        return new Label("Please give the initial states for the cells in your grid.");
+        return new Label(myStringResources.getString("InitialGrid"));
     }
 
     private Label makeWarningLabel(){
-        return new Label("Remember - do not put states greater than the max state you selected!");
+        return new Label(myStringResources.getString("InitialGridReminder"));
     }
 
 

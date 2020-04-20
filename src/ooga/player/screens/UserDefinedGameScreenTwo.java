@@ -13,7 +13,6 @@ import java.util.ResourceBundle;
 
 public class UserDefinedGameScreenTwo extends SuperScreen {
     //TODO: need to figure out how to give data the correct info for user made game so reset and save works
-    //TODO: put strings in resource file
     //TODO: still need to make images dynamic
     private static final String KEYS_RESOURCES_PATH = "resources.";
     private Map<String, String> selectedGameAttributes = new HashMap<>();
@@ -48,30 +47,30 @@ public class UserDefinedGameScreenTwo extends SuperScreen {
     }
 
     private Label makeNewGameLabel(){
-        return new Label("Please finish selecting the attributes of your game!");
+        return new Label(myStringResources.getString("NewGameLabelTwo"));
     }
 
     private VBox makeGameCharSelection(){
         for(String key : Collections.list(gameKeysResources.getKeys())){
             selectedGameAttributes.put(key, gameKeysResources.getString(key));
         }
-        Label Level = new Label("Level");
-        this.level.getItems().addAll("1");
-        Label Score = new Label("Starting Score");
+        Label Level = new Label(myStringResources.getString("Level"));
+        this.level.getItems().addAll(myStringResources.getString("1"));
+        Label Score = new Label(myStringResources.getString("StartingScore"));
        // this.score.getItems().addAll("0");
-        Label TargetScore = new Label("Target Score");
+        Label TargetScore = new Label(myStringResources.getString("TargetScore"));
         //this.targetScore.getItems().addAll("10", "100", "500");
-        Label LossStat = new Label("Loss Stat");
-        this.lossStat.getItems().addAll("MovesLeft", "Time", "LivesLeft");
-        Label LivesLeft = new Label("Lives");
+        Label LossStat = new Label(myStringResources.getString("LossStat"));
+        this.lossStat.getItems().addAll(myStringResources.getString("MovesLeftNS"), myStringResources.getString("Time"), myStringResources.getString("LivesLeftNS"));
+        Label LivesLeft = new Label(myStringResources.getString("LivesLeft"));
         //this.livesLeft.getItems().addAll("5", "10");
-        Label MovesLeft = new Label("Moves Left");
+        Label MovesLeft = new Label(myStringResources.getString("MovesLeft"));
         //this.movesLeft.getItems().addAll("5", "10", "20");
-        Label Time = new Label("Time (seconds)");
+        Label Time = new Label(myStringResources.getString("Time"));
         //this.time.getItems().addAll("60");
-        Label numRows = new Label("Number of Rows");
+        Label numRows = new Label(myStringResources.getString("NumRows"));
         //this.numRows.getItems().addAll("4");
-        Label numCols = new Label("Number of Cols");
+        Label numCols = new Label(myStringResources.getString("NumCols"));
         //this.numCols.getItems().addAll("4");
         return styleContents(Level, this.level, Score, this.score,
                 TargetScore, this.targetScore, LossStat, this.lossStat, LivesLeft,
