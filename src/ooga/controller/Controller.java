@@ -1,5 +1,7 @@
 package ooga.controller;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import ooga.data.Data;
@@ -37,21 +39,31 @@ public class Controller extends Application {
         String type = player.getGameType();
         String username = player.getUsername();
         Map<String, String> myEngineAttributes = data.getEngineAttributes(type);
-        Map<String, String> myGameAttributes = data.getGameAttributes(username, type);
+        Engine engine = new Engine(myEngineAttributes, data.getErrorMessage());
+        Map<String, String> myGameAttributes = data.getGameLevelAttributes(username, type, engine.getLevel());
         int[][] initialStates = data.getGrid();
         boolean[][] openCellConfiguration = data.getOpenCells();
-        Engine engine = new Engine(myEngineAttributes, data.getErrorMessage());
         engine.setupGame(initialStates, myGameAttributes, openCellConfiguration);
         player.setSaveButton(e -> data.saveGame(engine.getGameAttributes(), engine.getGridConfiguration(), engine.getOpenCellConfiguration()));
-        player.setResetButton(e -> {
-            Map<String, String> newGameAttributes = data.getGameAttributes("Guest", type);
+        player.setResetLevelButton(goToNewLevel("Guest", data, player, engine, 0));
+
+        player.setResetGameButton(goToNewLevel(username, data, player, engine, 0));
+        player.setNextLevel(goToNewLevel(username, data, player, engine, 1));
+        player.setUpGameScreen(engine.getGrid(), data.getErrorMessage());
+    }
+
+    private EventHandler<ActionEvent> goToNewLevel(String username, Data data, Player player, Engine engine, Integer levelAdder)
+    {
+        EventHandler<ActionEvent> e = event -> {
+            Map<String, String> newGameAttributes = data.getGameLevelAttributes(username, player.getGameType(), engine.getLevel()+levelAdder);
             int[][] newInitialStates = data.getGrid();
             boolean[][] newOpenCells = data.getOpenCells();
             engine.setupGame(newInitialStates, newGameAttributes, newOpenCells);
             player.setUpGameScreen(engine.getGrid(), data.getErrorMessage());
-        });
-        player.setUpGameScreen(engine.getGrid(), data.getErrorMessage());
+        };
+        return e;
     }
+
 }
 
 

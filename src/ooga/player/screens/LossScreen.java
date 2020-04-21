@@ -30,6 +30,6 @@ public class LossScreen extends SuperScreen {
 
   private VBox setUpContents(){
     Label lossLabel = new Label(myStringResources.getString("Loss"));
-    return styleContents(lossLabel, makeHomeButton(), makeSaveButton(), makeResetGameButton());
+    return styleContents(lossLabel, makeHomeButton(), makeResetLevelButton());
   }
 }

@@ -163,7 +163,15 @@ public abstract class SuperScreen {
    * @return reset game button
    */
   public Button makeResetGameButton(){
-    return makeButton("ResetGameCommand", myPlayer.getResetButtonEvent());
+    return makeButton("ResetGameCommand", myPlayer.getResetGameButtonEvent());
+  }
+
+  /**
+   * Sets up the generic reset level button
+   * @return reset level button
+   */
+  public Button makeResetLevelButton(){
+    return makeButton("ResetLevelCommand", myPlayer.getResetLevelButtonEvent());
   }
 
   /**

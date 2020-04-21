@@ -20,7 +20,7 @@ public class Player implements PlayerStart{
   private String myGameType, currentUsername;
   private UserLogin myNewUserLogin, myUserLogin;
   private UserProfile myUserProfile;
-  private EventHandler<ActionEvent> myEngineEvent, myResetEvent, mySaveEvent, myNewWindowEvent;
+  private EventHandler<ActionEvent> myEngineEvent, myResetGameEvent, myResetLevelEvent, mySaveEvent, myNewWindowEvent, myNexLevel;
 
   public Player(Stage primaryStage){
     myStage = primaryStage;
@@ -188,8 +188,8 @@ public class Player implements PlayerStart{
    * @param event
    */
   @Override
-  public void setResetButton(EventHandler<ActionEvent> event) {
-    myResetEvent = event;
+  public void setResetGameButton(EventHandler<ActionEvent> event) {
+    myResetGameEvent = event;
   }
 
   /**
@@ -197,8 +197,26 @@ public class Player implements PlayerStart{
    * @return
    */
   @Override
-  public EventHandler<ActionEvent> getResetButtonEvent(){
-    return myResetEvent;
+  public EventHandler<ActionEvent> getResetGameButtonEvent(){
+    return myResetGameEvent;
+  }
+
+  /**
+   *
+   * @param event
+   */
+  @Override
+  public void setResetLevelButton(EventHandler<ActionEvent> event) {
+    myResetLevelEvent = event;
+  }
+
+  /**
+   *
+   * @return
+   */
+  @Override
+  public EventHandler<ActionEvent> getResetLevelButtonEvent(){
+    return myResetLevelEvent;
   }
 
   /**
@@ -207,6 +225,24 @@ public class Player implements PlayerStart{
    */
   @Override
   public void setSaveButton(EventHandler<ActionEvent> event) { mySaveEvent = event;}
+
+  /**
+   *
+   * @param event
+   */
+  @Override
+  public void setNextLevel(EventHandler<ActionEvent> event) {
+    myNexLevel = event;
+  }
+
+  /**
+   *
+   * @return
+   */
+  @Override
+  public EventHandler<ActionEvent> getNextLevelEvent() {
+    return myNexLevel;
+  }
 
   /**
    *
