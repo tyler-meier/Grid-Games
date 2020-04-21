@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-public class UserDefinedGameScreenOne extends SuperScreen {
+public class UserDefinedGameScreenOne extends UserDefinedGameScreen {
     private static final String KEYS_RESOURCES_PATH = "resources.";
     private Map<String, String> selectedEngineAttributes = new HashMap<>();
     private ResourceBundle engineKeysResources;
@@ -50,7 +50,9 @@ public class UserDefinedGameScreenOne extends SuperScreen {
 
     private VBox makeEngineCharSelection(){
         for(String key : Collections.list(engineKeysResources.getKeys())){
+            if (isInteger(engineKeysResources.getString(key))) userInputFields.put(key, new TextField());
             selectedEngineAttributes.put(key, engineKeysResources.getString(key));
+
         }
         Label addNewCells = new Label(myStringResources.getString("AddNewCells"));
         this.addNewCells.getItems().addAll(myStringResources.getString("True"), myStringResources.getString("False"));
@@ -80,14 +82,20 @@ public class UserDefinedGameScreenOne extends SuperScreen {
     }
 
     private void makeEngineMap(){
+        for (String key:integerInputs) if (!isInteger(selectedEngineAttributes.get(key))) System.out.println("bad input");//throw error;
+
         selectedEngineAttributes.put("AddNewCells", this.addNewCells.getValue());
         selectedEngineAttributes.put("Validator", this.validator.getValue());
         selectedEngineAttributes.put("MatchFinder", this.matchFinder.getValue());
-        selectedEngineAttributes.put("NumSelectedPerMove", this.numSelectedPerMove.getText());
+        if (isInteger(numSelectedPerMove.getText()))selectedEngineAttributes.put("NumSelectedPerMove", this.numSelectedPerMove.getText());
+        else System.out.println("nope");
+
         selectedEngineAttributes.put("NoHiddenCells", this.noHiddenCells.getValue());
         selectedEngineAttributes.put("MaxStateNumber", this.maxStateNumber.getText());
         selectedEngineAttributes.put("PointsPerCell", this.pointsPerCell.getText());
         selectedEngineAttributes.put("SecondsOpen", this.secondsOpen.getText());
     }
+
+
 
 }

@@ -1,6 +1,7 @@
 package ooga.player.screens;
 
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
@@ -120,6 +121,7 @@ public class UserDefinedGameScreenTwo extends SuperScreen {
 
     private int getSelectedNumRows(){
         try{
+            Integer.parseInt(time.getText());
             return Integer.parseInt(selectedGameAttributes.get("numRows"));
         }
         catch(NumberFormatException e){
@@ -140,5 +142,14 @@ public class UserDefinedGameScreenTwo extends SuperScreen {
             myErrorMessage.textProperty().setValue(p.getMessage());
         }
         return 0;
+    }
+
+    private boolean isInteger(TextField text){
+        try{
+            Integer.parseInt(text.getText());
+            return true;
+        }catch (Exception e){
+            return false;
+        }
     }
 }
