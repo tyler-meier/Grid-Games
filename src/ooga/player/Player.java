@@ -1,5 +1,6 @@
 package ooga.player;
 
+import java.util.Map;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.beans.property.StringProperty;
@@ -20,7 +21,8 @@ public class Player implements PlayerStart{
   private String myGameType, currentUsername;
   private UserLogin myNewUserLogin, myUserLogin;
   private UserProfile myUserProfile;
-  private EventHandler<ActionEvent> myEngineEvent, myResetGameEvent, myResetLevelEvent, mySaveEvent, myNewWindowEvent, myNexLevel;
+  private EventHandler<ActionEvent> myEngineEvent, myResetGameEvent, myResetLevelEvent, mySaveEvent, myNewWindowEvent, myNexLevelEvent;
+  private Map<String, Integer> myLeaderBoardMap;
 
   public Player(Stage primaryStage){
     myStage = primaryStage;
@@ -109,6 +111,11 @@ public class Player implements PlayerStart{
   public void setUpCustomView(){
     myCustomView = new CustomView(this);
     myCustomView.display();
+  }
+
+  public void setUpLeaderBoardScreen(){
+    HighScoreScreen myHighScoreScreen = new HighScoreScreen(this);
+    myHighScoreScreen.setUpScene();
   }
 
   /**
@@ -228,11 +235,20 @@ public class Player implements PlayerStart{
 
   /**
    *
+   * @return
+   */
+  @Override
+  public EventHandler<ActionEvent> getSaveButtonEvent() {
+    return mySaveEvent;
+  }
+
+  /**
+   *
    * @param event
    */
   @Override
   public void setNextLevel(EventHandler<ActionEvent> event) {
-    myNexLevel = event;
+    myNexLevelEvent = event;
   }
 
   /**
@@ -241,16 +257,7 @@ public class Player implements PlayerStart{
    */
   @Override
   public EventHandler<ActionEvent> getNextLevelEvent() {
-    return myNexLevel;
-  }
-
-  /**
-   *
-   * @return
-   */
-  @Override
-  public EventHandler<ActionEvent> getSaveButtonEvent() {
-    return mySaveEvent;
+    return myNexLevelEvent;
   }
 
   /**
@@ -269,6 +276,14 @@ public class Player implements PlayerStart{
   @Override
   public UserProfile getMyUserProfile(){
     return myUserProfile;
+  }
+
+  public void setHighScoreMap(Map<String, Integer> event){
+    myLeaderBoardMap = event;
+  }
+
+  public Map<String, Integer> getHighScoreMap(){
+    return myLeaderBoardMap;
   }
 
   /**

@@ -116,17 +116,29 @@ public class GameScreen extends SuperScreen {
     });
   }
 
-  //method for making any label in this class
-  private Node makeLabel(IntegerProperty integerProperty, String key) {
-    HBox box = new HBox();
-    Label name = new Label(key+": ");
-    Label value = new Label();
-    value.textProperty().bind(integerProperty.asString());
-    if (key.equals(SCORE)){
-      highScore.bind(integerProperty);
-    }
-    box.getChildren().addAll(name, value);
-    return box;
+  //makes toolbar for the top of gamescreen
+  private HBox makeToolBar() {
+    HBox toolBar = new HBox();
+    Button customView = makeButton("CustomCommand", e-> myPlayer.setUpCustomView());
+    Label name = new Label(myGameNameResources.getString(myGameType));
+    toolBar.getChildren().addAll(makeHomeButton(), customView, name);
+    toolBar.setSpacing(SPACING_2);
+    return toolBar;
+  }
+
+  //adds vbox of buttons to side panel and styles
+  private void makeSideBar() {
+    VBox buttonPanel = makeButtonPanel();
+    verticalPanel.setSpacing(SPACING_1);
+    verticalPanel.setAlignment(Pos.CENTER);
+    verticalPanel.getChildren().add(buttonPanel);
+  }
+
+  //puts all essential buttons into a vbox
+  private VBox makeButtonPanel() {
+    Button leaderBoardButton = makeButton("LeaderBoardCommand", e -> myPlayer.setUpLeaderBoardScreen());
+    VBox buttons = styleContents(makeLogoutButton(), makeResetLevelButton(), makeResetGameButton(), makeThisSaveButton(), leaderBoardButton, myErrorMessage);
+    return buttons;
   }
 
   //sets event on save button on action
@@ -149,6 +161,19 @@ public class GameScreen extends SuperScreen {
     return saveButton;
   }
 
+  //method for making any label in this class
+  private Node makeLabel(IntegerProperty integerProperty, String key) {
+    HBox box = new HBox();
+    Label name = new Label(key+": ");
+    Label value = new Label();
+    value.textProperty().bind(integerProperty.asString());
+    if (key.equals(SCORE)){
+      highScore.bind(integerProperty);
+    }
+    box.getChildren().addAll(name, value);
+    return box;
+  }
+
   //makes pause and play button, sets on action
   private void makePausePlayButton(Map<String, IntegerProperty> gameStats){
     if (!gameStats.containsKey(TIME)) return;
@@ -166,31 +191,6 @@ public class GameScreen extends SuperScreen {
       }
     });
     verticalPanel.getChildren().add(pausePlayButton);
-  }
-
-  //makes toolbar for the top of gamescreen
-  private HBox makeToolBar() {
-    HBox toolBar = new HBox();
-    Button customView = makeButton("CustomCommand", e-> myPlayer.setUpCustomView());
-    Label name = new Label(myGameNameResources.getString(myGameType));
-    toolBar.getChildren().addAll(makeHomeButton(), customView, name);
-    toolBar.setSpacing(SPACING_2);
-    return toolBar;
-  }
-
-
- //puts all essential buttons into a vbox
-  private VBox makeButtonPanel() {
-    VBox buttons = styleContents(makeLogoutButton(), makeResetLevelButton(), makeResetGameButton(), makeThisSaveButton(), myErrorMessage);
-    return buttons;
-  }
-
-  //adds vbox of buttons to side panel and styles
-  private void makeSideBar() {
-    VBox buttonPanel = makeButtonPanel();
-    verticalPanel.setSpacing(SPACING_1);
-    verticalPanel.setAlignment(Pos.CENTER);
-    verticalPanel.getChildren().add(buttonPanel);
   }
 
   //creates new timer object, defines how it starts
