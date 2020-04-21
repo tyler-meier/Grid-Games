@@ -105,13 +105,25 @@ public interface PlayerStart {
    *
    * @param event
    */
-  void setResetButton(EventHandler<ActionEvent> event);
+  void setResetGameButton(EventHandler<ActionEvent> event);
 
   /**
    *
    * @return
    */
-  EventHandler<ActionEvent> getResetButtonEvent();
+  EventHandler<ActionEvent> getResetGameButtonEvent();
+
+  /**
+   *
+   * @param event
+   */
+  void setResetLevelButton(EventHandler<ActionEvent> event);
+
+  /**
+   *
+   * @return
+   */
+  EventHandler<ActionEvent> getResetLevelButtonEvent();
 
   /**
    *

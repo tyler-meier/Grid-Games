@@ -44,7 +44,7 @@ public class Controller extends Application {
         boolean[][] openCellConfiguration = data.getOpenCells();
         engine.setupGame(initialStates, myGameAttributes, openCellConfiguration);
         player.setSaveButton(e -> data.saveGame(engine.getGameAttributes(), engine.getGridConfiguration(), engine.getOpenCellConfiguration()));
-        player.setResetButton(e -> {
+        player.setResetGameButton(e -> {
             Map<String, String> newGameAttributes = data.getGameAttributes("Guest", type);
             int[][] newInitialStates = data.getGrid();
             boolean[][] newOpenCells = data.getOpenCells();

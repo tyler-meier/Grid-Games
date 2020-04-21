@@ -163,7 +163,7 @@ public abstract class SuperScreen {
    * @return reset game button
    */
   public Button makeResetGameButton(){
-    return makeButton("ResetGameCommand", myPlayer.getResetButtonEvent());
+    return makeButton("ResetGameCommand", myPlayer.getResetGameButtonEvent());
   }
 
   /**
