@@ -1,4 +1,3 @@
-/*
 package ooga.util;
 
 import javafx.application.Platform;
@@ -24,7 +23,6 @@ import org.testfx.framework.junit5.ApplicationTest;
 import org.testfx.util.WaitForAsyncUtils;
 
 
-*/
 /**
  * This class acts as an intermediary between an OpenJFX application and TestFX.
  *
@@ -32,7 +30,7 @@ import org.testfx.util.WaitForAsyncUtils;
  * the current version to get them all to work properly.
  *
  * @author Robert C. Duvall
- *//*
+ */
 
 public class DukeApplicationTest extends ApplicationTest {
   // standard steps to do for all test applications so factor it out here
@@ -129,4 +127,3 @@ public class DukeApplicationTest extends ApplicationTest {
   }
 }
 
-*/
