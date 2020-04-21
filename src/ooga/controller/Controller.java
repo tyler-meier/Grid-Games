@@ -62,8 +62,9 @@ public class Controller extends Application {
         // TODO: need to make the initial states dynamic
         int[][] initialStates = player.getUserDefinedInitialStates();
         // TODO: need to make open cell configuration dynamic
-       Engine engine = new Engine(myEngineAttributes, data.getErrorMessage());
+        Engine engine = new Engine(myEngineAttributes, data.getErrorMessage());
         engine.setupGame(initialStates, myGameAttributes, null);
+
         /*
         player.setSaveButton(e -> data.saveGame(engine.getGameAttributes(), engine.getGridConfiguration(), engine.getOpenCellConfiguration()));
         player.setResetButton(e -> {

@@ -20,7 +20,7 @@ public class UserDefinedGameScreenTwo extends SuperScreen {
     private static final String KEYS_RESOURCES_PATH = "resources.";
     private Map<String, String> selectedGameAttributes = new HashMap<>();
     private ComboBox<String> level = new ComboBox<>();
-    private TextField score = new TextField();
+    private ComboBox<String> score = new ComboBox<String>();
     private TextField targetScore = new TextField();
     private ComboBox<String> lossStat = new ComboBox<>();
     private TextField livesLeft = new TextField();
@@ -59,15 +59,16 @@ public class UserDefinedGameScreenTwo extends SuperScreen {
         }
         Label Level = new Label(myStringResources.getString("Level"));
         this.level.getItems().addAll(myStringResources.getString("1"));
-        Label Score = new Label(myStringResources.getString("StartingScore"));
+        Label Score = new Label(myStringResources.getString("StartingScore")); //hard code as 0
+        this.score.getItems().addAll(myStringResources.getString("0"));
         Label TargetScore = new Label(myStringResources.getString("TargetScore"));
         Label LossStat = new Label(myStringResources.getString("LossStat"));
         this.lossStat.getItems().addAll(myStringResources.getString("MovesLeftNS"), myStringResources.getString("Time"), myStringResources.getString("LivesLeftNS"));
         Label LivesLeft = new Label(myStringResources.getString("LivesLeft"));
         Label MovesLeft = new Label(myStringResources.getString("MovesLeft"));
         Label Time = new Label(myStringResources.getString("Time"));
-        Label numRows = new Label(myStringResources.getString("NumRows"));
-        Label numCols = new Label(myStringResources.getString("NumCols"));
+        Label numRows = new Label(myStringResources.getString("NumRows")); //hardcode so there is upper limit
+        Label numCols = new Label(myStringResources.getString("NumCols")); //hardcode so there is upper limit
         return styleContents(Level, this.level, Score, this.score,
                 TargetScore, this.targetScore, LossStat, this.lossStat, LivesLeft,
                 this.livesLeft, MovesLeft, this.movesLeft, Time, this.time, numRows,
@@ -89,27 +90,9 @@ public class UserDefinedGameScreenTwo extends SuperScreen {
         return styleContents(startButton);
     }
 
-
-    /*
-    private VBox setUpButtons(){
-        Button startButton = makeButton("StartCommand", e -> {
-            try {
-                makeGamesMap();
-                myPlayer.setGameType("UserMadeGame");
-                myPlayer.getUserMAdeStartButton().handle(e);
-            } catch (NullPointerException p){
-                p.printStackTrace();
-                myErrorMessage.textProperty().setValue(myStringResources.getString("BlankChoice"));
-            }
-        });
-        return styleContents(startButton);
-    }
-
-     */
-
     private void makeGamesMap(){
         selectedGameAttributes.put("Level", this.level.getValue());
-        selectedGameAttributes.put("Score", this.score.getText());
+        selectedGameAttributes.put("Score", this.score.getValue());
         selectedGameAttributes.put("TargetScore", this.targetScore.getText());
         selectedGameAttributes.put("LossStat", this.lossStat.getValue());
         selectedGameAttributes.put("MovesLeft", this.movesLeft.getText());
