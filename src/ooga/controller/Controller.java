@@ -45,18 +45,17 @@ public class Controller extends Application {
         boolean[][] openCellConfiguration = data.getOpenCells();
         engine.setupGame(initialStates, myGameAttributes, openCellConfiguration);
         player.setSaveButton(e -> data.saveGame(engine.getGameAttributes(), engine.getGridConfiguration(), engine.getOpenCellConfiguration()));
-        player.setResetLevelButton(goToNewLevel("Guest", data, player, engine, engine.getLevel()));
+        player.setResetLevelButton(goToNewLevel("Guest", data, player, engine, 0));
 
-        player.setResetGameButton(goToNewLevel(username, data, player, engine, -1));
-
-        player.setNextLevel(goToNewLevel(username, data, player, engine, engine.getLevel()));
+        player.setResetGameButton(goToNewLevel(username, data, player, engine, 0));
+        player.setNextLevel(goToNewLevel(username, data, player, engine, 1));
         player.setUpGameScreen(engine.getGrid(), data.getErrorMessage());
     }
 
-    private EventHandler<ActionEvent> goToNewLevel(String username, Data data, Player player, Engine engine, int level)
+    private EventHandler<ActionEvent> goToNewLevel(String username, Data data, Player player, Engine engine, Integer levelAdder)
     {
         EventHandler<ActionEvent> e = event -> {
-            Map<String, String> newGameAttributes = data.getGameLevelAttributes(player.getUsername(), player.getGameType(), level);
+            Map<String, String> newGameAttributes = data.getGameLevelAttributes(username, player.getGameType(), engine.getLevel()+levelAdder);
             int[][] newInitialStates = data.getGrid();
             boolean[][] newOpenCells = data.getOpenCells();
             engine.setupGame(newInitialStates, newGameAttributes, newOpenCells);
