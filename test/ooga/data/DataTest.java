@@ -56,6 +56,9 @@ class DataTest {
       assertEquals(true, checkGridEquality(grid, currentLevelGrid));
     }
 
+    Map<String,String> gameLevelAttributes = data.getGameLevelAttributes("Guest", "BejeweledPuzzle", 5);
+
+
   }
 
 
