@@ -1,8 +1,6 @@
 package ooga.player.screens;
 
-import java.io.File;
 import java.util.*;
-
 import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
@@ -16,8 +14,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import ooga.engine.grid.Grid;
 import ooga.player.GridView;
 import ooga.player.Player;
@@ -34,7 +30,6 @@ public class GameScreen extends SuperScreen {
   private static final int SPACING_3 = 10;
   private static final int WIDTH = 900;
   private static final int HEIGHT = 600;
-  private static final String SOUND_RESOURCES = "src/ooga/player/Resources/sounds/";
 
   private GridView myGrid;
   private BorderPane myRoot;
@@ -112,16 +107,13 @@ public class GameScreen extends SuperScreen {
         myPlayer.getMyUserProfile().addHighScore(myGameType, highScore.getValue());
       }
       myPlayer.setUpLossScreen();
-      playSound("loss");
     });
     this.isWin.addListener((obs, oldv, newv) -> {
       if(myPlayer.getMyUserProfile() != null){
         myPlayer.getMyUserProfile().addHighScore(myGameType, highScore.getValue());
       }
-      //TODO: check if this works
       myPlayer.setUpWonLevelScreen();
-      playSound("levelup");
-    }); //TODO: fix for when level is won or game
+    });
   }
 
   //method for making any label in this class
@@ -222,13 +214,5 @@ public class GameScreen extends SuperScreen {
       time--;
       timeProperty.set(time);
     });
-  }
-
-  //makes new sound
-  private void playSound(String soundName) {
-    String soundPath = SOUND_RESOURCES + soundName + ".mp3";
-    Media sound = new Media(new File(soundPath).toURI().toString());
-    MediaPlayer mediaPlayer = new MediaPlayer(sound);
-    mediaPlayer.play();
   }
 }
