@@ -207,7 +207,7 @@ public class Player implements PlayerStart{
    */
   @Override
   public void setResetLevelButton(EventHandler<ActionEvent> event) {
-    myResetGameEvent = event;
+    myResetLevelEvent = event;
   }
 
   /**
@@ -216,7 +216,7 @@ public class Player implements PlayerStart{
    */
   @Override
   public EventHandler<ActionEvent> getResetLevelButtonEvent(){
-    return myResetGameEvent;
+    return myResetLevelEvent;
   }
 
   /**
