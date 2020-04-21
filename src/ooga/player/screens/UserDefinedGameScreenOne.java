@@ -9,6 +9,7 @@ public class UserDefinedGameScreenOne extends UserDefinedGameScreen {
     private static final String MY_KEYS = "EngineKeys";
     private static final String BUTTON_TEXT = "Next";
     private static final String GAME_LABEL = "NewGameLabel";
+    private static final String MAX_STATE = "MaxStateNumber";
 
     public UserDefinedGameScreenOne(Player thisPlayer) {
         super(thisPlayer);
@@ -24,6 +25,10 @@ public class UserDefinedGameScreenOne extends UserDefinedGameScreen {
         };
         myButtonText = BUTTON_TEXT;
         gameLabel = GAME_LABEL;
+    }
+
+    public int getMaxState(){
+        return Integer.parseInt(selectedAttributes.get(MAX_STATE));
     }
 
     @Override

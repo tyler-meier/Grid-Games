@@ -120,6 +120,7 @@ public class Player implements PlayerStart{
   public void setUpMakeNewGameScreenThree(){
     myUserDefinedGameScreenThree = new UserDefinedGameScreenThree(this);
     myStage.setScene(myUserDefinedGameScreenThree.setUpScene());
+    myUserDefinedGameScreenThree.setMaxState(myUserDefinedGameScreenOne.getMaxState());
   }
 
   public Map<String,String> getUserMadeEngineAttributesMap(){

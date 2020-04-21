@@ -27,6 +27,7 @@ public class UserDefinedGameScreenThree extends UserDefinedGameScreen {
     private Button startButton;
     private int[][] initialStates;
     GridPane myGrid = new GridPane();
+    private int maxState;
 
     public UserDefinedGameScreenThree(Player thisPlayer) {
         super(thisPlayer);
@@ -42,6 +43,8 @@ public class UserDefinedGameScreenThree extends UserDefinedGameScreen {
         myButtonText = BUTTON_TEXT;
         gameLabel = GAME_LABEL;
     }
+
+    public void setMaxState(int max){ maxState = max;}
 
     @Override
     protected boolean additionalValidation() {
@@ -105,8 +108,9 @@ public class UserDefinedGameScreenThree extends UserDefinedGameScreen {
             if(GridPane.getRowIndex(node) != null){
                 int row = GridPane.getRowIndex(node);
                 int col = GridPane.getColumnIndex(node);
-                if (isInteger(((TextField) node).getText()))
-                    initialStates[row][col] = Integer.parseInt(((TextField) node).getText());
+                int val;
+                if (isInteger(((TextField) node).getText()) && (val= Integer.parseInt(((TextField) node).getText())) <= maxState)
+                    initialStates[row][col] = val;
                 else throw new NewUserDefinedGameException();
             }
         }
