@@ -39,6 +39,7 @@ public class Controller extends Application {
         Map<String, String> myEngineAttributes = data.getEngineAttributes(type);
         Engine engine = new Engine(myEngineAttributes, data.getErrorMessage());
         Map<String, String> myGameAttributes = data.getGameAttributes(username, type);
+        //Map<String, String> myGameAttributes = data.getGameLevelAttributes(username, type, engine.getLevel());
         int[][] initialStates = data.getGrid();
         boolean[][] openCellConfiguration = data.getOpenCells();
         engine.setupGame(initialStates, myGameAttributes, openCellConfiguration);
