@@ -1,5 +1,6 @@
 package ooga.player.screens;
 
+import java.io.File;
 import java.util.*;
 
 import javafx.application.Platform;
@@ -15,6 +16,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import ooga.engine.grid.Grid;
 import ooga.player.GridView;
 import ooga.player.Player;
@@ -31,6 +34,11 @@ public class GameScreen extends SuperScreen {
   private static final int SPACING_3 = 10;
   private static final int WIDTH = 900;
   private static final int HEIGHT = 600;
+
+  private static final String SOUND_RESOURCES = "ooga/player/Resources/sounds/";
+  private static final String DEFAULT_SOUND_RESOURCE_PACKAGE = RESOURCES.replace("/", ".");
+  private static final String DEFAULT_SOUND_RESOURCE_FOLDER = "/" + RESOURCES;
+
   private GridView myGrid;
   private BorderPane myRoot;
   private BooleanProperty isLoss = new SimpleBooleanProperty();
@@ -40,7 +48,7 @@ public class GameScreen extends SuperScreen {
   private Timer timer;
   private VBox verticalPanel = new VBox();
   private Button pausePlayButton, resetGameButton;
-  
+
   public GameScreen(String gameType, Player player){
     super(gameType, player);
     myGrid = new GridView(gameType, GRID_SIZE);
@@ -106,12 +114,18 @@ public class GameScreen extends SuperScreen {
       if(myPlayer.getMyUserProfile() != null){
         myPlayer.getMyUserProfile().addHighScore(myGameType, highScore.getValue());
       }
+      MediaPlayer loss = makeSound("loss");
+      loss.play();
       myPlayer.setUpLossScreen();
+
     });
     this.isWin.addListener((obs, oldv, newv) -> {
       if(myPlayer.getMyUserProfile() != null){
         myPlayer.getMyUserProfile().addHighScore(myGameType, highScore.getValue());
       }
+      //TODO: check if this works
+      MediaPlayer won = makeSound("levelup");
+      won.play();
       myPlayer.setUpWonLevelScreen();
     }); //TODO: fix for when level is won or game
   }
@@ -215,5 +229,14 @@ public class GameScreen extends SuperScreen {
       time--;
       timeProperty.set(time);
     });
+  }
+
+  //makes new sound
+  private MediaPlayer makeSound(String soundName) {
+    String soundPath = SOUND_RESOURCES + soundName + ".mp3";
+    Media sound = new Media(soundPath);
+    MediaPlayer mediaPlayer = new MediaPlayer(sound);
+
+    return mediaPlayer;
   }
 }
