@@ -26,7 +26,7 @@ public abstract class SuperScreen {
   protected static final String DEFAULT_RESOURCE_PACKAGE = RESOURCES.replace("/", ".");
   protected static final String DEFAULT_RESOURCE_FOLDER = "/" + RESOURCES;
   private static final int DIMENSION = 650;
-  private static final int MAIN_SPACING = 50;
+  protected static final int MAIN_SPACING = 50;
 
   protected ResourceBundle myButtonResources, myStringResources, myGameNameResources;
   protected Label myErrorMessage;
