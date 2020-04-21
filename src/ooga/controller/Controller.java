@@ -48,7 +48,7 @@ public class Controller extends Application {
         player.setResetLevelButton(goToNewLevel("Guest", data, player, engine, 0));
         //List<String> highScores = data.getHighScores(String gameType);
         //TODO: fix reset game button 
-        player.setResetGameButton(goToNewLevel(username, data, player, engine, 0));
+        player.setResetGameButton(goToNewLevel(username, data, player, engine, -1));
         player.setNextLevel(goToNewLevel(username, data, player, engine, 1));
         player.setUpGameScreen(engine.getGrid(), data.getErrorMessage());
     }

@@ -84,6 +84,27 @@ class DataTest {
 
   }
 
+  @Test
+  void createAndLoadNewGameType()
+  {
+    UserProfile jay = data.login("jay18", "boob");
+    Map<String, String> gameAttributes = new HashMap<>();
+    gameAttributes.put("MovesLeft", "0");
+    gameAttributes.put("Score", "3");
+    gameAttributes.put("LivesLeft", "4");
+    gameAttributes.put("TargetScore", "24");
+    gameAttributes.put("LossStat", "5");
+    gameAttributes.put("Level", "6");
+    gameAttributes.put("Time", "0");
+
+    boolean[][] uncoveredCells = new boolean[knownLevelOne.length][knownLevelOne[0].length];
+    data.saveCreatedGame("MyFunnyGame", gameAttributes, knownLevelOne, uncoveredCells);
+    Map<String, String> createdGame = data.loadCreatedGame("jay18", "MyFunnyGame");
+    assertEquals(createdGame, gameAttributes);
+    assertTrue(checkGridEquality(knownLevelOne, data.getGrid()));
+  }
+
+
 
 
   @Test
