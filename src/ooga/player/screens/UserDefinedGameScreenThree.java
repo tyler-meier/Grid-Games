@@ -65,7 +65,7 @@ public class UserDefinedGameScreenThree extends SuperScreen {
                 myPlayer.setGameType("UserMadeGame");
                 myPlayer.getUserMAdeStartButton().handle(e);
             } catch (NewUserDefinedGameException p){
-                //p.printStackTrace();
+                System.out.println("this is where the error is happening");
                 myErrorMessage.textProperty().setValue(p.getMessage());
             }
         });

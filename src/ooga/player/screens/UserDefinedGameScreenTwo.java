@@ -5,6 +5,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import ooga.player.Player;
+import ooga.player.exceptions.NewUserDefinedGameException;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -14,6 +15,7 @@ import java.util.ResourceBundle;
 public class UserDefinedGameScreenTwo extends SuperScreen {
     //TODO: need to figure out how to give data the correct info for user made game so reset and save works
     //TODO: still need to make images dynamic
+    //TODO: figure out exception handling
     private static final String KEYS_RESOURCES_PATH = "resources.";
     private Map<String, String> selectedGameAttributes = new HashMap<>();
     private ComboBox<String> level = new ComboBox<>();
@@ -57,21 +59,14 @@ public class UserDefinedGameScreenTwo extends SuperScreen {
         Label Level = new Label(myStringResources.getString("Level"));
         this.level.getItems().addAll(myStringResources.getString("1"));
         Label Score = new Label(myStringResources.getString("StartingScore"));
-       // this.score.getItems().addAll("0");
         Label TargetScore = new Label(myStringResources.getString("TargetScore"));
-        //this.targetScore.getItems().addAll("10", "100", "500");
         Label LossStat = new Label(myStringResources.getString("LossStat"));
         this.lossStat.getItems().addAll(myStringResources.getString("MovesLeftNS"), myStringResources.getString("Time"), myStringResources.getString("LivesLeftNS"));
         Label LivesLeft = new Label(myStringResources.getString("LivesLeft"));
-        //this.livesLeft.getItems().addAll("5", "10");
         Label MovesLeft = new Label(myStringResources.getString("MovesLeft"));
-        //this.movesLeft.getItems().addAll("5", "10", "20");
         Label Time = new Label(myStringResources.getString("Time"));
-        //this.time.getItems().addAll("60");
         Label numRows = new Label(myStringResources.getString("NumRows"));
-        //this.numRows.getItems().addAll("4");
         Label numCols = new Label(myStringResources.getString("NumCols"));
-        //this.numCols.getItems().addAll("4");
         return styleContents(Level, this.level, Score, this.score,
                 TargetScore, this.targetScore, LossStat, this.lossStat, LivesLeft,
                 this.livesLeft, MovesLeft, this.movesLeft, Time, this.time, numRows,
@@ -81,10 +76,13 @@ public class UserDefinedGameScreenTwo extends SuperScreen {
 
     private VBox setUpButtons(){
         Button startButton = makeButton("Next", e -> {
-            makeGamesMap();
-            myPlayer.setUpMakeNewGameScreenThree(getSelectedNumRows(), getSelectedNumCols());
-            //myPlayer.setGameType("UserMadeGame");
-            //myPlayer.getUserMAdeStartButton().handle(e);
+            try{
+                makeGamesMap();
+                myPlayer.setUpMakeNewGameScreenThree(getSelectedNumRows(), getSelectedNumCols());
+            }
+            catch(NewUserDefinedGameException p){
+                myErrorMessage.textProperty().setValue(p.getMessage());
+            }
         });
 
         return styleContents(startButton);
@@ -121,10 +119,26 @@ public class UserDefinedGameScreenTwo extends SuperScreen {
     }
 
     private int getSelectedNumRows(){
-        return Integer.parseInt(selectedGameAttributes.get("numRows"));
+        try{
+            return Integer.parseInt(selectedGameAttributes.get("numRows"));
+        }
+        catch(NumberFormatException e){
+            //TODO: make the error message display on the screen
+            NewUserDefinedGameException p = new NewUserDefinedGameException();
+            myErrorMessage.textProperty().setValue(p.getMessage());
+        }
+        return 0;
     }
 
     private int getSelectedNumCols(){
-        return Integer.parseInt(selectedGameAttributes.get("numCols"));
+        try{
+            return Integer.parseInt(selectedGameAttributes.get("numCols"));
+        }
+        catch(NumberFormatException e){
+            //TODO: make the error message display on the screen
+            NewUserDefinedGameException p = new NewUserDefinedGameException();
+            myErrorMessage.textProperty().setValue(p.getMessage());
+        }
+        return 0;
     }
 }

@@ -59,15 +59,11 @@ public class UserDefinedGameScreenOne extends SuperScreen {
         Label matchFinder = new Label(myStringResources.getString("TypeOfMatchFinder"));
         this.matchFinder.getItems().addAll(myStringResources.getString("Flipped"), myStringResources.getString("Open"));
         Label numSelectedPerMove = new Label(myStringResources.getString("NumCells"));
-        //this.numSelectedPerMove.getText();
         Label noHiddenCells = new Label(myStringResources.getString("HasHiddenCells"));
         this.noHiddenCells.getItems().addAll(myStringResources.getString("True"), myStringResources.getString("False"));
         Label maxStateNumber = new Label(myStringResources.getString("MaxStateNum"));
-        //this.maxStateNumber.getItems().addAll("6");
         Label pointsPerCell = new Label(myStringResources.getString("PointsPerCell"));
-        //this.pointsPerCell.getItems().addAll("5", "10");
         Label secondsOpen = new Label(myStringResources.getString("SecondsOpen"));
-        //this.secondsOpen.getItems().addAll("0", "2", "4");
         return styleContents(addNewCells, this.addNewCells, validator, this.validator,
                 matchFinder, this.matchFinder, numSelectedPerMove, this.numSelectedPerMove, noHiddenCells,
                 this.noHiddenCells,maxStateNumber, this.maxStateNumber, pointsPerCell, this.pointsPerCell, secondsOpen, this.secondsOpen);
