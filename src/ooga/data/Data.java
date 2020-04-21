@@ -1,5 +1,6 @@
 package ooga.data;
 
+import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.beans.property.SimpleStringProperty;
@@ -9,6 +10,7 @@ import ooga.data.buildingXML.XMLGameBuilder;
 import ooga.data.exceptions.EmptyEntryException;
 import ooga.data.exceptions.IncorrectPasswordException;
 import ooga.data.exceptions.InvalidCharacterEntryException;
+import ooga.data.exceptions.LevelNotFoundException;
 import ooga.data.exceptions.NaughtyNameException;
 import ooga.data.exceptions.NoUserExistsException;
 import ooga.data.exceptions.UserAlreadyExistsException;
@@ -29,6 +31,7 @@ public class Data implements DataLink {
   private final String NEW_GAME_PATH_SKELETON = "data/profiles/%s%s.xml";
   private final String LEVEL_PATH_SKELETON = "data/defaultGames/%s/level_%d.xml";
   private final int LOAD_SAVED_GAME = -1;
+  private final int LEVEL_ONE = 1;
 
   private final ResourceBundle myEngineResource = ResourceBundle.getBundle(ENGINE_KEY_PATH);
   private final ResourceBundle myGameResource = ResourceBundle.getBundle(GAME_KEY_PATH);
@@ -184,7 +187,7 @@ public class Data implements DataLink {
   }
 
 
-  public Map<String, String> getGameLevelAttributes(String username, String gameType, int level) {
+  public Map<String, String> getGameLevelAttributes(String username, String gameType, int level) throws LevelNotFoundException{
     this.gameType = gameType;
     gamePath = String.format(LEVEL_PATH_SKELETON, gameType, level);
     if(!username.equals(GUEST_USER) && level == LOAD_SAVED_GAME)
@@ -193,13 +196,21 @@ public class Data implements DataLink {
     }
     else if(level == LOAD_SAVED_GAME)
     {
-      gamePath = String.format(LEVEL_PATH_SKELETON, gameType, 1);
+      gamePath = String.format(LEVEL_PATH_SKELETON, gameType, LEVEL_ONE);
     }
-    System.out.println("Grabbing path " + gamePath);
-    gameParser = new XMLParser(gamePath);
-    return gameParser.getMapFromXML(myGameResource);
+    try{
+      gameParser = new XMLParser(gamePath);
+      return gameParser.getMapFromXML(myGameResource);
+    } catch(Exception e)
+    {
+      throw new LevelNotFoundException(e, level, gameType);
+    }
   }
 
+  public Map<String, Integer> getHighScores(String gameType)
+  {
+    return myProfileManager.getHighScores(gameType);
+  }
 
 
 

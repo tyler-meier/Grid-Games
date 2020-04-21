@@ -46,7 +46,8 @@ public class Controller extends Application {
         engine.setupGame(initialStates, myGameAttributes, openCellConfiguration);
         player.setSaveButton(e -> data.saveGame(engine.getGameAttributes(), engine.getGridConfiguration(), engine.getOpenCellConfiguration()));
         player.setResetLevelButton(goToNewLevel("Guest", data, player, engine, 0));
-        //List<String> highScores = player.getHighScores(data.getHighScores(String gameType));
+        //List<String> highScores = data.getHighScores(String gameType);
+        //TODO: fix reset game button 
         player.setResetGameButton(goToNewLevel(username, data, player, engine, 0));
         player.setNextLevel(goToNewLevel(username, data, player, engine, 1));
         player.setUpGameScreen(engine.getGrid(), data.getErrorMessage());
