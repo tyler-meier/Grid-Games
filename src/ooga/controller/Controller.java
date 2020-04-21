@@ -47,7 +47,7 @@ public class Controller extends Application {
         player.setSaveButton(e -> data.saveGame(engine.getGameAttributes(), engine.getGridConfiguration(), engine.getOpenCellConfiguration()));
         player.setResetLevelButton(goToNewLevel("Guest", data, player, engine, 0));
         //List<String> highScores = player.getHighScores(data.getHighScores(String gameType));
-        player.setResetGameButton(goToNewLevel(username, data, player, engine, 0));
+        player.setResetGameButton(goToNewLevel(username, data, player, engine, -1));
         player.setNextLevel(goToNewLevel(username, data, player, engine, 1));
         player.setUpGameScreen(engine.getGrid(), data.getErrorMessage());
     }
@@ -55,11 +55,14 @@ public class Controller extends Application {
     private EventHandler<ActionEvent> goToNewLevel(String username, Data data, Player player, Engine engine, Integer levelAdder)
     {
         EventHandler<ActionEvent> e = event -> {
-            Map<String, String> newGameAttributes = data.getGameLevelAttributes(username, player.getGameType(), engine.getLevel()+levelAdder);
-            int[][] newInitialStates = data.getGrid();
-            boolean[][] newOpenCells = data.getOpenCells();
-            engine.setupGame(newInitialStates, newGameAttributes, newOpenCells);
-            player.setUpGameScreen(engine.getGrid(), data.getErrorMessage());
+          Map<String, String> newGameAttributes = data.getGameLevelAttributes(username, player.getGameType(), engine.getLevel()+levelAdder);
+          if (levelAdder < 0){
+            newGameAttributes = data.getGameLevelAttributes(username, player.getGameType(), -1);
+          }
+          int[][] newInitialStates = data.getGrid();
+          boolean[][] newOpenCells = data.getOpenCells();
+          engine.setupGame(newInitialStates, newGameAttributes, newOpenCells);
+          player.setUpGameScreen(engine.getGrid(), data.getErrorMessage());
         };
         return e;
     }

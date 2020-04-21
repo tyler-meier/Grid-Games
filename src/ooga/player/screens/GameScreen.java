@@ -189,8 +189,7 @@ public class GameScreen extends SuperScreen {
 
  //puts all essential buttons into a vbox
   private VBox makeButtonPanel() {
-//    Button resetLevelButton = makeButton("ResetLevelCommand", e-> myPlayer.setUpGameScreen(myPlayer.getGrid()));
-    VBox buttons = styleContents(makeLogoutButton(), makeResetGameButton(), makeThisSaveButton(), myErrorMessage);
+    VBox buttons = styleContents(makeLogoutButton(), makeResetLevelButton(), makeResetGameButton(), makeThisSaveButton(), myErrorMessage);
     return buttons;
   }
 
