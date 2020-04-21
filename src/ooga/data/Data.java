@@ -140,13 +140,18 @@ public class Data implements DataLink {
       errorMessage.setValue("Game Saved!");
   }
 
-  public void saveGameLevel(Map<String, String> gameAttributes, int[][] grid, boolean[][] uncoveredCells) {
-    String path = String.format(NEW_GAME_PATH_SKELETON, currentUser.getUsername(), gameType);
-    XMLBuilder newGame = new XMLGameBuilder(MAIN_GAME_TAG, path, gameAttributes, grid, uncoveredCells);
-    currentUser.addSavedGame(gameType, path);
-    myProfileManager.updatePLayerXML(currentUser);
-    errorMessage.setValue("Game Saved!");
+  public void saveCreatedGame(String newGameType, Map<String, String> gameAttributes, int[][] grid, boolean[][] uncoveredCells)
+  {
+    gameType = newGameType;
+    saveGame(gameAttributes, grid, uncoveredCells);
   }
+
+  public Map<String, String> loadCreatedGame(String username, String newGameType) throws LevelNotFoundException
+  {
+    return getGameLevelAttributes(username, newGameType, LOAD_SAVED_GAME);
+  }
+
+
 
 
   /**
@@ -211,7 +216,6 @@ public class Data implements DataLink {
   {
     return myProfileManager.getHighScores(gameType);
   }
-
 
 
   private void setCurrentUser(UserProfile newCurrent)
