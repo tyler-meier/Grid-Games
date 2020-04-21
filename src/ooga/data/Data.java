@@ -186,14 +186,20 @@ public class Data implements DataLink {
 
   public Map<String, String> getGameLevelAttributes(String username, String gameType, int level) {
     this.gameType = gameType;
+    System.out.println("Grabbing level " + level);
     gamePath = String.format(LEVEL_PATH_SKELETON, gameType, level);
     if(!username.equals(GUEST_USER) && level == LOAD_SAVED_GAME)
     {
       gamePath = currentUser.getSavedGame(gameType);
     }
+    else if(level == LOAD_SAVED_GAME)
+    {
+      gamePath = String.format(LEVEL_PATH_SKELETON, gameType, 1);
+    }
     gameParser = new XMLParser(gamePath);
     return gameParser.getMapFromXML(myGameResource);
   }
+
 
 
 
