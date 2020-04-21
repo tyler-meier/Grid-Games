@@ -127,6 +127,18 @@ public interface PlayerStart {
 
   /**
    *
+   * @param event
+   */
+  void setNextLevel(EventHandler<ActionEvent> event);
+
+  /**
+   *
+   * @return
+   */
+  EventHandler<ActionEvent> getNextLevelEvent();
+
+  /**
+   *
    * @param thisUserProfile
    */
   void setUserProfile(UserProfile thisUserProfile);
