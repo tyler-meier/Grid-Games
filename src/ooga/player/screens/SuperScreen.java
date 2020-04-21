@@ -167,6 +167,14 @@ public abstract class SuperScreen {
   }
 
   /**
+   * Sets up the generic reset level button
+   * @return reset level button
+   */
+  public Button makeResetLevelButton(){
+    return makeButton("ResetLevelCommand", myPlayer.getResetLevelButtonEvent());
+  }
+
+  /**
    * Creates the button given the parameters
    * @param text the text to be displayed on the button (key to find text)
    * @param handler the event(s) that the button will do

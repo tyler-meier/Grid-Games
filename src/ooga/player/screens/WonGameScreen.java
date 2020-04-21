@@ -30,6 +30,6 @@ public class WonGameScreen extends SuperScreen {
 
   private VBox setUpContents(){
     Label winGameLabel = new Label(myStringResources.getString("WonGame"));
-    return styleContents(winGameLabel, makeHomeButton(), makeResetGameButton(), makeSaveButton());
+    return styleContents(winGameLabel, makeHomeButton(), makeResetGameButton(), makeResetLevelButton(), makeSaveButton());
   }
 }
