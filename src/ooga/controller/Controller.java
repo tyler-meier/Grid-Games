@@ -37,10 +37,10 @@ public class Controller extends Application {
         String type = player.getGameType();
         String username = player.getUsername();
         Map<String, String> myEngineAttributes = data.getEngineAttributes(type);
+        Engine engine = new Engine(myEngineAttributes, data.getErrorMessage());
         Map<String, String> myGameAttributes = data.getGameAttributes(username, type);
         int[][] initialStates = data.getGrid();
         boolean[][] openCellConfiguration = data.getOpenCells();
-        Engine engine = new Engine(myEngineAttributes, data.getErrorMessage());
         engine.setupGame(initialStates, myGameAttributes, openCellConfiguration);
         player.setSaveButton(e -> data.saveGame(engine.getGameAttributes(), engine.getGridConfiguration(), engine.getOpenCellConfiguration()));
         player.setResetButton(e -> {
