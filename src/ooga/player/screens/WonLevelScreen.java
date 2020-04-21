@@ -38,6 +38,6 @@ public class WonLevelScreen extends SuperScreen {
         myPlayer.setUpWonGameScreen();
       }
     });
-    return styleContents(winLevelLabel, nextLevelButton, makeHomeButton(), makeSaveButton(), myErrorMessage);
+    return styleContents(winLevelLabel, nextLevelButton, makeHomeButton(), makeResetLevelButton(), myErrorMessage);
   }
 }

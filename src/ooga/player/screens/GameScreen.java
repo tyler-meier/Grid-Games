@@ -87,8 +87,7 @@ public class GameScreen extends SuperScreen {
   }
 
   private VBox makeButtonPanel() {
-//    Button resetLevelButton = makeButton("ResetLevelCommand", e-> myPlayer.setUpGameScreen(myPlayer.getGrid()));
-    VBox buttons = styleContents(makeLogoutButton(), makeResetGameButton(), makeThisSaveButton(), myErrorMessage);
+    VBox buttons = styleContents(makeLogoutButton(), makeThisSaveButton(), makeResetGameButton(), makeResetLevelButton(), myErrorMessage);
     return buttons;
   }
 
@@ -210,6 +209,6 @@ public class GameScreen extends SuperScreen {
         myPlayer.getMyUserProfile().addHighScore(myGameType, highScore.getValue());
       }
       myPlayer.setUpWonLevelScreen();
-    }); //TODO: fix for when level is won or game
+    });
   }
 }
