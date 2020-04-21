@@ -40,7 +40,7 @@ public class UserDefinedGameScreenTwo extends UserDefinedGameScreen {
         myKeysResources = ResourceBundle.getBundle(KEYS_RESOURCES_PATH + MY_KEYS);
         myButtonEvent = event -> {
             try{
-                buildMap();
+                selectedGameAttributes = buildMap();
                 myPlayer.setUpMakeNewGameScreenThree(getSelectedNumRows(), getSelectedNumCols());
             }
             catch(NewUserDefinedGameException p){
@@ -87,6 +87,7 @@ public class UserDefinedGameScreenTwo extends UserDefinedGameScreen {
 //                this.numRows, numCols, this.numCols);
 //    }
 
+    /*
     private void  buildMap(){
         selectedGameAttributes.put("Level", this.level.getValue());
         selectedGameAttributes.put("Score", this.score.getValue());
@@ -99,9 +100,11 @@ public class UserDefinedGameScreenTwo extends UserDefinedGameScreen {
         selectedGameAttributes.put("numCols", this.numCols.getText());
     }
 
+     */
+
     private int getSelectedNumRows(){
         try{
-            Integer.parseInt(time.getText());
+            //Integer.parseInt(time.getText());
             return Integer.parseInt(selectedGameAttributes.get("numRows"));
         }
         catch(NumberFormatException e){

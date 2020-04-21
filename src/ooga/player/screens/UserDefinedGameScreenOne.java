@@ -35,7 +35,7 @@ public class UserDefinedGameScreenOne extends UserDefinedGameScreen {
         myKeysResources = ResourceBundle.getBundle(KEYS_RESOURCES_PATH + MY_KEYS);
         myButtonEvent = event -> {
             try{
-                buildMap();
+                selectedEngineAttributes = buildMap();
                 myPlayer.setUpMakeNewGameScreenTwo();
             }
             catch(NewUserDefinedGameException p){
@@ -98,7 +98,7 @@ public class UserDefinedGameScreenOne extends UserDefinedGameScreen {
 //    }
 
 
-
+/*
     private void buildMap(){
         for (String key:integerInputs) if (!isInteger(selectedEngineAttributes.get(key))) System.out.println("bad input");//throw error;
 
@@ -114,6 +114,6 @@ public class UserDefinedGameScreenOne extends UserDefinedGameScreen {
         selectedEngineAttributes.put("SecondsOpen", this.secondsOpen.getText());
     }
 
-
+ */
 
 }

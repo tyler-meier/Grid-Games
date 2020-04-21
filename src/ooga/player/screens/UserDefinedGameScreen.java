@@ -50,7 +50,7 @@ public abstract class UserDefinedGameScreen extends SuperScreen {
     }
 
     public Scene setUpScene(){
-        Label newGameLabel = new Label(myStringResources.getString(gameLabel));
+        Label newGameLabel = new Label(newGameStringsResources.getString(gameLabel));
         Node gameCharacteristicSelection = buildInputFields();
         ScrollPane myGameScroller = new ScrollPane();
         myGameScroller.setContent(gameCharacteristicSelection);
@@ -76,5 +76,24 @@ public abstract class UserDefinedGameScreen extends SuperScreen {
         }catch (Exception e){
             return false;
         }
+    }
+
+    protected Map<String, String> buildMap(){
+        Map<String, String> attributes = new HashMap<>();
+        for(String key: userInputFields.keySet()){
+            if(isValid(userInputFields.get(key))){
+               try{
+                   attributes.put(key, ((TextField) userInputFields.get(key)).getText());
+               }
+               catch(Exception e){
+                   attributes.put(key, (String) ((ComboBox) userInputFields.get(key)).getValue());
+                }
+            }
+            else{
+                System.out.println("user input not valid, using default");
+                attributes.put(key, myKeysResources.getString(key)); // use the default value if the given value is not valid
+            }
+        }
+        return attributes;
     }
 }
