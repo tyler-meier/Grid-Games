@@ -191,9 +191,15 @@ public class Data implements DataLink {
     {
       gamePath = currentUser.getSavedGame(gameType);
     }
+    else if(level == LOAD_SAVED_GAME)
+    {
+      gamePath = String.format(LEVEL_PATH_SKELETON, gameType, 1);
+    }
+    System.out.println("Grabbing path " + gamePath);
     gameParser = new XMLParser(gamePath);
     return gameParser.getMapFromXML(myGameResource);
   }
+
 
 
 
