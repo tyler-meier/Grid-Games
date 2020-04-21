@@ -97,6 +97,7 @@ public class Data implements DataLink {
   public UserProfile saveNewPlayerProfile(String username, String password) {
     try{
       setCurrentUser(myProfileManager.addProfile(username, password));
+      return currentUser;
     }
     catch(EmptyEntryException | UserAlreadyExistsException
         | NaughtyNameException | InvalidCharacterEntryException e)
