@@ -34,10 +34,7 @@ public class GameScreen extends SuperScreen {
   private static final int SPACING_3 = 10;
   private static final int WIDTH = 900;
   private static final int HEIGHT = 600;
-
-  private static final String SOUND_RESOURCES = "ooga/player/Resources/sounds/";
-  private static final String DEFAULT_SOUND_RESOURCE_PACKAGE = RESOURCES.replace("/", ".");
-  private static final String DEFAULT_SOUND_RESOURCE_FOLDER = "/" + RESOURCES;
+  private static final String SOUND_RESOURCES = "src/ooga/player/Resources/sounds/";
 
   private GridView myGrid;
   private BorderPane myRoot;
@@ -114,19 +111,16 @@ public class GameScreen extends SuperScreen {
       if(myPlayer.getMyUserProfile() != null){
         myPlayer.getMyUserProfile().addHighScore(myGameType, highScore.getValue());
       }
-      MediaPlayer loss = makeSound("loss");
-      loss.play();
       myPlayer.setUpLossScreen();
-
+      playSound("loss");
     });
     this.isWin.addListener((obs, oldv, newv) -> {
       if(myPlayer.getMyUserProfile() != null){
         myPlayer.getMyUserProfile().addHighScore(myGameType, highScore.getValue());
       }
       //TODO: check if this works
-      MediaPlayer won = makeSound("levelup");
-      won.play();
       myPlayer.setUpWonLevelScreen();
+      playSound("levelup");
     }); //TODO: fix for when level is won or game
   }
 
@@ -232,11 +226,10 @@ public class GameScreen extends SuperScreen {
   }
 
   //makes new sound
-  private MediaPlayer makeSound(String soundName) {
+  private void playSound(String soundName) {
     String soundPath = SOUND_RESOURCES + soundName + ".mp3";
-    Media sound = new Media(soundPath);
+    Media sound = new Media(new File(soundPath).toURI().toString());
     MediaPlayer mediaPlayer = new MediaPlayer(sound);
-
-    return mediaPlayer;
+    mediaPlayer.play();
   }
 }
