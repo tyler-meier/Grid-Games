@@ -45,5 +45,6 @@ public class Engine implements EngineBuilder {
      */
     public int[][] getGridConfiguration() { return myGrid.getGridConfiguration(); }
 
+    public int getLevel() { return myGrid.getLevel(); }
     public boolean[][] getOpenCellConfiguration() { return myGrid.getOpenCellConfiguration(); }
 }
