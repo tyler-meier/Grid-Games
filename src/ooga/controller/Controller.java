@@ -39,7 +39,7 @@ public class Controller extends Application {
         Map<String, String> myEngineAttributes = data.getEngineAttributes(type);
         Engine engine = new Engine(myEngineAttributes, data.getErrorMessage());
         Map<String, String> myGameAttributes = data.getGameAttributes(username, type);
-        //Map<String, String> myGameAttributes = data.getGameLevelAttributes(username, type, engine.getLevel());
+        //Map<String, String> myGameAttributes = data.getGameLevelAttributes(username, type, -1);
         int[][] initialStates = data.getGrid();
         boolean[][] openCellConfiguration = data.getOpenCells();
         engine.setupGame(initialStates, myGameAttributes, openCellConfiguration);
@@ -51,6 +51,15 @@ public class Controller extends Application {
             engine.setupGame(newInitialStates, newGameAttributes, newOpenCells);
             player.setUpGameScreen(engine.getGrid(), data.getErrorMessage());
         });
+        /*
+        player.setNextLevel( e-> {
+            Map<String, String> newGameAttributes = data.getGameLevelAttributes(username, type, engine.getNextLevel());
+            int[][] newInitialStates = data.getGrid();
+            boolean[][] newOpenCells = data.getOpenCells();
+            engine.setupGame(newInitialStates, newGameAttributes, newOpenCells);
+            player.setUpGameScreen(engine.getGrid(), data.getErrorMessage());
+        });
+         */
         player.setUpGameScreen(engine.getGrid(), data.getErrorMessage());
     }
 }
