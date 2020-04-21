@@ -105,7 +105,7 @@ public class UserDefinedGameScreenTwo extends UserDefinedGameScreen {
     private int getSelectedNumRows(){
         try{
             //Integer.parseInt(time.getText());
-            return Integer.parseInt(selectedGameAttributes.get("numRows"));
+            return Integer.parseInt(selectedGameAttributes.get("NumRows"));
         }
         catch(NumberFormatException e){
             //TODO: make the error message display on the screen
@@ -117,7 +117,7 @@ public class UserDefinedGameScreenTwo extends UserDefinedGameScreen {
 
     private int getSelectedNumCols(){
         try{
-            return Integer.parseInt(selectedGameAttributes.get("numCols"));
+            return Integer.parseInt(selectedGameAttributes.get("NumCols"));
         }
         catch(NumberFormatException e){
             //TODO: make the error message display on the screen

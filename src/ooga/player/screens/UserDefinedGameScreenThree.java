@@ -10,24 +10,40 @@ import javafx.scene.layout.VBox;
 import ooga.player.Player;
 import ooga.player.exceptions.NewUserDefinedGameException;
 
+import java.util.ResourceBundle;
 
-public class UserDefinedGameScreenThree extends SuperScreen {
+
+public class UserDefinedGameScreenThree extends UserDefinedGameScreen {
+    private static String BUTTON_TEXT = "StartCommand";
+    private static String GAME_LABEL = "NewGameLabelThree";
     private int numberRows;
     private int numberColumns;
     private int[][] initialStates;
     GridPane myGrid = new GridPane();
+
     public UserDefinedGameScreenThree(Player thisPlayer) {
         super(thisPlayer);
+        myButtonEvent = event -> {
+            try{
+                getStates();
+                myPlayer.setGameType("UserMadeGame");
+                myPlayer.getUserMAdeStartButton().handle(event);
+            }
+            catch(NewUserDefinedGameException p){
+                myErrorMessage.textProperty().setValue(p.getMessage());
+            }
+        };
+        myButtonText = BUTTON_TEXT;
+        gameLabel = GAME_LABEL;
     }
 
     public Scene setUpScene(int numRows, int numCols){
         numberRows = numRows;
         numberColumns = numCols;
-        Label prompt = makeLabel();
-        Label warning = makeWarningLabel();
+        Label prompt = new Label(newGameStringsResources.getString(gameLabel));
         GridPane enterStates = setUpGridConfig();
-        VBox goButton = setUpButtons();
-        return styleScene(prompt, warning, enterStates, goButton);
+        Button goButton = makeButton(myButtonText, myButtonEvent);
+        return styleScene(prompt, enterStates, goButton);
     }
 
     public int[][] getUserSelectedInitialStates(){
@@ -49,15 +65,7 @@ public class UserDefinedGameScreenThree extends SuperScreen {
         return myGrid;
     }
 
-    private Label makeLabel(){
-        return new Label(myStringResources.getString("InitialGrid"));
-    }
-
-    private Label makeWarningLabel(){
-        return new Label(myStringResources.getString("InitialGridReminder"));
-    }
-
-
+/*
     private VBox setUpButtons(){
         Button startButton = makeButton("StartCommand", e -> {
             try {
@@ -71,6 +79,8 @@ public class UserDefinedGameScreenThree extends SuperScreen {
         });
         return styleContents(startButton);
     }
+
+ */
 
     private void getStates(){
         for(Node node: myGrid.getChildren()){
