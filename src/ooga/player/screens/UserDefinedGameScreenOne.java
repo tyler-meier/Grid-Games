@@ -21,7 +21,7 @@ public class UserDefinedGameScreenOne extends SuperScreen {
     private ComboBox<String> matchFinder = new ComboBox<>();
     private TextField numSelectedPerMove = new TextField();
     private ComboBox<String> noHiddenCells = new ComboBox<>();
-    private TextField maxStateNumber = new TextField();
+    private ComboBox<String> maxStateNumber = new ComboBox<>();
     private TextField pointsPerCell = new TextField();
     private TextField secondsOpen = new TextField();
 
@@ -58,10 +58,12 @@ public class UserDefinedGameScreenOne extends SuperScreen {
         this.validator.getItems().addAll(myStringResources.getString("Pair"), myStringResources.getString("Switch"));
         Label matchFinder = new Label(myStringResources.getString("TypeOfMatchFinder"));
         this.matchFinder.getItems().addAll(myStringResources.getString("Flipped"), myStringResources.getString("Open"));
-        Label numSelectedPerMove = new Label(myStringResources.getString("NumCells"));
+        Label numSelectedPerMove = new Label(myStringResources.getString("NumCells")); //hardcode so that it can be valid
         Label noHiddenCells = new Label(myStringResources.getString("HasHiddenCells"));
         this.noHiddenCells.getItems().addAll(myStringResources.getString("True"), myStringResources.getString("False"));
         Label maxStateNumber = new Label(myStringResources.getString("MaxStateNum"));
+        this.maxStateNumber.getItems().addAll(myStringResources.getString("1"), myStringResources.getString("2"), myStringResources.getString("3"),
+                myStringResources.getString("4"), myStringResources.getString("5"), myStringResources.getString("6"));
         Label pointsPerCell = new Label(myStringResources.getString("PointsPerCell"));
         Label secondsOpen = new Label(myStringResources.getString("SecondsOpen"));
         return styleContents(addNewCells, this.addNewCells, validator, this.validator,
@@ -85,7 +87,7 @@ public class UserDefinedGameScreenOne extends SuperScreen {
         selectedEngineAttributes.put("MatchFinder", this.matchFinder.getValue());
         selectedEngineAttributes.put("NumSelectedPerMove", this.numSelectedPerMove.getText());
         selectedEngineAttributes.put("NoHiddenCells", this.noHiddenCells.getValue());
-        selectedEngineAttributes.put("MaxStateNumber", this.maxStateNumber.getText());
+        selectedEngineAttributes.put("MaxStateNumber", this.maxStateNumber.getValue());
         selectedEngineAttributes.put("PointsPerCell", this.pointsPerCell.getText());
         selectedEngineAttributes.put("SecondsOpen", this.secondsOpen.getText());
     }

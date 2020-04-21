@@ -62,7 +62,7 @@ public class Controller extends Application {
         // TODO: need to make the initial states dynamic
         int[][] initialStates = player.getUserDefinedInitialStates();
         // TODO: need to make open cell configuration dynamic
-        boolean[][] openCellConfiguration = { {true ,true, true, true, true}, {true, true, true, true, true}, {true, true, true, true, true}, {true, true, true, true, true}};
+        boolean[][] openCellConfiguration = null;
         Engine engine = new Engine(myEngineAttributes, data.getErrorMessage());
         engine.setupGame(initialStates, myGameAttributes, openCellConfiguration);
         /*
