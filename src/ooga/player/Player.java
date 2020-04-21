@@ -20,7 +20,7 @@ public class Player implements PlayerStart{
   private String myGameType, currentUsername;
   private UserLogin myNewUserLogin, myUserLogin;
   private UserProfile myUserProfile;
-  private EventHandler<ActionEvent> myEngineEvent, myResetEvent, mySaveEvent, myNewWindowEvent;
+  private EventHandler<ActionEvent> myEngineEvent, myResetEvent, mySaveEvent, myNewWindowEvent, myNexLevel;
 
   public Player(Stage primaryStage){
     myStage = primaryStage;
@@ -207,6 +207,24 @@ public class Player implements PlayerStart{
    */
   @Override
   public void setSaveButton(EventHandler<ActionEvent> event) { mySaveEvent = event;}
+
+  /**
+   *
+   * @param event
+   */
+  @Override
+  public void setNextLevel(EventHandler<ActionEvent> event) {
+    myNexLevel = event;
+  }
+
+  /**
+   *
+   * @return
+   */
+  @Override
+  public EventHandler<ActionEvent> getNextLevelEvent() {
+    return myNexLevel;
+  }
 
   /**
    *
