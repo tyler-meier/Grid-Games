@@ -6,7 +6,6 @@
   <LossStat>MovesLeft</LossStat>
   <MovesLeft>20</MovesLeft>
 
-
   <numRows>9</numRows>
   <numColumns>9</numColumns>
   <row>1 2 3 4 3 2 5 3 6</row>

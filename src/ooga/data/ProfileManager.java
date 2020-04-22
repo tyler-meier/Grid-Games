@@ -41,10 +41,12 @@ public class ProfileManager {
   private final int VALUE_INDEX = 1;
   private final String DEFAULT_BOOLEAN_VALUE = "false";
   private final String DEFAULT_LIST_VALUE = "";
+  private final String DEFAULT_PREFERENCE_VALUE = "default";
   private final String DARK_MODE_TAG = "DarkMode";
   private final String PARENTAL_CONT_TAG = "ParentalControls";
   private final String HIGH_SCORE_TAG = "HighScore";
   private final String PREVIOUS_GAME_TAG = "PreviousGame";
+  private static final String DISPLAY_PREF_TAG = "DisplayPreference";
 
   private List<String> inappropriateNameEntries;
   private List<UserProfile> allProfiles;
@@ -226,6 +228,7 @@ public class ProfileManager {
 
     temp.setDarkMode(tempProfileParser.getBooleanElementByTag(DARK_MODE_TAG, DEFAULT_BOOLEAN_VALUE));
     temp.setParentalControls(tempProfileParser.getBooleanElementByTag(PARENTAL_CONT_TAG, DEFAULT_BOOLEAN_VALUE));
+    temp.setDisplayPreference(tempProfileParser.getStringElementByTag(DISPLAY_PREF_TAG, DEFAULT_PREFERENCE_VALUE));
 
     setHighScores(temp, tempProfileParser);
     addSavedGames(temp, tempProfileParser);
