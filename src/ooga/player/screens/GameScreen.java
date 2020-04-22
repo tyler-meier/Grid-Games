@@ -25,11 +25,10 @@ public class GameScreen extends SuperScreen {
   private static final int PADDING_TOP_BOTTOM = 10;
   private static final int PADDING_LEFT_RIGHT = 20;
   private static final int GRID_SIZE = 400;
-  private static final int SPACING_1 = 30;
-  private static final int SPACING_2 = 45;
-  private static final int SPACING_3 = 10;
-  private static final int WIDTH = 900;
-  private static final int HEIGHT = 600;
+  private static final int SPACING_1 = 40;
+  private static final int SPACING_2 = 5;
+  private static final int WIDTH = 920;
+  private static final int HEIGHT = 630;
 
   private GridView myGrid;
   private BorderPane myRoot;
@@ -39,8 +38,13 @@ public class GameScreen extends SuperScreen {
   //private String myTime = "00:00:000";
   private Timer timer;
   private VBox verticalPanel = new VBox();
-  private Button pausePlayButton, resetGameButton;
+  private Button pausePlayButton = new Button();
 
+  /**
+   * Constructor of this class, calls super to set up instance variables, creates display grid
+   * @param gameType current game being played
+   * @param player current player
+   */
   public GameScreen(String gameType, Player player){
     super(gameType, player);
     myGrid = new GridView(gameType, GRID_SIZE);
@@ -55,9 +59,7 @@ public class GameScreen extends SuperScreen {
     myRoot.setPadding(new Insets(PADDING_TOP_BOTTOM, PADDING_LEFT_RIGHT, PADDING_TOP_BOTTOM, PADDING_LEFT_RIGHT));
 
     HBox toolBar = makeToolBar();
-    makeSideBar();
     myRoot.setTop(toolBar);
-    myRoot.setRight(verticalPanel);
 
     Scene scene = new Scene(myRoot, WIDTH, HEIGHT);
     scene.getStylesheets().add(getClass().getResource(DEFAULT_RESOURCE_FOLDER + styleSheet).toExternalForm());
@@ -80,18 +82,18 @@ public class GameScreen extends SuperScreen {
    * @param gameStats map of String name of property to IntegerProperty that represents the state of that property
    */
   public void setStats(Map<String, IntegerProperty> gameStats){
-    VBox stats = new VBox();
+    makeButtonPanel();
+    makePausePlayButton(gameStats);
     for (String key:gameStats.keySet()){
       IntegerProperty stat = gameStats.get(key);
-      stats.getChildren().add(makeLabel(stat, myStringResources.getString(key)));
+      verticalPanel.getChildren().add(makeLabel(stat, myStringResources.getString(key)));
     }
     if (myPlayer.getMyUserProfile() != null){
-      stats.getChildren().add(new HBox(new Label(myStringResources.getString("High")), new Label(myPlayer.getMyUserProfile().getHighScore(myGameType))));
+      verticalPanel.getChildren().add(new HBox(new Label(myStringResources.getString("High")), new Label(myPlayer.getMyUserProfile().getHighScore(myGameType))));
     }
-    stats.setSpacing(SPACING_3);
-    stats.setAlignment(Pos.CENTER);
-    verticalPanel.getChildren().add(stats);
-    makePausePlayButton(gameStats);
+    verticalPanel.setAlignment(Pos.CENTER);
+    verticalPanel.setSpacing(SPACING_2);
+    myRoot.setRight(verticalPanel);
   }
 
   /**
@@ -122,23 +124,15 @@ public class GameScreen extends SuperScreen {
     Button customView = makeButton("CustomCommand", e-> myPlayer.setUpCustomView());
     Label name = new Label(myGameNameResources.getString(myGameType));
     toolBar.getChildren().addAll(makeHomeButton(), customView, name);
-    toolBar.setSpacing(SPACING_2);
+    toolBar.setSpacing(SPACING_1);
     return toolBar;
   }
 
-  //adds vbox of buttons to side panel and styles
-  private void makeSideBar() {
-    VBox buttonPanel = makeButtonPanel();
-    verticalPanel.setSpacing(SPACING_1);
-    verticalPanel.setAlignment(Pos.CENTER);
-    verticalPanel.getChildren().add(buttonPanel);
-  }
-
   //puts all essential buttons into a vbox
-  private VBox makeButtonPanel() {
+  private void makeButtonPanel() {
     Button leaderBoardButton = makeButton("LeaderBoardCommand", e -> myPlayer.setUpLeaderBoardScreen());
-    VBox buttons = styleContents(makeLogoutButton(), makeResetLevelButton(), makeResetGameButton(), makeThisSaveButton(), leaderBoardButton, myErrorMessage);
-    return buttons;
+    verticalPanel.getChildren().addAll(makeLogoutButton(), makeResetLevelButton(), makeResetGameButton(),
+        makeThisSaveButton(), leaderBoardButton, myErrorMessage);
   }
 
   //sets event on save button on action
@@ -177,9 +171,8 @@ public class GameScreen extends SuperScreen {
   //makes pause and play button, sets on action
   private void makePausePlayButton(Map<String, IntegerProperty> gameStats){
     if (!gameStats.containsKey(TIME)) return;
-    pausePlayButton = new Button(myButtonResources.getString("PlayCommand"));
     paused.set(true);
-    pausePlayButton.setOnMouseClicked(e -> {
+    pausePlayButton = makeButton("PlayCommand", e -> {
       if (paused.get()) {
         pausePlayButton.setText(myButtonResources.getString("PauseCommand"));
         startTimer(gameStats.get(TIME));

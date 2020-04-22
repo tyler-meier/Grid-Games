@@ -38,7 +38,7 @@ public class LeaderBoardScreen extends SuperScreen {
   }
 
   private Label makeTitle(){
-    Label title = new Label(myStringResources.getString("LeaderBoard") + myPlayer.getGameType());
+    Label title = new Label(myStringResources.getString("LeaderBoard") + myGameNameResources.getString(myPlayer.getGameType()));
     title.setId("title-label");
     return title;
   }
