@@ -31,6 +31,7 @@ public abstract class SuperScreen {
   private static final String SOUND_RESOURCES = "src/" + RESOURCES + "sounds/";
   private static final int DIMENSION = 650;
   private static final int MAIN_SPACING = 50;
+  private static final int SMALL_SPACING = 10;
 
   protected ResourceBundle myButtonResources, myStringResources, myGameNameResources;
   protected Label myErrorMessage;
@@ -124,7 +125,7 @@ public abstract class SuperScreen {
     for (Node b : myContents){
       myButtonVBox.getChildren().add(b);
     }
-    myButtonVBox.setSpacing(10);
+    myButtonVBox.setSpacing(SMALL_SPACING);
     myButtonVBox.setAlignment(Pos.CENTER);
     return myButtonVBox;
   }
