@@ -54,7 +54,7 @@ class ProfileManagerTest {
   }
 
 
-  @Test
+  /*@Test
   void addProfileTest()
   {
     String newUsername = "jay18";
@@ -68,6 +68,6 @@ class ProfileManagerTest {
       System.out.println(e.getMessage());
     }
 
-  }
+  }*/
 
 }

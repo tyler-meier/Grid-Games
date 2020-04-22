@@ -36,7 +36,7 @@ public class XMLParser {
       doc.getDocumentElement().normalize();
     } catch (Exception e) {
       ParserException error = new ParserException(e, path);
-      System.out.println(error.getMessage());
+      //System.out.println(error.getMessage());
     }
   }
 
@@ -175,7 +175,7 @@ public class XMLParser {
         ret.add(node.getTextContent());
       } catch (Exception e) {
         ParserException error = new ParserException(e, tagName);
-        System.out.println(error.getMessage());
+        //System.out.println(error.getMessage());
         ret.add(defaultVal);
       }
     }
