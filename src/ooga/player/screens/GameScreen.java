@@ -1,15 +1,17 @@
 package ooga.player.screens;
 
-import java.util.*;
+import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -35,7 +37,6 @@ public class GameScreen extends SuperScreen {
   private BooleanProperty isLoss = new SimpleBooleanProperty();
   private BooleanProperty isWin = new SimpleBooleanProperty();
   private BooleanProperty paused = new SimpleBooleanProperty(false);
-  //private String myTime = "00:00:000";
   private Timer timer;
   private VBox verticalPanel = new VBox();
   private Button pausePlayButton = new Button();
@@ -142,7 +143,7 @@ public class GameScreen extends SuperScreen {
 
   //sets event on save button on action
   private Button makeThisSaveButton(){
-    Button saveButton = makeButton("SaveCommand", e->{   //TODO: see if you  can get this method out somehow
+    return makeButton("SaveCommand", e->{   //TODO: see if you  can get this method out somehow
       if(verticalPanel.getChildren().contains(pausePlayButton) && timer != null) {
         timer.cancel();
         pausePlayButton.setText(myButtonResources.getString("PlayCommand"));
@@ -157,11 +158,10 @@ public class GameScreen extends SuperScreen {
         myErrorMessage.setWrapText(true);
       }
     });
-    return saveButton;
   }
 
   //method for making any label in this class
-  private Node makeLabel(IntegerProperty integerProperty, String key) {
+  private HBox makeLabel(IntegerProperty integerProperty, String key) {
     HBox box = new HBox();
     Label name = new Label(key+": ");
     Label value = new Label();
