@@ -25,6 +25,7 @@ public class WonLevelScreen extends SuperScreen {
    * @return the final completed scene to be shown
    */
   public Scene setUpScene(){
+    playSound("levelup");
     VBox contents = setUpContents();
     return finishStyling(contents);
   }
@@ -38,6 +39,6 @@ public class WonLevelScreen extends SuperScreen {
         myPlayer.setUpWonGameScreen();
       }
     });
-    return styleContents(winLevelLabel, nextLevelButton, makeHomeButton(), makeSaveButton(), myErrorMessage);
+    return styleContents(winLevelLabel, nextLevelButton, makeHomeButton(), makeResetLevelButton());
   }
 }
