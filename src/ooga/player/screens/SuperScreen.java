@@ -1,5 +1,6 @@
 package ooga.player.screens;
 
+import java.io.File;
 import java.util.ResourceBundle;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -13,6 +14,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import ooga.player.Player;
 
 /**
@@ -25,6 +28,7 @@ public abstract class SuperScreen {
   protected static final String RESOURCES = "ooga/player/Resources/";
   protected static final String DEFAULT_RESOURCE_PACKAGE = RESOURCES.replace("/", ".");
   protected static final String DEFAULT_RESOURCE_FOLDER = "/" + RESOURCES;
+  private static final String SOUND_RESOURCES = "src/" + RESOURCES + "sounds/";
   private static final int DIMENSION = 650;
   private static final int MAIN_SPACING = 50;
 
@@ -63,49 +67,6 @@ public abstract class SuperScreen {
   }
 
   /**
-   * Styles the scene so that each group of nodes in the scene are aligned right
-   * @param myNodes endless param of nodes being added to the main vBox
-   * @return the completed styled scene to be shown
-   */
-  public Scene styleScene(Node ... myNodes){
-    VBox myCenterVBox = new VBox();
-    for (Node a : myNodes){
-      myCenterVBox.getChildren().add(a);
-    }
-    myCenterVBox.setSpacing(MAIN_SPACING);
-    myCenterVBox.setAlignment(Pos.CENTER);
-    myCenterVBox.getChildren().add(myErrorMessage);
-    return finishStyling(myCenterVBox);
-  }
-
-  /**
-   * Finishes styling the scene by adding stylesheets, this method is here for screens that only have one node on the screen and to
-   * create parent node for screen
-   * @param contents the parent node that will be shown the screen
-   * @return completed scene to be shown
-   */
-  public Scene finishStyling(Parent contents){
-    myScene = new Scene(contents, DIMENSION, DIMENSION);
-    myScene.getStylesheets().add(getClass().getResource(DEFAULT_RESOURCE_FOLDER + styleSheet).toExternalForm());
-    return myScene;
-  }
-
-  /**
-   * Styles each individual root nodes of the scene into VBoxes
-   * @param myContents endless parameters of each individual root node
-   * @return this node VBox
-   */
-  public VBox styleContents(Node ... myContents){
-    VBox myButtonVBox = new VBox();
-    for (Node b : myContents){
-      myButtonVBox.getChildren().add(b);
-    }
-    myButtonVBox.setSpacing(10);
-    myButtonVBox.setAlignment(Pos.CENTER);
-    return myButtonVBox;
-  }
-
-  /**
    * Allows an error message to be displayed if there  is an error by setting the message
    * binds with the backend to know when an error is thrown
    * @param message the message that will be displayed
@@ -126,10 +87,53 @@ public abstract class SuperScreen {
   }
 
   /**
+   * Styles the scene so that each group of nodes in the scene are aligned right
+   * @param myNodes endless param of nodes being added to the main vBox
+   * @return the completed styled scene to be shown
+   */
+  protected Scene styleScene(Node ... myNodes){
+    VBox myCenterVBox = new VBox();
+    for (Node a : myNodes){
+      myCenterVBox.getChildren().add(a);
+    }
+    myCenterVBox.setSpacing(MAIN_SPACING);
+    myCenterVBox.setAlignment(Pos.CENTER);
+    myCenterVBox.getChildren().add(myErrorMessage);
+    return finishStyling(myCenterVBox);
+  }
+
+  /**
+   * Finishes styling the scene by adding stylesheets, this method is here for screens that only have one node on the screen and to
+   * create parent node for screen
+   * @param contents the parent node that will be shown the screen
+   * @return completed scene to be shown
+   */
+  protected Scene finishStyling(Parent contents){
+    myScene = new Scene(contents, DIMENSION, DIMENSION);
+    myScene.getStylesheets().add(getClass().getResource(DEFAULT_RESOURCE_FOLDER + styleSheet).toExternalForm());
+    return myScene;
+  }
+
+  /**
+   * Styles each individual root nodes of the scene into VBoxes
+   * @param myContents endless parameters of each individual root node
+   * @return this node VBox
+   */
+  protected VBox styleContents(Node ... myContents){
+    VBox myButtonVBox = new VBox();
+    for (Node b : myContents){
+      myButtonVBox.getChildren().add(b);
+    }
+    myButtonVBox.setSpacing(10);
+    myButtonVBox.setAlignment(Pos.CENTER);
+    return myButtonVBox;
+  }
+
+  /**
    * Sets up the generic save button
    * @return save button
    */
-  public Button makeSaveButton(){
+  protected Button makeSaveButton(){
     return makeButton("SaveCommand", e->{
       if(myPlayer.getMyUserProfile() != null) {
         myPlayer.getMyUserProfile().addHighScore(myGameType, highScore.getValue());
@@ -146,7 +150,7 @@ public abstract class SuperScreen {
    * Sets up the generic home button
    * @return home button
    */
-  public Button makeHomeButton(){
+  protected Button makeHomeButton(){
     return makeButton("HomeCommand", e -> myPlayer.setUpStartScreen(myErrorMessage.textProperty()));
   }
 
@@ -154,7 +158,7 @@ public abstract class SuperScreen {
    * Sets up the generic logout button
    * @return logout button
    */
-  public Button makeLogoutButton(){
+  protected Button makeLogoutButton(){
     return makeButton("LogoutCommand", e -> myPlayer.setUpLoginScreen());
   }
 
@@ -162,8 +166,16 @@ public abstract class SuperScreen {
    * Sets up the generic reset game button
    * @return reset game button
    */
-  public Button makeResetGameButton(){
-    return makeButton("ResetGameCommand", myPlayer.getResetButtonEvent());
+  protected Button makeResetGameButton(){
+    return makeButton("ResetGameCommand", myPlayer.getResetGameButtonEvent());
+  }
+
+  /**
+   * Sets up the generic reset level button
+   * @return reset level button
+   */
+  protected Button makeResetLevelButton(){
+    return makeButton("ResetLevelCommand", myPlayer.getResetLevelButtonEvent());
   }
 
   /**
@@ -172,10 +184,21 @@ public abstract class SuperScreen {
    * @param handler the event(s) that the button will do
    * @return the newly created button
    */
-  public Button makeButton(String text, EventHandler<ActionEvent> handler) {
+  protected Button makeButton(String text, EventHandler<ActionEvent> handler) {
     Button newButton = new Button();
     newButton.setText(myButtonResources.getString(text));
     newButton.setOnAction(handler);
     return newButton;
+  }
+
+  /**
+   * Plays a sound for an action
+   * @param soundName name of the sound
+   */
+  protected void playSound(String soundName) {
+    String soundPath = SOUND_RESOURCES + soundName + ".mp3";
+    Media sound = new Media(new File(soundPath).toURI().toString());
+    MediaPlayer mediaPlayer = new MediaPlayer(sound);
+    mediaPlayer.play();
   }
 }

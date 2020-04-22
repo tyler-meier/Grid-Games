@@ -1,5 +1,6 @@
 package ooga.player;
 
+import java.util.Map;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.beans.property.StringProperty;
@@ -25,7 +26,9 @@ public class Player implements PlayerStart{
   private String myGameType, currentUsername;
   private UserLogin myNewUserLogin, myUserLogin;
   private UserProfile myUserProfile;
-  private EventHandler<ActionEvent> myEngineEvent, myResetEvent, mySaveEvent, myNewWindowEvent, myUserDefEngineEvent;
+  private EventHandler<ActionEvent> myEngineEvent, myResetGameEvent, myResetLevelEvent, mySaveEvent, myNewWindowEvent, myNexLevelEvent, myUserDefEngineEvent;
+  private Map<String, Integer> myLeaderBoardMap;
+
 
   public Player(Stage primaryStage){
     myStage = primaryStage;
@@ -143,6 +146,11 @@ public class Player implements PlayerStart{
     myCustomView.display();
   }
 
+  public void setUpLeaderBoardScreen(){
+    HighScoreScreen myHighScoreScreen = new HighScoreScreen(this);
+    myHighScoreScreen.setUpScene();
+  }
+
   /**
    *
    * @param newWindowAction
@@ -229,8 +237,8 @@ public class Player implements PlayerStart{
    * @param event
    */
   @Override
-  public void setResetButton(EventHandler<ActionEvent> event) {
-    myResetEvent = event;
+  public void setResetGameButton(EventHandler<ActionEvent> event) {
+    myResetGameEvent = event;
   }
 
   /**
@@ -238,8 +246,26 @@ public class Player implements PlayerStart{
    * @return
    */
   @Override
-  public EventHandler<ActionEvent> getResetButtonEvent(){
-    return myResetEvent;
+  public EventHandler<ActionEvent> getResetGameButtonEvent(){
+    return myResetGameEvent;
+  }
+
+  /**
+   *
+   * @param event
+   */
+  @Override
+  public void setResetLevelButton(EventHandler<ActionEvent> event) {
+    myResetLevelEvent = event;
+  }
+
+  /**
+   *
+   * @return
+   */
+  @Override
+  public EventHandler<ActionEvent> getResetLevelButtonEvent(){
+    return myResetLevelEvent;
   }
 
   /**
@@ -260,6 +286,24 @@ public class Player implements PlayerStart{
 
   /**
    *
+   * @param event
+   */
+  @Override
+  public void setNextLevel(EventHandler<ActionEvent> event) {
+    myNexLevelEvent = event;
+  }
+
+  /**
+   *
+   * @return
+   */
+  @Override
+  public EventHandler<ActionEvent> getNextLevelEvent() {
+    return myNexLevelEvent;
+  }
+
+  /**
+   *
    * @param thisUserProfile
    */
   @Override
@@ -274,6 +318,14 @@ public class Player implements PlayerStart{
   @Override
   public UserProfile getMyUserProfile(){
     return myUserProfile;
+  }
+
+  public void setHighScoreMap(Map<String, Integer> event){
+    myLeaderBoardMap = event;
+  }
+
+  public Map<String, Integer> getHighScoreMap(){
+    return myLeaderBoardMap;
   }
 
   /**
