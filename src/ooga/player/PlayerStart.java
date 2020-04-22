@@ -13,6 +13,11 @@ public interface PlayerStart {
   /**
    *
    */
+  String getStyle();
+
+  /**
+   *
+   */
   void setUpLoginScreen();
 
   /**
