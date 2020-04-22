@@ -114,8 +114,8 @@ public class Player implements PlayerStart{
   }
 
   public void setUpLeaderBoardScreen(){
-    HighScoreScreen myHighScoreScreen = new HighScoreScreen(this);
-    myHighScoreScreen.setUpScene();
+    LeaderBoardScreen myLeaderBoardScreen = new LeaderBoardScreen(this);
+    myLeaderBoardScreen.setUpScene();
   }
 
   /**
