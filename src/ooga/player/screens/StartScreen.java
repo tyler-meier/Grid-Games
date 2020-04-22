@@ -60,7 +60,7 @@ public class StartScreen extends SuperScreen {
       }
     });
     Button makeNewGameButton = makeButton("MakeNewGame", e-> {
-        myPlayer.setUpMakeNewGameScreenOne();
+        myPlayer.setUpMakeNewGameScreenImages();
     });
     return styleContents(startButton, makeLogoutButton(), makeNewGameButton);
   }

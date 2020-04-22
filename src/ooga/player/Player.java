@@ -22,6 +22,7 @@ public class Player implements PlayerStart{
   private UserDefinedGameScreenOne myUserDefinedGameScreenOne;
   private UserDefinedGameScreenTwo myUserDefinedGameScreenTwo;
   private UserDefinedGameScreenThree myUserDefinedGameScreenThree;
+  private UserDefinedGameScreenImages myUserDefinedGameScreenImages;
   private String myGameType, currentUsername;
   private UserLogin myNewUserLogin, myUserLogin;
   private UserProfile myUserProfile;
@@ -105,6 +106,11 @@ public class Player implements PlayerStart{
   public void setUpWonGameScreen(){
     WonGameScreen myWonGameScreen = new WonGameScreen(this);
     myStage.setScene(myWonGameScreen.setUpScene());
+  }
+
+  public void setUpMakeNewGameScreenImages(){
+    myUserDefinedGameScreenImages = new UserDefinedGameScreenImages(this);
+    myStage.setScene(myUserDefinedGameScreenImages.setUpScene());
   }
 
   public void setUpMakeNewGameScreenOne(){
@@ -221,7 +227,7 @@ public class Player implements PlayerStart{
     myUserDefEngineEvent = event;
   }
 
-  public EventHandler<ActionEvent> getUserMAdeStartButton(){
+  public EventHandler<ActionEvent> getUserMadeStartButton(){
     return myUserDefEngineEvent;
   }
 
