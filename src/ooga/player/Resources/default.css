@@ -23,6 +23,10 @@
     -fx-underline: true;
 }
 
+#game-name-label {
+    -fx-font-size: 25pt;
+}
+
 .button{
     -fx-font-size: 12pt;
     -fx-font-family: "Futura";

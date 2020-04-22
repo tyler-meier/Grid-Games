@@ -27,8 +27,8 @@ public class GameScreen extends SuperScreen {
   private static final int GRID_SIZE = 400;
   private static final int SPACING_1 = 40;
   private static final int SPACING_2 = 5;
-  private static final int WIDTH = 920;
-  private static final int HEIGHT = 630;
+  private static final int WIDTH = 750;
+  private static final int HEIGHT = 600;
 
   private GridView myGrid;
   private BorderPane myRoot;
@@ -72,9 +72,15 @@ public class GameScreen extends SuperScreen {
    * @param backendGrid grid from engine
    */
   public void setGrid(Grid backendGrid){
+    VBox gridAndName = new VBox();
     GridPane myGridPane = myGrid.setGrid(backendGrid, paused);
+    Label name = new Label(myGameNameResources.getString(myGameType));
+    name.setId("game-name-label");
     myGridPane.setAlignment(Pos.CENTER);
-    myRoot.setCenter(myGridPane);
+    gridAndName.setAlignment(Pos.CENTER);
+    gridAndName.setSpacing(SPACING_2);
+    gridAndName.getChildren().addAll(name, myGridPane, myErrorMessage);
+    myRoot.setCenter(gridAndName);
   }
 
   /**
@@ -122,8 +128,7 @@ public class GameScreen extends SuperScreen {
   private HBox makeToolBar() {
     HBox toolBar = new HBox();
     Button customView = makeButton("CustomCommand", e-> myPlayer.setUpCustomView());
-    Label name = new Label(myGameNameResources.getString(myGameType));
-    toolBar.getChildren().addAll(makeHomeButton(), customView, name);
+    toolBar.getChildren().addAll(makeHomeButton(), customView);
     toolBar.setSpacing(SPACING_1);
     return toolBar;
   }
@@ -132,13 +137,13 @@ public class GameScreen extends SuperScreen {
   private void makeButtonPanel() {
     Button leaderBoardButton = makeButton("LeaderBoardCommand", e -> myPlayer.setUpLeaderBoardScreen());
     verticalPanel.getChildren().addAll(makeLogoutButton(), makeResetLevelButton(), makeResetGameButton(),
-        makeThisSaveButton(), leaderBoardButton, myErrorMessage);
+        makeThisSaveButton(), leaderBoardButton);
   }
 
   //sets event on save button on action
   private Button makeThisSaveButton(){
     Button saveButton = makeButton("SaveCommand", e->{   //TODO: see if you  can get this method out somehow
-      if(verticalPanel.getChildren().contains(pausePlayButton)) {
+      if(verticalPanel.getChildren().contains(pausePlayButton) && timer != null) {
         timer.cancel();
         pausePlayButton.setText(myButtonResources.getString("PlayCommand"));
         paused.set(true);
