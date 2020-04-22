@@ -120,17 +120,18 @@ public class Player implements PlayerStart{
     myStage.setScene(myUserDefinedGameScreenTwo.setUpScene());
   }
 
-  public void setUpMakeNewGameScreenThree(int numRows, int numCols){
+  public void setUpMakeNewGameScreenThree(){
     myUserDefinedGameScreenThree = new UserDefinedGameScreenThree(this);
-    myStage.setScene(myUserDefinedGameScreenThree.setUpScene(numRows, numCols));
+    myStage.setScene(myUserDefinedGameScreenThree.setUpScene());
+    myUserDefinedGameScreenThree.setMaxState(myUserDefinedGameScreenOne.getMaxState());
   }
 
   public Map<String,String> getUserMadeEngineAttributesMap(){
-    return myUserDefinedGameScreenOne.getUserSelectedEngineAttributes();
+    return myUserDefinedGameScreenOne.getUserSelectedAttributes();
   }
 
   public Map<String, String> getUserMadeGameAttributesMap(){
-    return myUserDefinedGameScreenTwo.getUserSelectedGameAttributes();
+    return myUserDefinedGameScreenTwo.getUserSelectedAttributes();
   }
 
   public int[][] getUserDefinedInitialStates(){

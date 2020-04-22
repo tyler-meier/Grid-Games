@@ -11,6 +11,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import ooga.player.Player;
+import ooga.player.exceptions.NewUserDefinedGameException;
 
 import java.util.*;
 
@@ -18,8 +19,8 @@ public abstract class UserDefinedGameScreen extends SuperScreen {
     protected static final String SPACE = " ";
     protected static final String KEYS_RESOURCES_PATH = "resources.";
     protected static final String STRINGS_RESOURCES_PATH = "NewGameStrings";
-    protected List<String> integerInputs = new ArrayList<>();
     protected Map<String, Node> userInputFields = new HashMap<>();
+    protected Map<String, String> selectedAttributes = new HashMap<>();
     protected ResourceBundle myKeysResources;
     protected ResourceBundle newGameStringsResources;
     protected String myButtonText;
@@ -29,6 +30,15 @@ public abstract class UserDefinedGameScreen extends SuperScreen {
     public UserDefinedGameScreen(Player thisPlayer) {
         super(thisPlayer);
         newGameStringsResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + STRINGS_RESOURCES_PATH);
+    }
+
+    public Scene setUpScene(){
+        Label newGameLabel = new Label(newGameStringsResources.getString(gameLabel));
+        Node gameCharacteristicSelection = buildInputFields();
+        ScrollPane myGameScroller = new ScrollPane();
+        myGameScroller.setContent(gameCharacteristicSelection);
+        Node nextButton = makeButton(myButtonText, myButtonEvent);
+        return styleScene(newGameLabel, myGameScroller, nextButton);
     }
 
     protected Node buildInputFields(){
@@ -49,24 +59,29 @@ public abstract class UserDefinedGameScreen extends SuperScreen {
         return myVBox;
     }
 
-    public Scene setUpScene(){
-        Label newGameLabel = new Label(newGameStringsResources.getString(gameLabel));
-        Node gameCharacteristicSelection = buildInputFields();
-        ScrollPane myGameScroller = new ScrollPane();
-        myGameScroller.setContent(gameCharacteristicSelection);
-        Node nextButton = makeButton(myButtonText, myButtonEvent);
-        return styleScene(newGameLabel, myGameScroller, nextButton);
+    public Map<String, String> getUserSelectedAttributes() { return selectedAttributes; }
+
+    protected void buildMap(){
+        for (String key:userInputFields.keySet()){
+            String value = getValidText(userInputFields.get(key));
+            if (value==null) throw new NewUserDefinedGameException();
+            selectedAttributes.put(key, value);
+        }
+        if (!additionalValidation()) throw new NewUserDefinedGameException();
     }
 
+    protected abstract boolean additionalValidation();
 
-    protected boolean isValid(Node node){
-        if (node instanceof ComboBox) return ((ComboBox) node).getValue() != null;
-        try{
+
+    protected String getValidText(Node node){
+        if (node instanceof ComboBox) {
+            ComboBox boxNode = (ComboBox) node;
+            if (!boxNode.getSelectionModel().isEmpty()) return boxNode.getValue().toString();
+        } else if (node instanceof TextField){
             TextField textNode = (TextField) node;
-            return isInteger(textNode.getText());
-        } catch (Exception e) {
-            return false;
+            if (isInteger(textNode.getText())) return textNode.getText();
         }
+        return null;
     }
 
     protected boolean isInteger(String text){
@@ -76,24 +91,5 @@ public abstract class UserDefinedGameScreen extends SuperScreen {
         }catch (Exception e){
             return false;
         }
-    }
-
-    protected Map<String, String> buildMap(){
-        Map<String, String> attributes = new HashMap<>();
-        for(String key: userInputFields.keySet()){
-            if(isValid(userInputFields.get(key))){
-               try{
-                   attributes.put(key, ((TextField) userInputFields.get(key)).getText());
-               }
-               catch(Exception e){
-                   attributes.put(key, (String) ((ComboBox) userInputFields.get(key)).getValue());
-                }
-            }
-            else{
-                System.out.println("user input not valid, using default");
-                attributes.put(key, myKeysResources.getString(key)); // use the default value if the given value is not valid
-            }
-        }
-        return attributes;
     }
 }

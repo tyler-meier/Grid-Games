@@ -30,7 +30,7 @@ public abstract class SuperScreen {
   protected static final String DEFAULT_RESOURCE_FOLDER = "/" + RESOURCES;
   private static final String SOUND_RESOURCES = "src/" + RESOURCES + "sounds/";
   private static final int DIMENSION = 650;
-  private static final int MAIN_SPACING = 50;
+  protected static final int MAIN_SPACING = 50;
 
   protected ResourceBundle myButtonResources, myStringResources, myGameNameResources;
   protected Label myErrorMessage;
