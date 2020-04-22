@@ -14,8 +14,8 @@ import javafx.event.EventHandler;
 public class UserProfile {
     private final String DEFAULT_GAME_PATH = "resources.DefaultGamePaths";
     private final ResourceBundle myGamePathResource = ResourceBundle.getBundle(DEFAULT_GAME_PATH);
-    private final String TO_STRING_SKELETON = "Username: %s \nPassword: %s\nPath: %s\nHigh Scores: %s\nSavedGames: %s\n";
-
+    private final String TO_STRING_SKELETON = "Username: %s \nPassword: %s\nPath: %s\nDisplay Preference: %s\nHigh Scores: %s\nSavedGames: %s\n";
+    private final String DISPLAY_PREF_DEFAULT = "default";
 
     private final String PATH_SKELETON = "data/profiles/%s.xml";
     private Map<String, String> savedGames;
@@ -27,6 +27,7 @@ public class UserProfile {
     private boolean darkMode;
     private Map<String, String> totalUserMap = new HashMap<>();
     private EventHandler<ActionEvent> mySaveAction;
+    private String displayPreference;
 
 
     public UserProfile(String username, String password)
@@ -40,6 +41,7 @@ public class UserProfile {
         parentalControls = false;
         savedGames = new HashMap<>();
         highScores = new HashMap<>();
+        displayPreference = DISPLAY_PREF_DEFAULT;
     }
 
     public UserProfile()
@@ -147,7 +149,7 @@ public class UserProfile {
 
     public String toString()
     {
-        return String.format(TO_STRING_SKELETON, username, password, path, highScores, savedGames);
+        return String.format(TO_STRING_SKELETON, username, password, path, displayPreference, highScores, savedGames);
     }
 
     public Map<String, String> getUserMap()
@@ -161,5 +163,10 @@ public class UserProfile {
     }
 
 
-
+  public void setDisplayPreference(String preference) {
+      displayPreference = preference;
+  }
+    public String getDisplayPreference() {
+        return displayPreference;
+    }
 }

@@ -1,5 +1,6 @@
 package ooga.player;
 
+import java.util.Map;
 import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -8,6 +9,11 @@ import ooga.data.UserProfile;
 import ooga.engine.grid.Grid;
 
 public interface PlayerStart {
+
+  /**
+   *
+   */
+  String getStyle();
 
   /**
    *
@@ -160,6 +166,18 @@ public interface PlayerStart {
    * @return
    */
   UserProfile getMyUserProfile();
+
+  /**
+   *
+   * @param event
+   */
+  void setHighScoreMap(Map<String, Integer> event);
+
+  /**
+   *
+   * @return
+   */
+  Map<String, Integer> getHighScoreMap();
 
   /**
    * Changes css style of all screens
