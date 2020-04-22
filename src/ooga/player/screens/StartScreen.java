@@ -37,7 +37,9 @@ public class StartScreen extends SuperScreen {
   }
 
   private Label makeWelcomeLabel(){
-    return new Label(myStringResources.getString("Welcome") + myPlayer.getUsername());
+    Label welcome = new Label(myStringResources.getString("Welcome") + myPlayer.getUsername());
+    welcome.setId("welcome-label");
+    return welcome;
   }
 
   private VBox makeGameChoice(){
