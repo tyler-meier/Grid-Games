@@ -31,12 +31,13 @@ public abstract class SuperScreen {
   private static final String SOUND_RESOURCES = "src/" + RESOURCES + "sounds/";
   private static final int DIMENSION = 650;
   private static final int MAIN_SPACING = 50;
+  private static final int SMALL_SPACING = 10;
 
   protected ResourceBundle myButtonResources, myStringResources, myGameNameResources;
   protected Label myErrorMessage;
   protected Player myPlayer;
   protected String myGameType;
-  protected String styleSheet = "default.css";
+  protected String styleSheet = "default";
   protected Scene myScene;
   protected IntegerProperty highScore = new SimpleIntegerProperty();
 
@@ -64,6 +65,7 @@ public abstract class SuperScreen {
     myGameNameResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "NamesOfGames");
     myErrorMessage = new Label();
     myPlayer = thisPlayer;
+    styleSheet = thisPlayer.getStyle();
   }
 
   /**
@@ -83,7 +85,7 @@ public abstract class SuperScreen {
   public void setStyle(String styleSheet) {
     myScene.getStylesheets().clear();
     this.styleSheet = styleSheet;
-    myScene.getStylesheets().add(getClass().getResource(DEFAULT_RESOURCE_FOLDER + styleSheet).toExternalForm());
+    myScene.getStylesheets().add(getClass().getResource(DEFAULT_RESOURCE_FOLDER + styleSheet + ".css").toExternalForm());
   }
 
   /**
@@ -110,7 +112,7 @@ public abstract class SuperScreen {
    */
   protected Scene finishStyling(Parent contents){
     myScene = new Scene(contents, DIMENSION, DIMENSION);
-    myScene.getStylesheets().add(getClass().getResource(DEFAULT_RESOURCE_FOLDER + styleSheet).toExternalForm());
+    myScene.getStylesheets().add(getClass().getResource(DEFAULT_RESOURCE_FOLDER + styleSheet + ".css").toExternalForm());
     return myScene;
   }
 
@@ -124,7 +126,7 @@ public abstract class SuperScreen {
     for (Node b : myContents){
       myButtonVBox.getChildren().add(b);
     }
-    myButtonVBox.setSpacing(10);
+    myButtonVBox.setSpacing(SMALL_SPACING);
     myButtonVBox.setAlignment(Pos.CENTER);
     return myButtonVBox;
   }

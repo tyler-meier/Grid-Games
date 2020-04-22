@@ -2,7 +2,6 @@ package ooga.player.screens;
 
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -10,21 +9,25 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import ooga.player.Player;
 
-public class HighScoreScreen extends SuperScreen {
+/**
+ * Leader Board screen class which shows the profiles saved and their high scores for the specific game
+ * @author Tyler Meier
+ */
+public class LeaderBoardScreen extends SuperScreen {
 
   private static final String TITLE = "High Score Leaderboard";
   private static final int SPACING = 10;
 
   /**
-   *
-   * @param thisPlayer
+   * Constructor of this class, calls super to set up instance variables
+   * @param thisPlayer  the current player
    */
-  public HighScoreScreen(Player thisPlayer) {
+  public LeaderBoardScreen(Player thisPlayer) {
     super(thisPlayer);
   }
 
   /**
-   *
+   * Sets up the leader board scene and creates new window
    */
   public void setUpScene(){
     Stage popUpWindow = new Stage();
@@ -35,7 +38,9 @@ public class HighScoreScreen extends SuperScreen {
   }
 
   private Label makeTitle(){
-    return new Label(myStringResources.getString("LeaderBoard") + myPlayer.getGameType());
+    Label title = new Label(myStringResources.getString("LeaderBoard") + myGameNameResources.getString(myPlayer.getGameType()));
+    title.setId("title-label");
+    return title;
   }
 
   private VBox makePanel(){
@@ -52,6 +57,8 @@ public class HighScoreScreen extends SuperScreen {
     HBox box = new HBox();
     Label name = new Label(user+": ");
     Label value = new Label(score.toString());
+    box.setSpacing(30);
+    box.setAlignment(Pos.CENTER);
     box.getChildren().addAll(name, value);
     return box;
   }

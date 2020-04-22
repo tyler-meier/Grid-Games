@@ -68,7 +68,7 @@ public class CustomView extends SuperScreen {
             String imagePath = IMAGERESOURCES + modeType + ".png";
             FileInputStream input = new FileInputStream(imagePath);
             Image image = new Image(input);
-            Button mode = makeButton(modeType, e-> myPlayer.setMode(modeType + ".css"));
+            Button mode = makeButton(modeType, e-> myPlayer.setMode(modeType));
             ImageView modeImageView = new ImageView(image);
             modeImageView.setPreserveRatio(true);
             modeImageView.setFitHeight(80);

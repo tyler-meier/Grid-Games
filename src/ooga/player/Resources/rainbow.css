@@ -13,6 +13,20 @@
     -fx-font-family: "Futura";
 }
 
+#title-label {
+    -fx-font-size: 30pt;
+    -fx-underline: true;
+}
+
+#welcome-label {
+    -fx-font-size: 30pt;
+    -fx-underline: true;
+}
+
+#game-name-label {
+    -fx-font-size: 25pt;
+}
+
 .button{
     -fx-font-size: 12pt;
     -fx-font-family: "Futura";
@@ -22,7 +36,6 @@
     -fx-text-fill: white;
     -fx-background-color: #188BF0;
     -fx-alignment: CENTER;
-
 }
 
 .button:hover{
@@ -54,4 +67,24 @@
     -fx-padding: 2,2,2,2;
     -fx-border-color: black;
     -fx-border-radius: 2;
+}
+
+.combo-box .list-cell{
+    -fx-font-size: 12pt;
+    -fx-font-family: "Futura";
+    -fx-text-fill: #FF96F3;
+    -fx-background-color: white;
+    -fx-padding: 1 10;
+}
+.combo-box-base > .arrow-button {
+    -fx-background-color: white;
+    -fx-padding: 0 2;
+}
+.combo-box-popup .list-cell:filled:selected {
+    -fx-background-color: #F7D5F3;
+    -fx-text-fill: #FF11E4;
+}
+.combo-box-popup .list-cell:filled:hover{
+    -fx-background-color: #F7D5F3;
+    -fx-text-fill: #FF11E4;
 }

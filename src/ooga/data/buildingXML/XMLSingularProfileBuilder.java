@@ -12,6 +12,7 @@ import org.w3c.dom.Element;
  */
 public class XMLSingularProfileBuilder extends XMLBuilder {
 
+  private static final String DISPLAY_PREF_TAG = "DisplayPreference";
   private final String DARK_MODE_TAG = "DarkMode";
   private final String PARENTAL_CONT_TAG = "ParentalControls";
   private final String USERNAME_TAG = "Username";
@@ -51,6 +52,7 @@ public class XMLSingularProfileBuilder extends XMLBuilder {
     createMapEntry(PARENTAL_CONT_TAG, Boolean.toString(user.getParentalControls()));
     createMapEntry(USERNAME_TAG, user.getUsername());
     createMapEntry(PASSWORD_TAG, user.getPassword());
+    createMapEntry(DISPLAY_PREF_TAG, user.getDisplayPreference());
 
     userAttributes.put(PREVIOUS_GAME_TAG, new ArrayList<>());
     for(String game : user.getAllSavedGamed().keySet())
