@@ -79,7 +79,7 @@ public class GameScreen extends SuperScreen {
     myGridPane.setAlignment(Pos.CENTER);
     gridAndName.setAlignment(Pos.CENTER);
     gridAndName.setSpacing(SPACING_2);
-    gridAndName.getChildren().addAll(name, myGridPane);
+    gridAndName.getChildren().addAll(name, myGridPane, myErrorMessage);
     myRoot.setCenter(gridAndName);
   }
 
@@ -137,13 +137,13 @@ public class GameScreen extends SuperScreen {
   private void makeButtonPanel() {
     Button leaderBoardButton = makeButton("LeaderBoardCommand", e -> myPlayer.setUpLeaderBoardScreen());
     verticalPanel.getChildren().addAll(makeLogoutButton(), makeResetLevelButton(), makeResetGameButton(),
-        makeThisSaveButton(), leaderBoardButton, myErrorMessage);
+        makeThisSaveButton(), leaderBoardButton);
   }
 
   //sets event on save button on action
   private Button makeThisSaveButton(){
     Button saveButton = makeButton("SaveCommand", e->{   //TODO: see if you  can get this method out somehow
-      if(verticalPanel.getChildren().contains(pausePlayButton)) {
+      if(verticalPanel.getChildren().contains(pausePlayButton) && timer != null) {
         timer.cancel();
         pausePlayButton.setText(myButtonResources.getString("PlayCommand"));
         paused.set(true);
