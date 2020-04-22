@@ -29,6 +29,7 @@ public class LoginScreen extends SuperScreen {
    * @return the final completed scene to be shown
    */
   public Scene setUpScene(){
+    playSound("welcome");
     VBox topLoginPanel = setupText();
     topLoginPanel.setId("topPanel");  //for testing
     VBox buttonPanel = setUpButtons();
