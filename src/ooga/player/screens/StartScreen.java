@@ -30,6 +30,7 @@ public class StartScreen extends SuperScreen {
    * @return the final completed scene to be shown
    */
   public Scene setUpScene(){
+    playSound("welcome");
     Label welcomeLabel = makeWelcomeLabel();
     VBox gameChoice = makeGameChoice();
     VBox buttonPanel = setUpButtons();
