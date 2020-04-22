@@ -62,7 +62,7 @@ public class GameScreen extends SuperScreen {
     myRoot.setTop(toolBar);
 
     Scene scene = new Scene(myRoot, WIDTH, HEIGHT);
-    scene.getStylesheets().add(getClass().getResource(DEFAULT_RESOURCE_FOLDER + styleSheet).toExternalForm());
+    scene.getStylesheets().add(getClass().getResource(DEFAULT_RESOURCE_FOLDER + styleSheet + ".css").toExternalForm());
     myScene = scene;
     return myScene;
   }

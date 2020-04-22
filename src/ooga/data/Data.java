@@ -172,6 +172,7 @@ public class Data implements DataLink {
     {
       gamePath = currentUser.getSavedGame(gameType);
     }
+
     gameParser = new XMLParser(gamePath);
     return gameParser.getMapFromXML(myGameResource);
   }
@@ -204,6 +205,7 @@ public class Data implements DataLink {
       gamePath = String.format(LEVEL_PATH_SKELETON, gameType, LEVEL_ONE);
     }
     try{
+      System.out.println(gamePath);
       gameParser = new XMLParser(gamePath);
       return gameParser.getMapFromXML(myGameResource);
     } catch(Exception e)
