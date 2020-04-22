@@ -1,10 +1,12 @@
 package ooga.player.screens;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import java.util.*;
 import javafx.scene.layout.VBox;
 import ooga.player.Player;
 
@@ -58,7 +60,6 @@ public class StartScreen extends SuperScreen {
         System.out.println(nameOfGameMapping.get(games.getValue()));
         myPlayer.getStartGameButtonEvent().handle(e);
       } catch (NullPointerException p){
-        p.printStackTrace();
         myErrorMessage.textProperty().setValue(myStringResources.getString("BlankChoice"));
       }
     });
