@@ -31,6 +31,7 @@ import org.testfx.util.WaitForAsyncUtils;
  *
  * @author Robert C. Duvall
  */
+
 public class DukeApplicationTest extends ApplicationTest {
   // standard steps to do for all test applications so factor it out here
 

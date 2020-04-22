@@ -25,13 +25,20 @@ public class WonLevelScreen extends SuperScreen {
    * @return the final completed scene to be shown
    */
   public Scene setUpScene(){
+    playSound("levelup");
     VBox contents = setUpContents();
     return finishStyling(contents);
   }
 
   private VBox setUpContents(){
     Label winLevelLabel = new Label(myStringResources.getString("WonLevel"));
-    Button nextLevelButton = makeButton("NextLevelCommand", e -> myPlayer.setUpStartScreen(myErrorMessage.textProperty())); //TODO: fix next level  button
-    return styleContents(winLevelLabel, nextLevelButton, makeHomeButton(), makeSaveButton(), myErrorMessage);
+    Button nextLevelButton = makeButton("NextLevelCommand", e -> {
+      try{
+        myPlayer.getNextLevelEvent().handle(e);
+      }catch (Exception p){
+        myPlayer.setUpWonGameScreen();
+      }
+    });
+    return styleContents(winLevelLabel, nextLevelButton, makeHomeButton(), makeResetLevelButton());
   }
 }

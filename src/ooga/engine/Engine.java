@@ -43,6 +43,7 @@ public class Engine implements EngineBuilder {
     @Override
     public int[][] getGridConfiguration() { return myGrid.getGridConfiguration(); }
 
-    @Override
+    public int getLevel() { return myGrid.getLevel(); }
+
     public boolean[][] getOpenCellConfiguration() { return myGrid.getOpenCellConfiguration(); }
 }

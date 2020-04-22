@@ -3,8 +3,11 @@ package ooga.data;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.ResourceBundle;
 import ooga.data.buildingXML.XMLBuilder;
 import ooga.data.buildingXML.XMLGameBuilder;
@@ -38,10 +41,12 @@ public class ProfileManager {
   private final int VALUE_INDEX = 1;
   private final String DEFAULT_BOOLEAN_VALUE = "false";
   private final String DEFAULT_LIST_VALUE = "";
+  private final String DEFAULT_PREFERENCE_VALUE = "default";
   private final String DARK_MODE_TAG = "DarkMode";
   private final String PARENTAL_CONT_TAG = "ParentalControls";
   private final String HIGH_SCORE_TAG = "HighScore";
   private final String PREVIOUS_GAME_TAG = "PreviousGame";
+  private static final String DISPLAY_PREF_TAG = "DisplayPreference";
 
   private List<String> inappropriateNameEntries;
   private List<UserProfile> allProfiles;
@@ -146,6 +151,39 @@ public class ProfileManager {
     }
   }
 
+  public Map<String, Integer> getHighScores(String gameType)
+  {
+    Map<String, Integer> allHighScores = new HashMap<>();
+    for(UserProfile user: allProfiles)
+    {
+      if(user.getAllHighScores().containsKey(gameType))
+      {
+          allHighScores.put(user.getUsername(), Integer.parseInt(user.getHighScore(gameType)));
+      }
+    }
+    return sortHighScoreMap(allHighScores);
+  }
+
+  private Map<String, Integer> sortHighScoreMap(Map<String, Integer> allHighScores)
+  {
+    List<Map.Entry<String, Integer> > list = new LinkedList<>(allHighScores.entrySet());
+    Collections.sort(list, this::compareHighScores);
+
+    HashMap<String, Integer> temp = new LinkedHashMap<>();
+    for (Map.Entry<String, Integer> sortedMap : list) {
+      temp.put(sortedMap.getKey(), sortedMap.getValue());
+    }
+    return temp;
+
+  }
+
+  private int compareHighScores(Map.Entry<String, Integer> userOne,
+      Map.Entry<String, Integer> userTwo)
+  {
+    return (userTwo.getValue()).compareTo(userOne.getValue());
+  }
+
+
 
   private void writeNewProfileToRegisteredList()
   {
@@ -190,6 +228,7 @@ public class ProfileManager {
 
     temp.setDarkMode(tempProfileParser.getBooleanElementByTag(DARK_MODE_TAG, DEFAULT_BOOLEAN_VALUE));
     temp.setParentalControls(tempProfileParser.getBooleanElementByTag(PARENTAL_CONT_TAG, DEFAULT_BOOLEAN_VALUE));
+    temp.setDisplayPreference(tempProfileParser.getStringElementByTag(DISPLAY_PREF_TAG, DEFAULT_PREFERENCE_VALUE));
 
     setHighScores(temp, tempProfileParser);
     addSavedGames(temp, tempProfileParser);

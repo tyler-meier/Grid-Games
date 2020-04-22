@@ -4,6 +4,7 @@
   <Username>todd34</Username>
   <Password>tod</Password>
   <ParentalControls>on</ParentalControls>
+  <DisplayPreference>wavemode</DisplayPreference>
 
   <PreviousGame>CandyCrush /path/of/previousGame/one.xml</PreviousGame>
   <PreviousGame>Bejeweled /path/of/previousGame/two.xml</PreviousGame>

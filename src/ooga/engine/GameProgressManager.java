@@ -39,6 +39,8 @@ public class GameProgressManager{
         }
     }
 
+    public int getLevel() { return gameStats.get(LEVEL).get(); }
+
     /**
      * This method returns a map containing information about the attributes of the current game.
      * These include the score, level, and whatever the loss stat for this game is (in a String to String mapping).

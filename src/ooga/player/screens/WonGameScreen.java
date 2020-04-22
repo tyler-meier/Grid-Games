@@ -24,12 +24,13 @@ public class WonGameScreen extends SuperScreen {
    * @return the final completed scene to be shown
    */
   public Scene setUpScene(){
+    playSound("youwin");
     VBox contents = setUpContents();
     return finishStyling(contents);
   }
 
   private VBox setUpContents(){
     Label winGameLabel = new Label(myStringResources.getString("WonGame"));
-    return styleContents(winGameLabel, makeHomeButton(), makeResetGameButton(), makeSaveButton());
+    return styleContents(winGameLabel, makeHomeButton(), makeResetGameButton(), makeResetLevelButton(), makeSaveButton(), myErrorMessage);
   }
 }

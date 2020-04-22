@@ -146,6 +146,11 @@ public class Grid {
      */
     public int getCols() { return myGrid[0].length; }
 
+    public int getLevel() {
+        if (myProgressManager == null) return -1;
+        return myProgressManager.getLevel();
+    }
+
 
     /**
      * This method updates the current game grid according to the move selected by the user.

@@ -1,5 +1,6 @@
 package ooga.player;
 
+import java.util.Map;
 import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -105,13 +106,25 @@ public interface PlayerStart {
    *
    * @param event
    */
-  void setResetButton(EventHandler<ActionEvent> event);
+  void setResetGameButton(EventHandler<ActionEvent> event);
 
   /**
    *
    * @return
    */
-  EventHandler<ActionEvent> getResetButtonEvent();
+  EventHandler<ActionEvent> getResetGameButtonEvent();
+
+  /**
+   *
+   * @param event
+   */
+  void setResetLevelButton(EventHandler<ActionEvent> event);
+
+  /**
+   *
+   * @return
+   */
+  EventHandler<ActionEvent> getResetLevelButtonEvent();
 
   /**
    *
@@ -127,6 +140,18 @@ public interface PlayerStart {
 
   /**
    *
+   * @param event
+   */
+  void setNextLevel(EventHandler<ActionEvent> event);
+
+  /**
+   *
+   * @return
+   */
+  EventHandler<ActionEvent> getNextLevelEvent();
+
+  /**
+   *
    * @param thisUserProfile
    */
   void setUserProfile(UserProfile thisUserProfile);
@@ -136,6 +161,18 @@ public interface PlayerStart {
    * @return
    */
   UserProfile getMyUserProfile();
+
+  /**
+   *
+   * @param event
+   */
+  void setHighScoreMap(Map<String, Integer> event);
+
+  /**
+   *
+   * @return
+   */
+  Map<String, Integer> getHighScoreMap();
 
   /**
    * Changes css style of all screens
