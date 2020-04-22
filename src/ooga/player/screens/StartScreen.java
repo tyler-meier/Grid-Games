@@ -55,8 +55,10 @@ public class StartScreen extends SuperScreen {
     Button startButton = makeButton("StartCommand", e -> {
       try {
         myPlayer.setGameType(nameOfGameMapping.get(games.getValue()));
+        System.out.println(nameOfGameMapping.get(games.getValue()));
         myPlayer.getStartGameButtonEvent().handle(e);
       } catch (NullPointerException p){
+        p.printStackTrace();
         myErrorMessage.textProperty().setValue(myStringResources.getString("BlankChoice"));
       }
     });

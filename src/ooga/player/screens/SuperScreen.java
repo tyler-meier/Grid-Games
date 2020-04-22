@@ -111,7 +111,7 @@ public abstract class SuperScreen {
    */
   protected Scene finishStyling(Parent contents){
     myScene = new Scene(contents, DIMENSION, DIMENSION);
-    myScene.getStylesheets().add(getClass().getResource(DEFAULT_RESOURCE_FOLDER + styleSheet).toExternalForm());
+    myScene.getStylesheets().add(getClass().getResource(DEFAULT_RESOURCE_FOLDER + styleSheet + ".css").toExternalForm());
     return myScene;
   }
 
