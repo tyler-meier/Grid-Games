@@ -14,10 +14,8 @@ public class GridView {
     private static final String DEFAULT_RESOURCE_PACKAGE = RESOURCES.replace("/", ".");
     private int myGridSize;
     private String myGameType;
-    private ResourceBundle myResources;
 
     public GridView(String gameType, int gridSize) {
-        myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + gameType);
         myGridSize = gridSize;
         myGameType = gameType;
     }
