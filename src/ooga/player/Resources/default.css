@@ -8,9 +8,19 @@
     -fx-font-family: "Futura";
 }
 
-.label{
+.label {
     -fx-font-size: 20pt;
     -fx-font-family: "Futura";
+}
+
+#title-label {
+    -fx-font-size: 30pt;
+    -fx-underline: true;
+}
+
+#welcome-label {
+    -fx-font-size: 30pt;
+    -fx-underline: true;
 }
 
 .button{
@@ -22,7 +32,6 @@
     -fx-text-fill: white;
     -fx-background-color: #FF96F3;
     -fx-alignment: CENTER;
-
 }
 
 .button:hover{

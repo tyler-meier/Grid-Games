@@ -114,8 +114,8 @@ public class Player implements PlayerStart{
   }
 
   public void setUpLeaderBoardScreen(){
-    HighScoreScreen myHighScoreScreen = new HighScoreScreen(this);
-    myHighScoreScreen.setUpScene();
+    LeaderBoardScreen myLeaderBoardScreen = new LeaderBoardScreen(this);
+    myLeaderBoardScreen.setUpScene();
   }
 
   /**
@@ -278,10 +278,20 @@ public class Player implements PlayerStart{
     return myUserProfile;
   }
 
+  /**
+   *
+   * @param event
+   */
+  @Override
   public void setHighScoreMap(Map<String, Integer> event){
     myLeaderBoardMap = event;
   }
 
+  /**
+   *
+   * @return
+   */
+  @Override
   public Map<String, Integer> getHighScoreMap(){
     return myLeaderBoardMap;
   }
