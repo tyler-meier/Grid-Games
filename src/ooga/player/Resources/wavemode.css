@@ -13,6 +13,20 @@
     -fx-font-family: "Futura";
 }
 
+#title-label {
+    -fx-font-size: 30pt;
+    -fx-underline: true;
+}
+
+#welcome-label {
+    -fx-font-size: 30pt;
+    -fx-underline: true;
+}
+
+#game-name-label {
+    -fx-font-size: 25pt;
+}
+
 .button{
     -fx-font-size: 12pt;
     -fx-font-family: "Futura";
@@ -22,7 +36,6 @@
     -fx-text-fill: linear-gradient(white, lightblue, lightskyblue);
     -fx-background-color: blue;
     -fx-alignment: CENTER;
-
 }
 
 .button:hover{
