@@ -68,3 +68,23 @@
     -fx-border-color: white;
     -fx-border-radius: 2;
 }
+
+.combo-box .list-cell{
+    -fx-font-size: 12pt;
+    -fx-font-family: "Futura";
+    -fx-text-fill: mediumblue;
+    -fx-background-color: white;
+    -fx-padding: 1 10;
+}
+.combo-box-base > .arrow-button {
+    -fx-background-color: white;
+    -fx-padding: 0 2;
+}
+.combo-box-popup .list-cell:filled:selected {
+    -fx-background-color: lightskyblue;
+    -fx-text-fill: darkblue;
+}
+.combo-box-popup .list-cell:filled:hover{
+    -fx-background-color: lightskyblue;
+    -fx-text-fill: darkblue;
+}
