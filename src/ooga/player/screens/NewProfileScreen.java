@@ -14,7 +14,8 @@ import ooga.player.Player;
  */
 public class NewProfileScreen extends SuperScreen {
 
-  private TextField newUsername, newPassword;
+  private TextField newUsername = new TextField();
+  private TextField newPassword = new TextField();
 
   /**
    * Constructor of this class, calls super to set up instance variables
@@ -36,8 +37,6 @@ public class NewProfileScreen extends SuperScreen {
 
   private VBox setUpText(){
     Label profileLabel = new Label(myStringResources.getString("NewProfLabel"));
-    newUsername = new TextField();
-    newPassword = new TextField();
     newUsername.setPromptText(myStringResources.getString("NewUsername"));
     newPassword.setPromptText(myStringResources.getString("NewPassword"));
     return styleContents(profileLabel, newUsername, newPassword);
