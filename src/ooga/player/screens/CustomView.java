@@ -10,15 +10,15 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import ooga.player.Player;
-import ooga.player.screens.SuperScreen;
 
 public class CustomView extends SuperScreen {
 
-    private static final String IMAGERESOURCES = "src/ooga/player/Resources/images/preferences/";
+    private static final String IMAGE_RESOURCES = "src/ooga/player/Resources/images/preferences/";
+    private static final int IMAGE_SIZE = 80;
+    private static final int SPACING = 6;
 
     /**
      * Constructor of this class, calls super to set up instance variables
@@ -55,28 +55,26 @@ public class CustomView extends SuperScreen {
         Button greenMode = makeImageButtons("greenmode");
         Button waveMode = makeImageButtons("wavemode");
 
-        VBox panel = new VBox(styleContents(label, defaultButton, darkMode, rainbowMode, greenMode, waveMode));
-        panel.setSpacing(6);
-
+        VBox panel = new VBox(styleContents(label, defaultButton, darkMode, rainbowMode, greenMode, waveMode, myErrorMessage));
+        panel.setSpacing(SPACING);
         return panel;
     }
 
     //make buttons that represent a new mode
-    //TODO: fix file not found exception
     private Button makeImageButtons(String modeType){
         try {
-            String imagePath = IMAGERESOURCES + modeType + ".png";
+            String imagePath = IMAGE_RESOURCES + modeType + ".png";
             FileInputStream input = new FileInputStream(imagePath);
             Image image = new Image(input);
             Button mode = makeButton(modeType, e-> myPlayer.setMode(modeType));
             ImageView modeImageView = new ImageView(image);
             modeImageView.setPreserveRatio(true);
-            modeImageView.setFitHeight(80);
-            modeImageView.setFitWidth(80);
+            modeImageView.setFitHeight(IMAGE_SIZE);
+            modeImageView.setFitWidth(IMAGE_SIZE);
             mode.setGraphic(modeImageView);
             return mode;
         } catch (FileNotFoundException e) {
-            //TODO: deal with exception later
+            myErrorMessage.textProperty().setValue(myStringResources.getString("NoStyleError"));
         }
         return null;
     }
