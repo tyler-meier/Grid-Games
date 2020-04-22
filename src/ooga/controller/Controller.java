@@ -54,6 +54,7 @@ public class Controller extends Application {
         player.setUpGameScreen(engine.getGrid(), data.getErrorMessage());
     }
 
+
     private void buildNewEngineUserMade(Player player, Data data){
         String type = player.getGameType();
         String username = player.getUsername();

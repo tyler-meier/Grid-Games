@@ -1,5 +1,10 @@
 package ooga.player.screens;
 
+import javafx.geometry.Pos;
+import javafx.scene.Node;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
 import ooga.player.Player;
 import ooga.player.exceptions.NewUserDefinedGameException;
 
@@ -7,12 +12,12 @@ import ooga.player.exceptions.NewUserDefinedGameException;
 import java.util.ResourceBundle;
 
 public class UserDefinedGameScreenTwo extends UserDefinedGameScreen {
-    //TODO: need to figure out how to give data the correct info for user made game so reset and save works
-    //TODO: still need to make images dynamic
-    //TODO: figure out exception handling
     private static final String MY_KEYS = "GameKeys";
     private static final String BUTTON_TEXT = "Next";
     private static final String GAME_LABEL = "NewGameLabelTwo";
+    private static final String TARGET_SCORE = "TargetScore";
+    private static final String LOSS_STAT = "LossStat";
+    private VBox lossStatBox = new VBox();
 
 
     public UserDefinedGameScreenTwo(Player thisPlayer) {
@@ -35,7 +40,23 @@ public class UserDefinedGameScreenTwo extends UserDefinedGameScreen {
 
 
     @Override
+    protected void screenSpecificSetup() {
+        lossStatBox.setAlignment(Pos.CENTER);
+        inputField.getChildren().clear();
+        inputField.getChildren().addAll(labelMap.get(TARGET_SCORE), userInputFields.get(TARGET_SCORE), labelMap.get(LOSS_STAT), userInputFields.get(LOSS_STAT), lossStatBox);
+        ComboBox lossStat = (ComboBox) userInputFields.get(LOSS_STAT);
+        lossStat.getSelectionModel().selectedItemProperty().addListener(e->{
+            lossStatBox.getChildren().clear();
+            String newKey = lossStat.getSelectionModel().getSelectedItem().toString();
+            lossStatBox.getChildren().addAll(labelMap.get(newKey), userInputFields.get(newKey));
+        });
+    }
+
+    @Override
     protected boolean additionalValidation() {
+        for (Node kid:lossStatBox.getChildren()){
+            if (kid instanceof TextField && !isInteger(((TextField) kid).getText())) return false;
+        }
         return true;
 
     }

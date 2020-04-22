@@ -1,5 +1,6 @@
 package ooga.player.screens;
 
+import javafx.scene.control.ComboBox;
 import ooga.player.Player;
 import ooga.player.exceptions.NewUserDefinedGameException;
 
@@ -10,6 +11,19 @@ public class UserDefinedGameScreenOne extends UserDefinedGameScreen {
     private static final String BUTTON_TEXT = "Next";
     private static final String GAME_LABEL = "NewGameLabel";
     private static final String MAX_STATE = "MaxStateNumber";
+    private static final String NO_HIDDEN_CELLS = "NoHiddenCells";
+    private static final String NEW_CELLS = "AddNewCells";
+    private static final String SECONDS_OPEN = "SecondsOpen";
+    private static final String POINTS = "PointsPerCell";
+    private static final String MATCH_FINDER = "MatchFinder";
+    private static final String VALIDATOR = "Validator";
+    private static final String NUM_SELECTED = "NumSelectedPerMove";
+    private static final String FALSE = "false";
+    private static final String SWITCH = "SwitchValidator";
+    private static final String PAIR = "PairValidator";
+    private static final String OPEN = "OpenFinder";
+    private static final String FLIPPED = "FlippedFinder";
+
 
     public UserDefinedGameScreenOne(Player thisPlayer) {
         super(thisPlayer);
@@ -25,6 +39,28 @@ public class UserDefinedGameScreenOne extends UserDefinedGameScreen {
         };
         myButtonText = BUTTON_TEXT;
         gameLabel = GAME_LABEL;
+    }
+
+    @Override
+    protected void screenSpecificSetup() {
+        inputField.getChildren().clear();
+        inputField.getChildren().addAll(labelMap.get(POINTS), userInputFields.get(POINTS), labelMap.get(MAX_STATE), userInputFields.get(MAX_STATE), labelMap.get(NO_HIDDEN_CELLS), userInputFields.get(NO_HIDDEN_CELLS));
+        ComboBox noHiddenCells = (ComboBox) userInputFields.get(NO_HIDDEN_CELLS);
+        noHiddenCells.getSelectionModel().selectedItemProperty().addListener(e->{
+            if (noHiddenCells.getSelectionModel().getSelectedItem().equals(FALSE)){
+                ((ComboBox) userInputFields.get(VALIDATOR)).setValue(PAIR);
+                ((ComboBox) userInputFields.get(MATCH_FINDER)).setValue(FLIPPED);
+                ((ComboBox) userInputFields.get(NEW_CELLS)).setValue(FALSE);
+                inputField.getChildren().addAll(labelMap.get(SECONDS_OPEN), userInputFields.get(SECONDS_OPEN), labelMap.get(NUM_SELECTED), userInputFields.get(NUM_SELECTED));
+                inputField.getChildren().removeAll(labelMap.get(NEW_CELLS), userInputFields.get(NEW_CELLS));
+            } else {
+                ((ComboBox) userInputFields.get(VALIDATOR)).setValue(SWITCH);
+                ((ComboBox) userInputFields.get(MATCH_FINDER)).setValue(OPEN);
+                ((ComboBox) userInputFields.get(NEW_CELLS)).setValue(null);
+                inputField.getChildren().addAll(labelMap.get(NEW_CELLS), userInputFields.get(NEW_CELLS));
+                inputField.getChildren().removeAll(labelMap.get(SECONDS_OPEN), userInputFields.get(SECONDS_OPEN), labelMap.get(NUM_SELECTED), userInputFields.get(NUM_SELECTED));
+            }
+        });
     }
 
     public int getMaxState(){

@@ -1,29 +1,21 @@
 package ooga.player.screens;
 
-import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
 import ooga.player.Player;
 import ooga.player.exceptions.NewUserDefinedGameException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 
 
 public class UserDefinedGameScreenThree extends UserDefinedGameScreen {
     private static final String MY_KEYS = "NewGridKeys";
-    private static final String BUTTON_TEXT = "MakeGrid";
+    private static final String MAKE_GRID_BUTTON = "MakeGrid";
     private static final String GAME_LABEL = "InitialGrid";
     private static final String START_BUTTON = "StartCommand";
     private static final String ROWS = "numRows";
     private static final String COLUMNS = "numColumns";
-    private Button startButton;
     private int[][] initialStates;
     GridPane myGrid = new GridPane();
     private int maxState;
@@ -32,14 +24,15 @@ public class UserDefinedGameScreenThree extends UserDefinedGameScreen {
         super(thisPlayer);
         myKeysResources = ResourceBundle.getBundle(KEYS_RESOURCES_PATH + MY_KEYS);
         myButtonEvent = e -> {
-            try{
-                makeGrid();
-            }
-            catch (NewUserDefinedGameException p){
-                myErrorMessage.textProperty().setValue(p.getMessage());
-            }
+            try {
+                //TODO: ugly
+                buildMap();
+                getStates();
+                myPlayer.setGameType("UserMadeGame");
+                myPlayer.getUserMadeStartButton().handle(e);
+            } catch (NewUserDefinedGameException p){ myErrorMessage.textProperty().setValue(p.getMessage()); }
         };
-        myButtonText = BUTTON_TEXT;
+        myButtonText = START_BUTTON;
         gameLabel = GAME_LABEL;
     }
 
@@ -48,30 +41,23 @@ public class UserDefinedGameScreenThree extends UserDefinedGameScreen {
 
     @Override
     protected boolean additionalValidation() {
-        return true;
+        int rows = Integer.parseInt(selectedAttributes.get(ROWS));
+        int cols = Integer.parseInt(selectedAttributes.get(COLUMNS));
+        return rows>0 && cols>0;
     }
 
     @Override
-    public Scene setUpScene(){
-        Parent scene = super.setUpScene().getRoot();
-        startButton = makeButton(START_BUTTON, e ->{
-            try {
-                //TODO: ugly
-                getStates();
-                myPlayer.setGameType("UserMadeGame");
-                myPlayer.getUserMAdeStartButton().handle(e);
-            } catch (NewUserDefinedGameException p){ myErrorMessage.textProperty().setValue(p.getMessage()); }
+    protected void screenSpecificSetup() {
+        Button makeGridButton = makeButton(MAKE_GRID_BUTTON, e ->{
+            try{
+                makeGrid();
+                if (!inputField.getChildren().contains(myGrid)) inputField.getChildren().addAll(myGrid);
+            }
+            catch (NewUserDefinedGameException p){
+                myErrorMessage.textProperty().setValue(p.getMessage());
+            }
         });
-        List<Node> kids = new ArrayList<>(scene.getChildrenUnmodifiable());
-        myGrid.visibleProperty().set(false);
-        kids.add(myGrid);
-        startButton.visibleProperty().set(false);
-        kids.add(startButton);
-        VBox myBox = new VBox();
-        myBox.getChildren().addAll(kids);
-        myBox.setSpacing(MAIN_SPACING);
-        myBox.setAlignment(Pos.CENTER);
-        return finishStyling(myBox);
+        inputField.getChildren().add(makeGridButton);
     }
 
     public int[][] getUserSelectedInitialStates(){
@@ -85,9 +71,7 @@ public class UserDefinedGameScreenThree extends UserDefinedGameScreen {
             myErrorMessage.textProperty().setValue(p.getMessage());
         }
         myGrid.getChildren().clear();
-        myGrid.visibleProperty().set(true);
         myGrid.setGridLinesVisible(true);
-        startButton.visibleProperty().set(true);
         //TODO: hard coded keys :(
         int rows = Integer.parseInt(selectedAttributes.get(ROWS));
         int cols = Integer.parseInt(selectedAttributes.get(COLUMNS));
@@ -104,7 +88,7 @@ public class UserDefinedGameScreenThree extends UserDefinedGameScreen {
 
 
     private void getStates(){
-        for(Node node: myGrid.getChildren()){
+        for(Node node:myGrid.getChildren()){
             if(GridPane.getRowIndex(node) != null){
                 int row = GridPane.getRowIndex(node);
                 int col = GridPane.getColumnIndex(node);
