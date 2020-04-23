@@ -11,8 +11,7 @@ import java.awt.*;
 import java.util.ResourceBundle;
 
 /**
- * Screen where user can select the characteristics of the grid
- * of their new game.
+ * Screen where user can select the characteristics of the grid of their new game.
  * @author Tanvi Pabby and Natalie Novitsky.
  */
 public class UserDefinedGameScreenThree extends UserDefinedGameScreen {
@@ -25,17 +24,16 @@ public class UserDefinedGameScreenThree extends UserDefinedGameScreen {
     private static final String GRID_TYPE = "gridType";
     private static final String RANDOM = "random";
     private int[][] initialStates;
-    GridPane myGrid = new GridPane();
+    private GridPane myGrid = new GridPane();
 
     public UserDefinedGameScreenThree(Player thisPlayer) {
         super(thisPlayer);
         myKeysResources = ResourceBundle.getBundle(KEYS_RESOURCES_PATH + MY_KEYS);
         myButtonEvent = e -> {
             try {
-                //TODO: ugly
                 buildMap();
                 getStates();
-                myPlayer.setGameType("UserMadeGame");
+                myPlayer.setGameType(USER_MADE);
                 myPlayer.startUserDefinedGame();
             } catch (NewUserDefinedGameException p){ myErrorMessage.textProperty().setValue(p.getMessage()); }
         };
@@ -44,8 +42,7 @@ public class UserDefinedGameScreenThree extends UserDefinedGameScreen {
     }
 
     /**
-     * Gets the selected initial states of the new game.
-     * @return
+     * @return the selected initial states of the new game.
      */
     public int[][] getUserSelectedInitialStates(){
         return initialStates;
@@ -110,7 +107,6 @@ public class UserDefinedGameScreenThree extends UserDefinedGameScreen {
             }
         }
     }
-
 
     private void getStates(){
         String gridType = selectedAttributes.get(GRID_TYPE);

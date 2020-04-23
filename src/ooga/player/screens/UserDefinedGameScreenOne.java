@@ -5,12 +5,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import ooga.player.Player;
 import ooga.player.exceptions.NewUserDefinedGameException;
-
 import java.util.ResourceBundle;
 
 /**
- * Screen where the user chooses the engine attributes
- * of their new game.
+ * Screen where the user chooses the engine attributes of their new game.
  * @author Natalite Novitsky and Tanvi Pabby.
  */
 public class UserDefinedGameScreenOne extends UserDefinedGameScreen {
@@ -37,7 +35,12 @@ public class UserDefinedGameScreenOne extends UserDefinedGameScreen {
     private static final int MIN_NUM_SELECTED = 2;
     private TextField titleField = new TextField();
 
+    private TextField titleField = new TextField();
 
+    /**
+     * Constructor for this screen, sets up to allow the  user to choose attributes of the game
+     * @param thisPlayer current player
+     */
     public UserDefinedGameScreenOne(Player thisPlayer) {
         super(thisPlayer);
         myKeysResources = ResourceBundle.getBundle(KEYS_RESOURCES_PATH + MY_KEYS);
@@ -50,14 +53,12 @@ public class UserDefinedGameScreenOne extends UserDefinedGameScreen {
 
 
     /**
-     * Gets the title of the user defined game.
-     * @return
+     * @return the title of the user defined game.
      */
     public String getTitle() { return titleField.getText(); }
 
     /**
-     * Returns whether or not the new game has hidden cells in it.
-     * @return
+     * @return whether or not the new game has hidden cells in it.
      */
     public boolean hasHiddenCells() { return !Boolean.parseBoolean(selectedAttributes.get(NO_HIDDEN_CELLS)); }
 
@@ -67,6 +68,10 @@ public class UserDefinedGameScreenOne extends UserDefinedGameScreen {
         addGameNameField();
         inputField.getChildren().addAll(labelMap.get(POINTS), userInputFields.get(POINTS), labelMap.get(MAX_STATE), userInputFields.get(MAX_STATE), labelMap.get(NO_HIDDEN_CELLS), userInputFields.get(NO_HIDDEN_CELLS));
         ComboBox<String> noHiddenCells = (ComboBox<String>) userInputFields.get(NO_HIDDEN_CELLS);
+        finishComboBox(noHiddenCells);
+    }
+
+    private void finishComboBox(ComboBox<String> noHiddenCells){
         noHiddenCells.getSelectionModel().selectedItemProperty().addListener(e->{
             if (noHiddenCells.getSelectionModel().getSelectedItem().equals(FALSE)){
                 handleNoHiddenCellsSetup();

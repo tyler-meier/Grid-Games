@@ -11,31 +11,33 @@ import ooga.engine.gridCreator.Grid;
 public interface PlayerStart {
 
   /**
-   *
+   * Gets saved display preference from user profile, and if there is no
+   * saved profile, return default
+   * @return String of preferred theme
    */
   String getStyle();
 
   /**
-   *
+   * Create login screen and set on stage
    */
   void setUpLoginScreen();
 
   /**
-   *
-   * @param dataError
+   * Creates the screen for creating a new profile
+   * @param dataError the error message to be displayed if an error occurs
    */
   void setUpNewProfScreen(StringProperty dataError);
 
   /**
-   *
-   * @param dataError
+   * Creates the start/home screen for a user
+   * @param dataError the error message to be displayed if an error occurs
    */
   void setUpStartScreen(StringProperty dataError);
 
   /**
-   *
-   * @param backendGrid
-   * @param dataError
+   * Creates the game screen where games are played
+   * @param backendGrid the actual grid to be changed into gridPane and images to be displayed
+   * @param dataError the error message to be displayed if an error occurs
    */
   void setUpGameScreen(Grid backendGrid, StringProperty dataError);
 
@@ -55,55 +57,55 @@ public interface PlayerStart {
   void setUpWonGameScreen();
 
   /**
-   *
+   * Sets up the preferences page to change the styling of the screen
    */
   void setUpCustomView();
 
   /**
-   *
+   * Creates the leader board screen/high score screens
    */
   void setUpLeaderBoardScreen();
 
   /**
-   *
+   * Creates the first screen for making new games where you choose images to use
    */
   void setUpMakeNewGameScreenImages();
 
   /**
-   *
+   * Creates the second scene in making new games where you
+   * start choosing attributes for the new game
    */
   void setUpMakeNewGameScreenOne();
 
   /**
-   *
+   * Creates the third scene in making new games where you
+   * start choosing attributes for the new game
    */
   void setUpMakeNewGameScreenTwo();
 
   /**
-   *
+   * Creates the fourth and final scene in making new games where you
+   * start choosing attributes for the new game
    */
   void setUpMakeNewGameScreenThree();
 
   /**
-   *
-   * @return
+   * @return map of the selected engine attributes a user chose for their game
    */
   Map<String,String> getUserMadeEngineAttributesMap();
 
   /**
-   *
-   * @return
+   * @return map of the specific game attributes the user chose for their game
    */
   Map<String, String> getUserMadeGameAttributesMap();
 
   /**
-   *
-   * @return
+   * @return a 2D array of the initial states for the game grid
    */
   int[][] getUserDefinedInitialStates();
 
   /**
-   * Sets the event to start the user define game
+   * Sets the event to start the user defined game
    * @param event the event to do
    */
   void setUserMadeStartButton(EventHandler<ActionEvent> event);
@@ -114,122 +116,112 @@ public interface PlayerStart {
   void startUserDefinedGame();
 
   /**
-   *
-   * @param newWindowAction
+   * Sets action to create a new window to play
+   * @param newWindowAction the action
    */
   void setNewWindow(EventHandler<ActionEvent> newWindowAction);
 
   /**
-   *
-   * @return
+   * @return the event to create a new window
    */
   EventHandler<ActionEvent> getNewWindowEvent();
 
   /**
-   *
-   * @param userLogin
+   * Sets an already created userLogin with the information needed
+   * @param userLogin the specific userLogin
    */
   void setUserLogin(UserLogin userLogin);
 
   /**
-   *
-   * @return
+   * @return the currently set userLogin with info
    */
   UserLogin getMyUserLogin();
 
   /**
-   *
-   * @param userLogin
+   * Sets a new userLogin when creating one
+   * @param userLogin the specific new userLogin
    */
   void setNewLogin(UserLogin userLogin);
 
   /**
-   *
-   * @return
+   * @return the new userLogin that was created and all of its information
    */
   UserLogin getMyNewUserLogin();
 
   /**
-   *
+   * Sets action for what happens when start button is clicked
    * @param event
    */
   void setStartGameButton(EventHandler<ActionEvent> event);
 
   /**
-   *
-   * @return
+   * @return the event that happens when start button is clicked
    */
   EventHandler<ActionEvent> getStartGameButtonEvent();
 
   /**
-   *
+   * Sets action for what happens when reset game button is pressed
    * @param event
    */
   void setResetGameButton(EventHandler<ActionEvent> event);
 
   /**
-   *
-   * @return
+   * @return the event for resetting a game
    */
   EventHandler<ActionEvent> getResetGameButtonEvent();
 
   /**
-   *
+   * Sets action for what happens when reset level button is pressed
    * @param event
    */
   void setResetLevelButton(EventHandler<ActionEvent> event);
 
   /**
-   *
-   * @return
+   * @return the event for resetting the level of a game
    */
   EventHandler<ActionEvent> getResetLevelButtonEvent();
 
   /**
-   *
+   * Sets action for what happens when save button is pressed
    * @param event
    */
   void setSaveButton(EventHandler<ActionEvent> event);
 
   /**
-   *
-   * @return
+   * @return the event that takes place when save button is pressed
    */
   EventHandler<ActionEvent> getSaveButtonEvent();
 
   /**
-   *
+   * Sets action for when next level button is pressed
    * @param event
    */
   void setNextLevel(EventHandler<ActionEvent> event);
 
   /**
-   *
-   * @return
+   * @return the event for pressing next level/proceed
    */
   EventHandler<ActionEvent> getNextLevelEvent();
 
   /**
-   *
-   * @param thisUserProfile
+   * Sets the userProfile to the current profile that is being played on
+   * @param thisUserProfile current profile
    */
   void setUserProfile(UserProfile thisUserProfile);
 
   /**
-   *
-   * @return
+   * @return the current profile of the user playing
    */
   UserProfile getMyUserProfile();
 
   /**
-   *
-   * @param event
+   * Sets the map of all users that have high scores for a game
+   * @param map the being set to
    */
   void setHighScoreMap(Map<String, Integer> event);
 
   /**
-   *
-   * @return
+   * @return the high score map of users and high scores
    */
   Map<String, Integer> getHighScoreMap();
 
@@ -241,13 +233,12 @@ public interface PlayerStart {
 
   /**
    * An instance variable gameType is set based off of what the  game chosen to play was
+   * @param type the current game chosen to  be played
    */
   void setGameType(String type);
 
   /**
-   * An instance variable String gameType is set as the name of the game type being currently played.
-   * The String is returned in this method.
-   * @return current game string
+   * @return a string of the current game being played/accessed
    */
   String getGameType();
 
@@ -258,9 +249,7 @@ public interface PlayerStart {
   void setUsername(String username);
 
   /**
-   * When a player creates a new profile, their username is saved as a String instance variable playerUsername.
-   * The String is returned in this method.
-   * @return current username of player
+   * @return the current username of the player
    */
   String getUsername();
 

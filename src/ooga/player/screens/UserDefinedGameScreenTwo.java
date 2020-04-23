@@ -13,8 +13,7 @@ import java.awt.*;
 import java.util.ResourceBundle;
 
 /**
- * Screen where the user selects the game attributes of their
- * new game.
+ * Screen where the user selects the game attributes of their new game.
  * @author Tanvi Pabby and Natalie Novitsky.
  */
 public class UserDefinedGameScreenTwo extends UserDefinedGameScreen {
@@ -28,7 +27,12 @@ public class UserDefinedGameScreenTwo extends UserDefinedGameScreen {
     private static final String COLUMNS = "numColumns";
     private VBox lossStatBox = new VBox();
 
+    private VBox lossStatBox = new VBox();
 
+    /**
+     * Constructor for this class, calls super, sets up the user created game scene to choose game attributes
+     * @param thisPlayer current player
+     */
     public UserDefinedGameScreenTwo(Player thisPlayer) {
         super(thisPlayer);
         myKeysResources = ResourceBundle.getBundle(KEYS_RESOURCES_PATH + MY_KEYS);
@@ -50,7 +54,7 @@ public class UserDefinedGameScreenTwo extends UserDefinedGameScreen {
 
     /**
      * Sets the loss stat of the new game.
-     * @param canLoseLives
+     * @param canLoseLives boolean of whether loss stat is lives or not
      */
     public void setLossStatOptions(boolean canLoseLives){
         if (!canLoseLives){
@@ -90,6 +94,5 @@ public class UserDefinedGameScreenTwo extends UserDefinedGameScreen {
             if (kid instanceof TextField && !isInteger(((TextField) kid).getText())) return false;
         }
         return true;
-
     }
 }
