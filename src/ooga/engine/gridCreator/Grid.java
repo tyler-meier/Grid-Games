@@ -65,6 +65,7 @@ public class Grid {
         //TODO handle matched cells in the beginning
     }
 
+
     /**
      * This method returns the states of the grid in the form of a 2D array.
      * @return
