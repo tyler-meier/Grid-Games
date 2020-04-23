@@ -1,14 +1,9 @@
-package ooga.engine.grid;
+package ooga.engine.gridCreator;
 
 import java.awt.*;
 import java.util.Random;
 
 public class RandomGridCreator extends GridCreator {
-    public RandomGridCreator(int numRows, int numColumns, int maxState, int numSelectedPerMove, int totalLives) {
-        super(numRows, numColumns, maxState, numSelectedPerMove, totalLives);
-        buildInitialConfig();
-    }
-
     @Override
     protected void buildInitialConfig() {
         for (Point p:availableCells) initialConfig[p.x][p.y] = getRandomState();

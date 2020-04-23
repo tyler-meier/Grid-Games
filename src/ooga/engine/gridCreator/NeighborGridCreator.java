@@ -1,15 +1,10 @@
-package ooga.engine.grid;
+package ooga.engine.gridCreator;
 
 import java.awt.*;
 import java.util.Random;
 
 public class NeighborGridCreator extends GridCreator {
     private static final int BOMB_STATE = 9;
-
-    public NeighborGridCreator(int numRows, int numColumns, int maxState, int numSelectedPerMove, int totalLives) {
-        super(numRows, numColumns, maxState, numSelectedPerMove, totalLives);
-        buildInitialConfig();
-    }
 
     @Override
     protected void buildInitialConfig() {

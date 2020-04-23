@@ -8,4 +8,5 @@
     <MaxStateNumber>14</MaxStateNumber>
     <PointsPerCell>5</PointsPerCell>
     <SecondsOpen>5</SecondsOpen>
+    <GridCreator>PairGridCreator</GridCreator>
 </Engine>

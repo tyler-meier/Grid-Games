@@ -1,4 +1,4 @@
-package ooga.engine.grid;
+package ooga.engine.gridCreator;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -9,15 +9,10 @@ public class PairGridCreator extends GridCreator{
     private List<Point> availableCells = new ArrayList<>();
     private List<Integer> availableStates = new ArrayList<>();
 
-    public PairGridCreator(int numRows, int numColumns, int maxState, int numSelectedPerMove, int totalLives) {
-        super(numRows, numColumns, maxState, numSelectedPerMove, totalLives);
-        buildInitialConfig();
-    }
-
-
 
     @Override
     protected void buildInitialConfig() {
+        fillAvailableStatesList();
         Random random = new Random();
         int state;
         while(availableCells.size()>0){

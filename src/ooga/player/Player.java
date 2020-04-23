@@ -7,10 +7,8 @@ import javafx.beans.property.StringProperty;
 import javafx.stage.Stage;
 import ooga.controller.UserLogin;
 import ooga.data.UserProfile;
-import ooga.engine.grid.Grid;
+import ooga.engine.gridCreator.Grid;
 import ooga.player.screens.*;
-
-import java.util.Map;
 
 public class Player implements PlayerStart{
 
