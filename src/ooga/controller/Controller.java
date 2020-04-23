@@ -58,8 +58,7 @@ public class Controller extends Application {
         player.setUpGameScreen(engine.getGrid(), data.getErrorMessage());
     }
 
-    private EventHandler<ActionEvent> goToNewLevel(String username, Data data, Player player, Engine engine, Integer levelAdder)
-    {
+    private EventHandler<ActionEvent> goToNewLevel(String username, Data data, Player player, Engine engine, Integer levelAdder) {
         return event -> {
           Map<String, String> newGameAttributes = data.getGameLevelAttributes(username, player.getGameType(), -1);
           if (levelAdder >= 0){

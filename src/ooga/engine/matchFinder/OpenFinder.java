@@ -28,8 +28,6 @@ public class OpenFinder extends MatchFinder {
                 }
             }
         }
-        for(Cell c: matchedCells){
-        }
         return matchedCells;
     }
 
