@@ -48,8 +48,11 @@ public class GameScreen extends SuperScreen {
    */
   public GameScreen(String gameType, Player player){
     super(gameType, player);
-    String imagePath = player.getMyUserProfile().getImagePreference(gameType);
-    myGrid = new GridView(imagePath, GRID_SIZE);
+    if(!isGuest())
+    {
+      gameType = player.getMyUserProfile().getImagePreference(gameType);
+    }
+    myGrid = new GridView(gameType, GRID_SIZE);
   }
 
   /**

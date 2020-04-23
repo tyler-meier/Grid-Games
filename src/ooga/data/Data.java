@@ -144,7 +144,6 @@ public class Data implements DataLink {
    * document and then save the path of that document to the profile of that user
    * @param gameAttributes
    */
-  //TODO: Change to saved games directory
   @Override
   public void saveGame(Map<String, String> gameAttributes, int[][] grid, boolean[][] uncoveredCells) {
       String path = String.format(NEW_GAME_PATH_SKELETON, currentUser.getUsername(), gameType);
@@ -214,7 +213,7 @@ public class Data implements DataLink {
   public Map<String, String> getGameLevelAttributes(String username, String gameType, int level) throws LevelNotFoundException{
     this.gameType = gameType;
     gamePath = String.format(LEVEL_PATH_SKELETON, gameType, level);
-    if(!username.equals(GUEST_USER) && level == LOAD_SAVED_GAME)
+    if(!KNOWN_GAME_TYPES.contains(gameType) | !username.equals(GUEST_USER) && level == LOAD_SAVED_GAME)
     {
       gamePath = currentUser.getSavedGame(gameType);
     }
@@ -223,7 +222,6 @@ public class Data implements DataLink {
       gamePath = String.format(LEVEL_PATH_SKELETON, gameType, LEVEL_ONE);
     }
     try{
-      System.out.println(gamePath);
       gameParser = new XMLParser(gamePath);
       return gameParser.getMapFromXML(myGameResource);
     } catch(Exception e)
