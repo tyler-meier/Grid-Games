@@ -21,8 +21,8 @@ import ooga.player.GridView;
 import ooga.player.Player;
 
 /**
- * Game screen that contains the gameplay, as well as animated buttons for toggling screens
- * @author Alyssa Shin
+ * Game screen that contains the game play, as well as animated buttons for toggling screens
+ * @author Alyssa Shin, Tyler Meier
  */
 
 public class GameScreen extends SuperScreen {
@@ -145,8 +145,7 @@ public class GameScreen extends SuperScreen {
 
   //puts all essential buttons into a vbox
   private void makeButtonPanel() {
-    verticalPanel.getChildren().addAll(makeLogoutButton(), makeResetLevelButton(),
-            makeThisSaveButton());
+    verticalPanel.getChildren().addAll(makeLogoutButton(), makeResetLevelButton(), makeThisSaveButton());
     if (!isNewGame(myGameType)) {
       Button leaderBoardButton = makeButton("LeaderBoardCommand", e -> myPlayer.setUpLeaderBoardScreen());
       verticalPanel.getChildren().addAll(makeResetGameButton(), leaderBoardButton);

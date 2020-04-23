@@ -10,6 +10,12 @@ import ooga.data.UserProfile;
 import ooga.engine.grid.Grid;
 import ooga.player.screens.*;
 
+/**
+ * Main player class that deals with all of the connections between the screens/UI display and controller,
+ * and where all of the info is received  from data/engine through controller. Has multiple getter
+ * and setter methods for storing data/info, and sets up all of the screens/scenes
+ * @author Tyler Meier, Alyssa Shin
+ */
 public class Player implements PlayerStart{
 
   private static final String TITLE = "Grid GORLS + Tyler :)";

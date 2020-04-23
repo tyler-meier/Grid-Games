@@ -53,6 +53,4 @@ public class NewProfileScreen extends SuperScreen {
     Button backButton = makeButton("BackButtonCommand", e -> myPlayer.setUpLoginScreen());
     return styleContents(newProfButton, backButton);
   }
-
-
 }

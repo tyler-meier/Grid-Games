@@ -206,7 +206,7 @@ public abstract class SuperScreen {
   }
 
   /**
-   * Sees if the given game is on already in game  resources/not a user created one
+   * Sees if the given game is already in game resources/not a user created one
    * @param key game being checked
    * @return true if not user created, false if so
    */
