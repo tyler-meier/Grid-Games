@@ -32,8 +32,10 @@ public class Controller extends Application {
         player.setUserLogin(data::login);
         player.setNewLogin(data::saveNewPlayerProfile);
         player.setStartGameButton(e -> buildNewEngine(player, data));
-        player.setUserMadeStartButton(e -> {
-            buildNewEngineUserMade(player, data);
+        player.setUserMadeStartButton(e ->
+        {
+          data.saveCreatedGame("newFunGame", player.getUserMadeEngineAttributesMap(), player.getUserMadeGameAttributesMap(), player.getUserDefinedInitialStates(), null);
+          buildNewEngineUserMade(player, data);
         });
         player.setErrorMessage(data.getErrorMessage());
     }

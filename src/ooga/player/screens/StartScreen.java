@@ -16,6 +16,8 @@ public class StartScreen extends SuperScreen {
 
   private ComboBox<String> games = new ComboBox<>();
   private Map<String, String> nameOfGameMapping = new HashMap<>();
+  private final List<String> KNOWN_GAME_TYPES = new ArrayList<>(List.of("Memory", "BejeweledEndless", "BejeweledAction", "BejeweledPuzzle", "CandyCrush", "ClassicMemory", "Minesweeper"));
+
 
   /**
    * Constructor of this class, calls super to set up instance variables
@@ -49,6 +51,16 @@ public class StartScreen extends SuperScreen {
         nameOfGameMapping.put(myGameNameResources.getString(key), key);
         games.getItems().add(myGameNameResources.getString(key));
     }
+    if(myPlayer.getMyUserProfile() != null && !myPlayer.getMyUserProfile().getAllSavedGamed().isEmpty())
+    {
+      for(String userDefinedGame: myPlayer.getMyUserProfile().getAllSavedGamed().keySet())
+      {
+        if(!KNOWN_GAME_TYPES.contains(userDefinedGame))
+        {
+          games.getItems().add(userDefinedGame);
+        }
+      }
+    }
     return styleContents(gameChoice, games);
   }
 
@@ -56,9 +68,13 @@ public class StartScreen extends SuperScreen {
     Button startButton = makeButton("StartCommand", e -> {
       try {
         myPlayer.setGameType(nameOfGameMapping.get(games.getValue()));
+        if(!KNOWN_GAME_TYPES.contains(games.getValue()))
+        {
+          myPlayer.setGameType(games.getValue());
+        }
         myPlayer.getStartGameButtonEvent().handle(e);
       } catch (NullPointerException p){
-        //p.printStackTrace();
+        p.printStackTrace();
         myErrorMessage.textProperty().setValue(myStringResources.getString("BlankChoice"));
       }
     });

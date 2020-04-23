@@ -25,7 +25,6 @@ public class UserProfile {
     private String path;
     private boolean parentalControls;
     private boolean darkMode;
-    private Map<String, String> totalUserMap = new HashMap<>();
     private EventHandler<ActionEvent> mySaveAction;
     private String displayPreference;
 
@@ -152,11 +151,6 @@ public class UserProfile {
         return String.format(TO_STRING_SKELETON, username, password, path, displayPreference, highScores, savedGames);
     }
 
-    public Map<String, String> getUserMap()
-    {
-        return totalUserMap;
-    }
-
     private void save()
     {
         if (mySaveAction!=null) mySaveAction.handle(new ActionEvent());
@@ -165,6 +159,7 @@ public class UserProfile {
 
   public void setDisplayPreference(String preference) {
       displayPreference = preference;
+      save();
   }
     public String getDisplayPreference() {
         return displayPreference;
