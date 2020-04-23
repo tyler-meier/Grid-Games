@@ -18,8 +18,7 @@ import ooga.player.Player;
 import ooga.player.exceptions.NewUserDefinedGameException;
 
 /**
- * Super screen for all of the screens related to making a new
- * user defined game.
+ * Super screen for all of the screens related to making a new user defined game.
  * @author Natalie Novitsky.
  */
 public abstract class UserDefinedGameScreen extends SuperScreen {

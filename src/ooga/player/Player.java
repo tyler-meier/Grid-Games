@@ -220,6 +220,26 @@ public class Player implements PlayerStart{
   }
 
   /**
+   * Sets the event to start the user defined game
+   * @param event the event to do
+   */
+  public void setUserMadeStartButton(EventHandler<ActionEvent> event){
+    myUserDefEngineEvent = event;
+  }
+
+  /**
+   * Starts the user created game and sets game type to title and sets the images
+   */
+  public void startUserDefinedGame(){
+    String title = myUserDefinedGameScreenOne.getTitle();
+    String path = myUserDefinedGameScreenImages.getImagePath();
+    myUserProfile.setImagePreferences(title, path);
+    setGameType(title);
+    myUserDefinedGameScreenTwo.addGridSize(myUserDefinedGameScreenThree.getGridSize());
+    myUserDefEngineEvent.handle(new ActionEvent());
+  }
+
+  /**
    * Sets action to create a new window to play
    * @param newWindowAction the action
    */
