@@ -17,7 +17,6 @@ public class StartScreen extends SuperScreen {
 
   private ComboBox<String> games = new ComboBox<>();
   private Map<String, String> nameOfGameMapping = new HashMap<>();
-  private final List<String> KNOWN_GAME_TYPES = new ArrayList<>(List.of("Memory", "BejeweledEndless", "BejeweledAction", "BejeweledPuzzle", "CandyCrush", "ClassicMemory", "Minesweeper"));
 
 
   /**
@@ -55,10 +54,7 @@ public class StartScreen extends SuperScreen {
     {
       for(String userDefinedGame: myPlayer.getMyUserProfile().getAllSavedGamed().keySet())
       {
-        if(!KNOWN_GAME_TYPES.contains(userDefinedGame))
-        {
-          games.getItems().add(userDefinedGame);
-        }
+        if(isNewGame(userDefinedGame)) { games.getItems().add(userDefinedGame); }
       }
     }
     return styleContents(gameChoice, games);
@@ -67,11 +63,9 @@ public class StartScreen extends SuperScreen {
   private VBox setUpButtons(){
     Button startButton = makeButton("StartCommand", e -> {
       try {
-        myPlayer.setGameType(nameOfGameMapping.get(games.getValue()));
-        if(!KNOWN_GAME_TYPES.contains(nameOfGameMapping.get(games.getValue())))
-        {
-          myPlayer.setGameType(games.getValue());
-        }
+        if(nameOfGameMapping.containsKey(games.getValue()))
+            myPlayer.setGameType(nameOfGameMapping.get(games.getValue()));
+        else myPlayer.setGameType(games.getValue());
         myPlayer.getStartGameButtonEvent().handle(e);
       } catch (NullPointerException p){
         p.printStackTrace();
