@@ -1,11 +1,13 @@
 package ooga.data;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import ooga.data.buildingXML.XMLBuilder;
+import ooga.data.buildingXML.XMLEngineBuilder;
 import ooga.data.buildingXML.XMLGameBuilder;
 import ooga.data.exceptions.EmptyEntryException;
 import ooga.data.exceptions.IncorrectPasswordException;
@@ -28,10 +30,13 @@ public class Data implements DataLink {
   private final String DEFAULT_ENGINE_PATH = "resources.DefaultEnginePaths";
   private final String GUEST_USER = "Guest";
   private final String MAIN_GAME_TAG = "game";
-  private final String NEW_GAME_PATH_SKELETON = "data/profiles/%s%s.xml";
+  private final String MAIN_ENGINE_TAG = "engine";
+  private final String NEW_GAME_PATH_SKELETON = "data/savedGames/%s%s.xml";
+  private final String USER_DEFINED_ENGINE_PATH_SKELETON = "data/userDefinedEngines/%s%s.xml";
   private final String LEVEL_PATH_SKELETON = "data/defaultGames/%s/level_%d.xml";
   private final int LOAD_SAVED_GAME = -1;
   private final int LEVEL_ONE = 1;
+  private final List<String> KNOWN_GAME_TYPES = new ArrayList<>(List.of("Memory", "BejeweledEndless", "BejeweledAction", "BejeweledPuzzle", "CandyCrush", "ClassicMemory", "Minesweeper"));
 
   private final ResourceBundle myEngineResource = ResourceBundle.getBundle(ENGINE_KEY_PATH);
   private final ResourceBundle myGameResource = ResourceBundle.getBundle(GAME_KEY_PATH);
@@ -120,7 +125,15 @@ public class Data implements DataLink {
    */
   @Override
   public Map<String, String> getEngineAttributes(String gameType) {
-    String enginePath = myDefaultEnginePathResource.getString(gameType);
+    String enginePath = "";
+    if(!KNOWN_GAME_TYPES.contains(gameType))
+    {
+      System.out.println(gameType);
+      enginePath = String.format(USER_DEFINED_ENGINE_PATH_SKELETON, currentUser.getUsername(), gameType);
+    }
+    else{
+      enginePath = myDefaultEnginePathResource.getString(gameType);
+    }
     XMLParser engineParser = new XMLParser(enginePath);
     return engineParser.getMapFromXML(myEngineResource);
   }
@@ -131,6 +144,7 @@ public class Data implements DataLink {
    * document and then save the path of that document to the profile of that user
    * @param gameAttributes
    */
+  //TODO: Change to saved games directory
   @Override
   public void saveGame(Map<String, String> gameAttributes, int[][] grid, boolean[][] uncoveredCells) {
       String path = String.format(NEW_GAME_PATH_SKELETON, currentUser.getUsername(), gameType);
@@ -140,10 +154,14 @@ public class Data implements DataLink {
       errorMessage.setValue("Game Saved!");
   }
 
-  public void saveCreatedGame(String newGameType, Map<String, String> gameAttributes, int[][] grid, boolean[][] uncoveredCells)
+  public void saveCreatedGame(String newGameType, Map<String, String> engineAttributes, Map<String, String> gameAttributes, int[][] grid, boolean[][] uncoveredCells)
   {
-    gameType = newGameType;
-    saveGame(gameAttributes, grid, uncoveredCells);
+    if(currentUser!=null)
+    {
+      gameType = newGameType;
+      saveEngineToXML(engineAttributes);
+      saveGame(gameAttributes, grid, uncoveredCells);
+    }
   }
 
   public Map<String, String> loadCreatedGame(String username, String newGameType) throws LevelNotFoundException
@@ -222,6 +240,12 @@ public class Data implements DataLink {
   {
     currentUser = newCurrent;
     currentUser.setSaveAction(e -> myProfileManager.updatePLayerXML(currentUser));
+  }
+
+  private void saveEngineToXML(Map<String, String> engineAttributes)
+  {
+    String newEnginePath = String.format(USER_DEFINED_ENGINE_PATH_SKELETON, currentUser.getUsername(), gameType);
+    XMLBuilder newEngine = new XMLEngineBuilder(MAIN_ENGINE_TAG, newEnginePath, engineAttributes);
   }
 
 
