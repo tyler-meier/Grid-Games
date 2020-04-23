@@ -140,11 +140,11 @@ public class GameScreen extends SuperScreen {
 
   //puts all essential buttons into a vbox
   private void makeButtonPanel() {
-    verticalPanel.getChildren().addAll(makeLogoutButton(), makeResetLevelButton(), makeResetGameButton(),
+    verticalPanel.getChildren().addAll(makeLogoutButton(), makeResetLevelButton(),
             makeThisSaveButton());
     if (!isNewGame(myGameType)) {
       Button leaderBoardButton = makeButton("LeaderBoardCommand", e -> myPlayer.setUpLeaderBoardScreen());
-      verticalPanel.getChildren().add(leaderBoardButton);
+      verticalPanel.getChildren().addAll(makeResetGameButton(), leaderBoardButton);
     }
   }
 

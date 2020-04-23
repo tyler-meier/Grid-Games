@@ -76,7 +76,8 @@ public class UserDefinedGameScreenOne extends UserDefinedGameScreen {
     protected boolean additionalValidation() {
         int maxState = Integer.parseInt(selectedAttributes.get(MAX_STATE));
         if (!inRange(maxState)) return false;
-        return !titleField.getText().isEmpty();
+        if (titleField.getText().isEmpty()) return false;
+        return !titleField.getText().contains(SPACE);
     }
 
     private void addGameNameField(){
