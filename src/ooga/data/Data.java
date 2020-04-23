@@ -189,6 +189,7 @@ public class Data implements DataLink {
     {
       gamePath = currentUser.getSavedGame(gameType);
     }
+
     gameParser = new XMLParser(gamePath);
     return gameParser.getMapFromXML(myGameResource);
   }
