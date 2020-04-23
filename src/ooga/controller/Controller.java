@@ -35,7 +35,7 @@ public class Controller extends Application {
         player.setUserMadeStartButton(e ->
         {
           data.saveCreatedGame(player.getGameType(), player.getUserMadeEngineAttributesMap(), player.getUserMadeGameAttributesMap(), player.getUserDefinedInitialStates(), null);
-          buildNewEngineUserMade(player, data);
+          buildNewEngine(player, data);
         });
         player.setErrorMessage(data.getErrorMessage());
     }
@@ -55,31 +55,6 @@ public class Controller extends Application {
         player.setHighScoreMap(highScores);
         player.setResetGameButton(goToNewLevel(username, data, player, engine, -1));
         player.setNextLevel(goToNewLevel(username, data, player, engine, 1));
-        player.setUpGameScreen(engine.getGrid(), data.getErrorMessage());
-    }
-
-
-    private void buildNewEngineUserMade(Player player, Data data){
-        String type = player.getGameType();
-        String username = player.getUsername();
-        Map<String, String> myEngineAttributes = player.getUserMadeEngineAttributesMap();
-        Map<String, String> myGameAttributes = player.getUserMadeGameAttributesMap();
-        // TODO: need to make the initial states dynamic
-        int[][] initialStates = player.getUserDefinedInitialStates();
-        // TODO: need to make open cell configuration dynamic
-        Engine engine = new Engine(myEngineAttributes, data.getErrorMessage());
-        engine.setupGame(initialStates, myGameAttributes, null);
-
-        /*
-        player.setSaveButton(e -> data.saveGame(engine.getGameAttributes(), engine.getGridConfiguration(), engine.getOpenCellConfiguration()));
-        player.setResetButton(e -> {
-            Map<String, String> newGameAttributes = data.getGameAttributes("Guest", type);
-            int[][] newInitialStates = data.getGrid();
-            boolean[][] newOpenCells = data.getOpenCells();
-            engine.setupGame(newInitialStates, newGameAttributes, newOpenCells);
-            player.setUpGameScreen(engine.getGrid(), data.getErrorMessage());
-        });
-         */
         player.setUpGameScreen(engine.getGrid(), data.getErrorMessage());
     }
 
