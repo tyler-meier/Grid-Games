@@ -24,7 +24,7 @@ class OpenFinderTest {
         put("NumSelectedPerMove", "2");
         put("AddNewCells", "true");
         put("MaxStateNumber", "6");
-        put("HasHiddenCells", "true");
+        put("NoHiddenCells", "true");
         put("PointsPerCell", "5");
     }};
 

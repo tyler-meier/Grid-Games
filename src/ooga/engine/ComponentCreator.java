@@ -39,7 +39,6 @@ public class ComponentCreator {
             return (Validator) o;
         }
         catch (Exception e) {
-            //e.printStackTrace();
             errorMessage.set(e.getMessage());
         }
         return null;
@@ -58,7 +57,6 @@ public class ComponentCreator {
             return (MatchFinder) o;
         }
         catch (Exception e) {
-            //e.printStackTrace();
             errorMessage.set(e.getMessage());
         }
         return null;
@@ -75,7 +73,6 @@ public class ComponentCreator {
             return Class.forName(path + nameOfClass);
         }
         catch(ClassNotFoundException e){
-            //e.printStackTrace();
             errorMessage.set(e.getMessage());
         }
         return null;

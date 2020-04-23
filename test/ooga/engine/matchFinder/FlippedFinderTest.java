@@ -23,6 +23,7 @@ class FlippedFinderTest {
         put("MaxStateNumber", "6");
         put("NoHiddenCells", "false");
         put("PointsPerCell", "5");
+        put("SecondsOpen", "5");
     }};
 
     @Test

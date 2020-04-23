@@ -48,7 +48,9 @@ public class GameScreen extends SuperScreen {
    */
   public GameScreen(String gameType, Player player){
     super(gameType, player);
-    myGrid = new GridView(gameType, GRID_SIZE);
+    String imagePath = gameType;
+    if(!isGuest()) imagePath = player.getMyUserProfile().getImagePreference(gameType);
+    myGrid = new GridView(imagePath, GRID_SIZE);
   }
 
   /**
@@ -75,7 +77,9 @@ public class GameScreen extends SuperScreen {
   public void setGrid(Grid backendGrid){
     VBox gridAndName = new VBox();
     GridPane myGridPane = myGrid.setGrid(backendGrid, paused);
-    Label name = new Label(myGameNameResources.getString(myGameType));
+    Label name = new Label();
+    if (!isNewGame(myGameType)) name.setText(myGameNameResources.getString(myGameType));
+    else name.setText(myGameType);
     name.setId("game-name-label");
     myGridPane.setAlignment(Pos.CENTER);
     gridAndName.setAlignment(Pos.CENTER);
@@ -136,9 +140,12 @@ public class GameScreen extends SuperScreen {
 
   //puts all essential buttons into a vbox
   private void makeButtonPanel() {
-    Button leaderBoardButton = makeButton("LeaderBoardCommand", e -> myPlayer.setUpLeaderBoardScreen());
-    verticalPanel.getChildren().addAll(makeLogoutButton(), makeResetLevelButton(), makeResetGameButton(),
-        makeThisSaveButton(), leaderBoardButton);
+    verticalPanel.getChildren().addAll(makeLogoutButton(), makeResetLevelButton(),
+            makeThisSaveButton());
+    if (!isNewGame(myGameType)) {
+      Button leaderBoardButton = makeButton("LeaderBoardCommand", e -> myPlayer.setUpLeaderBoardScreen());
+      verticalPanel.getChildren().addAll(makeResetGameButton(), leaderBoardButton);
+    }
   }
 
   //sets event on save button on action

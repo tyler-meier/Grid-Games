@@ -25,9 +25,9 @@ public class UserProfile {
     private String path;
     private boolean parentalControls;
     private boolean darkMode;
-    private Map<String, String> totalUserMap = new HashMap<>();
     private EventHandler<ActionEvent> mySaveAction;
     private String displayPreference;
+    private Map<String, String> imagePreferences;
 
 
     public UserProfile(String username, String password)
@@ -41,6 +41,7 @@ public class UserProfile {
         parentalControls = false;
         savedGames = new HashMap<>();
         highScores = new HashMap<>();
+        imagePreferences = new HashMap<>();
         displayPreference = DISPLAY_PREF_DEFAULT;
     }
 
@@ -152,11 +153,6 @@ public class UserProfile {
         return String.format(TO_STRING_SKELETON, username, password, path, displayPreference, highScores, savedGames);
     }
 
-    public Map<String, String> getUserMap()
-    {
-        return totalUserMap;
-    }
-
     private void save()
     {
         if (mySaveAction!=null) mySaveAction.handle(new ActionEvent());
@@ -165,7 +161,29 @@ public class UserProfile {
 
   public void setDisplayPreference(String preference) {
       displayPreference = preference;
+      save();
   }
+
+  public void setImagePreferences(String gameType, String preference)
+  {
+      imagePreferences.put(gameType, preference);
+      save();
+  }
+
+    public String getImagePreference(String gameType)
+    {
+        if(imagePreferences.keySet().contains(gameType))
+        {
+            return imagePreferences.get(gameType);
+        }
+        return gameType;
+    }
+
+    public Map<String, String> getAllImagePreference()
+    {
+        return imagePreferences;
+    }
+
     public String getDisplayPreference() {
         return displayPreference;
     }

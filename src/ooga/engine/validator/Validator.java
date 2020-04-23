@@ -20,6 +20,16 @@ public abstract class Validator {
      */
     public abstract boolean checkIsValid(List<Cell> selected);
 
+    /**
+     * This method sets the time for which a cell will be flipped over, if the current game
+     * calls for that feature.
+     * @param seconds
+     */
     public void setTime(double seconds) { time = (int) (1000*seconds); }
+
+    /**
+     * This method sets the progress manager of the current game.
+     * @param manager
+     */
     public void setMyProgressManager(GameProgressManager manager) { myProgressManager = manager;}
 }

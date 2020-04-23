@@ -26,6 +26,7 @@ class OpenFinderTest {
         put("MaxStateNumber", "6");
         put("HasHiddenCells", "true");
         put("PointsPerCell", "5");
+        put("SecondsOpen", "5");
     }};
 
     @Test
@@ -42,13 +43,15 @@ class OpenFinderTest {
         ret.add(myGrid.getCell(2,2));
         assertEquals(ret, matchFinder.makeMatches(myGrid));
         ret.clear();
+        // should return nothing since there are no matches
         myGrid.setNewGame(initialConfig2, gameAttributes, null);
         assertEquals(ret, matchFinder.makeMatches(myGrid));
+        ret.add(myGrid.getCell(0,0));
         ret.add(myGrid.getCell(1,0));
         ret.add(myGrid.getCell(2,0));
         ret.add(myGrid.getCell(3,0));
-        ret.add(myGrid.getCell(0,0));
         myGrid.setNewGame(initialConfig3, gameAttributes, null);
+        assertEquals(ret, matchFinder.makeMatches(myGrid));
     }
 
 }

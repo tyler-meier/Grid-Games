@@ -10,6 +10,8 @@ import ooga.data.UserProfile;
 import ooga.engine.grid.Grid;
 import ooga.player.screens.*;
 
+import java.util.Map;
+
 public class Player implements PlayerStart{
 
   private static final String TITLE = "Grid GORLS + Tyler :)";
@@ -18,10 +20,14 @@ public class Player implements PlayerStart{
   private LoginScreen myLoginScreen;
   private GameScreen myGameScreen;
   private CustomView myCustomView;
+  private UserDefinedGameScreenOne myUserDefinedGameScreenOne;
+  private UserDefinedGameScreenTwo myUserDefinedGameScreenTwo;
+  private UserDefinedGameScreenThree myUserDefinedGameScreenThree;
+  private UserDefinedGameScreenImages myUserDefinedGameScreenImages;
   private String myGameType, currentUsername;
   private UserLogin myNewUserLogin, myUserLogin;
   private UserProfile myUserProfile;
-  private EventHandler<ActionEvent> myEngineEvent, myResetGameEvent, myResetLevelEvent, mySaveEvent, myNewWindowEvent, myNexLevelEvent;
+  private EventHandler<ActionEvent> myEngineEvent, myResetGameEvent, myResetLevelEvent, mySaveEvent, myNewWindowEvent, myNexLevelEvent, myUserDefEngineEvent;
   private Map<String, Integer> myLeaderBoardMap;
 
   public Player(Stage primaryStage){
@@ -115,6 +121,42 @@ public class Player implements PlayerStart{
     myStage.setScene(myWonGameScreen.setUpScene());
   }
 
+  public void setUpMakeNewGameScreenImages(){
+    myUserDefinedGameScreenImages = new UserDefinedGameScreenImages(this);
+    myStage.setScene(myUserDefinedGameScreenImages.setUpScene());
+  }
+
+  public void setUpMakeNewGameScreenOne(){
+    myUserDefinedGameScreenOne = new UserDefinedGameScreenOne(this);
+    myStage.setScene(myUserDefinedGameScreenOne.setUpScene());
+    myUserDefinedGameScreenOne.setStateRange(myUserDefinedGameScreenImages.getStateRange());
+  }
+
+  public void setUpMakeNewGameScreenTwo(){
+    myUserDefinedGameScreenTwo = new UserDefinedGameScreenTwo(this);
+    myStage.setScene(myUserDefinedGameScreenTwo.setUpScene());
+    boolean canLoseLives = myUserDefinedGameScreenImages.isMinesweeper() && myUserDefinedGameScreenOne.hasHiddenCells();
+    myUserDefinedGameScreenTwo.setLossStatOptions(canLoseLives);
+  }
+
+  public void setUpMakeNewGameScreenThree(){
+    myUserDefinedGameScreenThree = new UserDefinedGameScreenThree(this);
+    myStage.setScene(myUserDefinedGameScreenThree.setUpScene());
+    myUserDefinedGameScreenThree.setStateRange(myUserDefinedGameScreenImages.getStateRange());
+  }
+
+  public Map<String,String> getUserMadeEngineAttributesMap(){
+    return myUserDefinedGameScreenOne.getUserSelectedAttributes();
+  }
+
+  public Map<String, String> getUserMadeGameAttributesMap(){
+    return myUserDefinedGameScreenTwo.getUserSelectedAttributes();
+  }
+
+  public int[][] getUserDefinedInitialStates(){
+    return myUserDefinedGameScreenThree.getUserSelectedInitialStates();
+  }
+
   /**
    *
    */
@@ -193,6 +235,7 @@ public class Player implements PlayerStart{
     myEngineEvent = event;
   }
 
+
   /**
    *
    * @return
@@ -200,6 +243,18 @@ public class Player implements PlayerStart{
   @Override
   public EventHandler<ActionEvent> getStartGameButtonEvent(){
     return myEngineEvent;
+  }
+
+  public void setUserMadeStartButton(EventHandler<ActionEvent> event){
+    myUserDefEngineEvent = event;
+  }
+
+  public void startUserDefinedGame(){
+    String title = myUserDefinedGameScreenOne.getTitle();
+    String path = myUserDefinedGameScreenImages.getImagePath();
+    myUserProfile.setImagePreferences(title, path);
+    setGameType(title);
+    myUserDefEngineEvent.handle(new ActionEvent());
   }
 
   /**

@@ -2,9 +2,9 @@
 
   <Level>1</Level>
   <Score>0</Score>
-  <TargetScore>100</TargetScore>
+  <TargetScore>700</TargetScore>
   <LossStat>Time</LossStat>
-  <Time>60</Time>
+  <Time>40</Time>
 
   <numRows>8</numRows>
   <numColumns>8</numColumns>
