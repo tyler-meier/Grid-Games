@@ -16,11 +16,7 @@ public abstract class GridCreator {
     private static final String NUM_ROWS = "numRows";
     private static final String NUM_COLS = "numColumns";
     private static final int DEFAULT_LIVES = 3;
-    protected int myNumRows;
-    protected int myNumColumns;
-    protected int myMaxState;
-    protected int myNumSelected;
-    protected int myNumLives;
+    protected int myNumRows, myNumColumns, myMaxState = -1, myNumSelected, myNumLives;
     protected List<Point> availableCells = new ArrayList<>();
     protected int[][] initialConfig;
 
@@ -40,7 +36,8 @@ public abstract class GridCreator {
      * file/ user interaction with the program - either random, from memory, or loaded.
      * @return config
      */
-    public int[][] getInitialConfig(Map<String, String> gameAttributes){
+    public int[][] getInitialConfig(Map<String, String> gameAttributes) throws InvalidDataException{
+        if (myMaxState<0) throw new InvalidDataException();
         try{
             myNumRows = Integer.parseInt(gameAttributes.get(NUM_ROWS));
             myNumColumns = Integer.parseInt(gameAttributes.get(NUM_COLS));

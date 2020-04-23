@@ -1,7 +1,5 @@
 package ooga.engine.validator;
 
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import ooga.engine.Cell;
 import ooga.engine.GameProgressManager;
 
@@ -10,7 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class PairValidatorTest {
     private static Map<String, String> attributes = new HashMap<>() {{
