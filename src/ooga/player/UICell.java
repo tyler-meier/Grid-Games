@@ -74,7 +74,6 @@ public class UICell {
          else myImageView.setImage(hiddenImage);
     }
 
-    //TODO: get either integer or cell to retrieve information about the cell type, return image view
     private Image getImage(){
         return imageMap.get(state.getValue());
     }

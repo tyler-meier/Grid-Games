@@ -16,9 +16,10 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import ooga.engine.gridCreator.Grid;
+import ooga.engine.Grid;
 import ooga.player.GridView;
 import ooga.player.Player;
+import ooga.player.exceptions.ImageNotFoundException;
 
 /**
  * Game screen that contains the game play, as well as animated buttons for toggling screens
@@ -79,7 +80,7 @@ public class GameScreen extends SuperScreen {
    * Sets grid created from engine grid on gamescreen
    * @param backendGrid grid from engine
    */
-  public void setGrid(Grid backendGrid){
+  public void setGrid(Grid backendGrid) throws ImageNotFoundException {
     VBox gridAndName = new VBox();
     GridPane myGridPane = myGrid.setGrid(backendGrid, paused);
     Label name = new Label();

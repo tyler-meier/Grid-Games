@@ -6,7 +6,8 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import ooga.controller.UserLogin;
 import ooga.data.UserProfile;
-import ooga.engine.gridCreator.Grid;
+import ooga.engine.Grid;
+import ooga.player.exceptions.ImageNotFoundException;
 
 public interface PlayerStart {
 
@@ -39,7 +40,7 @@ public interface PlayerStart {
    * @param backendGrid the actual grid to be changed into gridPane and images to be displayed
    * @param dataError the error message to be displayed if an error occurs
    */
-  void setUpGameScreen(Grid backendGrid, StringProperty dataError);
+  void setUpGameScreen(Grid backendGrid, StringProperty dataError) throws ImageNotFoundException;
 
   /**
    * Creates scene when game is lost, sets on stage

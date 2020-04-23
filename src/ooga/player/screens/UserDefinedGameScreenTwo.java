@@ -27,8 +27,6 @@ public class UserDefinedGameScreenTwo extends UserDefinedGameScreen {
     private static final String COLUMNS = "numColumns";
     private VBox lossStatBox = new VBox();
 
-    private VBox lossStatBox = new VBox();
-
     /**
      * Constructor for this class, calls super, sets up the user created game scene to choose game attributes
      * @param thisPlayer current player

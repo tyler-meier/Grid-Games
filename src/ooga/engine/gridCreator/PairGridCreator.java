@@ -5,6 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * Class to build random grid for memory-based games with matching sets of cells.
+ * @author natalie
+ */
 public class PairGridCreator extends GridCreator{
     private List<Integer> availableStates = new ArrayList<>();
 
@@ -23,7 +27,6 @@ public class PairGridCreator extends GridCreator{
                 if (availableCells.size()<1) break;
             }
         }
-        printGrid();
     }
 
     private void fillAvailableStatesList(){

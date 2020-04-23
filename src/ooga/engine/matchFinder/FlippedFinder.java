@@ -1,7 +1,7 @@
 package ooga.engine.matchFinder;
 
 import ooga.engine.Cell;
-import ooga.engine.gridCreator.Grid;
+import ooga.engine.Grid;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,11 +13,22 @@ import java.util.List;
  */
 public class FlippedFinder extends MatchFinder {
 
+    /**
+     * Finds matches originating at selected cells. Not used for FLippedFinder.
+     * @param selected cells
+     * @param grid to find other matches
+     * @return null for this subclass
+     */
     @Override
     public List<Cell> makeMatches(List<Cell> selected, Grid grid) {
         return null;
     }
 
+    /**
+     * Finds matches originating anywhere on the Grid. Used to open neighbors of cells in 0 state for Minesweeper.
+     * @param grid to find other matches
+     * @return cells included in match
+     */
     @Override
     public List<Cell> makeMatches(Grid grid){
         List<Cell> cellsToOpen = new ArrayList<>();

@@ -8,6 +8,7 @@ import ooga.data.Data;
 import ooga.player.Player;
 import java.util.Map;
 import ooga.engine.Engine;
+import ooga.player.exceptions.ImageNotFoundException;
 
 
 public class Controller extends Application {
@@ -31,20 +32,26 @@ public class Controller extends Application {
         player.setNewWindow(e->newWindow(new Stage()));
         player.setUserLogin(data::login);
         player.setNewLogin(data::saveNewPlayerProfile);
-        player.setStartGameButton(e -> buildNewEngine(player, data));
+        player.setStartGameButton(e -> {
+            try{ buildNewEngine(player, data);
+            } catch (Exception p){ data.getErrorMessage().set(p.toString());
+            }
+        });
         player.setUserMadeStartButton(e ->
         {
           data.saveCreatedGame(player.getGameType(), player.getUserMadeEngineAttributesMap(), player.getUserMadeGameAttributesMap(), player.getUserDefinedInitialStates(), null);
-          buildNewEngine(player, data);
+            try{ buildNewEngine(player, data);
+            } catch (Exception p){ data.getErrorMessage().set(p.toString());
+            }
         });
         player.setErrorMessage(data.getErrorMessage());
     }
 
-    private void buildNewEngine(Player player, Data data){
+    private void buildNewEngine(Player player, Data data) throws ImageNotFoundException {
         String type = player.getGameType();
         String username = player.getUsername();
         Map<String, String> myEngineAttributes = data.getEngineAttributes(type);
-        Engine engine = new Engine(myEngineAttributes, data.getErrorMessage());
+        Engine engine = new Engine(myEngineAttributes);
         Map<String, String> myGameAttributes = data.getGameLevelAttributes(username, type, engine.getLevel());
         int[][] initialStates = data.getGrid();
         boolean[][] openCellConfiguration = data.getOpenCells();
@@ -67,7 +74,9 @@ public class Controller extends Application {
           int[][] newInitialStates = data.getGrid();
           boolean[][] newOpenCells = data.getOpenCells();
           engine.setupGame(newInitialStates, newGameAttributes, newOpenCells);
-          player.setUpGameScreen(engine.getGrid(), data.getErrorMessage());
+            try{ player.setUpGameScreen(engine.getGrid(), data.getErrorMessage());
+            } catch (Exception p){ data.getErrorMessage().set(p.toString());
+            }
         };
     }
 

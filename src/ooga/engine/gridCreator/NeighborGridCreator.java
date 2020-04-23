@@ -3,6 +3,10 @@ package ooga.engine.gridCreator;
 import java.awt.*;
 import java.util.Random;
 
+/**
+ * Class to build random grid based on neighbor states, used for Minesweeper.
+ * @author natalie
+ */
 public class NeighborGridCreator extends GridCreator {
     private static final int BOMB_STATE = 9;
 

@@ -14,13 +14,14 @@ import java.util.TimerTask;
  */
 public class PairValidator extends Validator {
 
+    /**
+     * Validates based on all selected cells being same state.
+     * @param selected cells
+     * @return true if all same state
+     */
     @Override
     public boolean checkIsValid(List<Cell> selected) {
-        for (Cell cell:selected) {
-            if (cell.isOpen().get()){
-                return false;
-            }
-        }
+        for (Cell cell:selected) if (cell.isOpen().get()) return false;
         int matchState = selected.get(0).getMyState();
         boolean matched = true;
         for (Cell cell:selected){
@@ -29,17 +30,14 @@ public class PairValidator extends Validator {
         }
         if (!matched){
             myProgressManager.decrementMoves();
-            Timer timer = new Timer();
-            timer.schedule(new TimerTask() {
+            (new Timer()).schedule(new TimerTask() {
                 @Override
                 public void run() {
                     for (Cell cell:selected){
                         cell.isOpen().set(false);
-                    }
-                }
+                    } }
             }, time);
         }
-
         return matched;
     }
 }
