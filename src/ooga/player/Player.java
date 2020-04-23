@@ -7,7 +7,7 @@ import javafx.beans.property.StringProperty;
 import javafx.stage.Stage;
 import ooga.controller.UserLogin;
 import ooga.data.UserProfile;
-import ooga.engine.grid.Grid;
+import ooga.engine.gridCreator.Grid;
 import ooga.player.screens.*;
 
 public class Player implements PlayerStart{
@@ -211,24 +211,6 @@ public class Player implements PlayerStart{
     return myUserDefinedGameScreenThree.getUserSelectedInitialStates();
   }
 
-  /**
-   * Sets the event to start the user define game
-   * @param event the event to do
-   */
-  @Override
-  public void setUserMadeStartButton(EventHandler<ActionEvent> event){
-    myUserDefEngineEvent = event;
-  }
-
-  /**
-   * Starts the user created game and sets game type to title and sets the images
-   */
-  @Override
-  public void startUserDefinedGame(){
-    myUserProfile.setImagePreferences(myUserDefinedGameScreenOne.getTitle(), myUserDefinedGameScreenImages.getImagePath());
-    setGameType(myUserDefinedGameScreenOne.getTitle());
-    myUserDefEngineEvent.handle(new ActionEvent());
-  }
 
   /**
    *
@@ -300,6 +282,20 @@ public class Player implements PlayerStart{
   @Override
   public EventHandler<ActionEvent> getStartGameButtonEvent(){
     return myEngineEvent;
+  }
+
+
+  public void setUserMadeStartButton(EventHandler<ActionEvent> event){
+    myUserDefEngineEvent = event;
+  }
+
+  public void startUserDefinedGame(){
+    String title = myUserDefinedGameScreenOne.getTitle();
+    String path = myUserDefinedGameScreenImages.getImagePath();
+    myUserProfile.setImagePreferences(title, path);
+    setGameType(title);
+    myUserDefinedGameScreenTwo.addGridSize(myUserDefinedGameScreenThree.getGridSize());
+    myUserDefEngineEvent.handle(new ActionEvent());
   }
 
   /**

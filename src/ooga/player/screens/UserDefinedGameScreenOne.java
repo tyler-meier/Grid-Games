@@ -24,13 +24,17 @@ public class UserDefinedGameScreenOne extends UserDefinedGameScreen {
     private static final String POINTS = "PointsPerCell";
     private static final String MATCH_FINDER = "MatchFinder";
     private static final String VALIDATOR = "Validator";
+    private static final String GRID_CREATOR = "GridCreator";
     private static final String NUM_SELECTED = "NumSelectedPerMove";
     private static final String FALSE = "false";
     private static final String SWITCH = "SwitchValidator";
     private static final String PAIR = "PairValidator";
     private static final String OPEN = "OpenFinder";
     private static final String FLIPPED = "FlippedFinder";
+    private static final String RANDOM_GRID = "RandomGridCreator";
+    private static final String PAIR_GRID = "PairGridCreator";
     private static final String TITLE_PROMPT = "TitlePrompt";
+    private static final int MIN_NUM_SELECTED = 2;
     private TextField titleField = new TextField();
 
 
@@ -73,12 +77,14 @@ public class UserDefinedGameScreenOne extends UserDefinedGameScreen {
                 ((ComboBox) userInputFields.get(VALIDATOR)).setValue(PAIR);
                 ((ComboBox) userInputFields.get(MATCH_FINDER)).setValue(FLIPPED);
                 ((ComboBox) userInputFields.get(NEW_CELLS)).setValue(FALSE);
+                ((ComboBox) userInputFields.get(GRID_CREATOR)).setValue(PAIR_GRID);
                 inputField.getChildren().addAll(labelMap.get(SECONDS_OPEN), userInputFields.get(SECONDS_OPEN), labelMap.get(NUM_SELECTED), userInputFields.get(NUM_SELECTED));
                 inputField.getChildren().removeAll(labelMap.get(NEW_CELLS), userInputFields.get(NEW_CELLS));
             } else {
                 ((ComboBox) userInputFields.get(VALIDATOR)).setValue(SWITCH);
                 ((ComboBox) userInputFields.get(MATCH_FINDER)).setValue(OPEN);
                 ((ComboBox) userInputFields.get(NEW_CELLS)).setValue(null);
+                ((ComboBox) userInputFields.get(GRID_CREATOR)).setValue(RANDOM_GRID);
                 inputField.getChildren().addAll(labelMap.get(NEW_CELLS), userInputFields.get(NEW_CELLS));
                 inputField.getChildren().removeAll(labelMap.get(SECONDS_OPEN), userInputFields.get(SECONDS_OPEN), labelMap.get(NUM_SELECTED), userInputFields.get(NUM_SELECTED));
             }
@@ -89,8 +95,12 @@ public class UserDefinedGameScreenOne extends UserDefinedGameScreen {
     protected boolean additionalValidation() {
         int maxState = Integer.parseInt(selectedAttributes.get(MAX_STATE));
         if (!inRange(maxState)) return false;
-        if (titleField.getText().isEmpty()) return false;
-        return !titleField.getText().contains(SPACE);
+        int numSelected = Integer.parseInt(selectedAttributes.get(NUM_SELECTED));
+        if (numSelected<MIN_NUM_SELECTED) return false;
+        String title = titleField.getText();
+        if (title.length()<1) return false;
+        if (!isNewGame(title) || myPlayer.getMyUserProfile().getAllSavedGamed().containsKey(title)) return false;
+        return !title.contains(SPACE);
     }
 
     private void addGameNameField(){

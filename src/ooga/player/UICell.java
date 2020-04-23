@@ -21,23 +21,17 @@ public class UICell {
     BooleanProperty open = new SimpleBooleanProperty();
     IntegerProperty state = new SimpleIntegerProperty();
     ImageView myImageView = new ImageView();
-
-    private static final String RESOURCES = "ooga/player/Resources/";
-    private static final String DEFAULT_RESOURCE_PACKAGE = RESOURCES.replace("/", ".");
-    private static final String IMAGE_RESOURCES = "src/ooga/player/Resources/images/";
-    private static final String HIDDEN_IMAGE_PATH = "question";
     private static final int COLOR_RADIUS = 30;
 
     private BooleanProperty paused = new SimpleBooleanProperty();
-    private ResourceBundle myResources;
-    private Map<Integer, Image> imageMap = new HashMap<>();
+    private Map<Integer, Image> imageMap;
     private Image hiddenImage;
 
-    public UICell(Cell cell, String imagePath, int cellHeight, int cellWidth){
+    public UICell(Cell cell, int cellHeight, int cellWidth, Map<Integer, Image> imageMap, Image hiddenImage){
         open.bind(cell.isOpen());
         state.bind(cell.cellState());
-        myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + imagePath);
-        setupImageMap();
+        this.imageMap = imageMap;
+        this.hiddenImage = hiddenImage;
         setupImageView(cellHeight, cellWidth);
         cell.cellState().addListener((obs, oldv, newv) -> {
             changeImage();
@@ -55,24 +49,6 @@ public class UICell {
 
     public void setPauseProperty(BooleanProperty paused){
         this.paused.bind(paused);
-    }
-
-    private void setupImageMap(){
-        List<String> keys = Collections.list(myResources.getKeys());
-        try {
-            for (String key : keys) {
-                String imageName = myResources.getString(key);
-                String imagePath = IMAGE_RESOURCES + imageName + ".png";
-                FileInputStream input = new FileInputStream(imagePath);
-                Image image = new Image(input);
-                imageMap.put(Integer.parseInt(key), image);
-            }
-            String imagePath = IMAGE_RESOURCES + HIDDEN_IMAGE_PATH + ".png";
-            FileInputStream input = new FileInputStream(imagePath);
-            hiddenImage = new Image(input);
-        } catch (FileNotFoundException e){
-            //TODO: deal with exception later
-        }
     }
 
     private void setupImageView(int cellHeight, int cellWidth){
