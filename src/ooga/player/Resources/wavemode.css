@@ -9,13 +9,15 @@
 }
 
 .label{
-    -fx-font-size: 18pt;
+    -fx-font-size: 20pt;
     -fx-font-family: "Futura";
+    -fx-text-fill: darkblue;
 }
 
 #title-label {
     -fx-font-size: 30pt;
     -fx-underline: true;
+    -fx-text-fill: linear-gradient(white, lightblue, lightskyblue, mediumblue, darkblue);
 }
 
 #welcome-label {

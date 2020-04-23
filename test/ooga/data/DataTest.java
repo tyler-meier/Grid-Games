@@ -97,10 +97,21 @@ class DataTest {
     gameAttributes.put("Level", "6");
     gameAttributes.put("Time", "0");
 
+    Map<String, String> engineAttributes = new HashMap<>();
+    engineAttributes.put("Validator", "stuff");
+    engineAttributes.put("AddNewCells", "3");
+    engineAttributes.put("MatchFinder", "another");
+    engineAttributes.put("NoHiddenCells", "thing");
+    engineAttributes.put("NumSelectedPerMove", "to");
+    engineAttributes.put("MaxStateNumber", "save");
+    engineAttributes.put("SecondsOpen", "here");
+    engineAttributes.put("PointsPerCell", "now");
+
     boolean[][] uncoveredCells = new boolean[knownLevelOne.length][knownLevelOne[0].length];
-    data.saveCreatedGame("MyFunnyGame", gameAttributes, knownLevelOne, uncoveredCells);
+    data.saveCreatedGame("MyFunnyGame", engineAttributes, gameAttributes, knownLevelOne, uncoveredCells);
     Map<String, String> createdGame = data.loadCreatedGame("jay18", "MyFunnyGame");
     assertEquals(createdGame, gameAttributes);
+    assertEquals(data.getEngineAttributes("MyFunnyGame"), engineAttributes);
     assertTrue(checkGridEquality(knownLevelOne, data.getGrid()));
   }
 

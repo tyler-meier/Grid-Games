@@ -154,16 +154,23 @@ public class XMLParser {
    */
   public String getStringElementByTag(String tagName, String defaultVal)
   {
-    if(doc.getElementsByTagName(tagName).getLength() == EMPTY_TAG)
+    try{
+      if(doc.getElementsByTagName(tagName).getLength() == EMPTY_TAG)
+      {
+        return defaultVal;
+      }
+      String ret = doc.getElementsByTagName(tagName).item(ZERO_INDEX).getTextContent();
+      if(ret.isEmpty())
+      {
+        return defaultVal;
+      }
+      return ret;
+
+    }catch(Exception e)
     {
+      System.out.println("tag " + tagName + " could not be read");
       return defaultVal;
     }
-    String ret = doc.getElementsByTagName(tagName).item(ZERO_INDEX).getTextContent();
-    if(ret.isEmpty())
-    {
-      return defaultVal;
-    }
-    return ret;
   }
 
   private List<String> getAllInstances(String tagName, String defaultVal) {

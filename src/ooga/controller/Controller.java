@@ -32,6 +32,11 @@ public class Controller extends Application {
         player.setUserLogin(data::login);
         player.setNewLogin(data::saveNewPlayerProfile);
         player.setStartGameButton(e -> buildNewEngine(player, data));
+        player.setUserMadeStartButton(e ->
+        {
+          data.saveCreatedGame(player.getGameType(), player.getUserMadeEngineAttributesMap(), player.getUserMadeGameAttributesMap(), player.getUserDefinedInitialStates(), null);
+          buildNewEngine(player, data);
+        });
         player.setErrorMessage(data.getErrorMessage());
     }
 
@@ -48,14 +53,14 @@ public class Controller extends Application {
         player.setResetLevelButton(goToNewLevel("Guest", data, player, engine, 0));
         Map<String, Integer> highScores = data.getHighScores(type);
         player.setHighScoreMap(highScores);
-        player.setResetGameButton(goToNewLevel(username, data, player, engine, -1));
+        player.setResetGameButton(goToNewLevel("Guest", data, player, engine, -1));
         player.setNextLevel(goToNewLevel(username, data, player, engine, 1));
         player.setUpGameScreen(engine.getGrid(), data.getErrorMessage());
     }
 
     private EventHandler<ActionEvent> goToNewLevel(String username, Data data, Player player, Engine engine, Integer levelAdder)
     {
-        EventHandler<ActionEvent> e = event -> {
+        return event -> {
           Map<String, String> newGameAttributes = data.getGameLevelAttributes(username, player.getGameType(), -1);
           if (levelAdder >= 0){
             newGameAttributes = data.getGameLevelAttributes(username, player.getGameType(), engine.getLevel()+levelAdder);
@@ -65,7 +70,6 @@ public class Controller extends Application {
           engine.setupGame(newInitialStates, newGameAttributes, newOpenCells);
           player.setUpGameScreen(engine.getGrid(), data.getErrorMessage());
         };
-        return e;
     }
 
 }
