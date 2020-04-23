@@ -14,7 +14,8 @@ import ooga.player.Player;
  */
 public class LoginScreen extends SuperScreen {
 
-  private TextField username, password;
+  private TextField username = new TextField();
+  private TextField password = new TextField();
 
   /**
    * Constructor of this class, calls super to set up instance variables
@@ -29,6 +30,7 @@ public class LoginScreen extends SuperScreen {
    * @return the final completed scene to be shown
    */
   public Scene setUpScene(){
+    playSound("welcome");
     VBox topLoginPanel = setupText();
     topLoginPanel.setId("topPanel");  //for testing
     VBox buttonPanel = setUpButtons();
@@ -38,8 +40,6 @@ public class LoginScreen extends SuperScreen {
 
   private VBox setupText(){
     Label loginLabel = new Label(myStringResources.getString("Login"));
-    username = new TextField();
-    password = new TextField();
     username.setPromptText(myStringResources.getString("TypeUsername"));
     password.setPromptText(myStringResources.getString("TypePassword"));
     return styleContents(loginLabel, username, password);

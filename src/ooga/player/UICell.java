@@ -1,5 +1,10 @@
 package ooga.player;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.ResourceBundle;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -9,11 +14,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import ooga.engine.Cell;
-
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.util.*;
-
 
 public class UICell {
     BooleanProperty open = new SimpleBooleanProperty();
@@ -22,9 +24,10 @@ public class UICell {
 
     private static final String RESOURCES = "ooga/player/Resources/";
     private static final String DEFAULT_RESOURCE_PACKAGE = RESOURCES.replace("/", ".");
-    private static final String IMAGERESOURCES = "src/ooga/player/Resources/images/";
-    private static final String DEFAULT_IMAGERESOURCE_PACKAGE = IMAGERESOURCES.replace("/", ".");
+    private static final String IMAGE_RESOURCES = "src/ooga/player/Resources/images/";
     private static final String HIDDEN_IMAGE_PATH = "question";
+    private static final int COLOR_RADIUS = 30;
+
     private BooleanProperty paused = new SimpleBooleanProperty();
     private ResourceBundle myResources;
     private Map<Integer, Image> imageMap = new HashMap<>();
@@ -45,7 +48,7 @@ public class UICell {
                 cell.toggleSelected();
         });
         cell.isSelected().addListener((a, oldvalue, newvalue) -> {
-            if (newvalue) myImageView.setEffect(new DropShadow(30, Color.YELLOW));
+            if (newvalue) myImageView.setEffect(new DropShadow(COLOR_RADIUS, Color.YELLOW));
             else myImageView.setEffect(null);
         });
     }
@@ -59,12 +62,12 @@ public class UICell {
         try {
             for (String key : keys) {
                 String imageName = myResources.getString(key);
-                String imagePath = IMAGERESOURCES + imageName + ".png";
+                String imagePath = IMAGE_RESOURCES + imageName + ".png";
                 FileInputStream input = new FileInputStream(imagePath);
                 Image image = new Image(input);
                 imageMap.put(Integer.parseInt(key), image);
             }
-            String imagePath = IMAGERESOURCES + HIDDEN_IMAGE_PATH + ".png";
+            String imagePath = IMAGE_RESOURCES + HIDDEN_IMAGE_PATH + ".png";
             FileInputStream input = new FileInputStream(imagePath);
             hiddenImage = new Image(input);
         } catch (FileNotFoundException e){

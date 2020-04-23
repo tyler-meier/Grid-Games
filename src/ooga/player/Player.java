@@ -42,6 +42,17 @@ public class Player implements PlayerStart{
    *
    */
   @Override
+  public String getStyle() {
+    if (myUserProfile != null) {
+      return myUserProfile.getDisplayPreference();
+    }
+    return "default";
+  }
+
+  /**
+   *
+   */
+  @Override
   public void setUpLoginScreen(){
     myStage.setScene(myLoginScreen.setUpScene());
   }
@@ -185,6 +196,7 @@ public class Player implements PlayerStart{
   @Override
   public void setUserLogin(UserLogin userLogin){
     myUserLogin = userLogin;
+
   }
 
   /**

@@ -1,10 +1,11 @@
 package ooga.player.screens;
 
+import java.util.*;
+
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import java.util.*;
 import javafx.scene.layout.VBox;
 import ooga.player.Player;
 
@@ -32,7 +33,6 @@ public class StartScreen extends SuperScreen {
    * @return the final completed scene to be shown
    */
   public Scene setUpScene(){
-    playSound("welcome");
     Label welcomeLabel = makeWelcomeLabel();
     VBox gameChoice = makeGameChoice();
     VBox buttonPanel = setUpButtons();
