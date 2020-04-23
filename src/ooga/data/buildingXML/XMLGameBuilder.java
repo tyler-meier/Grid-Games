@@ -32,8 +32,8 @@ public class XMLGameBuilder extends XMLBuilder {
     this.dataToWrite = dataToWrite;
     this.grid = grid;
     this.uncoveredCells = uncoveredCells;
-    numRows = grid.length;
-    numCols = grid[ZERO_INDEX].length;
+    numRows = Integer.parseInt(dataToWrite.get(NUM_ROWS_TAG));
+    numCols = Integer.parseInt(dataToWrite.get(NUM_COLUMNS_TAG));
     createDocument(mainTag, pathName);
   }
 
@@ -63,17 +63,18 @@ public class XMLGameBuilder extends XMLBuilder {
 
     Element numColumnsElement = createElement(NUM_COLUMNS_TAG, Integer.toString(numCols));
     root.appendChild(numColumnsElement);
-
-    for(int r = ZERO_INDEX; r < numRows; r++)
-    {
-      List<String> rowValues = new ArrayList<>();
-      for(int c = ZERO_INDEX; c < numCols; c++)
+    if (grid!=null){
+      for(int r = ZERO_INDEX; r < numRows; r++)
       {
-        rowValues.add(Integer.toString(grid[r][c]));
+        List<String> rowValues = new ArrayList<>();
+        for(int c = ZERO_INDEX; c < numCols; c++)
+        {
+          rowValues.add(Integer.toString(grid[r][c]));
+        }
+        String row = String.join(ROW_DELIMINATOR, rowValues);
+        Element temp = createElement(ROW_TAG, row);
+        root.appendChild(temp);
       }
-      String row = String.join(ROW_DELIMINATOR, rowValues);
-      Element temp = createElement(ROW_TAG, row);
-      root.appendChild(temp);
     }
   }
 

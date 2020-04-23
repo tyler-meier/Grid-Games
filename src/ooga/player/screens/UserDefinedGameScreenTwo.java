@@ -9,6 +9,7 @@ import ooga.player.Player;
 import ooga.player.exceptions.NewUserDefinedGameException;
 
 
+import java.awt.*;
 import java.util.ResourceBundle;
 
 public class UserDefinedGameScreenTwo extends UserDefinedGameScreen {
@@ -18,6 +19,8 @@ public class UserDefinedGameScreenTwo extends UserDefinedGameScreen {
     private static final String TARGET_SCORE = "TargetScore";
     private static final String LOSS_STAT = "LossStat";
     private static final String LIVES_LEFT = "LivesLeft";
+    private static final String ROWS = "numRows";
+    private static final String COLUMNS = "numColumns";
     private VBox lossStatBox = new VBox();
 
 
@@ -36,6 +39,11 @@ public class UserDefinedGameScreenTwo extends UserDefinedGameScreen {
         };
         myButtonText = BUTTON_TEXT;
         gameLabel = GAME_LABEL;
+    }
+
+    public void addGridSize(Point p){
+        selectedAttributes.put(ROWS, String.valueOf(p.x));
+        selectedAttributes.put(COLUMNS, String.valueOf(p.y));
     }
 
     public void setLossStatOptions(boolean canLoseLives){

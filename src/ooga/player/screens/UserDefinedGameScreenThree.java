@@ -2,11 +2,13 @@ package ooga.player.screens;
 
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import ooga.player.Player;
 import ooga.player.exceptions.NewUserDefinedGameException;
 
+import java.awt.*;
 import java.util.ResourceBundle;
 
 
@@ -17,6 +19,8 @@ public class UserDefinedGameScreenThree extends UserDefinedGameScreen {
     private static final String START_BUTTON = "StartCommand";
     private static final String ROWS = "numRows";
     private static final String COLUMNS = "numColumns";
+    private static final String GRID_TYPE = "gridType";
+    private static final String RANDOM = "random";
     private int[][] initialStates;
     GridPane myGrid = new GridPane();
 
@@ -38,13 +42,14 @@ public class UserDefinedGameScreenThree extends UserDefinedGameScreen {
 
     @Override
     protected boolean additionalValidation() {
-        int rows = Integer.parseInt(selectedAttributes.get(ROWS));
-        int cols = Integer.parseInt(selectedAttributes.get(COLUMNS));
-        return rows>0 && cols>0;
+        Point p = getGridSize();
+        return p.x>0 && p.y>0;
     }
 
     @Override
     protected void screenSpecificSetup() {
+        inputField.getChildren().clear();
+        inputField.getChildren().addAll(labelMap.get(GRID_TYPE), userInputFields.get(GRID_TYPE));
         Button makeGridButton = makeButton(MAKE_GRID_BUTTON, e ->{
             try{
                 makeGrid();
@@ -54,11 +59,26 @@ public class UserDefinedGameScreenThree extends UserDefinedGameScreen {
                 myErrorMessage.textProperty().setValue(p.getMessage());
             }
         });
-        inputField.getChildren().add(makeGridButton);
+        ComboBox gridType = (ComboBox) userInputFields.get(GRID_TYPE);
+        gridType.getSelectionModel().selectedItemProperty().addListener(e->{
+            String choice = gridType.getSelectionModel().getSelectedItem().toString();
+            if (!inputField.getChildren().contains(userInputFields.get(ROWS))) inputField.getChildren().addAll(labelMap.get(ROWS), userInputFields.get(ROWS), labelMap.get(COLUMNS), userInputFields.get(COLUMNS));
+            if (choice.equals(RANDOM)){
+                inputField.getChildren().removeAll(makeGridButton, myGrid);
+            } else{
+                inputField.getChildren().add(makeGridButton);
+            }
+        });
     }
 
     public int[][] getUserSelectedInitialStates(){
         return initialStates;
+    }
+
+    public Point getGridSize(){
+        int rows = Integer.parseInt(selectedAttributes.get(ROWS));
+        int cols = Integer.parseInt(selectedAttributes.get(COLUMNS));
+        return new Point(rows, cols);
     }
 
     private void makeGrid(){
@@ -70,11 +90,10 @@ public class UserDefinedGameScreenThree extends UserDefinedGameScreen {
         myGrid.getChildren().clear();
         myGrid.setGridLinesVisible(true);
         //TODO: hard coded keys :(
-        int rows = Integer.parseInt(selectedAttributes.get(ROWS));
-        int cols = Integer.parseInt(selectedAttributes.get(COLUMNS));
-        initialStates = new int[rows][cols];
-        for(int row = 0; row < rows; row++){
-            for(int col = 0; col < cols; col++){
+        Point p = getGridSize();
+        initialStates = new int[p.x][p.y];
+        for(int row = 0; row < p.x; row++){
+            for(int col = 0; col < p.y; col++){
                 TextField state = new TextField();
                 GridPane.setRowIndex(state, row);
                 GridPane.setColumnIndex(state, col);
@@ -85,15 +104,18 @@ public class UserDefinedGameScreenThree extends UserDefinedGameScreen {
 
 
     private void getStates(){
-        for(Node node:myGrid.getChildren()){
+        String gridType = selectedAttributes.get(GRID_TYPE);
+        if (gridType.equals(RANDOM)) initialStates = null;
+        else {
+            for(Node node:myGrid.getChildren()){
             if(GridPane.getRowIndex(node) != null){
                 int row = GridPane.getRowIndex(node);
                 int col = GridPane.getColumnIndex(node);
-                Integer validState = getValidState((TextField) node);
-                if (validState!=null) initialStates[row][col] = validState;
+                Integer state = getValidState((TextField) node);
+                if (state!=null) initialStates[row][col] = state;
                 else throw new NewUserDefinedGameException();
             }
-        }
+        }}
     }
 
     private Integer getValidState(TextField text){

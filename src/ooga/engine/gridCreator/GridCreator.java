@@ -9,6 +9,7 @@ public abstract class GridCreator {
     private static final String LIVES_LEFT = "LivesLeft";
     private static final String NUM_ROWS = "numRows";
     private static final String NUM_COLS = "numColumns";
+    private static final int DEFAULT_LIVES = 3;
     protected int myNumRows;
     protected int myNumColumns;
     protected int myMaxState;
@@ -39,9 +40,14 @@ public abstract class GridCreator {
      * @return
      */
     public  int[][] getInitialConfig(Map<String, String> gameAttributes){
+        //TODO: error checking
         myNumRows = Integer.parseInt(gameAttributes.get(NUM_ROWS));
         myNumColumns = Integer.parseInt(gameAttributes.get(NUM_COLS));
-        myNumLives = Integer.parseInt(gameAttributes.get(LIVES_LEFT));
+        try{
+            myNumLives = Integer.parseInt(gameAttributes.get(LIVES_LEFT));
+        } catch (Exception e){
+            myNumLives = DEFAULT_LIVES;
+        }
         initialConfig = new int[myNumRows][myNumColumns];
         buildPointList();
         buildInitialConfig();

@@ -13,10 +13,13 @@ public class GameProgressManager{
     private static final String LOSS_STAT = "LossStat";
     private static final String LIVES_LEFT = "LivesLeft";
     private static final String MOVES_LEFT = "MovesLeft";
+    private static final String NUM_ROWS = "numRows";
+    private static final String NUM_COLS = "numColumns";
     private Map<String, IntegerProperty> gameStats = new HashMap<>();
     private String lossStatKey;
     private BooleanProperty isLoss = new SimpleBooleanProperty();
     private BooleanProperty isWin = new SimpleBooleanProperty();
+    private String rows, cols;
 
 
     public GameProgressManager(Map<String, String> gameAttributes, StringProperty errorMessage){
@@ -34,6 +37,8 @@ public class GameProgressManager{
             gameStats.get(SCORE).addListener((a, b, c) -> {
                 isWin.set(gameStats.get(SCORE).get() >= gameStats.get(TARGET_SCORE).get());
             });
+            rows = gameAttributes.get(NUM_ROWS);
+            cols = gameAttributes.get(NUM_COLS);
         } catch (InvalidDataException e) {
             myErrorMessage.set(e.toString());
         }
@@ -52,6 +57,8 @@ public class GameProgressManager{
             currentAttributes.put(key, gameStats.get(key).getValue().toString());
         }
         currentAttributes.put(LOSS_STAT, lossStatKey);
+        currentAttributes.put(NUM_ROWS, rows);
+        currentAttributes.put(NUM_COLS, cols);
         return currentAttributes;
     }
 

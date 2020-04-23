@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Random;
 
 public class PairGridCreator extends GridCreator{
-    private List<Point> availableCells = new ArrayList<>();
     private List<Integer> availableStates = new ArrayList<>();
 
 
@@ -24,6 +23,7 @@ public class PairGridCreator extends GridCreator{
                 if (availableCells.size()<1) break;
             }
         }
+        printGrid();
     }
 
     private void fillAvailableStatesList(){

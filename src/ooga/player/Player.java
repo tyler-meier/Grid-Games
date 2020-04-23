@@ -252,6 +252,7 @@ public class Player implements PlayerStart{
     String path = myUserDefinedGameScreenImages.getImagePath();
     myUserProfile.setImagePreferences(title, path);
     setGameType(title);
+    myUserDefinedGameScreenTwo.addGridSize(myUserDefinedGameScreenThree.getGridSize());
     myUserDefEngineEvent.handle(new ActionEvent());
   }
 
