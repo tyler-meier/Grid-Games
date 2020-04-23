@@ -1,5 +1,6 @@
 package ooga.player.screens;
 
+import java.awt.Point;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
@@ -7,9 +8,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import ooga.player.Player;
 import ooga.player.exceptions.NewUserDefinedGameException;
-
-
-import java.awt.*;
 import java.util.ResourceBundle;
 
 /**
@@ -66,7 +64,6 @@ public class UserDefinedGameScreenTwo extends UserDefinedGameScreen {
             buildMap();
             //TODO: can we standardize?
             myPlayer.setUpMakeNewGameScreenThree();
-
         }
         catch(NewUserDefinedGameException p){
             myErrorMessage.textProperty().setValue(p.getMessage());
@@ -78,7 +75,7 @@ public class UserDefinedGameScreenTwo extends UserDefinedGameScreen {
         lossStatBox.setAlignment(Pos.CENTER);
         inputField.getChildren().clear();
         inputField.getChildren().addAll(labelMap.get(TARGET_SCORE), userInputFields.get(TARGET_SCORE), labelMap.get(LOSS_STAT), userInputFields.get(LOSS_STAT), lossStatBox);
-        ComboBox lossStat = (ComboBox) userInputFields.get(LOSS_STAT);
+        ComboBox<String> lossStat = (ComboBox<String>) userInputFields.get(LOSS_STAT);
         lossStat.getSelectionModel().selectedItemProperty().addListener(e->{
             lossStatBox.getChildren().clear();
             String newKey = lossStat.getSelectionModel().getSelectedItem().toString();

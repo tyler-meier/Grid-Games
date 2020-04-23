@@ -1,5 +1,12 @@
 package ooga.player;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.ResourceBundle;
 import javafx.beans.property.BooleanProperty;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -8,10 +15,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import ooga.engine.Grid;
 import ooga.player.exceptions.ImageNotFoundException;
-
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.util.*;
 
 /**
  * Class that creates the front end grid/the UI grid and what is shown. It takes in the backend grid
@@ -95,3 +98,4 @@ public class GridView {
         }
     }
 }
+

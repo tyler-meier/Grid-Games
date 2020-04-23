@@ -1,10 +1,6 @@
 package ooga.player;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.ResourceBundle;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -14,9 +10,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import ooga.engine.Cell;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-
 /**
  * Sets up the cell and all of the properties it can have  visually such as the image being displayed, and whether
  * or not it needs to be  hidden. Also visually allows it to have a background when clicked and allows for switches of the
