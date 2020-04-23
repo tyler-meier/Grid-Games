@@ -1,6 +1,8 @@
 package ooga.player.screens;
 
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import ooga.player.Player;
 import ooga.player.exceptions.NewUserDefinedGameException;
 
@@ -23,6 +25,8 @@ public class UserDefinedGameScreenOne extends UserDefinedGameScreen {
     private static final String PAIR = "PairValidator";
     private static final String OPEN = "OpenFinder";
     private static final String FLIPPED = "FlippedFinder";
+    private static final String TITLE_PROMPT = "TitlePrompt";
+    private TextField titleField = new TextField();
 
 
     public UserDefinedGameScreenOne(Player thisPlayer) {
@@ -41,11 +45,16 @@ public class UserDefinedGameScreenOne extends UserDefinedGameScreen {
         gameLabel = GAME_LABEL;
     }
 
+
+    public String getTitle() { return titleField.getText(); }
+    public boolean hasHiddenCells() { return !Boolean.parseBoolean(selectedAttributes.get(NO_HIDDEN_CELLS)); }
+
     @Override
     protected void screenSpecificSetup() {
         inputField.getChildren().clear();
+        addGameNameField();
         inputField.getChildren().addAll(labelMap.get(POINTS), userInputFields.get(POINTS), labelMap.get(MAX_STATE), userInputFields.get(MAX_STATE), labelMap.get(NO_HIDDEN_CELLS), userInputFields.get(NO_HIDDEN_CELLS));
-        ComboBox noHiddenCells = (ComboBox) userInputFields.get(NO_HIDDEN_CELLS);
+        ComboBox<String> noHiddenCells = (ComboBox<String>) userInputFields.get(NO_HIDDEN_CELLS);
         noHiddenCells.getSelectionModel().selectedItemProperty().addListener(e->{
             if (noHiddenCells.getSelectionModel().getSelectedItem().equals(FALSE)){
                 ((ComboBox) userInputFields.get(VALIDATOR)).setValue(PAIR);
@@ -63,15 +72,17 @@ public class UserDefinedGameScreenOne extends UserDefinedGameScreen {
         });
     }
 
-    public int getMaxState(){
-        return Integer.parseInt(selectedAttributes.get(MAX_STATE));
-    }
-
-
     @Override
     protected boolean additionalValidation() {
-        return true;
+        int maxState = Integer.parseInt(selectedAttributes.get(MAX_STATE));
+        if (!inRange(maxState)) return false;
+        if (titleField.getText().isEmpty()) return false;
+        return !titleField.getText().contains(SPACE);
     }
 
+    private void addGameNameField(){
+        Label titleLabel = new Label(newGameStringsResources.getString(TITLE_PROMPT));
+        inputField.getChildren().addAll(titleLabel, titleField);
+    }
 
 }

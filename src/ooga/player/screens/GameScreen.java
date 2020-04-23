@@ -20,6 +20,11 @@ import ooga.engine.grid.Grid;
 import ooga.player.GridView;
 import ooga.player.Player;
 
+/**
+ * Game screen that contains the gameplay, as well as animated buttons for toggling screens
+ * @author Alyssa Shin
+ */
+
 public class GameScreen extends SuperScreen {
   private static final String TIME = "Time";
   private static final String SCORE = "Score";
@@ -27,8 +32,8 @@ public class GameScreen extends SuperScreen {
   private static final int PADDING_TOP_BOTTOM = 10;
   private static final int PADDING_LEFT_RIGHT = 20;
   private static final int GRID_SIZE = 400;
-  private static final int SPACING_1 = 40;
-  private static final int SPACING_2 = 5;
+  private static final int WIDE_SPACING = 40;
+  private static final int CLOSE_SPACING = 5;
   private static final int WIDTH = 750;
   private static final int HEIGHT = 600;
 
@@ -48,7 +53,9 @@ public class GameScreen extends SuperScreen {
    */
   public GameScreen(String gameType, Player player){
     super(gameType, player);
-    myGrid = new GridView(gameType, GRID_SIZE);
+    String imagePath = gameType;
+    if(!isGuest()) imagePath = player.getMyUserProfile().getImagePreference(gameType);
+    myGrid = new GridView(imagePath, GRID_SIZE);
   }
 
   /**
@@ -75,11 +82,13 @@ public class GameScreen extends SuperScreen {
   public void setGrid(Grid backendGrid){
     VBox gridAndName = new VBox();
     GridPane myGridPane = myGrid.setGrid(backendGrid, paused);
-    Label name = new Label(myGameNameResources.getString(myGameType));
+    Label name = new Label();
+    if (!isNewGame(myGameType)) name.setText(myGameNameResources.getString(myGameType));
+    else name.setText(myGameType);
     name.setId("game-name-label");
     myGridPane.setAlignment(Pos.CENTER);
     gridAndName.setAlignment(Pos.CENTER);
-    gridAndName.setSpacing(SPACING_2);
+    gridAndName.setSpacing(CLOSE_SPACING);
     gridAndName.getChildren().addAll(name, myGridPane, myErrorMessage);
     myRoot.setCenter(gridAndName);
   }
@@ -99,7 +108,7 @@ public class GameScreen extends SuperScreen {
       verticalPanel.getChildren().add(new HBox(new Label(myStringResources.getString("High")), new Label(myPlayer.getMyUserProfile().getHighScore(myGameType))));
     }
     verticalPanel.setAlignment(Pos.CENTER);
-    verticalPanel.setSpacing(SPACING_2);
+    verticalPanel.setSpacing(CLOSE_SPACING);
     myRoot.setRight(verticalPanel);
   }
 
@@ -130,15 +139,18 @@ public class GameScreen extends SuperScreen {
     HBox toolBar = new HBox();
     Button customView = makeButton("CustomCommand", e-> myPlayer.setUpCustomView());
     toolBar.getChildren().addAll(makeHomeButton(), customView);
-    toolBar.setSpacing(SPACING_1);
+    toolBar.setSpacing(WIDE_SPACING);
     return toolBar;
   }
 
   //puts all essential buttons into a vbox
   private void makeButtonPanel() {
-    Button leaderBoardButton = makeButton("LeaderBoardCommand", e -> myPlayer.setUpLeaderBoardScreen());
-    verticalPanel.getChildren().addAll(makeLogoutButton(), makeResetLevelButton(), makeResetGameButton(),
-        makeThisSaveButton(), leaderBoardButton);
+    verticalPanel.getChildren().addAll(makeLogoutButton(), makeResetLevelButton(),
+            makeThisSaveButton());
+    if (!isNewGame(myGameType)) {
+      Button leaderBoardButton = makeButton("LeaderBoardCommand", e -> myPlayer.setUpLeaderBoardScreen());
+      verticalPanel.getChildren().addAll(makeResetGameButton(), leaderBoardButton);
+    }
   }
 
   //sets event on save button on action

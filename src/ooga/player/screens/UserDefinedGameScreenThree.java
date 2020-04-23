@@ -18,7 +18,6 @@ public class UserDefinedGameScreenThree extends UserDefinedGameScreen {
     private static final String COLUMNS = "numColumns";
     private int[][] initialStates;
     GridPane myGrid = new GridPane();
-    private int maxState;
 
     public UserDefinedGameScreenThree(Player thisPlayer) {
         super(thisPlayer);
@@ -29,15 +28,13 @@ public class UserDefinedGameScreenThree extends UserDefinedGameScreen {
                 buildMap();
                 getStates();
                 myPlayer.setGameType("UserMadeGame");
-                myPlayer.getUserMadeStartButton().handle(e);
+                myPlayer.startUserDefinedGame();
             } catch (NewUserDefinedGameException p){ myErrorMessage.textProperty().setValue(p.getMessage()); }
         };
         myButtonText = START_BUTTON;
         gameLabel = GAME_LABEL;
     }
 
-
-    public void setMaxState(int max){ maxState = max;}
 
     @Override
     protected boolean additionalValidation() {
@@ -92,11 +89,18 @@ public class UserDefinedGameScreenThree extends UserDefinedGameScreen {
             if(GridPane.getRowIndex(node) != null){
                 int row = GridPane.getRowIndex(node);
                 int col = GridPane.getColumnIndex(node);
-                int val;
-                if (isInteger(((TextField) node).getText()) && (val= Integer.parseInt(((TextField) node).getText())) <= maxState)
-                    initialStates[row][col] = val;
+                Integer validState = getValidState((TextField) node);
+                if (validState!=null) initialStates[row][col] = validState;
                 else throw new NewUserDefinedGameException();
             }
         }
+    }
+
+    private Integer getValidState(TextField text){
+        if (isInteger(text.getText())){
+            int val = Integer.parseInt(text.getText());
+            if (inRange(val)) return val;
+        }
+        return null;
     }
 }

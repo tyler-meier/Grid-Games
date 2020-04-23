@@ -50,22 +50,37 @@ public class StartScreen extends SuperScreen {
         nameOfGameMapping.put(myGameNameResources.getString(key), key);
         games.getItems().add(myGameNameResources.getString(key));
     }
+    if(myPlayer.getMyUserProfile() != null && !myPlayer.getMyUserProfile().getAllSavedGamed().isEmpty()) {
+      for(String userDefinedGame : myPlayer.getMyUserProfile().getAllSavedGamed().keySet()) {
+        if(isNewGame(userDefinedGame)) {
+          games.getItems().add(userDefinedGame);
+        }
+      }
+    }
     return styleContents(gameChoice, games);
   }
 
   private VBox setUpButtons(){
-    Button startButton = makeButton("StartCommand", e -> {
+    Button makeNewGameButton = makeButton("MakeNewGame", e-> myPlayer.setUpMakeNewGameScreenImages());
+    if (isGuest()){
+      return styleContents(makeStartButton(), makeLogoutButton());
+    }
+    return styleContents(makeStartButton(), makeLogoutButton(), makeNewGameButton);
+  }
+
+  private Button makeStartButton(){
+    return makeButton("StartCommand", e -> {
       try {
-        myPlayer.setGameType(nameOfGameMapping.get(games.getValue()));
-        System.out.println(nameOfGameMapping.get(games.getValue()));
+        if(nameOfGameMapping.containsKey(games.getValue())){
+          myPlayer.setGameType(nameOfGameMapping.get(games.getValue()));
+        }
+        else{
+          myPlayer.setGameType(games.getValue());
+        }
         myPlayer.getStartGameButtonEvent().handle(e);
       } catch (NullPointerException p){
         myErrorMessage.textProperty().setValue(myStringResources.getString("BlankChoice"));
       }
     });
-    Button makeNewGameButton = makeButton("MakeNewGame", e-> {
-        myPlayer.setUpMakeNewGameScreenImages();
-    });
-    return styleContents(startButton, makeLogoutButton(), makeNewGameButton);
   }
 }

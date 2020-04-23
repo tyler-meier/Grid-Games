@@ -17,6 +17,7 @@ public class UserDefinedGameScreenTwo extends UserDefinedGameScreen {
     private static final String GAME_LABEL = "NewGameLabelTwo";
     private static final String TARGET_SCORE = "TargetScore";
     private static final String LOSS_STAT = "LossStat";
+    private static final String LIVES_LEFT = "LivesLeft";
     private VBox lossStatBox = new VBox();
 
 
@@ -36,6 +37,14 @@ public class UserDefinedGameScreenTwo extends UserDefinedGameScreen {
         };
         myButtonText = BUTTON_TEXT;
         gameLabel = GAME_LABEL;
+    }
+
+
+    public void setLossStatOptions(boolean canLoseLives){
+        if (!canLoseLives){
+            ComboBox lossStat = (ComboBox) userInputFields.get(LOSS_STAT);
+            lossStat.getItems().remove(LIVES_LEFT);
+        }
     }
 
 

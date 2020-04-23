@@ -66,6 +66,14 @@ public class XMLSingularProfileBuilder extends XMLBuilder {
       addMapEntry(HIGH_SCORE_TAG, String.format(ENTRY_SKELETON, game, user.getHighScore(game)));
     }
 
+    userAttributes.put("ImagePreference", new ArrayList<>());
+
+    for(String game : user.getAllImagePreference().keySet())
+    {
+      addMapEntry("ImagePreference", String.format(ENTRY_SKELETON, game, user.getImagePreference(game)));
+    }
+
+
   }
 
   private void createMapEntry(String key, String value)

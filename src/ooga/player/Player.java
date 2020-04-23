@@ -10,16 +10,14 @@ import ooga.data.UserProfile;
 import ooga.engine.grid.Grid;
 import ooga.player.screens.*;
 
-import java.util.Map;
-
 public class Player implements PlayerStart{
 
   private static final String TITLE = "Grid GORLS + Tyler :)";
-
   private Stage myStage;
   private LoginScreen myLoginScreen;
   private GameScreen myGameScreen;
   private CustomView myCustomView;
+  private LeaderBoardScreen myLeaderBoardScreen;
   private UserDefinedGameScreenOne myUserDefinedGameScreenOne;
   private UserDefinedGameScreenTwo myUserDefinedGameScreenTwo;
   private UserDefinedGameScreenThree myUserDefinedGameScreenThree;
@@ -29,7 +27,12 @@ public class Player implements PlayerStart{
   private UserProfile myUserProfile;
   private EventHandler<ActionEvent> myEngineEvent, myResetGameEvent, myResetLevelEvent, mySaveEvent, myNewWindowEvent, myNexLevelEvent, myUserDefEngineEvent;
   private Map<String, Integer> myLeaderBoardMap;
+  private String myModeType = "default";
 
+  /**
+   * Constructor for this class, sets up the main stage
+   * @param primaryStage main stage
+   */
   public Player(Stage primaryStage){
     myStage = primaryStage;
     myLoginScreen = new LoginScreen(this);
@@ -39,7 +42,9 @@ public class Player implements PlayerStart{
   }
 
   /**
-   *
+   * Gets saved display preference from user profile, and if there is no
+   * saved profile, return default
+   * @return String of preferred theme
    */
   @Override
   public String getStyle() {
@@ -50,7 +55,7 @@ public class Player implements PlayerStart{
   }
 
   /**
-   *
+   * Create login screen and set on stage
    */
   @Override
   public void setUpLoginScreen(){
@@ -121,39 +126,6 @@ public class Player implements PlayerStart{
     myStage.setScene(myWonGameScreen.setUpScene());
   }
 
-  public void setUpMakeNewGameScreenImages(){
-    myUserDefinedGameScreenImages = new UserDefinedGameScreenImages(this);
-    myStage.setScene(myUserDefinedGameScreenImages.setUpScene());
-  }
-
-  public void setUpMakeNewGameScreenOne(){
-    myUserDefinedGameScreenOne = new UserDefinedGameScreenOne(this);
-    myStage.setScene(myUserDefinedGameScreenOne.setUpScene());
-  }
-
-  public void setUpMakeNewGameScreenTwo(){
-    myUserDefinedGameScreenTwo = new UserDefinedGameScreenTwo(this);
-    myStage.setScene(myUserDefinedGameScreenTwo.setUpScene());
-  }
-
-  public void setUpMakeNewGameScreenThree(){
-    myUserDefinedGameScreenThree = new UserDefinedGameScreenThree(this);
-    myStage.setScene(myUserDefinedGameScreenThree.setUpScene());
-    myUserDefinedGameScreenThree.setMaxState(myUserDefinedGameScreenOne.getMaxState());
-  }
-
-  public Map<String,String> getUserMadeEngineAttributesMap(){
-    return myUserDefinedGameScreenOne.getUserSelectedAttributes();
-  }
-
-  public Map<String, String> getUserMadeGameAttributesMap(){
-    return myUserDefinedGameScreenTwo.getUserSelectedAttributes();
-  }
-
-  public int[][] getUserDefinedInitialStates(){
-    return myUserDefinedGameScreenThree.getUserSelectedInitialStates();
-  }
-
   /**
    *
    */
@@ -163,9 +135,99 @@ public class Player implements PlayerStart{
     myCustomView.display();
   }
 
+  /**
+   *
+   */
+  @Override
   public void setUpLeaderBoardScreen(){
-    LeaderBoardScreen myLeaderBoardScreen = new LeaderBoardScreen(this);
-    myLeaderBoardScreen.setUpScene();
+    myLeaderBoardScreen = new LeaderBoardScreen(this);
+    myLeaderBoardScreen.setUpScene(myModeType);
+  }
+
+  /**
+   *
+   */
+  @Override
+  public void setUpMakeNewGameScreenImages(){
+    myUserDefinedGameScreenImages = new UserDefinedGameScreenImages(this);
+    myStage.setScene(myUserDefinedGameScreenImages.setUpScene());
+  }
+
+  /**
+   *
+   */
+  @Override
+  public void setUpMakeNewGameScreenOne(){
+    myUserDefinedGameScreenOne = new UserDefinedGameScreenOne(this);
+    myStage.setScene(myUserDefinedGameScreenOne.setUpScene());
+    myUserDefinedGameScreenOne.setStateRange(myUserDefinedGameScreenImages.getStateRange());
+  }
+
+  /**
+   *
+   */
+  @Override
+  public void setUpMakeNewGameScreenTwo(){
+    myUserDefinedGameScreenTwo = new UserDefinedGameScreenTwo(this);
+    myStage.setScene(myUserDefinedGameScreenTwo.setUpScene());
+    boolean canLoseLives = myUserDefinedGameScreenImages.isMinesweeper() && myUserDefinedGameScreenOne.hasHiddenCells();
+    myUserDefinedGameScreenTwo.setLossStatOptions(canLoseLives);
+  }
+
+  /**
+   *
+   */
+  @Override
+  public void setUpMakeNewGameScreenThree(){
+    myUserDefinedGameScreenThree = new UserDefinedGameScreenThree(this);
+    myStage.setScene(myUserDefinedGameScreenThree.setUpScene());
+    myUserDefinedGameScreenThree.setStateRange(myUserDefinedGameScreenImages.getStateRange());
+  }
+
+  /**
+   *
+   * @return
+   */
+  @Override
+  public Map<String,String> getUserMadeEngineAttributesMap(){
+    return myUserDefinedGameScreenOne.getUserSelectedAttributes();
+  }
+
+  /**
+   *
+   * @return
+   */
+  @Override
+  public Map<String, String> getUserMadeGameAttributesMap(){
+    return myUserDefinedGameScreenTwo.getUserSelectedAttributes();
+  }
+
+  /**
+   *
+   * @return
+   */
+  @Override
+  public int[][] getUserDefinedInitialStates(){
+    return myUserDefinedGameScreenThree.getUserSelectedInitialStates();
+  }
+
+  /**
+   * Sets the event to start the user define game
+   * @param event the event to do
+   */
+  @Override
+  public void setUserMadeStartButton(EventHandler<ActionEvent> event){
+    myUserDefEngineEvent = event;
+  }
+
+  /**
+   * Starts the user created game and sets game type to title and sets the images
+   */
+  @Override
+  public void startUserDefinedGame(){
+    myUserProfile.setImagePreferences(myUserDefinedGameScreenOne.getTitle(), myUserDefinedGameScreenImages.getImagePath());
+    setGameType(myUserDefinedGameScreenOne.getTitle());
+    myUserDefEngineEvent.handle(new ActionEvent());
   }
 
   /**
@@ -193,7 +255,6 @@ public class Player implements PlayerStart{
   @Override
   public void setUserLogin(UserLogin userLogin){
     myUserLogin = userLogin;
-
   }
 
   /**
@@ -232,7 +293,6 @@ public class Player implements PlayerStart{
     myEngineEvent = event;
   }
 
-
   /**
    *
    * @return
@@ -240,14 +300,6 @@ public class Player implements PlayerStart{
   @Override
   public EventHandler<ActionEvent> getStartGameButtonEvent(){
     return myEngineEvent;
-  }
-
-  public void setUserMadeStartButton(EventHandler<ActionEvent> event){
-    myUserDefEngineEvent = event;
-  }
-
-  public EventHandler<ActionEvent> getUserMadeStartButton(){
-    return myUserDefEngineEvent;
   }
 
   /**
@@ -362,7 +414,7 @@ public class Player implements PlayerStart{
    */
   @Override
   public void setMode(String modeType) {
-    //TODO: get rid of redundant code
+    myModeType = modeType;
     myCustomView.setStyle(modeType);
     myGameScreen.setStyle(modeType);
   }
@@ -372,7 +424,7 @@ public class Player implements PlayerStart{
    * @param type the current game chosen to  be played
    */
   @Override
-  public void setGameType(String type){  //TODO add to api
+  public void setGameType(String type){
     myGameType = type;
   }
 
@@ -413,94 +465,4 @@ public class Player implements PlayerStart{
   public void setErrorMessage(StringProperty errorMessage){
     myLoginScreen.setError(errorMessage);
   };
-
-//    /**
-//   * An instance variable boolean keeps track of whether most recent progress of player is saved.
-//   * The boolean is returned in this method.
-//   * @return
-//   */
-//  @Override
-//  public boolean isGameSaved(){
-//    return true;
-//  };
-
-//  /**
-//   * When a player creates a new profile, their password is saved as a String instance variable playerPassword.
-//   * The String is returned in this method.
-//   * @return
-//   */
-//  @Override
-//  public String getPassword(){
-//    return "";
-//  };
-
-//  /**
-//   * Takes in name of XMLfile that corresponds to the progress of the player and displays view
-//   * @param fileName
-//   */
-//  @Override
-//  public void loadProfile(String fileName){ };
-
-//  /**
-//   * Check to see if the login actually works
-//   * @param username the username for the profile
-//   * @param password the password of the profile
-//   * @return
-//   */
-//  @Override
-//  public boolean tryLogin(String username, String password){
-//    return true;
-//  };
-
-//  /**
-//   * when the user wants to create a new profile
-//   * @param username the username the user wants to use
-//   * @param password the password the user wants to use
-//   */
-//  @Override
-//  public void createNewProfile(String username, String password){
-//
-//  };
-
-//  /**
-//   * starts a new game given the information of the default data method
-//   * @param defaultData default data for the given game
-//   */
-//  @Override
-//  public void startNewGame(DataObject defaultData){
-//
-//  };
-
-//  /**
-//   * starts a game based off of the saved data
-//   * @param myData the data that is for a saved game
-//   */
-//  @Override
-//  public  void loadSaveGame(DataObject myData){
-//
-//  };
-
-//  /**
-//   * sets the profile info of each player
-//   */
-//  @Override
-//  public void setProfileInfo(){
-//
-//  };
-
-//  /**
-//   * gets the preferences of the user (dark mode, colors, etc)
-//   */
-//  @Override
-//  public void getPreferences(){
-//
-//  };
-
-//  /**
-//   * loads the profile and the given info based off of the username chosen
-//   */
-//  @Override
-//  public void loadProfile(){
-//
-//  };
 }

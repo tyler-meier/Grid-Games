@@ -22,6 +22,7 @@ public class UserDefinedGameScreenImages extends UserDefinedGameScreen {
     private static final String GAME_LABEL = "ChooseImage";
     private static final String IMAGE_GROUP = "ImageGroup";
     private static final String IMAGERESOURCES = "src/ooga/player/Resources/images/";
+    private static final String MINESWEEPER = "Minesweeper";
     private static final int SPACING = 20;
     private static final int WIDTH = 50;
     private VBox images = new VBox();
@@ -31,8 +32,8 @@ public class UserDefinedGameScreenImages extends UserDefinedGameScreen {
         super(thisPlayer);
         myKeysResources = ResourceBundle.getBundle(KEYS_RESOURCES_PATH + KEY);
         myButtonEvent = event -> {
-            System.out.println("nice");
             try{
+                buildMap();
                 myPlayer.setUpMakeNewGameScreenOne();
             }
             catch(NewUserDefinedGameException p){
@@ -44,6 +45,8 @@ public class UserDefinedGameScreenImages extends UserDefinedGameScreen {
     }
 
     public String getImagePath() { return imagePath; }
+    public int[] getStateRange() { return stateRange; }
+    public boolean isMinesweeper() { return imagePath.equals(MINESWEEPER); }
 
     @Override
     protected void screenSpecificSetup() {
@@ -54,6 +57,7 @@ public class UserDefinedGameScreenImages extends UserDefinedGameScreen {
             String newKey = groupChoice.getSelectionModel().getSelectedItem().toString();
             String path = myKeysResources.getString(newKey);
             images.getChildren().clear();
+            stateRange = new int[]{-1, -1};
             buildImages(path);
             imagePath = path;
         });
@@ -66,13 +70,8 @@ public class UserDefinedGameScreenImages extends UserDefinedGameScreen {
         List<String> keys = Collections.list(imagePathResources.getKeys());
         try {
             for (String key : keys) {
-                String imageName = imagePathResources.getString(key);
-                String imagePath = IMAGERESOURCES + imageName + ".png";
-                FileInputStream input = new FileInputStream(imagePath);
-                Image image = new Image(input);
-                ImageView view = new ImageView(image);
-                view.setPreserveRatio(true);
-                view.setFitWidth(WIDTH);
+                setMinMax(key);
+                ImageView view = buildImageView(imagePathResources.getString(key));
                 HBox box = new HBox();
                 box.setAlignment(Pos.CENTER);
                 box.setSpacing(SPACING);
@@ -85,8 +84,24 @@ public class UserDefinedGameScreenImages extends UserDefinedGameScreen {
         }
     }
 
+    private void setMinMax(String value){
+        int intValue = Integer.parseInt(value);
+        if (stateRange[0] == -1 || intValue<stateRange[0]) stateRange[0] = intValue;
+        if (stateRange[1] == -1 || intValue>stateRange[1]) stateRange[1] = intValue;
+    }
+
+    private ImageView buildImageView(String imageName) throws FileNotFoundException{
+        String imagePath = IMAGERESOURCES + imageName + ".png";
+        FileInputStream input = new FileInputStream(imagePath);
+        Image image = new Image(input);
+        ImageView view = new ImageView(image);
+        view.setPreserveRatio(true);
+        view.setFitWidth(WIDTH);
+        return view;
+    }
+
     @Override
     protected boolean additionalValidation() {
-        return false;
+        return true;
     }
 }
