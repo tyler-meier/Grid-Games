@@ -61,10 +61,10 @@ public class StartScreen extends SuperScreen {
   }
 
   private VBox setUpButtons(){
-    Button makeNewGameButton = makeButton("MakeNewGame", e-> myPlayer.setUpMakeNewGameScreenImages());
     if (isGuest()){
       return styleContents(makeStartButton(), makeLogoutButton());
     }
+    Button makeNewGameButton = makeButton("MakeNewGame", e-> myPlayer.setUpMakeNewGameScreenImages());
     return styleContents(makeStartButton(), makeLogoutButton(), makeNewGameButton);
   }
 
