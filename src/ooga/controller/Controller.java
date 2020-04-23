@@ -5,9 +5,9 @@ import javafx.event.EventHandler;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import ooga.data.Data;
-import ooga.engine.Engine;
 import ooga.player.Player;
 import java.util.Map;
+import ooga.engine.Engine;
 
 
 public class Controller extends Application {
@@ -53,7 +53,7 @@ public class Controller extends Application {
         player.setResetLevelButton(goToNewLevel("Guest", data, player, engine, 0));
         Map<String, Integer> highScores = data.getHighScores(type);
         player.setHighScoreMap(highScores);
-        player.setResetGameButton(goToNewLevel(username, data, player, engine, -1));
+        player.setResetGameButton(goToNewLevel("Guest", data, player, engine, -1));
         player.setNextLevel(goToNewLevel(username, data, player, engine, 1));
         player.setUpGameScreen(engine.getGrid(), data.getErrorMessage());
     }

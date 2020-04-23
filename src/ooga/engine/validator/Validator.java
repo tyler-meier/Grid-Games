@@ -7,6 +7,11 @@ import ooga.engine.matchFinder.MatchFinder;
 
 import java.util.List;
 
+/**
+ * This class represents the general Validator, which checks if a move
+ * made by the player is considered to be valid for the current game.
+ * @author Tanvi Pabby and Natalie Novitsky.
+ */
 public abstract class Validator {
     protected GameProgressManager myProgressManager;
     protected int time = 1000;

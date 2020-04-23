@@ -12,9 +12,13 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import ooga.player.Player;
 import ooga.player.exceptions.NewUserDefinedGameException;
-
 import java.util.*;
 
+/**
+ * Super screen for all of the screens related to making a new
+ * user defined game.
+ * @author Natalie Novitsky.
+ */
 public abstract class UserDefinedGameScreen extends SuperScreen {
     protected static final String SPACE = " ";
     protected static final String KEYS_RESOURCES_PATH = "resources.";
@@ -35,6 +39,10 @@ public abstract class UserDefinedGameScreen extends SuperScreen {
         newGameStringsResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + STRINGS_RESOURCES_PATH);
     }
 
+    /**
+     * Sets up the scene for the appropriate user defined game screen.
+     * @return
+     */
     public Scene setUpScene(){
         Label newGameLabel = new Label(newGameStringsResources.getString(gameLabel));
         inputField = buildInputFields();
@@ -45,6 +53,18 @@ public abstract class UserDefinedGameScreen extends SuperScreen {
         screenSpecificSetup();
         return styleScene(newGameLabel, myGameScroller, nextButton);
     }
+
+    /**
+     * Returns a map of the user selected game attributes for their new game.
+     * @return
+     */
+    public Map<String, String> getUserSelectedAttributes() { return selectedAttributes; }
+
+    /**
+     * Sets the range of the allowed states for the user's new game.
+     * @param range
+     */
+    public void setStateRange(int[] range){ stateRange = range; }
 
     protected abstract void screenSpecificSetup();
 
@@ -74,8 +94,6 @@ public abstract class UserDefinedGameScreen extends SuperScreen {
         return myVBox;
     }
 
-    public Map<String, String> getUserSelectedAttributes() { return selectedAttributes; }
-    public void setStateRange(int[] range){ stateRange = range; }
 
     protected void buildMap(){
         for (String key:userInputFields.keySet()){

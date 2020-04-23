@@ -12,6 +12,11 @@ import ooga.player.exceptions.NewUserDefinedGameException;
 import java.awt.*;
 import java.util.ResourceBundle;
 
+/**
+ * Screen where the user selects the game attributes of their
+ * new game.
+ * @author Tanvi Pabby and Natalie Novitsky.
+ */
 public class UserDefinedGameScreenTwo extends UserDefinedGameScreen {
     private static final String MY_KEYS = "GameKeys";
     private static final String BUTTON_TEXT = "Next";
@@ -32,6 +37,7 @@ public class UserDefinedGameScreenTwo extends UserDefinedGameScreen {
                 buildMap();
                 //TODO: can we standardize?
                 myPlayer.setUpMakeNewGameScreenThree();
+
             }
             catch(NewUserDefinedGameException p){
                 myErrorMessage.textProperty().setValue(p.getMessage());
@@ -46,12 +52,17 @@ public class UserDefinedGameScreenTwo extends UserDefinedGameScreen {
         selectedAttributes.put(COLUMNS, String.valueOf(p.y));
     }
 
+    /**
+     * Sets the loss stat of the new game.
+     * @param canLoseLives
+     */
     public void setLossStatOptions(boolean canLoseLives){
         if (!canLoseLives){
             ComboBox lossStat = (ComboBox) userInputFields.get(LOSS_STAT);
             lossStat.getItems().remove(LIVES_LEFT);
         }
     }
+
 
     @Override
     protected void screenSpecificSetup() {
@@ -72,5 +83,6 @@ public class UserDefinedGameScreenTwo extends UserDefinedGameScreen {
             if (kid instanceof TextField && !isInteger(((TextField) kid).getText())) return false;
         }
         return true;
+
     }
 }

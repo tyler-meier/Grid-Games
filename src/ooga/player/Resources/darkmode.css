@@ -70,7 +70,7 @@
 .combo-box .list-cell{
     -fx-font-size: 12pt;
     -fx-font-family: "Futura";
-    -fx-text-fill: #FF96F3;
+    -fx-text-fill: gray;
     -fx-background-color: white;
     -fx-padding: 1 10;
 }
@@ -79,10 +79,10 @@
     -fx-padding: 0 2;
 }
 .combo-box-popup .list-cell:filled:selected {
-    -fx-background-color: #F7D5F3;
-    -fx-text-fill: #FF11E4;
+    -fx-background-color: gray;
+    -fx-text-fill: black;
 }
 .combo-box-popup .list-cell:filled:hover{
-    -fx-background-color: #F7D5F3;
-    -fx-text-fill: #FF11E4;
+    -fx-background-color: gray;
+    -fx-text-fill: black;
 }

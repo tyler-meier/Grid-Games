@@ -5,6 +5,10 @@ import ooga.engine.gridCreator.Grid;
 
 import java.util.List;
 
+/**
+ * This class represents the general class for finding matches in a grid.
+ * @author Tanvi Pabby and Natalie Novitsky.
+ */
 public abstract class MatchFinder {
     //FIXME: WE NEED TO GET A PARAMETER MATCH LENGTH
     private static final int DEFAULT_MATCH_LENGTH = 3;

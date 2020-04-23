@@ -12,6 +12,7 @@ import java.util.Map;
  * The purpose of this class is to initialize the correct
  * components of the engine for the given game. This will be done using
  * reflection, as well as information from the Data component of the game.
+ * @author Tanvi Pabby
  */
 public class ComponentCreator {
     private static final String MATCH_FINDER_PATH = "ooga.engine.matchFinder.";

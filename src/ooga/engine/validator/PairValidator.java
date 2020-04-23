@@ -6,6 +6,12 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/**
+ * This class represents the validator for the games where
+ * the cells are 'opened' once they are selected and the open cells must
+ * be matching.
+ * @author Natalie Novitsky and Tanvi Pabby.
+ */
 public class PairValidator extends Validator {
 
     @Override

@@ -6,6 +6,11 @@ import ooga.engine.gridCreator.Grid;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class finds matches by checking the cells that are
+ * neighbors of the cell that is currently open.
+ * @author Natalie Novitsky and Tanvi Pabby.
+ */
 public class FlippedFinder extends MatchFinder {
 
     @Override

@@ -58,7 +58,6 @@ public class Grid {
      * @param initialStates
      */
     public void setNewGame(int[][] initialStates, Map<String, String> gameAttributes, boolean[][] openCells){
-        // this method does not need try catch, as the error is caught in the constructor of GameProgressManager
         if (myGrid==null) myGrid = new Cell[initialStates.length][initialStates[0].length];
         setupGridStates(initialStates, openCells);
 

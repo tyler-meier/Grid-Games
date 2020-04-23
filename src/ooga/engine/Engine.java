@@ -13,6 +13,7 @@ import java.util.Map;
 /**
  * The purpose of this class is to manage all of the functions of the
  * engine component of the game.
+ * @author Tanvi Pabby and Natalie Novitsky.
  */
 public class Engine implements EngineBuilder {
     private Grid myGrid;
@@ -54,7 +55,9 @@ public class Engine implements EngineBuilder {
     @Override
     public int[][] getGridConfiguration() { return myGrid.getGridConfiguration(); }
 
+    @Override
     public int getLevel() { return myGrid.getLevel(); }
 
+    @Override
     public boolean[][] getOpenCellConfiguration() { return myGrid.getOpenCellConfiguration(); }
 }

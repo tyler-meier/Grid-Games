@@ -17,6 +17,7 @@ import ooga.player.Player;
 public class CustomView extends SuperScreen {
 
     private static final String IMAGE_RESOURCES = "src/ooga/player/Resources/images/preferences/";
+    private static final String TITLE = "Preferences";
     private static final int IMAGE_SIZE = 80;
     private static final int SPACING = 6;
 
@@ -29,19 +30,12 @@ public class CustomView extends SuperScreen {
     }
 
     /**
-     * Sets up the start/home scene, with the labels, combo box, and buttons
-     * @return the final completed scene to be shown
+     * Displays scene on stage
      */
-    public Scene setUpScene(){
-        Node panel = makePanel();
-        return styleScene(panel);
-    }
-
     public void display() {
         Stage popUpWindow = new Stage();
         popUpWindow.initModality(Modality.APPLICATION_MODAL);
-        popUpWindow.setTitle("Preferences");
-
+        popUpWindow.setTitle(TITLE);
         popUpWindow.setScene(finishStyling(makePanel()));
         popUpWindow.showAndWait();
     }
@@ -67,16 +61,22 @@ public class CustomView extends SuperScreen {
             FileInputStream input = new FileInputStream(imagePath);
             Image image = new Image(input);
             Button mode = makeButton(modeType, e-> myPlayer.setMode(modeType));
-            ImageView modeImageView = new ImageView(image);
-            modeImageView.setPreserveRatio(true);
-            modeImageView.setFitHeight(IMAGE_SIZE);
-            modeImageView.setFitWidth(IMAGE_SIZE);
+            ImageView modeImageView = getImageView(image);
             mode.setGraphic(modeImageView);
             return mode;
         } catch (FileNotFoundException e) {
             myErrorMessage.textProperty().setValue(myStringResources.getString("NoStyleError"));
         }
         return null;
+    }
+
+    //style given ImageView
+    private ImageView getImageView(Image image) {
+        ImageView imageView = new ImageView(image);
+        imageView.setPreserveRatio(true);
+        imageView.setFitHeight(IMAGE_SIZE);
+        imageView.setFitWidth(IMAGE_SIZE);
+        return imageView;
     }
 
 }

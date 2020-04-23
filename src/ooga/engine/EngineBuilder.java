@@ -38,5 +38,11 @@ public interface EngineBuilder {
      */
     boolean[][] getOpenCellConfiguration();
 
+    /**
+     * Returns the current level of the game that is being played.
+     * @return
+     */
+    int getLevel();
+
 
 }
