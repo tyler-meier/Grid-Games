@@ -63,6 +63,7 @@ public class Grid {
         myProgressManager = new GameProgressManager(gameAttributes, myErrorMessage);
         myValidator.setMyProgressManager(myProgressManager);
         numSelected=0;
+        //TODO handle matched cells in the beginning
     }
 
     /**
@@ -215,7 +216,6 @@ public class Grid {
 
     private void openMatchedCells(List<Cell> matchedCells){
         for (Cell cell:matchedCells) {
-            System.out.println(cell.getMyState());
             cell.isOpen().set(true);
             if (cell.getMyState() == BOMB_STATE) myProgressManager.decrementLives();
             myProgressManager.updateScore(cell.getScore());
