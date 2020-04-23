@@ -38,26 +38,29 @@ public class FlippedFinder extends MatchFinder {
         for (int r = 0; r<rows; r++){
             for (int c=0; c<cols; c++){
                 cell = grid.getCell(r, c);
-                if (cell.isOpen().get() && cell.getMyState()==0) cellsToOpen.addAll(getUnopenedNeighbors(cell, grid));
+                if (cell.isOpen().get() && cell.getMyState()==0) getUnopenedNeighbors(cell, grid, cellsToOpen);
             }
         }
         return cellsToOpen;
     }
 
-    private List<Cell> getUnopenedNeighbors(Cell cell, Grid grid){
+    private List<Cell> getUnopenedNeighbors(Cell cell, Grid grid, List<Cell> cellsToOpen){
         List<Cell> neighbors = new ArrayList<>();
         int row = cell.getRow();
         int col = cell.getColumn();
         Cell next = grid.getCell(row-1, col);
-        if (next!=null && !next.isOpen().get()) neighbors.add(next);
+        addCellToList(next, cellsToOpen);
         next = grid.getCell(row+1, col);
-        if (next!=null && !next.isOpen().get()) neighbors.add(next);
+        addCellToList(next, cellsToOpen);
         for (int r = row-1; r<=row+1; r++){
             next = grid.getCell(r, col+1);
-            if (next!=null && !next.isOpen().get()) neighbors.add(next);
+            addCellToList(next, cellsToOpen);
             next = grid.getCell(r, col-1);
-            if (next!=null && !next.isOpen().get()) neighbors.add(next);
-        }
+            addCellToList(next, cellsToOpen);        }
         return neighbors;
+    }
+
+    private void addCellToList(Cell cell, List<Cell> list){
+        if (cell!=null && !cell.isOpen().get() && !list.contains(cell)) list.add(cell);
     }
 }
