@@ -12,7 +12,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import ooga.player.Player;
 import ooga.player.exceptions.NewUserDefinedGameException;
-
 import java.util.*;
 
 public abstract class UserDefinedGameScreen extends SuperScreen {

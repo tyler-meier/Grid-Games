@@ -54,7 +54,7 @@ public class UserDefinedGameScreenOne extends UserDefinedGameScreen {
         inputField.getChildren().clear();
         addGameNameField();
         inputField.getChildren().addAll(labelMap.get(POINTS), userInputFields.get(POINTS), labelMap.get(MAX_STATE), userInputFields.get(MAX_STATE), labelMap.get(NO_HIDDEN_CELLS), userInputFields.get(NO_HIDDEN_CELLS));
-        ComboBox noHiddenCells = (ComboBox) userInputFields.get(NO_HIDDEN_CELLS);
+        ComboBox<String> noHiddenCells = (ComboBox<String>) userInputFields.get(NO_HIDDEN_CELLS);
         noHiddenCells.getSelectionModel().selectedItemProperty().addListener(e->{
             if (noHiddenCells.getSelectionModel().getSelectedItem().equals(FALSE)){
                 ((ComboBox) userInputFields.get(VALIDATOR)).setValue(PAIR);

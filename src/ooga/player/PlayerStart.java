@@ -61,6 +61,60 @@ public interface PlayerStart {
 
   /**
    *
+   */
+  void setUpLeaderBoardScreen();
+
+  /**
+   *
+   */
+  void setUpMakeNewGameScreenImages();
+
+  /**
+   *
+   */
+  void setUpMakeNewGameScreenOne();
+
+  /**
+   *
+   */
+  void setUpMakeNewGameScreenTwo();
+
+  /**
+   *
+   */
+  void setUpMakeNewGameScreenThree();
+
+  /**
+   *
+   * @return
+   */
+  Map<String,String> getUserMadeEngineAttributesMap();
+
+  /**
+   *
+   * @return
+   */
+  Map<String, String> getUserMadeGameAttributesMap();
+
+  /**
+   *
+   * @return
+   */
+  int[][] getUserDefinedInitialStates();
+
+  /**
+   * Sets the event to start the user define game
+   * @param event the event to do
+   */
+  void setUserMadeStartButton(EventHandler<ActionEvent> event);
+
+  /**
+   * Starts the user created game and sets game type to title and sets the images
+   */
+  void startUserDefinedGame();
+
+  /**
+   *
    * @param newWindowAction
    */
   void setNewWindow(EventHandler<ActionEvent> newWindowAction);
@@ -215,65 +269,4 @@ public interface PlayerStart {
    * @param errorMessage the message that is to be displayed
    */
   void setErrorMessage(StringProperty errorMessage);
-
-//    /**
-//   * An instance variable boolean keeps track of whether most recent progress of player is saved.
-//   * The boolean is returned in this method.
-//   * @return
-//   */
-//  boolean isGameSaved();
-
-//  /**
-//   * When a player creates a new profile, their password is saved as a String instance variable playerPassword.
-//   * The String is returned in this method.
-//   * @return
-//   */
-//  String getPassword();
-//
-//  /**
-//   * Takes in name of XMLfile that corresponds to the progress of the player and displays view
-//   * @param fileName
-//   */
-//  void loadProfile(String fileName);
-//
-//  /**
-//   * Check to see if the login actually works
-//   * @param username the username for the profile
-//   * @param password the password of the profile
-//   */
-//  boolean tryLogin(String username, String password);
-//
-//  /**
-//   * when the user wants to create a new profile
-//   * @param username the username the user wants to use
-//   * @param password the password the user wants to use
-//   */
-//  void createNewProfile(String username, String password);
-//
-//  /**
-//   * starts a new game given the information of the default data method
-//   * @param defaultData default data for the given game
-//   */
-//  void startNewGame(DataObject defaultData);
-//
-//  /**
-//   * starts a agame based off of the saved data
-//   * @param myData the data that is for a saved game
-//   */
-//  void loadSaveGame(DataObject myData);
-//
-//  /**
-//   * sets the profile info of each player
-//   */
-//  void setProfileInfo();
-//
-//  /**
-//   * gets the preferences of the user (dark mode, colors, etc)
-//   */
-//  void getPreferences();
-//
-//  /**
-//   * loads the profile and the given info based off of the username chosen
-//   */
-//  void loadProfile();
 }
