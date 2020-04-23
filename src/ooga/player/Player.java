@@ -7,7 +7,8 @@ import javafx.beans.property.StringProperty;
 import javafx.stage.Stage;
 import ooga.controller.UserLogin;
 import ooga.data.UserProfile;
-import ooga.engine.gridCreator.Grid;
+import ooga.engine.Grid;
+import ooga.player.exceptions.ImageNotFoundException;
 import ooga.player.screens.*;
 
 /**
@@ -97,7 +98,7 @@ public class Player implements PlayerStart{
    * @param dataError the error message to be displayed if an error occurs
    */
   @Override
-  public void setUpGameScreen(Grid backendGrid, StringProperty dataError){
+  public void setUpGameScreen(Grid backendGrid, StringProperty dataError) throws ImageNotFoundException {
     myGameScreen = new GameScreen(myGameType, this);
     myStage.setScene(myGameScreen.makeScene());
     myGameScreen.setGrid(backendGrid);
@@ -216,25 +217,6 @@ public class Player implements PlayerStart{
   @Override
   public int[][] getUserDefinedInitialStates(){
     return myUserDefinedGameScreenThree.getUserSelectedInitialStates();
-  }
-
-  /**
-   * Sets the event to start the user defined game
-   * @param event the event to do
-   */
-  @Override
-  public void setUserMadeStartButton(EventHandler<ActionEvent> event){
-    myUserDefEngineEvent = event;
-  }
-
-  /**
-   * Starts the user created game and sets game type to title and sets the images
-   */
-  @Override
-  public void startUserDefinedGame(){
-    myUserProfile.setImagePreferences(myUserDefinedGameScreenOne.getTitle(), myUserDefinedGameScreenImages.getImagePath());
-    setGameType(myUserDefinedGameScreenOne.getTitle());
-    myUserDefEngineEvent.handle(new ActionEvent());
   }
 
   /**

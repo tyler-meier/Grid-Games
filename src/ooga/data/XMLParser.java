@@ -169,6 +169,7 @@ public class XMLParser {
 
     }catch(Exception e)
     {
+      //TODO: remove print lines
       System.out.println("tag " + tagName + " could not be read");
       return defaultVal;
     }
@@ -182,6 +183,7 @@ public class XMLParser {
       try {
         ret.add(node.getTextContent());
       } catch (Exception e) {
+        //TODO: remove unused error
         ParserException error = new ParserException(e, tagName);
         //System.out.println(error.getMessage());
         ret.add(defaultVal);

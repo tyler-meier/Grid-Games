@@ -35,8 +35,6 @@ public class UserDefinedGameScreenOne extends UserDefinedGameScreen {
     private static final int MIN_NUM_SELECTED = 2;
     private TextField titleField = new TextField();
 
-    private TextField titleField = new TextField();
-
     /**
      * Constructor for this screen, sets up to allow the  user to choose attributes of the game
      * @param thisPlayer current player

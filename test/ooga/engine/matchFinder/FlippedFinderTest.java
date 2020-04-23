@@ -3,7 +3,7 @@ package ooga.engine.matchFinder;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import ooga.engine.Cell;
-import ooga.engine.gridCreator.Grid;
+import ooga.engine.Grid;
 import ooga.engine.validator.PairValidator;
 import ooga.engine.validator.Validator;
 import org.junit.jupiter.api.Test;
@@ -30,8 +30,7 @@ class FlippedFinderTest {
     void makeMatches() {
         Validator validator = new PairValidator();
         MatchFinder matchFinder = new FlippedFinder();
-        StringProperty errorMessage = new SimpleStringProperty();
-        Grid myGrid = new Grid(gameAttributes, validator, matchFinder, errorMessage);
+        Grid myGrid = new Grid(gameAttributes, validator, matchFinder);
         myGrid.setNewGame(initialConfig,gameAttributes,null);
         myGrid.getCell(0,0).isOpen().set(true);
         List<Cell> ret = new ArrayList<>();

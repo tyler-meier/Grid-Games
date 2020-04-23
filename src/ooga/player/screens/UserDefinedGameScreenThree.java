@@ -11,7 +11,7 @@ import java.awt.*;
 import java.util.ResourceBundle;
 
 /**
- * Screen where user can select the characteristics of the grid of their new game.
+ * Screen where user can build a grid for their new game.
  * @author Tanvi Pabby and Natalie Novitsky.
  */
 public class UserDefinedGameScreenThree extends UserDefinedGameScreen {
@@ -26,6 +26,10 @@ public class UserDefinedGameScreenThree extends UserDefinedGameScreen {
     private int[][] initialStates;
     private GridPane myGrid = new GridPane();
 
+    /**
+     * Sets up screen for building grid for a user defined game.
+     * @param thisPlayer to call next screen
+     */
     public UserDefinedGameScreenThree(Player thisPlayer) {
         super(thisPlayer);
         myKeysResources = ResourceBundle.getBundle(KEYS_RESOURCES_PATH + MY_KEYS);
@@ -33,7 +37,6 @@ public class UserDefinedGameScreenThree extends UserDefinedGameScreen {
             try {
                 buildMap();
                 getStates();
-                myPlayer.setGameType(USER_MADE);
                 myPlayer.startUserDefinedGame();
             } catch (NewUserDefinedGameException p){ myErrorMessage.textProperty().setValue(p.getMessage()); }
         };
@@ -42,14 +45,16 @@ public class UserDefinedGameScreenThree extends UserDefinedGameScreen {
     }
 
     /**
-     * @return the selected initial states of the new game.
+     * Gets the selected initial states of the new game.
+     * @return config or null if random generator is selected
      */
     public int[][] getUserSelectedInitialStates(){
         return initialStates;
     }
+
     /**
      * Gets the size of the grid for the new game.
-     * @return
+     * @return Point with x=rows, y=cols
      */
     public Point getGridSize(){
         int rows = Integer.parseInt(selectedAttributes.get(ROWS));
@@ -76,6 +81,10 @@ public class UserDefinedGameScreenThree extends UserDefinedGameScreen {
                 myErrorMessage.textProperty().setValue(p.getMessage());
             }
         });
+        buildGridTypeListener(makeGridButton);
+    }
+
+    private void buildGridTypeListener(Button makeGridButton){
         ComboBox gridType = (ComboBox) userInputFields.get(GRID_TYPE);
         gridType.getSelectionModel().selectedItemProperty().addListener(e->{
             String choice = gridType.getSelectionModel().getSelectedItem().toString();
@@ -87,6 +96,7 @@ public class UserDefinedGameScreenThree extends UserDefinedGameScreen {
             }
         });
     }
+
     private void makeGrid(){
         try{
             buildMap();
@@ -95,7 +105,6 @@ public class UserDefinedGameScreenThree extends UserDefinedGameScreen {
         }
         myGrid.getChildren().clear();
         myGrid.setGridLinesVisible(true);
-        //TODO: hard coded keys :(
         Point p = getGridSize();
         initialStates = new int[p.x][p.y];
         for(int row = 0; row < p.x; row++){

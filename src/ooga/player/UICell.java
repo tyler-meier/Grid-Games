@@ -68,24 +68,6 @@ public class UICell {
         return myImageView;
     }
 
-    private void setupImageMap(){
-        List<String> keys = Collections.list(myResources.getKeys());
-        try {
-            for (String key : keys) {
-                String imageName = myResources.getString(key);
-                String imagePath = IMAGE_RESOURCES + imageName + ".png";
-                FileInputStream input = new FileInputStream(imagePath);
-                Image image = new Image(input);
-                imageMap.put(Integer.parseInt(key), image);
-            }
-            String imagePath = IMAGE_RESOURCES + HIDDEN_IMAGE_PATH + ".png";
-            FileInputStream input = new FileInputStream(imagePath);
-            hiddenImage = new Image(input);
-        } catch (FileNotFoundException e){
-            //TODO: deal with exception later
-        }
-    }
-
     private void setupImageView(int cellHeight, int cellWidth){
         myImageView = new ImageView(hiddenImage);
         myImageView.setPreserveRatio(true);
@@ -99,7 +81,6 @@ public class UICell {
          else myImageView.setImage(hiddenImage);
     }
 
-    //TODO: get either integer or cell to retrieve information about the cell type, return image view
     private Image getImage(){
         return imageMap.get(state.getValue());
     }

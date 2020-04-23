@@ -6,7 +6,12 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import ooga.engine.gridCreator.Grid;
+import ooga.engine.Grid;
+import ooga.player.exceptions.ImageNotFoundException;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.util.*;
 
 /**
  * Class that creates the front end grid/the UI grid and what is shown. It takes in the backend grid
@@ -39,12 +44,11 @@ public class GridView {
      *               whether to freeze them or not
      * @return the final grid pane that is created for the front end
      */
-    public GridPane setGrid(Grid backendGrid, BooleanProperty paused){
+    public GridPane setGrid(Grid backendGrid, BooleanProperty paused) throws ImageNotFoundException {
         GridPane myGrid = new GridPane();
         myGrid.setGridLinesVisible(true);
         Map<Integer, Image> imageMap = setupImageMap(myImagePath);
         Image hiddenImage = getHiddenImage();
-
         int myCellWidth = myGridSize/backendGrid.getRows();
         int myCellHeight = myGridSize/backendGrid.getCols();
         for (int row = 0; row < backendGrid.getRows(); row++) {
@@ -63,7 +67,7 @@ public class GridView {
         return myGrid;
     }
 
-    private Map<Integer, Image> setupImageMap(String path){
+    private Map<Integer, Image> setupImageMap(String path) throws ImageNotFoundException {
         Map<Integer, Image> imageMap = new HashMap<>();
         ResourceBundle myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + path);
         List<String> keys = Collections.list(myResources.getKeys());
@@ -76,20 +80,18 @@ public class GridView {
                 imageMap.put(Integer.parseInt(key), image);
             }
         } catch (FileNotFoundException e){
-            //TODO: deal with exception later
+            throw new ImageNotFoundException();
         }
         return imageMap;
     }
 
-    private Image getHiddenImage(){
+    private Image getHiddenImage() throws ImageNotFoundException {
         try{
             String imagePath = IMAGE_RESOURCES + HIDDEN_IMAGE_PATH + ".png";
             FileInputStream input = new FileInputStream(imagePath);
             return new Image(input);
         } catch (Exception e){
-            //TODO errors
-            return null;
+            throw new ImageNotFoundException();
         }
-
     }
 }

@@ -20,12 +20,11 @@ class PairValidatorTest {
         put("LossStat", "MovesUsed");
         put("MovesUsed", "10");
     }};
-    private StringProperty myErrorMessage = new SimpleStringProperty();
 
     @org.junit.jupiter.api.Test
     void checkIsValid() {
         PairValidator pairValidator = new PairValidator();
-        pairValidator.setMyProgressManager(new GameProgressManager(attributes, myErrorMessage));
+        pairValidator.setMyProgressManager(new GameProgressManager(attributes));
         List<Cell> cells = new ArrayList<>();
         Cell cellA = new Cell(1, true, 1);
         Cell cellB = new Cell(2, false, 1);

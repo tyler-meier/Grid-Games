@@ -1,6 +1,9 @@
 package ooga.engine;
 
-import javafx.beans.property.*;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import ooga.engine.exceptions.InvalidDataException;
 
 import java.util.HashMap;
@@ -27,10 +30,8 @@ public class GameProgressManager{
     private String rows, cols;
 
 
-    public GameProgressManager(Map<String, String> gameAttributes, StringProperty errorMessage){
-        StringProperty myErrorMessage = new SimpleStringProperty();
+    public GameProgressManager(Map<String, String> gameAttributes){
         try{
-            myErrorMessage.bindBidirectional(errorMessage);
             gameStats.put(SCORE, new SimpleIntegerProperty(Integer.parseInt(gameAttributes.get(SCORE))));
             gameStats.put(LEVEL, new SimpleIntegerProperty(Integer.parseInt(gameAttributes.get(LEVEL))));
             lossStatKey = gameAttributes.get(LOSS_STAT);
@@ -44,8 +45,8 @@ public class GameProgressManager{
             });
             rows = gameAttributes.get(NUM_ROWS);
             cols = gameAttributes.get(NUM_COLS);
-        } catch (InvalidDataException e) {
-            myErrorMessage.set(e.toString());
+        } catch (Exception e) {
+            throw new InvalidDataException();
         }
     }
 

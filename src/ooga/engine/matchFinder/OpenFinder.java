@@ -2,9 +2,12 @@ package ooga.engine.matchFinder;
 
 
 import ooga.engine.Cell;
-import ooga.engine.gridCreator.Grid;
+import ooga.engine.Grid;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * This class finds matches based on whether or not there are at least
@@ -14,13 +17,13 @@ import java.util.*;
 public class OpenFinder extends MatchFinder {
     private static final int SECOND = 1000;
 
-    public OpenFinder(){
-        super();
-    }
-
+    /**
+     * Finds matches across entire grid.
+     * @param grid to find other matches
+     * @return cells included in matches
+     */
     @Override
     public List<Cell> makeMatches(Grid grid) {
-        // loop over all cells, if >x in a row of same kind, set these cells to -1
         List<Cell> matchedCells = new ArrayList<>();
         int rows = grid.getRows();
         int cols = grid.getCols();
@@ -29,14 +32,17 @@ public class OpenFinder extends MatchFinder {
             for (int c=0; c<cols; c++){
                 cell = grid.getCell(r, c);
                 if(!matchedCells.contains(cell)){
-                    // only get the cells neighbors if it is not already in the array list
                     matchedCells.addAll(getMatches(cell, grid));
-                }
-            }
-        }
+                } } }
         return matchedCells;
     }
 
+    /**
+     * Finds matches originating in selected cells.
+     * @param selected cells
+     * @param grid to find other matches
+     * @return cells included in matches
+     */
     public List<Cell> makeMatches(List<Cell> selected, Grid grid){
         Cell first = selected.get(0);
         Cell second = selected.get(1);
@@ -78,7 +84,7 @@ public class OpenFinder extends MatchFinder {
             verticalMatches.add(currCell);
             row++;
         }
-        if (verticalMatches.size()<matchLength) {
+        if (verticalMatches.size()< DEFAULT_MATCH_LENGTH) {
             verticalMatches.clear();
         }
         return verticalMatches;
@@ -99,7 +105,7 @@ public class OpenFinder extends MatchFinder {
             horizontalMatches.add(currCell);
             col++;
         }
-        if (horizontalMatches.size()<matchLength){
+        if (horizontalMatches.size()< DEFAULT_MATCH_LENGTH){
             horizontalMatches.clear();
         }
         return horizontalMatches;

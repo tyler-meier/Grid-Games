@@ -1,17 +1,20 @@
-package ooga.engine.gridCreator;
+package ooga.engine;
 
-import javafx.beans.property.*;
-import ooga.engine.Cell;
-import ooga.engine.GameProgressManager;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import ooga.engine.exceptions.InvalidDataException;
 import ooga.engine.matchFinder.MatchFinder;
 import ooga.engine.validator.Validator;
-
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Class to manage the Grid for a game. Handles user selection of cells and updating grid after each move.
+ * @author Tanvi and Natalie
+ */
 public class Grid {
     private static final String NUM_SELECTED_PER_MOVE = "NumSelectedPerMove";
     private static final String ADD_NEW_CELLS = "AddNewCells";
@@ -29,14 +32,18 @@ public class Grid {
     private int maxState;
     private boolean noHiddenCells;
     private int pointsPerCell;
-    private double secondsOpen;
     private boolean setupPhase = false;
     private BooleanProperty moveInProgress = new SimpleBooleanProperty(false);
     private GameProgressManager myProgressManager;
-    private StringProperty myErrorMessage = new SimpleStringProperty();
 
-    public Grid(Map<String, String> gameAttributes, Validator validator, MatchFinder matchFinder, StringProperty errorMessage){
-        myErrorMessage.bindBidirectional(errorMessage);
+    /**
+     * Builds new Grid with given attributes.
+     * @param gameAttributes engine attributes
+     * @param validator to validate moves
+     * @param matchFinder to find matches
+     */
+    public Grid(Map<String, String> gameAttributes, Validator validator, MatchFinder matchFinder){
+        double secondsOpen;
         try {
             numSelectedPerMove = Integer.parseInt(gameAttributes.get(NUM_SELECTED_PER_MOVE));
             addNewCells = Boolean.parseBoolean(gameAttributes.get(ADD_NEW_CELLS));
@@ -45,11 +52,10 @@ public class Grid {
             pointsPerCell = Integer.parseInt(gameAttributes.get(POINTS_PER_CELL));
             secondsOpen = Double.parseDouble(gameAttributes.get(SECONDS_OPEN));
         } catch (Exception e){
-            myErrorMessage.set(e.toString());
+            throw new InvalidDataException();
         }
         myValidator = validator;
         myMatchFinder = matchFinder;
-        myErrorMessage = errorMessage;
         myValidator.setTime(secondsOpen);
     }
 
@@ -60,18 +66,34 @@ public class Grid {
     public void setNewGame(int[][] initialStates, Map<String, String> gameAttributes, boolean[][] openCells){
         if (myGrid==null) myGrid = new Cell[initialStates.length][initialStates[0].length];
         setupGridStates(initialStates, openCells);
-
-        myProgressManager = new GameProgressManager(gameAttributes, myErrorMessage);
+        myProgressManager = new GameProgressManager(gameAttributes);
         myValidator.setMyProgressManager(myProgressManager);
         numSelected=0;
-        //TODO handle matched cells in the beginning
     }
 
+    /**
+     * Clears matches built into initial config by auto generators.
+     */
     public void clearInitialMatches(){
         setupPhase = true;
         List<Cell> initialMatches = new ArrayList<>(myMatchFinder.makeMatches(this));
         handleMatchedCells(initialMatches);
         setupPhase = false;
+    }
+
+    /**
+     * This method updates the current game grid according to the move selected by the user.
+     */
+    public void updateGrid(){
+        moveInProgress.set(true);
+        List<Cell> selectedCells = getSelectedCells();
+        if(myValidator.checkIsValid(selectedCells)){
+            List<Cell> matchedCells = new ArrayList<>();
+            findMatchedCells(matchedCells, selectedCells);
+            handleMatchedCells(matchedCells);
+        }
+        moveInProgress.set(false);
+        for (Cell cell:selectedCells) cell.toggleSelected();
     }
 
     /**
@@ -160,42 +182,6 @@ public class Grid {
         return myProgressManager.getLevel();
     }
 
-
-    /**
-     * This method updates the current game grid according to the move selected by the user.
-     */
-    public void updateGrid(){
-        moveInProgress.set(true);
-        List<Cell> selectedCells = getSelectedCells();
-         if(myValidator.checkIsValid(selectedCells)){
-            System.out.println("valid move");
-            List<Cell> matchedCells = new ArrayList<>();
-            findMatchedCells(matchedCells, selectedCells);
-            handleMatchedCells(matchedCells);
-         }
-         else System.out.println("invalid move");
-         moveInProgress.set(false);
-         for (Cell cell:selectedCells) cell.toggleSelected();
-    }
-
-    private void findMatchedCells(List<Cell> matchedCells, List<Cell> selectedCells){
-        if (noHiddenCells){
-            matchedCells.addAll(myMatchFinder.makeMatches(selectedCells, this));
-            if (matchedCells.size()>0 && myProgressManager!=null) myProgressManager.decrementMoves();
-        } else {
-            matchedCells.addAll(selectedCells);
-            matchedCells.addAll(myMatchFinder.makeMatches(this));
-        }
-    }
-
-    private void handleMatchedCells(List<Cell> matchedCells){
-        while (matchedCells.size()>0){
-            if (!noHiddenCells) openMatchedCells(matchedCells);
-            else deleteMatchedCells(matchedCells);
-            matchedCells.addAll(myMatchFinder.makeMatches(this));
-        }
-    }
-
     private void setupGridStates(int[][] initialStates, boolean[][] openCells){
         for (int r = 0; r<initialStates.length; r++){
             for (int c=0; c<initialStates[0].length; c++){
@@ -216,6 +202,24 @@ public class Grid {
         } else {
             getCell(r, c).cellState().set(initialStates[r][c]);
             getCell(r, c).isOpen().set(noHiddenCells);
+        }
+    }
+
+    private void findMatchedCells(List<Cell> matchedCells, List<Cell> selectedCells){
+        if (noHiddenCells){
+            matchedCells.addAll(myMatchFinder.makeMatches(selectedCells, this));
+            if (matchedCells.size()>0 && myProgressManager!=null) myProgressManager.decrementMoves();
+        } else {
+            matchedCells.addAll(selectedCells);
+            matchedCells.addAll(myMatchFinder.makeMatches(this));
+        }
+    }
+
+    private void handleMatchedCells(List<Cell> matchedCells){
+        while (matchedCells.size()>0){
+            if (!noHiddenCells) openMatchedCells(matchedCells);
+            else deleteMatchedCells(matchedCells);
+            matchedCells.addAll(myMatchFinder.makeMatches(this));
         }
     }
 
