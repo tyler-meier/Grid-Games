@@ -30,10 +30,10 @@ public class UICell {
     private Map<Integer, Image> imageMap = new HashMap<>();
     private Image hiddenImage;
 
-    public UICell(Cell cell, String gameType, int cellHeight, int cellWidth){
+    public UICell(Cell cell, String imagePath, int cellHeight, int cellWidth){
         open.bind(cell.isOpen());
         state.bind(cell.cellState());
-        myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + gameType);
+        myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + imagePath);
         setupImageMap();
         setupImageView(cellHeight, cellWidth);
         cell.cellState().addListener((obs, oldv, newv) -> {
