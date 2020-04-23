@@ -30,8 +30,7 @@ class FlippedFinderTest {
     void makeMatches() {
         Validator validator = new PairValidator();
         MatchFinder matchFinder = new FlippedFinder();
-        StringProperty errorMessage = new SimpleStringProperty();
-        Grid myGrid = new Grid(gameAttributes, validator, matchFinder, errorMessage);
+        Grid myGrid = new Grid(gameAttributes, validator, matchFinder);
         myGrid.setNewGame(initialConfig,gameAttributes,null);
         myGrid.getCell(0,0).isOpen().set(true);
         List<Cell> ret = new ArrayList<>();

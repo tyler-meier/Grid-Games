@@ -1,8 +1,6 @@
 package ooga.player.screens;
 
-import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -14,6 +12,11 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import ooga.player.Player;
 
+/**
+ * Sets the style of the screen based off of the created styling sheets for each, and allows this
+ * style to be displayed on all screens once saved
+ * @author Alyssa Shin
+ */
 public class CustomView extends SuperScreen {
 
     private static final String IMAGE_RESOURCES = "src/ooga/player/Resources/images/preferences/";
@@ -78,5 +81,4 @@ public class CustomView extends SuperScreen {
         imageView.setFitWidth(IMAGE_SIZE);
         return imageView;
     }
-
 }

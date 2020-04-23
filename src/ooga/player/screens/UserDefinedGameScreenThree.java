@@ -1,6 +1,5 @@
 package ooga.player.screens;
 
-import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -25,7 +24,7 @@ public class UserDefinedGameScreenThree extends UserDefinedGameScreen {
     private static final String GRID_TYPE = "gridType";
     private static final String RANDOM = "random";
     private int[][] initialStates;
-    GridPane myGrid = new GridPane();
+    private GridPane myGrid = new GridPane();
 
     /**
      * Sets up screen for building grid for a user defined game.

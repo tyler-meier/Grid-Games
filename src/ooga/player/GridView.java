@@ -7,11 +7,17 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import ooga.engine.Grid;
+import ooga.player.exceptions.ImageNotFoundException;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.*;
 
+/**
+ * Class that creates the front end grid/the UI grid and what is shown. It takes in the backend grid
+ * and changes it to a grid pane that is displayed
+ * @author Alyssa Shin, Tyler Meier, Natalie Novitsky
+ */
 public class GridView {
     private static final String RESOURCES = "ooga/player/Resources/";
     private static final String DEFAULT_RESOURCE_PACKAGE = RESOURCES.replace("/", ".");
@@ -20,23 +26,31 @@ public class GridView {
     private int myGridSize;
     private String myImagePath;
 
+    /**
+     * Constructor for this class, sets the path to retrieve images and grid size instance variables
+     * @param imagePath  the path to retrieve the specific images
+     * @param gridSize  the size of this grid
+     */
     public GridView(String imagePath, int gridSize) {
         myGridSize = gridSize;
         myImagePath = imagePath;
     }
 
-//    //code for the method to set up the front end grid with binding--move this to where it makes the most sense
-//    //when you're ready to use it, rename things and ask if anything is unclear
-    public GridPane setGrid(Grid backendGrid, BooleanProperty paused){ // ideally we'll be able to make this run one cell at a time
-//        //so we don't need it to be a 2D array, or we just make a Grid object in back end
+    /**
+     * Sets up the front end grid by using UI cells and transforming the backend grid into
+     * a grid pane with  the images being displayed
+     * @param backendGrid the backend grid with initial states and such to be able to create UI grid with images
+     * @param paused boolean telling whether the game is paused or not to display the correct images  and know
+     *               whether to freeze them or not
+     * @return the final grid pane that is created for the front end
+     */
+    public GridPane setGrid(Grid backendGrid, BooleanProperty paused) throws ImageNotFoundException {
         GridPane myGrid = new GridPane();
         myGrid.setGridLinesVisible(true);
         Map<Integer, Image> imageMap = setupImageMap(myImagePath);
         Image hiddenImage = getHiddenImage();
-
         int myCellWidth = myGridSize/backendGrid.getRows();
         int myCellHeight = myGridSize/backendGrid.getCols();
-
         for (int row = 0; row < backendGrid.getRows(); row++) {
             for (int col = 0; col < backendGrid.getCols(); col++) {
                 Rectangle rec = new Rectangle(myCellWidth, myCellHeight, Color.WHITE);
@@ -53,7 +67,7 @@ public class GridView {
         return myGrid;
     }
 
-    private Map<Integer, Image> setupImageMap(String path){
+    private Map<Integer, Image> setupImageMap(String path) throws ImageNotFoundException {
         Map<Integer, Image> imageMap = new HashMap<>();
         ResourceBundle myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + path);
         List<String> keys = Collections.list(myResources.getKeys());
@@ -66,20 +80,18 @@ public class GridView {
                 imageMap.put(Integer.parseInt(key), image);
             }
         } catch (FileNotFoundException e){
-            //TODO: deal with exception later
+            throw new ImageNotFoundException();
         }
         return imageMap;
     }
 
-    private Image getHiddenImage(){
+    private Image getHiddenImage() throws ImageNotFoundException {
         try{
             String imagePath = IMAGE_RESOURCES + HIDDEN_IMAGE_PATH + ".png";
             FileInputStream input = new FileInputStream(imagePath);
             return new Image(input);
         } catch (Exception e){
-            //TODO errors
-            return null;
+            throw new ImageNotFoundException();
         }
-
     }
 }

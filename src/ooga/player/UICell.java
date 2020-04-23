@@ -17,6 +17,12 @@ import ooga.engine.Cell;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
+/**
+ * Sets up the cell and all of the properties it can have  visually such as the image being displayed, and whether
+ * or not it needs to be  hidden. Also visually allows it to have a background when clicked and allows for switches of the
+ * images when they are clicked or changed from being hidden to open.
+ * @author Alyssa Shin, Tyler Meier, Natalie Novitsky
+ */
 public class UICell {
     BooleanProperty open = new SimpleBooleanProperty();
     IntegerProperty state = new SimpleIntegerProperty();
@@ -47,8 +53,19 @@ public class UICell {
         });
     }
 
+    /**
+     * Binds the boolean based off of if the cell is supposed to be paused or not, given by info in the backend
+     * @param paused the boolean of whether it is paused or not
+     */
     public void setPauseProperty(BooleanProperty paused){
         this.paused.bind(paused);
+    }
+
+    /**
+     * @return the image view of the cell/current image
+     */
+    public ImageView getImageView() {
+        return myImageView;
     }
 
     private void setupImageView(int cellHeight, int cellWidth){
@@ -61,15 +78,10 @@ public class UICell {
 
     private void changeImage(){
          if (open.get()) myImageView.setImage(getImage());
-         else myImageView.setImage(hiddenImage); // however you want to store the image displayed for "hidden" cells
+         else myImageView.setImage(hiddenImage);
     }
 
-    //TODO: get either integer or cell to retrieve information about the cell type, return image view
     private Image getImage(){
         return imageMap.get(state.getValue());
-    }
-
-    public ImageView getImageView() {
-        return myImageView;
     }
 }

@@ -19,10 +19,11 @@ import javafx.scene.layout.VBox;
 import ooga.engine.Grid;
 import ooga.player.GridView;
 import ooga.player.Player;
+import ooga.player.exceptions.ImageNotFoundException;
 
 /**
- * Game screen that contains the gameplay, as well as animated buttons for toggling screens
- * @author Alyssa Shin
+ * Game screen that contains the game play, as well as animated buttons for toggling screens
+ * @author Alyssa Shin, Tyler Meier
  */
 
 public class GameScreen extends SuperScreen {
@@ -79,7 +80,7 @@ public class GameScreen extends SuperScreen {
    * Sets grid created from engine grid on gamescreen
    * @param backendGrid grid from engine
    */
-  public void setGrid(Grid backendGrid){
+  public void setGrid(Grid backendGrid) throws ImageNotFoundException {
     VBox gridAndName = new VBox();
     GridPane myGridPane = myGrid.setGrid(backendGrid, paused);
     Label name = new Label();
@@ -145,8 +146,7 @@ public class GameScreen extends SuperScreen {
 
   //puts all essential buttons into a vbox
   private void makeButtonPanel() {
-    verticalPanel.getChildren().addAll(makeLogoutButton(), makeResetLevelButton(),
-            makeThisSaveButton());
+    verticalPanel.getChildren().addAll(makeLogoutButton(), makeResetLevelButton(), makeThisSaveButton());
     if (!isNewGame(myGameType)) {
       Button leaderBoardButton = makeButton("LeaderBoardCommand", e -> myPlayer.setUpLeaderBoardScreen());
       verticalPanel.getChildren().addAll(makeResetGameButton(), leaderBoardButton);

@@ -32,8 +32,7 @@ class OpenFinderTest {
     void makeMatches() {
         Validator validator = new SwitchValidator();
         MatchFinder matchFinder = new OpenFinder();
-        StringProperty errorMessage = new SimpleStringProperty();
-        Grid myGrid = new Grid(gameAttributes, validator, matchFinder, errorMessage);
+        Grid myGrid = new Grid(gameAttributes, validator, matchFinder);
         myGrid.setNewGame(initialConfig, gameAttributes, null);
         // now we have a grid with states and everything
         List<Cell> ret = new ArrayList<>();

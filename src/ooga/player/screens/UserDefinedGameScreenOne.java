@@ -5,12 +5,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import ooga.player.Player;
 import ooga.player.exceptions.NewUserDefinedGameException;
-
 import java.util.ResourceBundle;
 
 /**
- * Screen where the user chooses the engine attributes
- * of their new game.
+ * Screen where the user chooses the engine attributes of their new game.
  * @author Natalite Novitsky and Tanvi Pabby.
  */
 public class UserDefinedGameScreenOne extends UserDefinedGameScreen {
@@ -37,32 +35,28 @@ public class UserDefinedGameScreenOne extends UserDefinedGameScreen {
     private static final int MIN_NUM_SELECTED = 2;
     private TextField titleField = new TextField();
 
-
+    /**
+     * Constructor for this screen, sets up to allow the  user to choose attributes of the game
+     * @param thisPlayer current player
+     */
     public UserDefinedGameScreenOne(Player thisPlayer) {
         super(thisPlayer);
         myKeysResources = ResourceBundle.getBundle(KEYS_RESOURCES_PATH + MY_KEYS);
         myButtonEvent = event -> {
-            try{
-                buildMap();
-                myPlayer.setUpMakeNewGameScreenTwo();
-            }
-            catch(NewUserDefinedGameException p){
-                myErrorMessage.textProperty().setValue(p.getMessage());
-            }
+            handleButtonEvent();
         };
         myButtonText = BUTTON_TEXT;
         gameLabel = GAME_LABEL;
     }
 
+
     /**
-     * Gets the title of the user defined game.
-     * @return
+     * @return the title of the user defined game.
      */
     public String getTitle() { return titleField.getText(); }
 
     /**
-     * Returns whether or not the new game has hidden cells in it.
-     * @return
+     * @return whether or not the new game has hidden cells in it.
      */
     public boolean hasHiddenCells() { return !Boolean.parseBoolean(selectedAttributes.get(NO_HIDDEN_CELLS)); }
 
@@ -72,23 +66,45 @@ public class UserDefinedGameScreenOne extends UserDefinedGameScreen {
         addGameNameField();
         inputField.getChildren().addAll(labelMap.get(POINTS), userInputFields.get(POINTS), labelMap.get(MAX_STATE), userInputFields.get(MAX_STATE), labelMap.get(NO_HIDDEN_CELLS), userInputFields.get(NO_HIDDEN_CELLS));
         ComboBox<String> noHiddenCells = (ComboBox<String>) userInputFields.get(NO_HIDDEN_CELLS);
+        finishComboBox(noHiddenCells);
+    }
+
+    private void finishComboBox(ComboBox<String> noHiddenCells){
         noHiddenCells.getSelectionModel().selectedItemProperty().addListener(e->{
             if (noHiddenCells.getSelectionModel().getSelectedItem().equals(FALSE)){
-                ((ComboBox) userInputFields.get(VALIDATOR)).setValue(PAIR);
-                ((ComboBox) userInputFields.get(MATCH_FINDER)).setValue(FLIPPED);
-                ((ComboBox) userInputFields.get(NEW_CELLS)).setValue(FALSE);
-                ((ComboBox) userInputFields.get(GRID_CREATOR)).setValue(PAIR_GRID);
-                inputField.getChildren().addAll(labelMap.get(SECONDS_OPEN), userInputFields.get(SECONDS_OPEN), labelMap.get(NUM_SELECTED), userInputFields.get(NUM_SELECTED));
-                inputField.getChildren().removeAll(labelMap.get(NEW_CELLS), userInputFields.get(NEW_CELLS));
+                handleNoHiddenCellsSetup();
             } else {
-                ((ComboBox) userInputFields.get(VALIDATOR)).setValue(SWITCH);
-                ((ComboBox) userInputFields.get(MATCH_FINDER)).setValue(OPEN);
-                ((ComboBox) userInputFields.get(NEW_CELLS)).setValue(null);
-                ((ComboBox) userInputFields.get(GRID_CREATOR)).setValue(RANDOM_GRID);
-                inputField.getChildren().addAll(labelMap.get(NEW_CELLS), userInputFields.get(NEW_CELLS));
-                inputField.getChildren().removeAll(labelMap.get(SECONDS_OPEN), userInputFields.get(SECONDS_OPEN), labelMap.get(NUM_SELECTED), userInputFields.get(NUM_SELECTED));
+                handleHiddenCellSetup();
             }
         });
+    }
+
+    private void handleButtonEvent(){
+        try{
+            buildMap();
+            myPlayer.setUpMakeNewGameScreenTwo();
+        }
+        catch(NewUserDefinedGameException p){
+            myErrorMessage.textProperty().setValue(p.getMessage());
+        }
+    }
+
+    private void handleNoHiddenCellsSetup(){
+        ((ComboBox) userInputFields.get(VALIDATOR)).setValue(PAIR);
+        ((ComboBox) userInputFields.get(MATCH_FINDER)).setValue(FLIPPED);
+        ((ComboBox) userInputFields.get(NEW_CELLS)).setValue(FALSE);
+        ((ComboBox) userInputFields.get(GRID_CREATOR)).setValue(PAIR_GRID);
+        inputField.getChildren().addAll(labelMap.get(SECONDS_OPEN), userInputFields.get(SECONDS_OPEN), labelMap.get(NUM_SELECTED), userInputFields.get(NUM_SELECTED));
+        inputField.getChildren().removeAll(labelMap.get(NEW_CELLS), userInputFields.get(NEW_CELLS));
+    }
+
+    private void handleHiddenCellSetup(){
+        ((ComboBox) userInputFields.get(VALIDATOR)).setValue(SWITCH);
+        ((ComboBox) userInputFields.get(MATCH_FINDER)).setValue(OPEN);
+        ((ComboBox) userInputFields.get(NEW_CELLS)).setValue(null);
+        ((ComboBox) userInputFields.get(GRID_CREATOR)).setValue(RANDOM_GRID);
+        inputField.getChildren().addAll(labelMap.get(NEW_CELLS), userInputFields.get(NEW_CELLS));
+        inputField.getChildren().removeAll(labelMap.get(SECONDS_OPEN), userInputFields.get(SECONDS_OPEN), labelMap.get(NUM_SELECTED), userInputFields.get(NUM_SELECTED));
     }
 
     @Override
@@ -107,5 +123,6 @@ public class UserDefinedGameScreenOne extends UserDefinedGameScreen {
         Label titleLabel = new Label(newGameStringsResources.getString(TITLE_PROMPT));
         inputField.getChildren().addAll(titleLabel, titleField);
     }
+
 
 }
