@@ -305,20 +305,6 @@ public class Player implements PlayerStart{
     return myEngineEvent;
   }
 
-
-  public void setUserMadeStartButton(EventHandler<ActionEvent> event){
-    myUserDefEngineEvent = event;
-  }
-
-  public void startUserDefinedGame(){
-    String title = myUserDefinedGameScreenOne.getTitle();
-    String path = myUserDefinedGameScreenImages.getImagePath();
-    myUserProfile.setImagePreferences(title, path);
-    setGameType(title);
-    myUserDefinedGameScreenTwo.addGridSize(myUserDefinedGameScreenThree.getGridSize());
-    myUserDefEngineEvent.handle(new ActionEvent());
-  }
-
   /**
    * Sets action for what happens when reset game button is pressed
    * @param event
