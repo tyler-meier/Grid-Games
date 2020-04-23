@@ -81,6 +81,7 @@ public class StartScreen extends SuperScreen {
     Button makeNewGameButton = makeButton("MakeNewGame", e-> {
         myPlayer.setUpMakeNewGameScreenImages();
     });
+    //TODO use isguest
     if (myPlayer.getUsername().equals(GUEST)) return styleContents(startButton, makeLogoutButton());
     return styleContents(startButton, makeLogoutButton(), makeNewGameButton);
   }
