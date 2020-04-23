@@ -12,6 +12,7 @@ import java.util.*;
  * @author Natalie Novitsky and Tanvi Pabby.
  */
 public class OpenFinder extends MatchFinder {
+    private static final int SECOND = 1000;
 
     public OpenFinder(){
         super();
@@ -50,7 +51,7 @@ public class OpenFinder extends MatchFinder {
                 public void run() {
                     first.swap(second);
                 }
-            }, 1000);
+            }, SECOND);
         }
 
         return matchedCells;
