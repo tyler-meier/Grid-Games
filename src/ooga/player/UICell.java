@@ -27,32 +27,17 @@ public class UICell {
     BooleanProperty open = new SimpleBooleanProperty();
     IntegerProperty state = new SimpleIntegerProperty();
     ImageView myImageView = new ImageView();
-
-    private static final String RESOURCES = "ooga/player/Resources/";
-    private static final String DEFAULT_RESOURCE_PACKAGE = RESOURCES.replace("/", ".");
-    private static final String IMAGE_RESOURCES = "src/ooga/player/Resources/images/";
-    private static final String HIDDEN_IMAGE_PATH = "question";
     private static final int COLOR_RADIUS = 30;
 
     private BooleanProperty paused = new SimpleBooleanProperty();
-    private ResourceBundle myResources;
-    private Map<Integer, Image> imageMap = new HashMap<>();
+    private Map<Integer, Image> imageMap;
     private Image hiddenImage;
 
-    /**
-     * The constructor for creating the ui cell, deals with all of its attributes and sets them up
-     * including when the cell should be paused and when it should be hidden or not, and sets
-     * up all the images for each cell
-     * @param cell the cell of the backend grid at specific row and column
-     * @param imagePath the image path used to set the image for the current cell
-     * @param cellHeight the height the cell will be based off of size
-     * @param cellWidth the width the cell will be based off of size
-     */
-    public UICell(Cell cell, String imagePath, int cellHeight, int cellWidth){
+    public UICell(Cell cell, int cellHeight, int cellWidth, Map<Integer, Image> imageMap, Image hiddenImage){
         open.bind(cell.isOpen());
         state.bind(cell.cellState());
-        myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + imagePath);
-        setupImageMap();
+        this.imageMap = imageMap;
+        this.hiddenImage = hiddenImage;
         setupImageView(cellHeight, cellWidth);
         cell.cellState().addListener((obs, oldv, newv) -> {
             changeImage();

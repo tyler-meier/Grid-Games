@@ -25,7 +25,7 @@ public class UserDefinedGameScreenImages extends UserDefinedGameScreen {
     private static final String BUTTON_TEXT = "Next";
     private static final String GAME_LABEL = "ChooseImage";
     private static final String IMAGE_GROUP = "ImageGroup";
-    private static final String IMAGERESOURCES = "src/ooga/player/Resources/images/";
+    private static final String IMAGE_RESOURCES = "src/ooga/player/Resources/images/";
     private static final String MINESWEEPER = "Minesweeper";
     private static final int SPACING = 20;
     private static final int WIDTH = 50;
@@ -78,15 +78,19 @@ public class UserDefinedGameScreenImages extends UserDefinedGameScreen {
         inputField.getChildren().addAll(labelMap.get(IMAGE_GROUP), userInputFields.get(IMAGE_GROUP));
         ComboBox groupChoice = (ComboBox) userInputFields.get(IMAGE_GROUP);
         groupChoice.getSelectionModel().selectedItemProperty().addListener(e->{
-            String newKey = groupChoice.getSelectionModel().getSelectedItem().toString();
-            String path = myKeysResources.getString(newKey);
-            images.getChildren().clear();
-            stateRange = new int[]{-1, -1};
-            buildImages(path);
-            imagePath = path;
+            handleImageComboBox(groupChoice);
         });
         images.setAlignment(Pos.CENTER);
         inputField.getChildren().add(images);
+    }
+
+    private void handleImageComboBox(ComboBox groupChoice){
+        String newKey = groupChoice.getSelectionModel().getSelectedItem().toString();
+        String path = myKeysResources.getString(newKey);
+        images.getChildren().clear();
+        stateRange = new int[]{-1, -1};
+        buildImages(path);
+        imagePath = path;
     }
 
     private void buildImages(String path){
@@ -96,16 +100,20 @@ public class UserDefinedGameScreenImages extends UserDefinedGameScreen {
             for (String key : keys) {
                 setMinMax(key);
                 ImageView view = buildImageView(imagePathResources.getString(key));
-                HBox box = new HBox();
-                box.setAlignment(Pos.CENTER);
-                box.setSpacing(SPACING);
-                Label label = new Label(key);
-                box.getChildren().addAll(label, view);
-                images.getChildren().add(box);
+                handleCreatingImage(key, view);
             }
         } catch (FileNotFoundException e){
             //TODO: deal with exception later
         }
+    }
+
+    private void handleCreatingImage(String key, ImageView view){
+        HBox box = new HBox();
+        box.setAlignment(Pos.CENTER);
+        box.setSpacing(SPACING);
+        Label label = new Label(key);
+        box.getChildren().addAll(label, view);
+        images.getChildren().add(box);
     }
 
     private void setMinMax(String value){
@@ -115,7 +123,7 @@ public class UserDefinedGameScreenImages extends UserDefinedGameScreen {
     }
 
     private ImageView buildImageView(String imageName) throws FileNotFoundException{
-        String imagePath = IMAGERESOURCES + imageName + ".png";
+        String imagePath = IMAGE_RESOURCES + imageName + ".png";
         FileInputStream input = new FileInputStream(imagePath);
         Image image = new Image(input);
         ImageView view = new ImageView(image);

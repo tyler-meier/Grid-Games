@@ -98,6 +98,7 @@ public class XMLParser {
     int[][] grid = new int[numRows][numCols];
 
     NodeList nodeList = doc.getElementsByTagName(ROW_TAG);
+    if (nodeList.getLength()<1) return null;
 
     for (int r = ZERO_INDEX; r < nodeList.getLength(); r++)
     {

@@ -2,7 +2,7 @@ package ooga.engine.matchFinder;
 
 
 import ooga.engine.Cell;
-import ooga.engine.grid.Grid;
+import ooga.engine.gridCreator.Grid;
 
 import java.util.*;
 
@@ -12,6 +12,7 @@ import java.util.*;
  * @author Natalie Novitsky and Tanvi Pabby.
  */
 public class OpenFinder extends MatchFinder {
+    private static final int SECOND = 1000;
 
     public OpenFinder(){
         super();
@@ -33,8 +34,6 @@ public class OpenFinder extends MatchFinder {
                 }
             }
         }
-        for(Cell c: matchedCells){
-        }
         return matchedCells;
     }
 
@@ -52,7 +51,7 @@ public class OpenFinder extends MatchFinder {
                 public void run() {
                     first.swap(second);
                 }
-            }, 1000);
+            }, SECOND);
         }
 
         return matchedCells;

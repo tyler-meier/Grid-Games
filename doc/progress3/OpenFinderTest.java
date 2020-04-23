@@ -3,7 +3,7 @@ package ooga.engine.matchFinder;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import ooga.engine.Cell;
-import ooga.engine.grid.Grid;
+import ooga.engine.gridCreator.Grid;
 import ooga.engine.validator.PairValidator;
 import ooga.engine.validator.SwitchValidator;
 import ooga.engine.validator.Validator;

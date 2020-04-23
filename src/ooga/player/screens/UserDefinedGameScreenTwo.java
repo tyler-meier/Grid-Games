@@ -7,6 +7,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import ooga.player.Player;
 import ooga.player.exceptions.NewUserDefinedGameException;
+
+
+import java.awt.*;
 import java.util.ResourceBundle;
 
 /**
@@ -20,6 +23,9 @@ public class UserDefinedGameScreenTwo extends UserDefinedGameScreen {
     private static final String TARGET_SCORE = "TargetScore";
     private static final String LOSS_STAT = "LossStat";
     private static final String LIVES_LEFT = "LivesLeft";
+    private static final String ROWS = "numRows";
+    private static final String COLUMNS = "numColumns";
+    private VBox lossStatBox = new VBox();
 
     private VBox lossStatBox = new VBox();
 
@@ -31,16 +37,19 @@ public class UserDefinedGameScreenTwo extends UserDefinedGameScreen {
         super(thisPlayer);
         myKeysResources = ResourceBundle.getBundle(KEYS_RESOURCES_PATH + MY_KEYS);
         myButtonEvent = event -> {
-            try{
-                buildMap();
-                myPlayer.setUpMakeNewGameScreenThree();
-            }
-            catch(NewUserDefinedGameException p){
-                myErrorMessage.textProperty().setValue(p.getMessage());
-            }
+            handleButtonEvent();
         };
         myButtonText = BUTTON_TEXT;
         gameLabel = GAME_LABEL;
+    }
+
+    /**
+     * Adds to the grid size of the new game
+     * @param p
+     */
+    public void addGridSize(Point p){
+        selectedAttributes.put(ROWS, String.valueOf(p.x));
+        selectedAttributes.put(COLUMNS, String.valueOf(p.y));
     }
 
     /**
@@ -51,6 +60,18 @@ public class UserDefinedGameScreenTwo extends UserDefinedGameScreen {
         if (!canLoseLives){
             ComboBox lossStat = (ComboBox) userInputFields.get(LOSS_STAT);
             lossStat.getItems().remove(LIVES_LEFT);
+        }
+    }
+
+    private void handleButtonEvent(){
+        try{
+            buildMap();
+            //TODO: can we standardize?
+            myPlayer.setUpMakeNewGameScreenThree();
+
+        }
+        catch(NewUserDefinedGameException p){
+            myErrorMessage.textProperty().setValue(p.getMessage());
         }
     }
 

@@ -7,7 +7,7 @@ import javafx.beans.property.StringProperty;
 import javafx.stage.Stage;
 import ooga.controller.UserLogin;
 import ooga.data.UserProfile;
-import ooga.engine.grid.Grid;
+import ooga.engine.gridCreator.Grid;
 import ooga.player.screens.*;
 
 /**
@@ -303,6 +303,20 @@ public class Player implements PlayerStart{
   @Override
   public EventHandler<ActionEvent> getStartGameButtonEvent(){
     return myEngineEvent;
+  }
+
+
+  public void setUserMadeStartButton(EventHandler<ActionEvent> event){
+    myUserDefEngineEvent = event;
+  }
+
+  public void startUserDefinedGame(){
+    String title = myUserDefinedGameScreenOne.getTitle();
+    String path = myUserDefinedGameScreenImages.getImagePath();
+    myUserProfile.setImagePreferences(title, path);
+    setGameType(title);
+    myUserDefinedGameScreenTwo.addGridSize(myUserDefinedGameScreenThree.getGridSize());
+    myUserDefEngineEvent.handle(new ActionEvent());
   }
 
   /**

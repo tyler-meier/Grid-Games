@@ -1,11 +1,12 @@
 package ooga.player;
 
 import javafx.beans.property.BooleanProperty;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import ooga.engine.grid.Grid;
+import ooga.engine.gridCreator.Grid;
 
 /**
  * Class that creates the front end grid/the UI grid and what is shown. It takes in the backend grid
@@ -13,6 +14,10 @@ import ooga.engine.grid.Grid;
  * @author Alyssa Shin, Tyler Meier, Natalie Novitsky
  */
 public class GridView {
+    private static final String RESOURCES = "ooga/player/Resources/";
+    private static final String DEFAULT_RESOURCE_PACKAGE = RESOURCES.replace("/", ".");
+    private static final String IMAGE_RESOURCES = "src/ooga/player/Resources/images/";
+    private static final String HIDDEN_IMAGE_PATH = "question";
     private int myGridSize;
     private String myImagePath;
 
@@ -37,6 +42,9 @@ public class GridView {
     public GridPane setGrid(Grid backendGrid, BooleanProperty paused){
         GridPane myGrid = new GridPane();
         myGrid.setGridLinesVisible(true);
+        Map<Integer, Image> imageMap = setupImageMap(myImagePath);
+        Image hiddenImage = getHiddenImage();
+
         int myCellWidth = myGridSize/backendGrid.getRows();
         int myCellHeight = myGridSize/backendGrid.getCols();
         for (int row = 0; row < backendGrid.getRows(); row++) {
@@ -44,7 +52,7 @@ public class GridView {
                 Rectangle rec = new Rectangle(myCellWidth, myCellHeight, Color.WHITE);
                 rec.setStroke(Color.BLACK);
                 rec.setStrokeWidth(1);
-                UICell currCell = new UICell(backendGrid.getCell(row, col), myImagePath, myCellHeight, myCellWidth);
+                UICell currCell = new UICell(backendGrid.getCell(row, col), myCellHeight, myCellWidth, imageMap, hiddenImage);
                 ImageView myImageView = currCell.getImageView();
                 currCell.setPauseProperty(paused);
                 GridPane.setRowIndex(myImageView, row * myCellWidth);
@@ -53,5 +61,35 @@ public class GridView {
             }
         }
         return myGrid;
+    }
+
+    private Map<Integer, Image> setupImageMap(String path){
+        Map<Integer, Image> imageMap = new HashMap<>();
+        ResourceBundle myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + path);
+        List<String> keys = Collections.list(myResources.getKeys());
+        try {
+            for (String key : keys) {
+                String imageName = myResources.getString(key);
+                String imagePath = IMAGE_RESOURCES + imageName + ".png";
+                FileInputStream input = new FileInputStream(imagePath);
+                Image image = new Image(input);
+                imageMap.put(Integer.parseInt(key), image);
+            }
+        } catch (FileNotFoundException e){
+            //TODO: deal with exception later
+        }
+        return imageMap;
+    }
+
+    private Image getHiddenImage(){
+        try{
+            String imagePath = IMAGE_RESOURCES + HIDDEN_IMAGE_PATH + ".png";
+            FileInputStream input = new FileInputStream(imagePath);
+            return new Image(input);
+        } catch (Exception e){
+            //TODO errors
+            return null;
+        }
+
     }
 }

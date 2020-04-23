@@ -1,4 +1,4 @@
-package ooga.engine.grid;
+package ooga.engine.gridCreator;
 
 import javafx.beans.property.*;
 import ooga.engine.Cell;
@@ -30,6 +30,7 @@ public class Grid {
     private boolean noHiddenCells;
     private int pointsPerCell;
     private double secondsOpen;
+    private boolean setupPhase = false;
     private BooleanProperty moveInProgress = new SimpleBooleanProperty(false);
     private GameProgressManager myProgressManager;
     private StringProperty myErrorMessage = new SimpleStringProperty();
@@ -43,7 +44,7 @@ public class Grid {
             noHiddenCells = Boolean.parseBoolean(gameAttributes.get(NO_HIDDEN_CELLS));
             pointsPerCell = Integer.parseInt(gameAttributes.get(POINTS_PER_CELL));
             secondsOpen = Double.parseDouble(gameAttributes.get(SECONDS_OPEN));
-        } catch (InvalidDataException e){
+        } catch (Exception e){
             myErrorMessage.set(e.toString());
         }
         myValidator = validator;
@@ -59,9 +60,18 @@ public class Grid {
     public void setNewGame(int[][] initialStates, Map<String, String> gameAttributes, boolean[][] openCells){
         if (myGrid==null) myGrid = new Cell[initialStates.length][initialStates[0].length];
         setupGridStates(initialStates, openCells);
+
         myProgressManager = new GameProgressManager(gameAttributes, myErrorMessage);
         myValidator.setMyProgressManager(myProgressManager);
         numSelected=0;
+        //TODO handle matched cells in the beginning
+    }
+
+    public void clearInitialMatches(){
+        setupPhase = true;
+        List<Cell> initialMatches = new ArrayList<>(myMatchFinder.makeMatches(this));
+        handleMatchedCells(initialMatches);
+        setupPhase = false;
     }
 
     /**
@@ -171,7 +181,7 @@ public class Grid {
     private void findMatchedCells(List<Cell> matchedCells, List<Cell> selectedCells){
         if (noHiddenCells){
             matchedCells.addAll(myMatchFinder.makeMatches(selectedCells, this));
-            if (matchedCells.size()>0) myProgressManager.decrementMoves();
+            if (matchedCells.size()>0 && myProgressManager!=null) myProgressManager.decrementMoves();
         } else {
             matchedCells.addAll(selectedCells);
             matchedCells.addAll(myMatchFinder.makeMatches(this));
@@ -189,18 +199,24 @@ public class Grid {
     private void setupGridStates(int[][] initialStates, boolean[][] openCells){
         for (int r = 0; r<initialStates.length; r++){
             for (int c=0; c<initialStates[0].length; c++){
-                if (getCell(r, c)==null){
-                    boolean isOpen = (openCells!=null) ? openCells[r][c] : noHiddenCells;
-                    myGrid[r][c] = new Cell(initialStates[r][c], isOpen, pointsPerCell);
-                    myGrid[r][c].setupSelection(increment -> {
-                        numSelected += increment? 1 : -1;
-                        if (numSelected==numSelectedPerMove) updateGrid();
-                    }, moveInProgress);
-                    myGrid[r][c].setCoordinates(r,c);
-                } else {
-                    getCell(r, c).cellState().set(initialStates[r][c]);
-                    getCell(r, c).isOpen().set(noHiddenCells);
-                } } }
+                checkAndSetCell(r,c, initialStates, openCells);
+            }
+        }
+    }
+
+    private void checkAndSetCell(int r, int c, int[][] initialStates, boolean[][] openCells){
+        if (getCell(r, c)==null){
+            boolean isOpen = (openCells!=null) ? openCells[r][c] : noHiddenCells;
+            myGrid[r][c] = new Cell(initialStates[r][c], isOpen, pointsPerCell);
+            myGrid[r][c].setupSelection(increment -> {
+                numSelected += increment? 1 : -1;
+                if (numSelected==numSelectedPerMove) updateGrid();
+            }, moveInProgress);
+            myGrid[r][c].setCoordinates(r,c);
+        } else {
+            getCell(r, c).cellState().set(initialStates[r][c]);
+            getCell(r, c).isOpen().set(noHiddenCells);
+        }
     }
 
     private List<Cell> getSelectedCells(){
@@ -215,8 +231,10 @@ public class Grid {
     private void openMatchedCells(List<Cell> matchedCells){
         for (Cell cell:matchedCells) {
             cell.isOpen().set(true);
-            if (cell.getMyState() == BOMB_STATE) myProgressManager.decrementLives();
-            myProgressManager.updateScore(cell.getScore());
+            if (!setupPhase){
+                if (cell.getMyState() == BOMB_STATE) myProgressManager.decrementLives();
+                myProgressManager.updateScore(cell.getScore());
+            }
         }
         matchedCells.clear();
     }
@@ -224,22 +242,28 @@ public class Grid {
     private void deleteMatchedCells(List<Cell> matchedCells){
         for (Cell cell:matchedCells) {
             cell.cellState().set(-1);
-            myProgressManager.updateScore(cell.getScore());
+            if (!setupPhase) myProgressManager.updateScore(cell.getScore());
         }
         for (int col = 0; col<getCols(); col++){
             for (int row = 1; row<getRows(); row++){
                 Cell cell = getCell(row, col);
-                if (cell.getMyState()==-1){
-                    int nextRowAbove = row-1;
-                    Cell above;
-                    while (nextRowAbove>=0 && (above = getCell(nextRowAbove, col)).getMyState()!=-1){
-                        cell.swap(above);
-                        cell = above;
-                        nextRowAbove--;
-                    } } }
-            if (addNewCells) refillColumn(col);
+                swapUpCells(row, col, cell);
+            }
+            if (addNewCells || setupPhase) refillColumn(col);
         }
         matchedCells.clear();
+    }
+
+    private void swapUpCells(int row, int col, Cell cell){
+        if (cell.getMyState()==-1){
+            int nextRowAbove = row-1;
+            Cell above;
+            while (nextRowAbove>=0 && (above = getCell(nextRowAbove, col)).getMyState()!=-1){
+                cell.swap(above);
+                cell = above;
+                nextRowAbove--;
+            }
+        }
     }
 
     private void refillColumn(int col){

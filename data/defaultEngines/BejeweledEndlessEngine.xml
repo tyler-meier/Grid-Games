@@ -8,4 +8,5 @@
   <MaxStateNumber>6</MaxStateNumber>
   <PointsPerCell>5</PointsPerCell>
   <SecondsOpen>0</SecondsOpen>
+  <GridCreator>RandomGridCreator</GridCreator>
 </Engine>
