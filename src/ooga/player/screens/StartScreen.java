@@ -68,7 +68,7 @@ public class StartScreen extends SuperScreen {
     Button startButton = makeButton("StartCommand", e -> {
       try {
         myPlayer.setGameType(nameOfGameMapping.get(games.getValue()));
-        if(!KNOWN_GAME_TYPES.contains(games.getValue()))
+        if(!KNOWN_GAME_TYPES.contains(nameOfGameMapping.get(games.getValue())))
         {
           myPlayer.setGameType(games.getValue());
         }
