@@ -7,13 +7,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import ooga.player.Player;
 import ooga.player.exceptions.NewUserDefinedGameException;
-
-
 import java.util.ResourceBundle;
 
 /**
- * Screen where the user selects the game attributes of their
- * new game.
+ * Screen where the user selects the game attributes of their new game.
  * @author Tanvi Pabby and Natalie Novitsky.
  */
 public class UserDefinedGameScreenTwo extends UserDefinedGameScreen {
@@ -23,18 +20,20 @@ public class UserDefinedGameScreenTwo extends UserDefinedGameScreen {
     private static final String TARGET_SCORE = "TargetScore";
     private static final String LOSS_STAT = "LossStat";
     private static final String LIVES_LEFT = "LivesLeft";
+
     private VBox lossStatBox = new VBox();
 
-
+    /**
+     * Constructor for this class, calls super, sets up the user created game scene to choose game attributes
+     * @param thisPlayer current player
+     */
     public UserDefinedGameScreenTwo(Player thisPlayer) {
         super(thisPlayer);
         myKeysResources = ResourceBundle.getBundle(KEYS_RESOURCES_PATH + MY_KEYS);
         myButtonEvent = event -> {
             try{
                 buildMap();
-                //TODO: can we standardize?
                 myPlayer.setUpMakeNewGameScreenThree();
-
             }
             catch(NewUserDefinedGameException p){
                 myErrorMessage.textProperty().setValue(p.getMessage());
@@ -46,7 +45,7 @@ public class UserDefinedGameScreenTwo extends UserDefinedGameScreen {
 
     /**
      * Sets the loss stat of the new game.
-     * @param canLoseLives
+     * @param canLoseLives boolean of whether loss stat is lives or not
      */
     public void setLossStatOptions(boolean canLoseLives){
         if (!canLoseLives){
@@ -54,7 +53,6 @@ public class UserDefinedGameScreenTwo extends UserDefinedGameScreen {
             lossStat.getItems().remove(LIVES_LEFT);
         }
     }
-
 
     @Override
     protected void screenSpecificSetup() {
@@ -75,6 +73,5 @@ public class UserDefinedGameScreenTwo extends UserDefinedGameScreen {
             if (kid instanceof TextField && !isInteger(((TextField) kid).getText())) return false;
         }
         return true;
-
     }
 }

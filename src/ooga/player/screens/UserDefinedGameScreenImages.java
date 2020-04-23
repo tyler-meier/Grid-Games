@@ -9,7 +9,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import ooga.player.Player;
 import ooga.player.exceptions.NewUserDefinedGameException;
-
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.Collections;
@@ -33,6 +32,10 @@ public class UserDefinedGameScreenImages extends UserDefinedGameScreen {
     private VBox images = new VBox();
     private String imagePath;
 
+    /**
+     * Constructor for this class, sets up  the screen to allow users to choose images for their game
+     * @param thisPlayer current player
+     */
     public UserDefinedGameScreenImages(Player thisPlayer) {
         super(thisPlayer);
         myKeysResources = ResourceBundle.getBundle(KEYS_RESOURCES_PATH + KEY);
@@ -50,23 +53,24 @@ public class UserDefinedGameScreenImages extends UserDefinedGameScreen {
     }
 
     /**
-     * Sets the path of the images the user selected for their game.
-     * @return
+     * @return the path of the images the user selected for their game.
      */
     public String getImagePath() { return imagePath; }
 
     /**
-     * Gets the range of the allowed states for the current game,
-     * based on the images selected by the user.
-     * @return
+     * @return the range of the allowed states for the current game, based on the images selected by the user.
      */
     public int[] getStateRange() { return stateRange; }
 
     /**
-     * Returns a boolean saying whether or not the selected game is minesweeper.
-     * @return
+     * @return a boolean saying whether or not the selected game is minesweeper.
      */
     public boolean isMinesweeper() { return imagePath.equals(MINESWEEPER); }
+
+    @Override
+    protected boolean additionalValidation() {
+        return true;
+    }
 
     @Override
     protected void screenSpecificSetup() {
@@ -118,10 +122,5 @@ public class UserDefinedGameScreenImages extends UserDefinedGameScreen {
         view.setPreserveRatio(true);
         view.setFitWidth(WIDTH);
         return view;
-    }
-
-    @Override
-    protected boolean additionalValidation() {
-        return true;
     }
 }

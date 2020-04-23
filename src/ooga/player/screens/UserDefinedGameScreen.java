@@ -1,5 +1,9 @@
 package ooga.player.screens;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -12,7 +16,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import ooga.player.Player;
 import ooga.player.exceptions.NewUserDefinedGameException;
-import java.util.*;
 
 /**
  * Super screen for all of the screens related to making a new
@@ -23,17 +26,21 @@ public abstract class UserDefinedGameScreen extends SuperScreen {
     protected static final String SPACE = " ";
     protected static final String KEYS_RESOURCES_PATH = "resources.";
     protected static final String STRINGS_RESOURCES_PATH = "NewGameStrings";
+    protected static final int SPACING_1 = 10;
     protected Map<String, Node> userInputFields = new HashMap<>();
     protected Map<String, String> selectedAttributes = new HashMap<>();
     protected Map<String, Label> labelMap = new HashMap<>();
-    protected ResourceBundle myKeysResources;
-    protected ResourceBundle newGameStringsResources;
-    protected String myButtonText;
-    protected String gameLabel;
+    protected ResourceBundle myKeysResources, newGameStringsResources;
+    protected String myButtonText, gameLabel;
     protected EventHandler<ActionEvent> myButtonEvent;
     protected VBox inputField;
     protected int[] stateRange;
 
+    /**
+     * Constructor for this class, calls super screen superclass, but is also a superclass itself so subclasses
+     * also call this to set up
+     * @param thisPlayer current player
+     */
     public UserDefinedGameScreen(Player thisPlayer) {
         super(thisPlayer);
         newGameStringsResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + STRINGS_RESOURCES_PATH);
@@ -41,7 +48,7 @@ public abstract class UserDefinedGameScreen extends SuperScreen {
 
     /**
      * Sets up the scene for the appropriate user defined game screen.
-     * @return
+     * @return the styled scene
      */
     public Scene setUpScene(){
         Label newGameLabel = new Label(newGameStringsResources.getString(gameLabel));
@@ -55,16 +62,19 @@ public abstract class UserDefinedGameScreen extends SuperScreen {
     }
 
     /**
-     * Returns a map of the user selected game attributes for their new game.
-     * @return
+     * @return a map of the user selected game attributes for their new game.
      */
-    public Map<String, String> getUserSelectedAttributes() { return selectedAttributes; }
+    public Map<String, String> getUserSelectedAttributes() {
+        return selectedAttributes;
+    }
 
     /**
      * Sets the range of the allowed states for the user's new game.
      * @param range
      */
-    public void setStateRange(int[] range){ stateRange = range; }
+    public void setStateRange(int[] range){
+        stateRange = range;
+    }
 
     protected abstract void screenSpecificSetup();
 
@@ -74,26 +84,29 @@ public abstract class UserDefinedGameScreen extends SuperScreen {
 
     protected VBox buildInputFields(){
         VBox myVBox = new VBox();
-        myVBox.setSpacing(10);
+        myVBox.setSpacing(SPACING_1);
         myVBox.setAlignment(Pos.CENTER);
         for(String key : Collections.list(myKeysResources.getKeys())){
             Label label = new Label(newGameStringsResources.getString(key));
-            if (isInteger(myKeysResources.getString(key))) {
-                userInputFields.put(key, new TextField());
-                selectedAttributes.put(key, myKeysResources.getString(key));
-            }
-            else {
-                ComboBox<String> dropDown = new ComboBox<>();
-                String[] options = myKeysResources.getString(key).split(SPACE);
-                for (String s:options) dropDown.getItems().add(s);
-                userInputFields.put(key, dropDown);
-            }
+            makeVBoxContents(key);
             labelMap.put(key, label);
             myVBox.getChildren().addAll(label, userInputFields.get(key));
         }
         return myVBox;
     }
 
+    private void makeVBoxContents(String key){
+        if (isInteger(myKeysResources.getString(key))) {
+            userInputFields.put(key, new TextField());
+            selectedAttributes.put(key, myKeysResources.getString(key));
+        }
+        else {
+            ComboBox<String> dropDown = new ComboBox<>();
+            String[] options = myKeysResources.getString(key).split(SPACE);
+            for (String s:options) dropDown.getItems().add(s);
+            userInputFields.put(key, dropDown);
+        }
+    }
 
     protected void buildMap(){
         for (String key:userInputFields.keySet()){
@@ -106,7 +119,6 @@ public abstract class UserDefinedGameScreen extends SuperScreen {
     }
 
     protected abstract boolean additionalValidation();
-
 
     protected String getValidText(Node node){
         if (node instanceof ComboBox) {

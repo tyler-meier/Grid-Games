@@ -9,8 +9,7 @@ import ooga.player.exceptions.NewUserDefinedGameException;
 import java.util.ResourceBundle;
 
 /**
- * Screen where user can select the characteristics of the grid
- * of their new game.
+ * Screen where user can select the characteristics of the grid of their new game.
  * @author Tanvi Pabby and Natalie Novitsky.
  */
 public class UserDefinedGameScreenThree extends UserDefinedGameScreen {
@@ -20,18 +19,19 @@ public class UserDefinedGameScreenThree extends UserDefinedGameScreen {
     private static final String START_BUTTON = "StartCommand";
     private static final String ROWS = "numRows";
     private static final String COLUMNS = "numColumns";
+    private static final String USER_MADE = "UserMadeGame";
+
     private int[][] initialStates;
-    GridPane myGrid = new GridPane();
+    private GridPane myGrid = new GridPane();
 
     public UserDefinedGameScreenThree(Player thisPlayer) {
         super(thisPlayer);
         myKeysResources = ResourceBundle.getBundle(KEYS_RESOURCES_PATH + MY_KEYS);
         myButtonEvent = e -> {
             try {
-                //TODO: ugly
                 buildMap();
                 getStates();
-                myPlayer.setGameType("UserMadeGame");
+                myPlayer.setGameType(USER_MADE);
                 myPlayer.startUserDefinedGame();
             } catch (NewUserDefinedGameException p){ myErrorMessage.textProperty().setValue(p.getMessage()); }
         };
@@ -40,8 +40,7 @@ public class UserDefinedGameScreenThree extends UserDefinedGameScreen {
     }
 
     /**
-     * Gets the selected initial states of the new game.
-     * @return
+     * @return the selected initial states of the new game.
      */
     public int[][] getUserSelectedInitialStates(){
         return initialStates;
@@ -76,7 +75,6 @@ public class UserDefinedGameScreenThree extends UserDefinedGameScreen {
         }
         myGrid.getChildren().clear();
         myGrid.setGridLinesVisible(true);
-        //TODO: hard coded keys :(
         int rows = Integer.parseInt(selectedAttributes.get(ROWS));
         int cols = Integer.parseInt(selectedAttributes.get(COLUMNS));
         initialStates = new int[rows][cols];
@@ -89,7 +87,6 @@ public class UserDefinedGameScreenThree extends UserDefinedGameScreen {
             }
         }
     }
-
 
     private void getStates(){
         for(Node node:myGrid.getChildren()){
