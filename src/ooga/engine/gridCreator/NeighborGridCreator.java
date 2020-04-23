@@ -35,7 +35,7 @@ public class NeighborGridCreator extends GridCreator {
 
     private void addBombs(){
         Random random = new Random();
-        int numBombs = random.nextInt(myNumLives) + myNumLives;
+        int numBombs = random.nextInt(myNumLives) + 2*myNumLives;
         for (int i=0; i<numBombs; i++){
             if (availableCells.size()<1) break;
             Point nextPoint = availableCells.remove(random.nextInt(availableCells.size()));

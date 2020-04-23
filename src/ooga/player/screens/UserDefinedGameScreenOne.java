@@ -84,8 +84,10 @@ public class UserDefinedGameScreenOne extends UserDefinedGameScreen {
         if (!inRange(maxState)) return false;
         int numSelected = Integer.parseInt(selectedAttributes.get(NUM_SELECTED));
         if (numSelected<MIN_NUM_SELECTED) return false;
-        if (titleField.getText().isEmpty()) return false;
-        return !titleField.getText().contains(SPACE);
+        String title = titleField.getText();
+        if (title.length()<1) return false;
+        if (!isNewGame(title) || myPlayer.getMyUserProfile().getAllSavedGamed().containsKey(title)) return false;
+        return !title.contains(SPACE);
     }
 
     private void addGameNameField(){

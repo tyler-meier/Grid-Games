@@ -30,6 +30,7 @@ public class Grid {
     private boolean noHiddenCells;
     private int pointsPerCell;
     private double secondsOpen;
+    private boolean setupPhase = false;
     private BooleanProperty moveInProgress = new SimpleBooleanProperty(false);
     private GameProgressManager myProgressManager;
     private StringProperty myErrorMessage = new SimpleStringProperty();
@@ -60,10 +61,18 @@ public class Grid {
         // this method does not need try catch, as the error is caught in the constructor of GameProgressManager
         if (myGrid==null) myGrid = new Cell[initialStates.length][initialStates[0].length];
         setupGridStates(initialStates, openCells);
+
         myProgressManager = new GameProgressManager(gameAttributes, myErrorMessage);
         myValidator.setMyProgressManager(myProgressManager);
         numSelected=0;
         //TODO handle matched cells in the beginning
+    }
+
+    public void clearInitialMatches(){
+        setupPhase = true;
+        List<Cell> initialMatches = new ArrayList<>(myMatchFinder.makeMatches(this));
+        handleMatchedCells(initialMatches);
+        setupPhase = false;
     }
 
     /**
@@ -173,7 +182,7 @@ public class Grid {
     private void findMatchedCells(List<Cell> matchedCells, List<Cell> selectedCells){
         if (noHiddenCells){
             matchedCells.addAll(myMatchFinder.makeMatches(selectedCells, this));
-            if (matchedCells.size()>0) myProgressManager.decrementMoves();
+            if (matchedCells.size()>0 && myProgressManager!=null) myProgressManager.decrementMoves();
         } else {
             matchedCells.addAll(selectedCells);
             matchedCells.addAll(myMatchFinder.makeMatches(this));
@@ -217,8 +226,10 @@ public class Grid {
     private void openMatchedCells(List<Cell> matchedCells){
         for (Cell cell:matchedCells) {
             cell.isOpen().set(true);
-            if (cell.getMyState() == BOMB_STATE) myProgressManager.decrementLives();
-            myProgressManager.updateScore(cell.getScore());
+            if (!setupPhase){
+                if (cell.getMyState() == BOMB_STATE) myProgressManager.decrementLives();
+                myProgressManager.updateScore(cell.getScore());
+            }
         }
         matchedCells.clear();
     }
@@ -226,7 +237,7 @@ public class Grid {
     private void deleteMatchedCells(List<Cell> matchedCells){
         for (Cell cell:matchedCells) {
             cell.cellState().set(-1);
-            myProgressManager.updateScore(cell.getScore());
+            if (!setupPhase) myProgressManager.updateScore(cell.getScore());
         }
         for (int col = 0; col<getCols(); col++){
             for (int row = 1; row<getRows(); row++){
@@ -239,7 +250,7 @@ public class Grid {
                         cell = above;
                         nextRowAbove--;
                     } } }
-            if (addNewCells) refillColumn(col);
+            if (addNewCells || setupPhase) refillColumn(col);
         }
         matchedCells.clear();
     }
