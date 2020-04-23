@@ -2,6 +2,7 @@ package ooga.data;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.beans.property.SimpleStringProperty;
@@ -32,6 +33,7 @@ public class Data implements DataLink {
   private final String MAIN_GAME_TAG = "game";
   private final String MAIN_ENGINE_TAG = "engine";
   private final String NEW_GAME_PATH_SKELETON = "data/savedGames/%s%s.xml";
+  private final String DEFAULT_CREATED_GAME_PATH_SKELETON = "data/defaultGames/%s%s.xml";
   private final String USER_DEFINED_ENGINE_PATH_SKELETON = "data/userDefinedEngines/%s%s.xml";
   private final String LEVEL_PATH_SKELETON = "data/defaultGames/%s/level_%d.xml";
   private final int LOAD_SAVED_GAME = -1;
@@ -147,7 +149,7 @@ public class Data implements DataLink {
   @Override
   public void saveGame(Map<String, String> gameAttributes, int[][] grid, boolean[][] uncoveredCells) {
       String path = String.format(NEW_GAME_PATH_SKELETON, currentUser.getUsername(), gameType);
-      XMLBuilder newGame = new XMLGameBuilder(MAIN_GAME_TAG, path, gameAttributes, grid, uncoveredCells);
+      XMLBuilder newSavedGame = new XMLGameBuilder(MAIN_GAME_TAG, path, gameAttributes, grid, uncoveredCells);
       currentUser.addSavedGame(gameType, path);
       myProfileManager.updatePLayerXML(currentUser);
       errorMessage.setValue("Game Saved!");
@@ -155,12 +157,11 @@ public class Data implements DataLink {
 
   public void saveCreatedGame(String newGameType, Map<String, String> engineAttributes, Map<String, String> gameAttributes, int[][] grid, boolean[][] uncoveredCells)
   {
-    if(currentUser!=null)
-    {
       gameType = newGameType;
       saveEngineToXML(engineAttributes);
       saveGame(gameAttributes, grid, uncoveredCells);
-    }
+      String path = String.format(DEFAULT_CREATED_GAME_PATH_SKELETON, currentUser.getUsername(), gameType);
+      XMLBuilder newDefaultGame = new XMLGameBuilder(MAIN_GAME_TAG, path, gameAttributes, grid, uncoveredCells);
   }
 
   public Map<String, String> loadCreatedGame(String username, String newGameType) throws LevelNotFoundException
@@ -213,7 +214,7 @@ public class Data implements DataLink {
   public Map<String, String> getGameLevelAttributes(String username, String gameType, int level) throws LevelNotFoundException{
     this.gameType = gameType;
     gamePath = String.format(LEVEL_PATH_SKELETON, gameType, level);
-    if(!KNOWN_GAME_TYPES.contains(gameType) | !username.equals(GUEST_USER) && level == LOAD_SAVED_GAME)
+    if(!KNOWN_GAME_TYPES.contains(gameType) | (!username.equals(GUEST_USER) && level == LOAD_SAVED_GAME))
     {
       gamePath = currentUser.getSavedGame(gameType);
     }
