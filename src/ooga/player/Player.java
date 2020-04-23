@@ -13,11 +13,11 @@ import ooga.player.screens.*;
 public class Player implements PlayerStart{
 
   private static final String TITLE = "Grid GORLS + Tyler :)";
-
   private Stage myStage;
   private LoginScreen myLoginScreen;
   private GameScreen myGameScreen;
   private CustomView myCustomView;
+  private LeaderBoardScreen myLeaderBoardScreen;
   private UserDefinedGameScreenOne myUserDefinedGameScreenOne;
   private UserDefinedGameScreenTwo myUserDefinedGameScreenTwo;
   private UserDefinedGameScreenThree myUserDefinedGameScreenThree;
@@ -27,6 +27,7 @@ public class Player implements PlayerStart{
   private UserProfile myUserProfile;
   private EventHandler<ActionEvent> myEngineEvent, myResetGameEvent, myResetLevelEvent, mySaveEvent, myNewWindowEvent, myNexLevelEvent, myUserDefEngineEvent;
   private Map<String, Integer> myLeaderBoardMap;
+  private String myModeType = "default";
 
   /**
    * Constructor for this class, sets up the main stage
@@ -41,7 +42,9 @@ public class Player implements PlayerStart{
   }
 
   /**
-   *
+   * Gets saved display preference from user profile, and if there is no
+   * saved profile, return default
+   * @return String of preferred theme
    */
   @Override
   public String getStyle() {
@@ -52,7 +55,7 @@ public class Player implements PlayerStart{
   }
 
   /**
-   *
+   * Create login screen and set on stage
    */
   @Override
   public void setUpLoginScreen(){
@@ -137,8 +140,8 @@ public class Player implements PlayerStart{
    */
   @Override
   public void setUpLeaderBoardScreen(){
-    LeaderBoardScreen myLeaderBoardScreen = new LeaderBoardScreen(this);
-    myLeaderBoardScreen.setUpScene();
+    myLeaderBoardScreen = new LeaderBoardScreen(this);
+    myLeaderBoardScreen.setUpScene(myModeType);
   }
 
   /**
@@ -411,7 +414,7 @@ public class Player implements PlayerStart{
    */
   @Override
   public void setMode(String modeType) {
-    //TODO: get rid of redundant code
+    myModeType = modeType;
     myCustomView.setStyle(modeType);
     myGameScreen.setStyle(modeType);
   }

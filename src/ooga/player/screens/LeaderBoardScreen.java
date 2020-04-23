@@ -1,6 +1,8 @@
 package ooga.player.screens;
 
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
@@ -28,11 +30,12 @@ public class LeaderBoardScreen extends SuperScreen {
   /**
    * Sets up the leader board scene and creates new window
    */
-  public void setUpScene(){
+  public void setUpScene(String modeType){
     Stage popUpWindow = new Stage();
     popUpWindow.initModality(Modality.APPLICATION_MODAL);
     popUpWindow.setTitle(TITLE);
     popUpWindow.setScene(styleScene(makeTitle(), makePanel()));
+    setStyle(modeType);
     popUpWindow.showAndWait();
   }
 
