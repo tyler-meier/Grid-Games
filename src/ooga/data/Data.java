@@ -215,7 +215,10 @@ public class Data implements DataLink {
     gamePath = String.format(LEVEL_PATH_SKELETON, gameType, level);
     if(!KNOWN_GAME_TYPES.contains(gameType) | !username.equals(GUEST_USER) && level == LOAD_SAVED_GAME)
     {
+      System.out.println(gamePath);
       gamePath = currentUser.getSavedGame(gameType);
+      System.out.println("here");
+      System.out.println(gamePath);
     }
     else if(level == LOAD_SAVED_GAME)
     {
