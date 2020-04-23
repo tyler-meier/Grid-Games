@@ -1,1 +1,1 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><game><MovesLeft>39</MovesLeft><LossStat>MovesLeft</LossStat><Score>15</Score><TargetScore>800</TargetScore><Level>1</Level><numRows>3</numRows><numColumns>3</numColumns><row>5 2 3</row><row>5 4 5</row><row>2 2 4</row></game>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><game><MovesLeft>38</MovesLeft><LossStat>MovesLeft</LossStat><Score>45</Score><TargetScore>800</TargetScore><Level>1</Level><numRows>3</numRows><numColumns>3</numColumns><row>3 4 5</row><row>1 2 3</row><row>2 5 5</row></game>

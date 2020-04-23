@@ -216,9 +216,9 @@ public class Data implements DataLink {
     gamePath = String.format(LEVEL_PATH_SKELETON, gameType, level);
     if(!KNOWN_GAME_TYPES.contains(gameType)  && username.equals(GUEST_USER))
     {
-      gamePath = String.format(DEFAULT_CREATED_GAME_PATH_SKELETON, username, gameType);
+      gamePath = String.format(DEFAULT_CREATED_GAME_PATH_SKELETON, currentUser.getUsername(), gameType);
     }
-    if(!KNOWN_GAME_TYPES.contains(gameType) | (!username.equals(GUEST_USER) && level == LOAD_SAVED_GAME))
+    else if(!KNOWN_GAME_TYPES.contains(gameType) | (!username.equals(GUEST_USER) && level == LOAD_SAVED_GAME))
     {
       gamePath = currentUser.getSavedGame(gameType);
     }
