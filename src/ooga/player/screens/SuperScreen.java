@@ -30,8 +30,11 @@ public abstract class SuperScreen {
   protected static final String DEFAULT_RESOURCE_FOLDER = "/" + RESOURCES;
   private static final String SOUND_RESOURCES = "src/" + RESOURCES + "sounds/";
   private static final int DIMENSION = 650;
-  private static final int MAIN_SPACING = 50;
   private static final int SMALL_SPACING = 10;
+  protected static final int MAIN_SPACING = 50;
+  protected static final String GUEST = "Guest";
+
+
 
   protected ResourceBundle myButtonResources, myStringResources, myGameNameResources;
   protected Label myErrorMessage;
@@ -58,6 +61,8 @@ public abstract class SuperScreen {
     myGameType = gameType;
     setCommonVariables(thisPlayer);
   }
+
+  protected boolean isNewGame(String key) { return !myGameNameResources.containsKey(key); }
 
   private void setCommonVariables(Player thisPlayer){
     myStringResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "BasicStrings");
@@ -203,4 +208,10 @@ public abstract class SuperScreen {
     MediaPlayer mediaPlayer = new MediaPlayer(sound);
     mediaPlayer.play();
   }
+
+  protected boolean isGuest()
+  {
+    return myPlayer.getUsername().equals(GUEST);
+  }
+
 }
