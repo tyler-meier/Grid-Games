@@ -197,18 +197,24 @@ public class Grid {
     private void setupGridStates(int[][] initialStates, boolean[][] openCells){
         for (int r = 0; r<initialStates.length; r++){
             for (int c=0; c<initialStates[0].length; c++){
-                if (getCell(r, c)==null){
-                    boolean isOpen = (openCells!=null) ? openCells[r][c] : noHiddenCells;
-                    myGrid[r][c] = new Cell(initialStates[r][c], isOpen, pointsPerCell);
-                    myGrid[r][c].setupSelection(increment -> {
-                        numSelected += increment? 1 : -1;
-                        if (numSelected==numSelectedPerMove) updateGrid();
-                    }, moveInProgress);
-                    myGrid[r][c].setCoordinates(r,c);
-                } else {
-                    getCell(r, c).cellState().set(initialStates[r][c]);
-                    getCell(r, c).isOpen().set(noHiddenCells);
-                } } }
+                checkAndSetCell(r,c, initialStates, openCells);
+            }
+        }
+    }
+
+    private void checkAndSetCell(int r, int c, int[][] initialStates, boolean[][] openCells){
+        if (getCell(r, c)==null){
+            boolean isOpen = (openCells!=null) ? openCells[r][c] : noHiddenCells;
+            myGrid[r][c] = new Cell(initialStates[r][c], isOpen, pointsPerCell);
+            myGrid[r][c].setupSelection(increment -> {
+                numSelected += increment? 1 : -1;
+                if (numSelected==numSelectedPerMove) updateGrid();
+            }, moveInProgress);
+            myGrid[r][c].setCoordinates(r,c);
+        } else {
+            getCell(r, c).cellState().set(initialStates[r][c]);
+            getCell(r, c).isOpen().set(noHiddenCells);
+        }
     }
 
     private List<Cell> getSelectedCells(){
@@ -239,17 +245,23 @@ public class Grid {
         for (int col = 0; col<getCols(); col++){
             for (int row = 1; row<getRows(); row++){
                 Cell cell = getCell(row, col);
-                if (cell.getMyState()==-1){
-                    int nextRowAbove = row-1;
-                    Cell above;
-                    while (nextRowAbove>=0 && (above = getCell(nextRowAbove, col)).getMyState()!=-1){
-                        cell.swap(above);
-                        cell = above;
-                        nextRowAbove--;
-                    } } }
+                swapUpCells(row, col, cell);
+            }
             if (addNewCells || setupPhase) refillColumn(col);
         }
         matchedCells.clear();
+    }
+
+    private void swapUpCells(int row, int col, Cell cell){
+        if (cell.getMyState()==-1){
+            int nextRowAbove = row-1;
+            Cell above;
+            while (nextRowAbove>=0 && (above = getCell(nextRowAbove, col)).getMyState()!=-1){
+                cell.swap(above);
+                cell = above;
+                nextRowAbove--;
+            }
+        }
     }
 
     private void refillColumn(int col){

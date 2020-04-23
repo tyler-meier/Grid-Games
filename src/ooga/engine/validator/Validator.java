@@ -13,8 +13,9 @@ import java.util.List;
  * @author Tanvi Pabby and Natalie Novitsky.
  */
 public abstract class Validator {
+    private static final int SECOND = 1000;
     protected GameProgressManager myProgressManager;
-    protected int time = 1000;
+    protected int time = SECOND;
 
     public Validator(){
     }
@@ -30,7 +31,7 @@ public abstract class Validator {
      * calls for that feature.
      * @param seconds
      */
-    public void setTime(double seconds) { time = (int) (1000*seconds); }
+    public void setTime(double seconds) { time = (int) (SECOND*seconds); }
 
     /**
      * This method sets the progress manager of the current game.

@@ -47,6 +47,10 @@ public class UserDefinedGameScreenTwo extends UserDefinedGameScreen {
         gameLabel = GAME_LABEL;
     }
 
+    /**
+     * Adds to the grid size of the new game
+     * @param p
+     */
     public void addGridSize(Point p){
         selectedAttributes.put(ROWS, String.valueOf(p.x));
         selectedAttributes.put(COLUMNS, String.valueOf(p.y));

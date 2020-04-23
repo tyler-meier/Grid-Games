@@ -50,6 +50,15 @@ public class UserDefinedGameScreenThree extends UserDefinedGameScreen {
     public int[][] getUserSelectedInitialStates(){
         return initialStates;
     }
+    /**
+     * Gets the size of the grid for the new game.
+     * @return
+     */
+    public Point getGridSize(){
+        int rows = Integer.parseInt(selectedAttributes.get(ROWS));
+        int cols = Integer.parseInt(selectedAttributes.get(COLUMNS));
+        return new Point(rows, cols);
+    }
 
     @Override
     protected boolean additionalValidation() {
@@ -81,14 +90,6 @@ public class UserDefinedGameScreenThree extends UserDefinedGameScreen {
             }
         });
     }
-
-
-    public Point getGridSize(){
-        int rows = Integer.parseInt(selectedAttributes.get(ROWS));
-        int cols = Integer.parseInt(selectedAttributes.get(COLUMNS));
-        return new Point(rows, cols);
-    }
-
     private void makeGrid(){
         try{
             buildMap();
