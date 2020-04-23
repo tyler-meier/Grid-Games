@@ -60,11 +60,9 @@ public class Grid {
     public void setNewGame(int[][] initialStates, Map<String, String> gameAttributes, boolean[][] openCells){
         if (myGrid==null) myGrid = new Cell[initialStates.length][initialStates[0].length];
         setupGridStates(initialStates, openCells);
-
         myProgressManager = new GameProgressManager(gameAttributes, myErrorMessage);
         myValidator.setMyProgressManager(myProgressManager);
         numSelected=0;
-        //TODO handle matched cells in the beginning
     }
 
     public void clearInitialMatches(){

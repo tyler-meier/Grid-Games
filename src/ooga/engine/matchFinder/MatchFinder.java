@@ -10,7 +10,6 @@ import java.util.List;
  * @author Tanvi Pabby and Natalie Novitsky.
  */
 public abstract class MatchFinder {
-    //FIXME: WE NEED TO GET A PARAMETER MATCH LENGTH
     private static final int DEFAULT_MATCH_LENGTH = 3;
     protected int matchLength;
 
@@ -38,6 +37,4 @@ public abstract class MatchFinder {
      * @return
      */
     public abstract List<Cell> makeMatches(Grid grid);
-
-    public void setMatchLength(int length) { matchLength = length; }
 }
