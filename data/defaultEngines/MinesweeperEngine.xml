@@ -6,7 +6,7 @@
   <NumSelectedPerMove>1</NumSelectedPerMove>
   <NoHiddenCells>false</NoHiddenCells>
   <MaxStateNumber>10</MaxStateNumber>
-  <PointsPerCell>10</PointsPerCell>
+  <PointsPerCell>1</PointsPerCell>
   <SecondsOpen>0</SecondsOpen>
   <GridCreator>NeighborGridCreator</GridCreator>
 </Engine>

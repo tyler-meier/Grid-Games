@@ -1,7 +1,5 @@
 package ooga.engine.matchFinder;
 
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import ooga.engine.Cell;
 import ooga.engine.Grid;
 import ooga.engine.validator.PairValidator;
@@ -13,7 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class FlippedFinderTest {
     private int[][] initialConfig = {{0,0,2,9,3}, {1,1,4,9,9}};

@@ -1,7 +1,5 @@
 package ooga.engine.matchFinder;
 
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import ooga.engine.Cell;
 import ooga.engine.Grid;
 import ooga.engine.validator.SwitchValidator;
@@ -13,7 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class OpenFinderTest {
     private int[][] initialConfig = { {1,6, 5, 4, 2}, {5, 1, 3, 1, 5}, {4, 4, 4, 6, 1}, {2, 3, 4, 3, 2}};
