@@ -6,7 +6,6 @@ import javafx.beans.property.StringProperty;
 import javafx.css.Match;
 import ooga.engine.grid.GridCreator;
 import ooga.engine.matchFinder.MatchFinder;
-import ooga.engine.newCellAdder.NewCellAdder;
 import ooga.engine.validator.Validator;
 
 import java.lang.reflect.InvocationTargetException;

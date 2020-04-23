@@ -25,7 +25,8 @@ public class Player implements PlayerStart{
   private String myGameType, currentUsername;
   private UserLogin myNewUserLogin, myUserLogin;
   private UserProfile myUserProfile;
-  private EventHandler<ActionEvent> myEngineEvent, myResetGameEvent, myResetLevelEvent, mySaveEvent, myNewWindowEvent, myNexLevelEvent, myUserDefEngineEvent;
+  private EventHandler<ActionEvent> myEngineEvent, myResetGameEvent, myResetLevelEvent, mySaveEvent,
+      myNewWindowEvent, myNexLevelEvent, myUserDefEngineEvent;
   private Map<String, Integer> myLeaderBoardMap;
   private String myModeType = "default";
 
@@ -63,8 +64,8 @@ public class Player implements PlayerStart{
   }
 
   /**
-   *
-   * @param dataError
+   * Creates the screen for creating a new profile
+   * @param dataError the error message to be displayed if an error occurs
    */
   @Override
   public void setUpNewProfScreen(StringProperty dataError){
@@ -74,8 +75,8 @@ public class Player implements PlayerStart{
   }
 
   /**
-   *
-   * @param dataError
+   * Creates the start/home screen for a user
+   * @param dataError the error message to be displayed if an error occurs
    */
   @Override
   public void setUpStartScreen(StringProperty dataError){
@@ -85,9 +86,9 @@ public class Player implements PlayerStart{
   }
 
   /**
-   *
-   * @param backendGrid
-   * @param dataError
+   * Creates the game screen where games are played
+   * @param backendGrid the actual grid to be changed into gridPane and images to be displayed
+   * @param dataError the error message to be displayed if an error occurs
    */
   @Override
   public void setUpGameScreen(Grid backendGrid, StringProperty dataError){
@@ -127,7 +128,7 @@ public class Player implements PlayerStart{
   }
 
   /**
-   *
+   * Sets up the preferences page to change the styling of the screen
    */
   @Override
   public void setUpCustomView(){
@@ -136,7 +137,7 @@ public class Player implements PlayerStart{
   }
 
   /**
-   *
+   * Creates the leader board screen/high score screens
    */
   @Override
   public void setUpLeaderBoardScreen(){
@@ -145,7 +146,7 @@ public class Player implements PlayerStart{
   }
 
   /**
-   *
+   * Creates the first screen for making new games where you choose images to use
    */
   @Override
   public void setUpMakeNewGameScreenImages(){
@@ -154,7 +155,8 @@ public class Player implements PlayerStart{
   }
 
   /**
-   *
+   * Creates the second scene in making new games where you
+   * start choosing attributes for the new game
    */
   @Override
   public void setUpMakeNewGameScreenOne(){
@@ -164,7 +166,8 @@ public class Player implements PlayerStart{
   }
 
   /**
-   *
+   * Creates the third scene in making new games where you
+   * start choosing attributes for the new game
    */
   @Override
   public void setUpMakeNewGameScreenTwo(){
@@ -175,7 +178,8 @@ public class Player implements PlayerStart{
   }
 
   /**
-   *
+   * Creates the fourth and final scene in making new games where you
+   * start choosing attributes for the new game
    */
   @Override
   public void setUpMakeNewGameScreenThree(){
@@ -185,8 +189,7 @@ public class Player implements PlayerStart{
   }
 
   /**
-   *
-   * @return
+   * @return map of the selected engine attributes a user chose for their game
    */
   @Override
   public Map<String,String> getUserMadeEngineAttributesMap(){
@@ -194,8 +197,7 @@ public class Player implements PlayerStart{
   }
 
   /**
-   *
-   * @return
+   * @return map of the specific game attributes the user chose for their game
    */
   @Override
   public Map<String, String> getUserMadeGameAttributesMap(){
@@ -203,8 +205,7 @@ public class Player implements PlayerStart{
   }
 
   /**
-   *
-   * @return
+   * @return a 2D array of the initial states for the game grid
    */
   @Override
   public int[][] getUserDefinedInitialStates(){
@@ -212,7 +213,7 @@ public class Player implements PlayerStart{
   }
 
   /**
-   * Sets the event to start the user define game
+   * Sets the event to start the user defined game
    * @param event the event to do
    */
   @Override
@@ -231,8 +232,8 @@ public class Player implements PlayerStart{
   }
 
   /**
-   *
-   * @param newWindowAction
+   * Sets action to create a new window to play
+   * @param newWindowAction the action
    */
   @Override
   public void setNewWindow(EventHandler<ActionEvent> newWindowAction){
@@ -240,8 +241,7 @@ public class Player implements PlayerStart{
   }
 
   /**
-   *
-   * @return
+   * @return the event to create a new window
    */
   @Override
   public EventHandler<ActionEvent> getNewWindowEvent(){
@@ -249,8 +249,8 @@ public class Player implements PlayerStart{
   }
 
   /**
-   *
-   * @param userLogin
+   * Sets an already created userLogin with the information needed
+   * @param userLogin the specific userLogin
    */
   @Override
   public void setUserLogin(UserLogin userLogin){
@@ -258,8 +258,7 @@ public class Player implements PlayerStart{
   }
 
   /**
-   *
-   * @return
+   * @return the currently set userLogin with info
    */
   @Override
   public UserLogin getMyUserLogin(){
@@ -267,8 +266,8 @@ public class Player implements PlayerStart{
   }
 
   /**
-   *
-   * @param userLogin
+   * Sets a new userLogin when creating one
+   * @param userLogin the specific new userLogin
    */
   @Override
   public void setNewLogin(UserLogin userLogin){
@@ -276,8 +275,7 @@ public class Player implements PlayerStart{
   }
 
   /**
-   *
-   * @return
+   * @return the new userLogin that was created and all of its information
    */
   @Override
   public UserLogin getMyNewUserLogin(){
@@ -285,7 +283,7 @@ public class Player implements PlayerStart{
   }
 
   /**
-   *
+   * Sets action for what happens when start button is clicked
    * @param event
    */
   @Override
@@ -294,8 +292,7 @@ public class Player implements PlayerStart{
   }
 
   /**
-   *
-   * @return
+   * @return the event that happens when start button is clicked
    */
   @Override
   public EventHandler<ActionEvent> getStartGameButtonEvent(){
@@ -303,7 +300,7 @@ public class Player implements PlayerStart{
   }
 
   /**
-   *
+   * Sets action for what happens when reset game button is pressed
    * @param event
    */
   @Override
@@ -312,8 +309,7 @@ public class Player implements PlayerStart{
   }
 
   /**
-   *
-   * @return
+   * @return the event for resetting a game
    */
   @Override
   public EventHandler<ActionEvent> getResetGameButtonEvent(){
@@ -321,7 +317,7 @@ public class Player implements PlayerStart{
   }
 
   /**
-   *
+   * Sets action for what happens when reset level button is pressed
    * @param event
    */
   @Override
@@ -330,8 +326,7 @@ public class Player implements PlayerStart{
   }
 
   /**
-   *
-   * @return
+   * @return the event for resetting the level of a game
    */
   @Override
   public EventHandler<ActionEvent> getResetLevelButtonEvent(){
@@ -339,15 +334,14 @@ public class Player implements PlayerStart{
   }
 
   /**
-   *
+   * Sets action for what happens when save button is pressed
    * @param event
    */
   @Override
   public void setSaveButton(EventHandler<ActionEvent> event) { mySaveEvent = event;}
 
   /**
-   *
-   * @return
+   * @return the event that takes place when save button is pressed
    */
   @Override
   public EventHandler<ActionEvent> getSaveButtonEvent() {
@@ -355,7 +349,7 @@ public class Player implements PlayerStart{
   }
 
   /**
-   *
+   * Sets action for when next level button is pressed
    * @param event
    */
   @Override
@@ -364,8 +358,7 @@ public class Player implements PlayerStart{
   }
 
   /**
-   *
-   * @return
+   * @return the event for pressing next level/proceed
    */
   @Override
   public EventHandler<ActionEvent> getNextLevelEvent() {
@@ -373,8 +366,8 @@ public class Player implements PlayerStart{
   }
 
   /**
-   *
-   * @param thisUserProfile
+   * Sets the userProfile to the current profile that is being played on
+   * @param thisUserProfile current profile
    */
   @Override
   public void setUserProfile(UserProfile thisUserProfile){
@@ -382,8 +375,7 @@ public class Player implements PlayerStart{
   }
 
   /**
-   *
-   * @return
+   * @return the current profile of the user playing
    */
   @Override
   public UserProfile getMyUserProfile(){
@@ -391,17 +383,16 @@ public class Player implements PlayerStart{
   }
 
   /**
-   *
-   * @param event
+   * Sets the map of all users that have high scores for a game
+   * @param map the being set to
    */
   @Override
-  public void setHighScoreMap(Map<String, Integer> event){
-    myLeaderBoardMap = event;
+  public void setHighScoreMap(Map<String, Integer> map){
+    myLeaderBoardMap = map;
   }
 
   /**
-   *
-   * @return
+   * @return the high score map of users and high scores
    */
   @Override
   public Map<String, Integer> getHighScoreMap(){
@@ -429,9 +420,7 @@ public class Player implements PlayerStart{
   }
 
   /**
-   * An instance variable String gameType is set as the name of the game type being currently played.
-   * The String is returned in this method.
-   * @return current game string
+   * @return a string of the current game being played/accessed
    */
   @Override
   public String getGameType(){
@@ -448,8 +437,6 @@ public class Player implements PlayerStart{
   };
 
   /**
-   * Gets the username of the current player of the game and who is logged in.
-   * The username string is returned in this method.
    * @return the current username of the player
    */
   @Override
