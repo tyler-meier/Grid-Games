@@ -46,7 +46,7 @@ public class UserDefinedGameScreenTwo extends UserDefinedGameScreen {
         myButtonText = BUTTON_TEXT;
         gameLabel = GAME_LABEL;
     }
-    
+
     /**
      * Adds to the grid size of the new game
      * @param p
