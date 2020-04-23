@@ -6,7 +6,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import ooga.engine.gridCreator.Grid;
+import ooga.engine.Grid;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

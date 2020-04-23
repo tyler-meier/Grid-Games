@@ -1,7 +1,6 @@
 package ooga.engine.validator;
 
 import ooga.engine.Cell;
-import ooga.engine.GameProgressManager;
 
 import java.util.List;
 
@@ -13,9 +12,11 @@ import java.util.List;
  */
 public class SwitchValidator extends Validator{
 
-    public SwitchValidator(){
-        super();
-    }
+    /**
+     * Validates based on two cells being neighbors.
+     * @param selected cells
+     * @return true if valid
+     */
     @Override
     public boolean checkIsValid(List<Cell> selected) {
         if (selected.size()>2) return false;

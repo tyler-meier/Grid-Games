@@ -1,7 +1,6 @@
 package ooga.engine;
 
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import ooga.engine.exceptions.InvalidDataException;
 import ooga.engine.gridCreator.GridCreator;
 import ooga.engine.matchFinder.MatchFinder;
 import ooga.engine.validator.Validator;
@@ -23,18 +22,20 @@ public class ComponentCreator {
     private static final String GRID_CREATOR = "GridCreator";
     private static final String NUM_SELECTED_PER_MOVE = "NumSelectedPerMove";
     private static final String MAX_STATE_NUMBER = "MaxStateNumber";
-    private StringProperty errorMessage = new SimpleStringProperty();
     private Map<String, String> myEngineAttributes;
 
-    public ComponentCreator(Map<String, String> engineAttributes, StringProperty errorMessage){
-        this.errorMessage.bindBidirectional(errorMessage);
+    /**
+     * Sets up new ComponentCreator with given engine attributes.
+     * @param engineAttributes details for this engine
+     */
+    public ComponentCreator(Map<String, String> engineAttributes){
         myEngineAttributes = engineAttributes;
     }
 
     /**
-     * This method is going to initialize and return the correct validator
+     * This method is going to initialize and return the correct Validator
      * for the current game. (**Can determine the file path based off the string it is passed)
-     * @return
+     * @return appropriate Validator
      */
     public Validator makeMyValidator(){
         String validatorType = myEngineAttributes.get(VALIDATOR);
@@ -45,15 +46,14 @@ public class ComponentCreator {
             return (Validator) o;
         }
         catch (Exception e) {
-            errorMessage.set(e.getMessage());
+            throw new InvalidDataException();
         }
-        return null;
     }
 
     /**
-     * This method is going to initialize and return the correct match finder
+     * This method is going to initialize and return the correct MatchFinder
      * for the current game.
-     * @return
+     * @return appropriate MatchFinder
      */
     public MatchFinder makeMyMatchFinder(){
         String matchFinderType = myEngineAttributes.get(MATCH_FINDER);
@@ -64,11 +64,15 @@ public class ComponentCreator {
             return (MatchFinder) o;
         }
         catch (Exception e) {
-            errorMessage.set(e.getMessage());
+            throw new InvalidDataException();
         }
-        return null;
     }
 
+    /**
+     * Initializes the correct GridCreator based on engine attributes, then passes necessary details to the
+     * GridCreator. GridCreator is always created, but only used if no initial config is provided.
+     * @return appropriate GridCreator subclass
+     */
     public GridCreator makeMyGridCreator(){
         String gridCreatorType = myEngineAttributes.get(GRID_CREATOR);
         Class<?> clazz = getClass(gridCreatorType, GRID_CREATOR_PATH);
@@ -80,24 +84,16 @@ public class ComponentCreator {
             return gridCreator;
         }
         catch (Exception e) {
-            errorMessage.set(e.getMessage());
+            throw new InvalidDataException();
         }
-        return null;
     }
 
-    /**
-     * Creates the class that matches the name of the command, if one exists
-     * @param nameOfClass
-     * @param path
-     * @return
-     */
     private Class<?> getClass(String nameOfClass, String path) {
         try{
             return Class.forName(path + nameOfClass);
         }
         catch(ClassNotFoundException e){
-            errorMessage.set(e.getMessage());
+            throw new InvalidDataException();
         }
-        return null;
     }
 }

@@ -6,7 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import ooga.controller.UserLogin;
 import ooga.data.UserProfile;
-import ooga.engine.gridCreator.Grid;
+import ooga.engine.Grid;
 
 public interface PlayerStart {
 
