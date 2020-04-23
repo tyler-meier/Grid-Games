@@ -1,9 +1,7 @@
 package ooga.player.screens;
 
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.control.Label;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -16,6 +14,7 @@ import ooga.player.Player;
 public class LeaderBoardScreen extends SuperScreen {
 
   private static final String TITLE = "High Score Leaderboard";
+  private static final String SEPARATOR = ":   ";
   private static final int SPACING = 10;
 
   /**
@@ -47,19 +46,10 @@ public class LeaderBoardScreen extends SuperScreen {
     VBox highScores = new VBox();
     for (String user : myPlayer.getHighScoreMap().keySet()){
       Integer score = myPlayer.getHighScoreMap().get(user);
-      highScores.getChildren().add(makeLabel(user, score));
+      highScores.getChildren().add(new Label(user+ SEPARATOR + score.toString()));
     }
     highScores.setSpacing(SPACING);
+    highScores.setAlignment(Pos.CENTER);
     return highScores;
-  }
-
-  private Node makeLabel(String user, Integer score){
-    HBox box = new HBox();
-    Label name = new Label(user+": ");
-    Label value = new Label(score.toString());
-    box.setSpacing(30);
-    box.setAlignment(Pos.CENTER);
-    box.getChildren().addAll(name, value);
-    return box;
   }
 }

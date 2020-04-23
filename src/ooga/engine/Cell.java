@@ -18,7 +18,6 @@ public class Cell {
     BooleanProperty inProgress = new SimpleBooleanProperty();
     BooleanProperty selected = new SimpleBooleanProperty(false);
     int numPoints;
-    String powerUp;
     int myRow;
     int myColumn;
     SelectedCellCounter myCounter;
@@ -135,9 +134,7 @@ public class Cell {
      */
     public void randomize(int maxState){
         Random random = new Random();
-        // random number 1 through maxState inclusive
         int randomInteger = random.nextInt(maxState)+1;
-        System.out.println("new cell at: " + myRow + " " + myColumn);
         myState.set(randomInteger);
     }
 

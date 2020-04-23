@@ -1,15 +1,17 @@
 package ooga.player.screens;
 
-import java.util.*;
+import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -35,7 +37,6 @@ public class GameScreen extends SuperScreen {
   private BooleanProperty isLoss = new SimpleBooleanProperty();
   private BooleanProperty isWin = new SimpleBooleanProperty();
   private BooleanProperty paused = new SimpleBooleanProperty(false);
-  //private String myTime = "00:00:000";
   private Timer timer;
   private VBox verticalPanel = new VBox();
   private Button pausePlayButton = new Button();
@@ -47,7 +48,9 @@ public class GameScreen extends SuperScreen {
    */
   public GameScreen(String gameType, Player player){
     super(gameType, player);
-    myGrid = new GridView(gameType, GRID_SIZE);
+    String imagePath = gameType;
+    if(!isGuest()) imagePath = player.getMyUserProfile().getImagePreference(gameType);
+    myGrid = new GridView(imagePath, GRID_SIZE);
   }
 
   /**
@@ -74,7 +77,9 @@ public class GameScreen extends SuperScreen {
   public void setGrid(Grid backendGrid){
     VBox gridAndName = new VBox();
     GridPane myGridPane = myGrid.setGrid(backendGrid, paused);
-    Label name = new Label(myGameNameResources.getString(myGameType));
+    Label name = new Label();
+    if (!isNewGame(myGameType)) name.setText(myGameNameResources.getString(myGameType));
+    else name.setText(myGameType);
     name.setId("game-name-label");
     myGridPane.setAlignment(Pos.CENTER);
     gridAndName.setAlignment(Pos.CENTER);
@@ -135,14 +140,17 @@ public class GameScreen extends SuperScreen {
 
   //puts all essential buttons into a vbox
   private void makeButtonPanel() {
-    Button leaderBoardButton = makeButton("LeaderBoardCommand", e -> myPlayer.setUpLeaderBoardScreen());
-    verticalPanel.getChildren().addAll(makeLogoutButton(), makeResetLevelButton(), makeResetGameButton(),
-        makeThisSaveButton(), leaderBoardButton);
+    verticalPanel.getChildren().addAll(makeLogoutButton(), makeResetLevelButton(),
+            makeThisSaveButton());
+    if (!isNewGame(myGameType)) {
+      Button leaderBoardButton = makeButton("LeaderBoardCommand", e -> myPlayer.setUpLeaderBoardScreen());
+      verticalPanel.getChildren().addAll(makeResetGameButton(), leaderBoardButton);
+    }
   }
 
   //sets event on save button on action
   private Button makeThisSaveButton(){
-    Button saveButton = makeButton("SaveCommand", e->{   //TODO: see if you  can get this method out somehow
+    return makeButton("SaveCommand", e->{   //TODO: see if you  can get this method out somehow
       if(verticalPanel.getChildren().contains(pausePlayButton) && timer != null) {
         timer.cancel();
         pausePlayButton.setText(myButtonResources.getString("PlayCommand"));
@@ -157,11 +165,10 @@ public class GameScreen extends SuperScreen {
         myErrorMessage.setWrapText(true);
       }
     });
-    return saveButton;
   }
 
   //method for making any label in this class
-  private Node makeLabel(IntegerProperty integerProperty, String key) {
+  private HBox makeLabel(IntegerProperty integerProperty, String key) {
     HBox box = new HBox();
     Label name = new Label(key+": ");
     Label value = new Label();

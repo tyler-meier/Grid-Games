@@ -10,16 +10,12 @@ import ooga.engine.grid.Grid;
 import java.util.ResourceBundle;
 
 public class GridView {
-    private static final String RESOURCES = "ooga/player/Resources/";
-    private static final String DEFAULT_RESOURCE_PACKAGE = RESOURCES.replace("/", ".");
     private int myGridSize;
-    private String myGameType;
-    private ResourceBundle myResources;
+    private String myImagePath;
 
-    public GridView(String gameType, int gridSize) {
-        myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + gameType);
+    public GridView(String imagePath, int gridSize) {
         myGridSize = gridSize;
-        myGameType = gameType;
+        myImagePath = imagePath;
     }
 
 //    //code for the method to set up the front end grid with binding--move this to where it makes the most sense
@@ -37,7 +33,7 @@ public class GridView {
                 Rectangle rec = new Rectangle(myCellWidth, myCellHeight, Color.WHITE);
                 rec.setStroke(Color.BLACK);
                 rec.setStrokeWidth(1);
-                UICell currCell = new UICell(backendGrid.getCell(row, col), myGameType, myCellHeight, myCellWidth);
+                UICell currCell = new UICell(backendGrid.getCell(row, col), myImagePath, myCellHeight, myCellWidth);
                 ImageView myImageView = currCell.getImageView();
                 currCell.setPauseProperty(paused);
                 GridPane.setRowIndex(myImageView, row * myCellWidth);

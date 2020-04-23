@@ -1,10 +1,11 @@
 package ooga.player.screens;
 
+import java.util.*;
+
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import java.util.*;
 import javafx.scene.layout.VBox;
 import ooga.player.Player;
 
@@ -16,6 +17,7 @@ public class StartScreen extends SuperScreen {
 
   private ComboBox<String> games = new ComboBox<>();
   private Map<String, String> nameOfGameMapping = new HashMap<>();
+
 
   /**
    * Constructor of this class, calls super to set up instance variables
@@ -48,20 +50,33 @@ public class StartScreen extends SuperScreen {
         nameOfGameMapping.put(myGameNameResources.getString(key), key);
         games.getItems().add(myGameNameResources.getString(key));
     }
+    if(myPlayer.getMyUserProfile() != null && !myPlayer.getMyUserProfile().getAllSavedGamed().isEmpty())
+    {
+      for(String userDefinedGame: myPlayer.getMyUserProfile().getAllSavedGamed().keySet())
+      {
+        if(isNewGame(userDefinedGame)) { games.getItems().add(userDefinedGame); }
+      }
+    }
     return styleContents(gameChoice, games);
   }
 
   private VBox setUpButtons(){
     Button startButton = makeButton("StartCommand", e -> {
       try {
-        myPlayer.setGameType(nameOfGameMapping.get(games.getValue()));
-        System.out.println(nameOfGameMapping.get(games.getValue()));
+        if(nameOfGameMapping.containsKey(games.getValue()))
+            myPlayer.setGameType(nameOfGameMapping.get(games.getValue()));
+        else myPlayer.setGameType(games.getValue());
         myPlayer.getStartGameButtonEvent().handle(e);
       } catch (NullPointerException p){
         p.printStackTrace();
         myErrorMessage.textProperty().setValue(myStringResources.getString("BlankChoice"));
       }
     });
-    return styleContents(startButton, makeLogoutButton());
+    Button makeNewGameButton = makeButton("MakeNewGame", e-> {
+        myPlayer.setUpMakeNewGameScreenImages();
+    });
+    //TODO use isguest
+    if (myPlayer.getUsername().equals(GUEST)) return styleContents(startButton, makeLogoutButton());
+    return styleContents(startButton, makeLogoutButton(), makeNewGameButton);
   }
 }

@@ -53,6 +53,17 @@ class ProfileManagerTest {
 
   }
 
+  @Test
+  void checkImagePreference()
+  {
+    Data data = new Data();
+
+    UserProfile user = data.login("jay18", "boob");
+    user.setImagePreferences("newFunGame", "CandyCrush");
+    System.out.println(user.getAllImagePreference());
+  }
+
+
 
   /*@Test
   void addProfileTest()

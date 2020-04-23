@@ -47,6 +47,7 @@ public class ProfileManager {
   private final String HIGH_SCORE_TAG = "HighScore";
   private final String PREVIOUS_GAME_TAG = "PreviousGame";
   private static final String DISPLAY_PREF_TAG = "DisplayPreference";
+  private static final String IMAGE_PREF_TAG = "ImagePreference";
 
   private List<String> inappropriateNameEntries;
   private List<UserProfile> allProfiles;
@@ -232,6 +233,7 @@ public class ProfileManager {
 
     setHighScores(temp, tempProfileParser);
     addSavedGames(temp, tempProfileParser);
+    setImagePreferences(temp, tempProfileParser);
     return temp;
   }
 
@@ -243,6 +245,18 @@ public class ProfileManager {
       {
         String [] parts = entry.split(DELIMINATOR);
         temp.addHighScore(parts[GAME_TYPE_INDEX], Integer.parseInt(parts[VALUE_INDEX]));
+      }
+    }
+  }
+
+  private void setImagePreferences(UserProfile temp, XMLParser tempProfileParser) {
+    List<String> imagePreferences = tempProfileParser.getListFromXML(IMAGE_PREF_TAG, DEFAULT_LIST_VALUE);
+    if(!imagePreferences.get(GAME_TYPE_INDEX).isEmpty())
+    {
+      for(String entry: imagePreferences)
+      {
+        String [] parts = entry.split(DELIMINATOR);
+        temp.setImagePreferences(parts[GAME_TYPE_INDEX], parts[VALUE_INDEX]);
       }
     }
   }
