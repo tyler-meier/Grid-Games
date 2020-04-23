@@ -5,6 +5,12 @@ import ooga.engine.GameProgressManager;
 
 import java.util.List;
 
+/**
+ * This class represents the validator for games where
+ * two cells are swapped and the resulting positions of the cells have
+ * to make at least one match in the grid.
+ * @author Natalie Novitsky and Tanvi Pabby.
+ */
 public class SwitchValidator extends Validator{
 
     public SwitchValidator(){

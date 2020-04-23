@@ -8,6 +8,11 @@ import ooga.player.exceptions.NewUserDefinedGameException;
 
 import java.util.ResourceBundle;
 
+/**
+ * Screen where the user chooses the engine attributes
+ * of their new game.
+ * @author Natalite Novitsky and Tanvi Pabby.
+ */
 public class UserDefinedGameScreenOne extends UserDefinedGameScreen {
     private static final String MY_KEYS = "EngineKeys";
     private static final String BUTTON_TEXT = "Next";
@@ -45,8 +50,16 @@ public class UserDefinedGameScreenOne extends UserDefinedGameScreen {
         gameLabel = GAME_LABEL;
     }
 
-
+    /**
+     * Gets the title of the user defined game.
+     * @return
+     */
     public String getTitle() { return titleField.getText(); }
+
+    /**
+     * Returns whether or not the new game has hidden cells in it.
+     * @return
+     */
     public boolean hasHiddenCells() { return !Boolean.parseBoolean(selectedAttributes.get(NO_HIDDEN_CELLS)); }
 
     @Override

@@ -11,6 +11,11 @@ import ooga.player.exceptions.NewUserDefinedGameException;
 
 import java.util.ResourceBundle;
 
+/**
+ * Screen where the user selects the game attributes of their
+ * new game.
+ * @author Tanvi Pabby and Natalie Novitsky.
+ */
 public class UserDefinedGameScreenTwo extends UserDefinedGameScreen {
     private static final String MY_KEYS = "GameKeys";
     private static final String BUTTON_TEXT = "Next";
@@ -39,7 +44,10 @@ public class UserDefinedGameScreenTwo extends UserDefinedGameScreen {
         gameLabel = GAME_LABEL;
     }
 
-
+    /**
+     * Sets the loss stat of the new game.
+     * @param canLoseLives
+     */
     public void setLossStatOptions(boolean canLoseLives){
         if (!canLoseLives){
             ComboBox lossStat = (ComboBox) userInputFields.get(LOSS_STAT);

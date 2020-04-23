@@ -16,6 +16,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
 
+/**
+ * Screen where the user can select the images they want in their new
+ * user defined game.
+ * @author Natalie Novitsky.
+ */
 public class UserDefinedGameScreenImages extends UserDefinedGameScreen {
     private static final String KEY = "ImageGroups";
     private static final String BUTTON_TEXT = "Next";
@@ -44,8 +49,23 @@ public class UserDefinedGameScreenImages extends UserDefinedGameScreen {
         gameLabel = GAME_LABEL;
     }
 
+    /**
+     * Sets the path of the images the user selected for their game.
+     * @return
+     */
     public String getImagePath() { return imagePath; }
+
+    /**
+     * Gets the range of the allowed states for the current game,
+     * based on the images selected by the user.
+     * @return
+     */
     public int[] getStateRange() { return stateRange; }
+
+    /**
+     * Returns a boolean saying whether or not the selected game is minesweeper.
+     * @return
+     */
     public boolean isMinesweeper() { return imagePath.equals(MINESWEEPER); }
 
     @Override

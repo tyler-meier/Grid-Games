@@ -6,6 +6,11 @@ import ooga.engine.grid.Grid;
 
 import java.util.*;
 
+/**
+ * This class finds matches based on whether or not there are at least
+ * three cells next to each other of the same state.
+ * @author Natalie Novitsky and Tanvi Pabby.
+ */
 public class OpenFinder extends MatchFinder {
 
     public OpenFinder(){

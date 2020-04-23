@@ -10,7 +10,9 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 /**
- * This class represents a cell object.
+ * This class represents a cell object, and the different actions of
+ * a cell.
+ * @author Natalie Novitsky and Tanvi Pabby.
  */
 public class Cell {
     IntegerProperty myState = new SimpleIntegerProperty();

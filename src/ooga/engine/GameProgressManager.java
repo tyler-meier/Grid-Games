@@ -6,6 +6,11 @@ import ooga.engine.exceptions.InvalidDataException;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * The purpose of this class is to keep track of all of the statistics of the current
+ * game, such as level, score, loss statistics, and loss/win status.
+ * @author Natalie Novitsky and Tanvi Pabby
+ */
 public class GameProgressManager{
     private static final String SCORE = "Score";
     private static final String TARGET_SCORE = "TargetScore";

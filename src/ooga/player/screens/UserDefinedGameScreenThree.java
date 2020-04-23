@@ -8,7 +8,11 @@ import ooga.player.Player;
 import ooga.player.exceptions.NewUserDefinedGameException;
 import java.util.ResourceBundle;
 
-
+/**
+ * Screen where user can select the characteristics of the grid
+ * of their new game.
+ * @author Tanvi Pabby and Natalie Novitsky.
+ */
 public class UserDefinedGameScreenThree extends UserDefinedGameScreen {
     private static final String MY_KEYS = "NewGridKeys";
     private static final String MAKE_GRID_BUTTON = "MakeGrid";
@@ -35,6 +39,13 @@ public class UserDefinedGameScreenThree extends UserDefinedGameScreen {
         gameLabel = GAME_LABEL;
     }
 
+    /**
+     * Gets the selected initial states of the new game.
+     * @return
+     */
+    public int[][] getUserSelectedInitialStates(){
+        return initialStates;
+    }
 
     @Override
     protected boolean additionalValidation() {
@@ -55,10 +66,6 @@ public class UserDefinedGameScreenThree extends UserDefinedGameScreen {
             }
         });
         inputField.getChildren().add(makeGridButton);
-    }
-
-    public int[][] getUserSelectedInitialStates(){
-        return initialStates;
     }
 
     private void makeGrid(){
