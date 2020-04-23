@@ -62,6 +62,8 @@ public abstract class SuperScreen {
     setCommonVariables(thisPlayer);
   }
 
+  protected boolean isNewGame(String key) { return !myGameNameResources.containsKey(key); }
+
   private void setCommonVariables(Player thisPlayer){
     myStringResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "BasicStrings");
     myButtonResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "ButtonCreation");
