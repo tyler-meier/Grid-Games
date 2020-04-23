@@ -202,4 +202,10 @@ public abstract class SuperScreen {
     MediaPlayer mediaPlayer = new MediaPlayer(sound);
     mediaPlayer.play();
   }
+
+  protected boolean isGuest()
+  {
+    return myPlayer.getUsername().equals(GUEST);
+  }
+
 }
