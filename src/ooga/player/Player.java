@@ -237,8 +237,12 @@ public class Player implements PlayerStart{
     myUserDefEngineEvent = event;
   }
 
-  public EventHandler<ActionEvent> getUserMadeStartButton(){
-    return myUserDefEngineEvent;
+  public void startUserDefinedGame(){
+    String title = myUserDefinedGameScreenOne.getTitle();
+    String path = myUserDefinedGameScreenImages.getImagePath();
+    myUserProfile.setImagePreferences(title, path);
+    setGameType(title);
+    myUserDefEngineEvent.handle(new ActionEvent());
   }
 
   /**

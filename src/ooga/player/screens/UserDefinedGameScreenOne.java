@@ -46,7 +46,7 @@ public class UserDefinedGameScreenOne extends UserDefinedGameScreen {
     }
 
 
-
+    public String getTitle() { return titleField.getText(); }
     public boolean hasHiddenCells() { return !Boolean.parseBoolean(selectedAttributes.get(NO_HIDDEN_CELLS)); }
 
     @Override

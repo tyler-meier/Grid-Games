@@ -29,7 +29,7 @@ public class UserDefinedGameScreenThree extends UserDefinedGameScreen {
                 buildMap();
                 getStates();
                 myPlayer.setGameType("UserMadeGame");
-                myPlayer.getUserMadeStartButton().handle(e);
+                myPlayer.startUserDefinedGame();
             } catch (NewUserDefinedGameException p){ myErrorMessage.textProperty().setValue(p.getMessage()); }
         };
         myButtonText = START_BUTTON;
