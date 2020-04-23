@@ -34,8 +34,6 @@ public abstract class SuperScreen {
   protected static final int MAIN_SPACING = 50;
   protected static final String GUEST = "Guest";
 
-
-
   protected ResourceBundle myButtonResources, myStringResources, myGameNameResources;
   protected Label myErrorMessage;
   protected Player myPlayer;
@@ -61,8 +59,6 @@ public abstract class SuperScreen {
     myGameType = gameType;
     setCommonVariables(thisPlayer);
   }
-
-  protected boolean isNewGame(String key) { return !myGameNameResources.containsKey(key); }
 
   private void setCommonVariables(Player thisPlayer){
     myStringResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "BasicStrings");
@@ -209,8 +205,20 @@ public abstract class SuperScreen {
     mediaPlayer.play();
   }
 
-  protected boolean isGuest()
-  {
+  /**
+   * Sees if the given game is on already in game  resources/not a user created one
+   * @param key game being checked
+   * @return true if not user created, false if so
+   */
+  protected boolean isNewGame(String key) {
+    return !myGameNameResources.containsKey(key);
+  }
+
+  /**
+   * Checks if player is currently a guest
+   * @return true if yes, false if no
+   */
+  protected boolean isGuest() {
     return myPlayer.getUsername().equals(GUEST);
   }
 
