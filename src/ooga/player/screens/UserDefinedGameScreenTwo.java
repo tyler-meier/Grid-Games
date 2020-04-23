@@ -33,15 +33,7 @@ public class UserDefinedGameScreenTwo extends UserDefinedGameScreen {
         super(thisPlayer);
         myKeysResources = ResourceBundle.getBundle(KEYS_RESOURCES_PATH + MY_KEYS);
         myButtonEvent = event -> {
-            try{
-                buildMap();
-                //TODO: can we standardize?
-                myPlayer.setUpMakeNewGameScreenThree();
-
-            }
-            catch(NewUserDefinedGameException p){
-                myErrorMessage.textProperty().setValue(p.getMessage());
-            }
+            handleButtonEvent();
         };
         myButtonText = BUTTON_TEXT;
         gameLabel = GAME_LABEL;
@@ -67,6 +59,17 @@ public class UserDefinedGameScreenTwo extends UserDefinedGameScreen {
         }
     }
 
+    private void handleButtonEvent(){
+        try{
+            buildMap();
+            //TODO: can we standardize?
+            myPlayer.setUpMakeNewGameScreenThree();
+
+        }
+        catch(NewUserDefinedGameException p){
+            myErrorMessage.textProperty().setValue(p.getMessage());
+        }
+    }
 
     @Override
     protected void screenSpecificSetup() {

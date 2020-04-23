@@ -42,17 +42,12 @@ public class UserDefinedGameScreenOne extends UserDefinedGameScreen {
         super(thisPlayer);
         myKeysResources = ResourceBundle.getBundle(KEYS_RESOURCES_PATH + MY_KEYS);
         myButtonEvent = event -> {
-            try{
-                buildMap();
-                myPlayer.setUpMakeNewGameScreenTwo();
-            }
-            catch(NewUserDefinedGameException p){
-                myErrorMessage.textProperty().setValue(p.getMessage());
-            }
+            handleButtonEvent();
         };
         myButtonText = BUTTON_TEXT;
         gameLabel = GAME_LABEL;
     }
+
 
     /**
      * Gets the title of the user defined game.
@@ -74,21 +69,39 @@ public class UserDefinedGameScreenOne extends UserDefinedGameScreen {
         ComboBox<String> noHiddenCells = (ComboBox<String>) userInputFields.get(NO_HIDDEN_CELLS);
         noHiddenCells.getSelectionModel().selectedItemProperty().addListener(e->{
             if (noHiddenCells.getSelectionModel().getSelectedItem().equals(FALSE)){
-                ((ComboBox) userInputFields.get(VALIDATOR)).setValue(PAIR);
-                ((ComboBox) userInputFields.get(MATCH_FINDER)).setValue(FLIPPED);
-                ((ComboBox) userInputFields.get(NEW_CELLS)).setValue(FALSE);
-                ((ComboBox) userInputFields.get(GRID_CREATOR)).setValue(PAIR_GRID);
-                inputField.getChildren().addAll(labelMap.get(SECONDS_OPEN), userInputFields.get(SECONDS_OPEN), labelMap.get(NUM_SELECTED), userInputFields.get(NUM_SELECTED));
-                inputField.getChildren().removeAll(labelMap.get(NEW_CELLS), userInputFields.get(NEW_CELLS));
+                handleNoHiddenCellsSetup();
             } else {
-                ((ComboBox) userInputFields.get(VALIDATOR)).setValue(SWITCH);
-                ((ComboBox) userInputFields.get(MATCH_FINDER)).setValue(OPEN);
-                ((ComboBox) userInputFields.get(NEW_CELLS)).setValue(null);
-                ((ComboBox) userInputFields.get(GRID_CREATOR)).setValue(RANDOM_GRID);
-                inputField.getChildren().addAll(labelMap.get(NEW_CELLS), userInputFields.get(NEW_CELLS));
-                inputField.getChildren().removeAll(labelMap.get(SECONDS_OPEN), userInputFields.get(SECONDS_OPEN), labelMap.get(NUM_SELECTED), userInputFields.get(NUM_SELECTED));
+                handleHiddenCellSetup();
             }
         });
+    }
+
+    private void handleButtonEvent(){
+        try{
+            buildMap();
+            myPlayer.setUpMakeNewGameScreenTwo();
+        }
+        catch(NewUserDefinedGameException p){
+            myErrorMessage.textProperty().setValue(p.getMessage());
+        }
+    }
+
+    private void handleNoHiddenCellsSetup(){
+        ((ComboBox) userInputFields.get(VALIDATOR)).setValue(PAIR);
+        ((ComboBox) userInputFields.get(MATCH_FINDER)).setValue(FLIPPED);
+        ((ComboBox) userInputFields.get(NEW_CELLS)).setValue(FALSE);
+        ((ComboBox) userInputFields.get(GRID_CREATOR)).setValue(PAIR_GRID);
+        inputField.getChildren().addAll(labelMap.get(SECONDS_OPEN), userInputFields.get(SECONDS_OPEN), labelMap.get(NUM_SELECTED), userInputFields.get(NUM_SELECTED));
+        inputField.getChildren().removeAll(labelMap.get(NEW_CELLS), userInputFields.get(NEW_CELLS));
+    }
+
+    private void handleHiddenCellSetup(){
+        ((ComboBox) userInputFields.get(VALIDATOR)).setValue(SWITCH);
+        ((ComboBox) userInputFields.get(MATCH_FINDER)).setValue(OPEN);
+        ((ComboBox) userInputFields.get(NEW_CELLS)).setValue(null);
+        ((ComboBox) userInputFields.get(GRID_CREATOR)).setValue(RANDOM_GRID);
+        inputField.getChildren().addAll(labelMap.get(NEW_CELLS), userInputFields.get(NEW_CELLS));
+        inputField.getChildren().removeAll(labelMap.get(SECONDS_OPEN), userInputFields.get(SECONDS_OPEN), labelMap.get(NUM_SELECTED), userInputFields.get(NUM_SELECTED));
     }
 
     @Override
@@ -107,5 +120,6 @@ public class UserDefinedGameScreenOne extends UserDefinedGameScreen {
         Label titleLabel = new Label(newGameStringsResources.getString(TITLE_PROMPT));
         inputField.getChildren().addAll(titleLabel, titleField);
     }
+
 
 }
