@@ -41,6 +41,10 @@ public class UserDefinedGameScreenOne extends UserDefinedGameScreen {
         gameLabel = GAME_LABEL;
     }
 
+
+
+    public boolean hasHiddenCells() { return !Boolean.parseBoolean(selectedAttributes.get(NO_HIDDEN_CELLS)); }
+
     @Override
     protected void screenSpecificSetup() {
         inputField.getChildren().clear();
@@ -63,14 +67,10 @@ public class UserDefinedGameScreenOne extends UserDefinedGameScreen {
         });
     }
 
-    public int getMaxState(){
-        return Integer.parseInt(selectedAttributes.get(MAX_STATE));
-    }
-
     @Override
     protected boolean additionalValidation() {
-        return true;
+        int maxState = Integer.parseInt(selectedAttributes.get(MAX_STATE));
+        return inRange(maxState);
     }
-
 
 }

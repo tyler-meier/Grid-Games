@@ -181,12 +181,8 @@ public class Grid {
 
     private void handleMatchedCells(List<Cell> matchedCells){
         while (matchedCells.size()>0){
-            if (!noHiddenCells) {
-                openMatchedCells(matchedCells);
-            }
-            else {
-                deleteMatchedCells(matchedCells);
-            }
+            if (!noHiddenCells) openMatchedCells(matchedCells);
+            else deleteMatchedCells(matchedCells);
             matchedCells.addAll(myMatchFinder.makeMatches(this));
         }
     }

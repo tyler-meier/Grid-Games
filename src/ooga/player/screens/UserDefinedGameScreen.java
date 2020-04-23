@@ -28,6 +28,7 @@ public abstract class UserDefinedGameScreen extends SuperScreen {
     protected String gameLabel;
     protected EventHandler<ActionEvent> myButtonEvent;
     protected VBox inputField;
+    protected int[] stateRange;
 
     public UserDefinedGameScreen(Player thisPlayer) {
         super(thisPlayer);
@@ -46,6 +47,10 @@ public abstract class UserDefinedGameScreen extends SuperScreen {
     }
 
     protected abstract void screenSpecificSetup();
+
+    protected boolean inRange(int value){
+        return value>=stateRange[0] && value<=stateRange[1];
+    }
 
     protected VBox buildInputFields(){
         VBox myVBox = new VBox();
@@ -70,6 +75,7 @@ public abstract class UserDefinedGameScreen extends SuperScreen {
     }
 
     public Map<String, String> getUserSelectedAttributes() { return selectedAttributes; }
+    public void setStateRange(int[] range){ stateRange = range; }
 
     protected void buildMap(){
         for (String key:userInputFields.keySet()){

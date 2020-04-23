@@ -118,17 +118,20 @@ public class Player implements PlayerStart{
   public void setUpMakeNewGameScreenOne(){
     myUserDefinedGameScreenOne = new UserDefinedGameScreenOne(this);
     myStage.setScene(myUserDefinedGameScreenOne.setUpScene());
+    myUserDefinedGameScreenOne.setStateRange(myUserDefinedGameScreenImages.getStateRange());
   }
 
   public void setUpMakeNewGameScreenTwo(){
     myUserDefinedGameScreenTwo = new UserDefinedGameScreenTwo(this);
     myStage.setScene(myUserDefinedGameScreenTwo.setUpScene());
+    boolean canLoseLives = myUserDefinedGameScreenImages.isMinesweeper() && myUserDefinedGameScreenOne.hasHiddenCells();
+    myUserDefinedGameScreenTwo.setLossStatOptions(canLoseLives);
   }
 
   public void setUpMakeNewGameScreenThree(){
     myUserDefinedGameScreenThree = new UserDefinedGameScreenThree(this);
     myStage.setScene(myUserDefinedGameScreenThree.setUpScene());
-    myUserDefinedGameScreenThree.setMaxState(myUserDefinedGameScreenOne.getMaxState());
+    myUserDefinedGameScreenThree.setStateRange(myUserDefinedGameScreenImages.getStateRange());
   }
 
   public Map<String,String> getUserMadeEngineAttributesMap(){
