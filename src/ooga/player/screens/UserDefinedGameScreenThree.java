@@ -90,7 +90,6 @@ public class UserDefinedGameScreenThree extends UserDefinedGameScreen {
             }
         });
     }
-
     private void makeGrid(){
         try{
             buildMap();

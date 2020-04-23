@@ -1,5 +1,7 @@
 package ooga.engine.gridCreator;
 
+import ooga.engine.matchFinder.MatchFinder;
+
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;

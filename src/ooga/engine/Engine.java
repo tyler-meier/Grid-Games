@@ -34,11 +34,12 @@ public class Engine implements EngineBuilder {
         if (initialStates==null) {
             try{
                 initialStates = myGridCreator.getInitialConfig(myGameAttributes);
+                myGrid.setNewGame(initialStates, myGameAttributes, openCells);
+                myGrid.clearInitialMatches();
             } catch (Exception e){
                 myErrorMessage.set(e.getMessage());
             }
-        }
-        myGrid.setNewGame(initialStates, myGameAttributes, openCells);
+        } else myGrid.setNewGame(initialStates, myGameAttributes, openCells);
     }
 
     @Override

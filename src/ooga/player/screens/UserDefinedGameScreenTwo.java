@@ -46,8 +46,7 @@ public class UserDefinedGameScreenTwo extends UserDefinedGameScreen {
         myButtonText = BUTTON_TEXT;
         gameLabel = GAME_LABEL;
     }
-
-
+    
     /**
      * Adds to the grid size of the new game
      * @param p
@@ -56,7 +55,6 @@ public class UserDefinedGameScreenTwo extends UserDefinedGameScreen {
         selectedAttributes.put(ROWS, String.valueOf(p.x));
         selectedAttributes.put(COLUMNS, String.valueOf(p.y));
     }
-
 
     /**
      * Sets the loss stat of the new game.
