@@ -1,7 +1,7 @@
 package ooga.engine.matchFinder;
 
 import ooga.engine.Cell;
-import ooga.engine.grid.Grid;
+import ooga.engine.gridCreator.Grid;
 
 import java.util.List;
 

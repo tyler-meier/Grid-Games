@@ -1,7 +1,7 @@
 package ooga.engine;
 
 
-import ooga.engine.grid.Grid;
+import ooga.engine.gridCreator.Grid;
 
 import java.util.Map;
 

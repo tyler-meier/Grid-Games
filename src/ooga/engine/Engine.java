@@ -1,7 +1,9 @@
 package ooga.engine;
 
+import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import ooga.engine.grid.Grid;
+import ooga.engine.gridCreator.Grid;
+import ooga.engine.gridCreator.GridCreator;
 import ooga.engine.matchFinder.MatchFinder;
 import ooga.engine.validator.Validator;
 
@@ -14,20 +16,28 @@ import java.util.Map;
  * @author Tanvi Pabby and Natalie Novitsky.
  */
 public class Engine implements EngineBuilder {
-    private static final String VALIDATOR = "Validator";
-    private static final String MATCH_FINDER = "MatchFinder";
-
     private Grid myGrid;
+    private GridCreator myGridCreator;
+    private StringProperty myErrorMessage = new SimpleStringProperty();
 
     public Engine(Map<String, String> engineAttributes, StringProperty errorMessage) {
-        ComponentCreator myComponentCreator = new ComponentCreator(errorMessage);
-        Validator myValidator = myComponentCreator.makeMyValidator(engineAttributes.get(VALIDATOR));
-        MatchFinder myMatchFinder = myComponentCreator.makeMyMatchFinder(engineAttributes.get(MATCH_FINDER));
+        ComponentCreator myComponentCreator = new ComponentCreator(engineAttributes, errorMessage);
+        Validator myValidator = myComponentCreator.makeMyValidator();
+        MatchFinder myMatchFinder = myComponentCreator.makeMyMatchFinder();
+        myGridCreator = myComponentCreator.makeMyGridCreator();
         myGrid = new Grid(engineAttributes, myValidator, myMatchFinder, errorMessage);
+        myErrorMessage.bindBidirectional(errorMessage);
     }
 
     @Override
     public void setupGame(int[][] initialStates, Map<String, String> myGameAttributes, boolean[][] openCells){
+        if (initialStates==null) {
+            try{
+                initialStates = myGridCreator.getInitialConfig(myGameAttributes);
+            } catch (Exception e){
+                myErrorMessage.set(e.getMessage());
+            }
+        }
         myGrid.setNewGame(initialStates, myGameAttributes, openCells);
     }
 

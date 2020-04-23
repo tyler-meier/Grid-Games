@@ -1,4 +1,4 @@
-package ooga.engine.grid;
+package ooga.engine.gridCreator;
 
 import javafx.beans.property.*;
 import ooga.engine.Cell;
@@ -43,7 +43,7 @@ public class Grid {
             noHiddenCells = Boolean.parseBoolean(gameAttributes.get(NO_HIDDEN_CELLS));
             pointsPerCell = Integer.parseInt(gameAttributes.get(POINTS_PER_CELL));
             secondsOpen = Double.parseDouble(gameAttributes.get(SECONDS_OPEN));
-        } catch (InvalidDataException e){
+        } catch (Exception e){
             myErrorMessage.set(e.toString());
         }
         myValidator = validator;
@@ -62,6 +62,7 @@ public class Grid {
         myProgressManager = new GameProgressManager(gameAttributes, myErrorMessage);
         myValidator.setMyProgressManager(myProgressManager);
         numSelected=0;
+        //TODO handle matched cells in the beginning
     }
 
     /**

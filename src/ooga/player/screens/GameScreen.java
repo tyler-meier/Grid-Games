@@ -16,7 +16,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import ooga.engine.grid.Grid;
+import ooga.engine.gridCreator.Grid;
 import ooga.player.GridView;
 import ooga.player.Player;
 

@@ -78,7 +78,7 @@ public class StartScreen extends SuperScreen {
           myPlayer.setGameType(games.getValue());
         }
         myPlayer.getStartGameButtonEvent().handle(e);
-      } catch (NullPointerException p){
+      } catch (Exception p){
         myErrorMessage.textProperty().setValue(myStringResources.getString("BlankChoice"));
       }
     });

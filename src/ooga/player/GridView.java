@@ -5,9 +5,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import ooga.engine.grid.Grid;
-
-import java.util.ResourceBundle;
+import ooga.engine.gridCreator.Grid;
 
 public class GridView {
     private int myGridSize;
