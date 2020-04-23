@@ -27,6 +27,7 @@ public class UserProfile {
     private boolean darkMode;
     private EventHandler<ActionEvent> mySaveAction;
     private String displayPreference;
+    private Map<String, String> imagePreferences;
 
 
     public UserProfile(String username, String password)
@@ -40,6 +41,7 @@ public class UserProfile {
         parentalControls = false;
         savedGames = new HashMap<>();
         highScores = new HashMap<>();
+        imagePreferences = new HashMap<>();
         displayPreference = DISPLAY_PREF_DEFAULT;
     }
 
@@ -161,6 +163,27 @@ public class UserProfile {
       displayPreference = preference;
       save();
   }
+
+  public void setImagePreferences(String gameType, String preference)
+  {
+      imagePreferences.put(gameType, preference);
+      save();
+  }
+
+    public String getImagePreference(String gameType)
+    {
+        if(imagePreferences.keySet().contains(gameType))
+        {
+            return imagePreferences.get(gameType);
+        }
+        return gameType;
+    }
+
+    public Map<String, String> getAllImagePreference()
+    {
+        return imagePreferences;
+    }
+
     public String getDisplayPreference() {
         return displayPreference;
     }
