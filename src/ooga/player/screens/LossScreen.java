@@ -24,7 +24,7 @@ public class LossScreen extends SuperScreen {
    * @return the final completed scene to be shown
    */
   public Scene setUpScene(){
-    playSound("loss");
+    playSound("Loss");
     VBox contents = setUpContents();
     return finishStyling(contents);
   }

@@ -25,7 +25,7 @@ public class WonLevelScreen extends SuperScreen {
    * @return the final completed scene to be shown
    */
   public Scene setUpScene(){
-    playSound("levelup");
+    playSound("LevelUp");
     VBox contents = setUpContents();
     return finishStyling(contents);
   }
