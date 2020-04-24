@@ -11,6 +11,7 @@ import ooga.player.Player;
  * @author Tyler Meier
  */
 public class WonLevelScreen extends SuperScreen {
+  private static final String LEVEL_UP_SOUND = "LevelUp";
 
   /**
    * Constructor of this class, calls super to set up instance variables
@@ -25,7 +26,7 @@ public class WonLevelScreen extends SuperScreen {
    * @return the final completed scene to be shown
    */
   public Scene setUpScene(){
-    playSound("LevelUp");
+    playSound(LEVEL_UP_SOUND);
     VBox contents = setUpContents();
     return finishStyling(contents);
   }

@@ -13,7 +13,7 @@ import ooga.player.Player;
  * @author Tyler Meier
  */
 public class LoginScreen extends SuperScreen {
-
+  private static final String WELCOME_SOUND = "Welcome";
   private TextField username = new TextField();
   private TextField password = new TextField();
 
@@ -32,7 +32,7 @@ public class LoginScreen extends SuperScreen {
   public Scene setUpScene(){
     myPlayer.setUsername(GUEST);
     myPlayer.setUserProfile(null);
-    playSound("Welcome");
+    playSound(WELCOME_SOUND);
     VBox topLoginPanel = setupText();
     topLoginPanel.setId("topPanel");  //for testing
     VBox buttonPanel = setUpButtons();

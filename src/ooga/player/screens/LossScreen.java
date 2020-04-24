@@ -10,6 +10,7 @@ import ooga.player.Player;
  * @author Tyler Meier
  */
 public class LossScreen extends SuperScreen {
+  private static final String LOSS_SOUND = "Loss";
 
   /**
    * Constructor of this class, calls super to set up instance variables
@@ -24,7 +25,7 @@ public class LossScreen extends SuperScreen {
    * @return the final completed scene to be shown
    */
   public Scene setUpScene(){
-    playSound("Loss");
+    playSound(LOSS_SOUND);
     VBox contents = setUpContents();
     return finishStyling(contents);
   }
