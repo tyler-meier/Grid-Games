@@ -55,10 +55,12 @@ public class LoginScreen extends SuperScreen {
         myPlayer.setUsername(myUserProfile.getUsername());
         myPlayer.setUpStartScreen(myErrorMessage.textProperty());
       }
+      myMediaPlayer.pause();
     });
     Button guestButton = makeButton("GuestButtonCommand", e -> {
       myPlayer.setUsername(myStringResources.getString("Guest"));
       myPlayer.setUpStartScreen(myErrorMessage.textProperty());
+      myMediaPlayer.pause();
     });
     Button newWindowButton = makeButton("NewWindowCommand", e -> myPlayer.getNewWindowEvent().handle(e));
     Button newProfileButton = makeButton("NewProfileCommand", e -> myPlayer.setUpNewProfScreen(myErrorMessage.textProperty()));
