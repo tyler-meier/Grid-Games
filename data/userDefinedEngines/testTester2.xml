@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<Engine>
+    <!-- tests noninteger values-->
+    <AddNewCells>true</AddNewCells>
+    <Validator>SwitchValidator</Validator>
+    <MatchFinder>OpenFinder</MatchFinder>
+    <NumSelectedPerMove>hello</NumSelectedPerMove>
+    <NoHiddenCells>true</NoHiddenCells>
+    <MaxStateNumber>6</MaxStateNumber>
+    <PointsPerCell>5</PointsPerCell>
+    <SecondsOpen>tanvi!</SecondsOpen>
+    <GridCreator>RandomGridCreator</GridCreator>
+</Engine>

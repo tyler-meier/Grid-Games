@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<profile>
+    <DarkMode>false</DarkMode>
+    <PreviousGame>Tester1 data/savedGames/testTester1.xml</PreviousGame>
+    <PreviousGame>Tester2 data/savedGames/testTester2.xml</PreviousGame>
+    <PreviousGame>Tester3 data/savedGames/testTester3.xml</PreviousGame>
+    <PreviousGame>Tester4 data/savedGames/testTester4.xml</PreviousGame>
+    <PreviousGame>Tester5 data/savedGames/testTester5.xml</PreviousGame>
+    <PreviousGame>Tester6 data/savedGames/testTester6.xml</PreviousGame>
+    <DisplayPreference>default</DisplayPreference>
+    <Username>test</Username>
+    <ParentalControls>true</ParentalControls>
+    <Password>test</Password>
+</profile>

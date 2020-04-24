@@ -1,0 +1,13 @@
+<grid>
+
+    <!-- test random grid generation-->
+    <Level>1</Level>
+    <Score>0</Score>
+    <TargetScore>100</TargetScore>
+    <LossStat>Time</LossStat>
+    <Time>60</Time>
+
+    <numRows>8</numRows>
+    <numColumns>8</numColumns>
+
+</grid>

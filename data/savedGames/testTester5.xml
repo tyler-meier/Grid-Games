@@ -1,0 +1,17 @@
+<grid>
+
+    <!-- test loading open cell config-->
+    <Level>1</Level>
+    <Score>0</Score>
+    <TargetScore>100</TargetScore>
+    <LossStat>Time</LossStat>
+    <Time>60</Time>
+
+    <numRows>2</numRows>
+    <numColumns>2</numColumns>
+    <row>1 2</row>
+    <row>3 2</row>
+
+    <uncoveredCellRow>true false</uncoveredCellRow>
+    <uncoveredCellRow>false true</uncoveredCellRow>
+</grid>
