@@ -64,7 +64,7 @@ public class Grid {
      * @param initialStates
      */
     public void setNewGame(int[][] initialStates, Map<String, String> gameAttributes, boolean[][] openCells){
-        if (myGrid==null) myGrid = new Cell[initialStates.length][initialStates[0].length];
+        if (myGrid==null || initialStates.length!=getRows() || initialStates[0].length!=getCols()) myGrid = new Cell[initialStates.length][initialStates[0].length];
         setupGridStates(initialStates, openCells);
         myProgressManager = new GameProgressManager(gameAttributes);
         myValidator.setMyProgressManager(myProgressManager);
@@ -101,7 +101,7 @@ public class Grid {
      * @return
      */
     public int[][] getGridConfiguration(){
-        int[][] gridStates = new int[myGrid.length][myGrid[0].length];
+        int[][] gridStates = new int[getRows()][getCols()];
         for (int col = 0; col<getCols(); col++){
             for (int row = 0; row<getRows(); row++) {
                 gridStates[row][col] = myGrid[row][col].getMyState();
@@ -116,7 +116,7 @@ public class Grid {
      */
     public boolean[][] getOpenCellConfiguration(){
         if (noHiddenCells) return null;
-        boolean[][] openCells = new boolean[myGrid.length][myGrid[0].length];
+        boolean[][] openCells = new boolean[getRows()][getCols()];
         for (int col = 0; col<getCols(); col++){
             for (int row = 0; row<getRows(); row++) {
                 openCells[row][col] = myGrid[row][col].isOpen().get();
@@ -160,8 +160,8 @@ public class Grid {
      * @return
      */
     public Cell getCell(int row, int col){
-        if (row<0 || row>=myGrid.length) return null;
-        if (col<0 || col>=myGrid[0].length) return null;
+        if (row<0 || row>=getRows()) return null;
+        if (col<0 || col>=getCols()) return null;
         return myGrid[row][col];
     }
 
