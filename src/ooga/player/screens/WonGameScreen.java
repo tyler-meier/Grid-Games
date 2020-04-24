@@ -24,7 +24,7 @@ public class WonGameScreen extends SuperScreen {
    * @return the final completed scene to be shown
    */
   public Scene setUpScene(){
-    playSound("youwin");
+    playSound("Win");
     VBox contents = setUpContents();
     return finishStyling(contents);
   }
