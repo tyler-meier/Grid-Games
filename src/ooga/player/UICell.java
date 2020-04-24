@@ -5,6 +5,8 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -17,11 +19,11 @@ import ooga.engine.Cell;
  * @author Alyssa Shin, Tyler Meier, Natalie Novitsky
  */
 public class UICell {
-    BooleanProperty open = new SimpleBooleanProperty();
-    IntegerProperty state = new SimpleIntegerProperty();
-    ImageView myImageView = new ImageView();
+    private BooleanProperty open = new SimpleBooleanProperty();
+    private IntegerProperty state = new SimpleIntegerProperty();
+    private ImageView myImageView = new ImageView();
     private static final int COLOR_RADIUS = 30;
-
+    private EventHandler<ActionEvent> mySoundEvent;
     private BooleanProperty paused = new SimpleBooleanProperty();
     private Map<Integer, Image> imageMap;
     private Image hiddenImage;
@@ -32,18 +34,7 @@ public class UICell {
         this.imageMap = imageMap;
         this.hiddenImage = hiddenImage;
         setupImageView(cellHeight, cellWidth);
-        cell.cellState().addListener((obs, oldv, newv) -> {
-            changeImage();
-        });
-        cell.isOpen().addListener((obs, oldv, newv) -> changeImage());
-        myImageView.setOnMouseClicked(e -> {
-            if (!paused.get())
-                cell.toggleSelected();
-        });
-        cell.isSelected().addListener((a, oldvalue, newvalue) -> {
-            if (newvalue) myImageView.setEffect(new DropShadow(COLOR_RADIUS, Color.YELLOW));
-            else myImageView.setEffect(null);
-        });
+        setupListeners(cell);
     }
 
     /**
@@ -61,12 +52,39 @@ public class UICell {
         return myImageView;
     }
 
+    /**
+     * Sets up event handler to play a sound when a move is successful.
+     * @param soundEvent handler to play sound
+     */
+    public void setSoundPlayer(EventHandler<ActionEvent> soundEvent){ mySoundEvent = soundEvent; }
+
     private void setupImageView(int cellHeight, int cellWidth){
         myImageView = new ImageView(hiddenImage);
         myImageView.setPreserveRatio(true);
         changeImage();
         myImageView.setFitHeight(cellHeight);
         myImageView.setFitWidth(cellWidth);
+    }
+
+    private void setupListeners(Cell cell){
+        cell.cellState().addListener((obs, oldv, newv) -> {
+            changeImage();
+        });
+        cell.isOpen().addListener((obs, oldv, newv) -> changeImage());
+        myImageView.setOnMouseClicked(e -> {
+            if (!paused.get())
+                cell.toggleSelected();
+        });
+        cell.isSelected().addListener((a, oldvalue, newvalue) -> {
+            if (newvalue) myImageView.setEffect(new DropShadow(COLOR_RADIUS, Color.YELLOW));
+            else myImageView.setEffect(null);
+        });
+        cell.getSoundTrigger().addListener((o, oldv, newv) -> {
+            if (newv) {
+                playSound();
+                cell.getSoundTrigger().set(false);
+            }
+        });
     }
 
     private void changeImage(){
@@ -76,5 +94,9 @@ public class UICell {
 
     private Image getImage(){
         return imageMap.get(state.getValue());
+    }
+
+    private void playSound(){
+        if (mySoundEvent!=null) mySoundEvent.handle(new ActionEvent());
     }
 }

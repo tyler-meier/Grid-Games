@@ -7,6 +7,8 @@ import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -29,6 +31,7 @@ import ooga.player.exceptions.ImageNotFoundException;
 public class GameScreen extends SuperScreen {
   private static final String TIME = "Time";
   private static final String SCORE = "Score";
+  private static final String MATCH_SOUND = "Match";
   private static final int ONE_SECOND = 1000;
   private static final int PADDING_TOP_BOTTOM = 10;
   private static final int PADDING_LEFT_RIGHT = 20;
@@ -56,7 +59,7 @@ public class GameScreen extends SuperScreen {
     super(gameType, player);
     String imagePath = gameType;
     if(!isGuest()) imagePath = player.getMyUserProfile().getImagePreference(gameType);
-    myGrid = new GridView(imagePath, GRID_SIZE);
+    myGrid = new GridView(imagePath, GRID_SIZE, event -> playSound(MATCH_SOUND));
   }
 
   /**
@@ -105,7 +108,7 @@ public class GameScreen extends SuperScreen {
       IntegerProperty stat = gameStats.get(key);
       verticalPanel.getChildren().add(makeLabel(stat, myStringResources.getString(key)));
     }
-    if (myPlayer.getMyUserProfile() != null){
+    if (!isGuest()){
       verticalPanel.getChildren().add(new HBox(new Label(myStringResources.getString("High")), new Label(myPlayer.getMyUserProfile().getHighScore(myGameType))));
     }
     verticalPanel.setAlignment(Pos.CENTER);
@@ -122,13 +125,13 @@ public class GameScreen extends SuperScreen {
     this.isLoss.bind(isLoss);
     this.isWin.bind(isWin);
     this.isLoss.addListener((obs, oldv, newv) -> {
-      if(myPlayer.getMyUserProfile() != null){
+      if(!isGuest()){
         myPlayer.getMyUserProfile().addHighScore(myGameType, highScore.getValue());
       }
       myPlayer.setUpLossScreen();
     });
     this.isWin.addListener((obs, oldv, newv) -> {
-      if(myPlayer.getMyUserProfile() != null){
+      if(!isGuest()){
         myPlayer.getMyUserProfile().addHighScore(myGameType, highScore.getValue());
       }
       myPlayer.setUpWonLevelScreen();
@@ -161,7 +164,7 @@ public class GameScreen extends SuperScreen {
         pausePlayButton.setText(myButtonResources.getString("PlayCommand"));
         paused.set(true);
       }
-      if(myPlayer.getMyUserProfile() != null) {
+      if(!isGuest()) {
         myPlayer.getMyUserProfile().addHighScore(myGameType, highScore.getValue());
         myPlayer.getSaveButtonEvent().handle(e);
       }
