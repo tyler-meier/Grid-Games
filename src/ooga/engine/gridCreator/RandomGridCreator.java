@@ -11,6 +11,7 @@ public class RandomGridCreator extends GridCreator {
     @Override
     protected void buildInitialConfig() {
         for (Point p:availableCells) initialConfig[p.x][p.y] = getRandomState();
+        availableCells.clear();
     }
 
     private int getRandomState(){

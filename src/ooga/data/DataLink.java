@@ -1,8 +1,13 @@
 package ooga.data;
 
-import java.util.List;
 import java.util.Map;
+import javafx.beans.property.StringProperty;
 
+/**
+ * This API allows for the controller to get information for the backend parser and to relay it
+ * to the engine and player ends. By using this API, the other ends do not have to have an instance
+ * of Data
+ */
 public interface DataLink {
 
   /**
@@ -48,26 +53,54 @@ public interface DataLink {
   void saveGame(Map<String, String> gameAttributes, int [][] grid, boolean[][] uncoveredCells);
 
   /**
-   * Given a profile and a gameType, the Data interface should be able to return
-   * the last saved position of that player. Might be helpful to call the below
-   * method to achieve this or to have them both make similar calls on the same object
+   * Provides that User Defined Games can be saved in order to be reloaded in the future. In addition
+   * to just saving the current status of the game in savedGames and the path in the current user
+   * profile, this method must save an Engine for the game and the default game configuration
+   * @param newGameType
+   * @param engineAttributes
+   * @param gameAttributes
+   * @param grid
+   * @param uncoveredCells
+   */
+  void saveCreatedGame(String newGameType, Map<String, String> engineAttributes, Map<String, String> gameAttributes, int[][] grid, boolean[][] uncoveredCells);
+
+
+  /**
+   * Given a profile, level indicator and a gameType, the Data interface should be able to return
+   * the last saved position of that player, a default game level or their user defined game.
    * @param username
    * @param gameType
    * @return
    */
-  Map<String, String> getGameAttributes(String username, String gameType);
+  Map<String, String> getGameLevelAttributes(String username, String gameType, int levelIndicator);
 
   /**
-   *
+   * Returns an array of the specified stated for the current game
    * @return
    */
   int[][] getGrid();
 
   /**
-   *
-   *
+   * If a game has hidden cells, it will need an array of booleans to determine
+   * which cells should start open
+   * @return
    */
-  void updateCurrentPlayer();
+  boolean[][] getOpenCells();
 
+  /**
+   * Allows the backend error messages to be binded to anywhere else in the
+   * program so users can get helpful feedback without the other ends knowing what
+   * exactly the data is catching
+   * @return
+   */
+  StringProperty getErrorMessage();
 
+  /**
+   * Returns a map of users with saved high scores fot that game and is sorted so
+   * that the first users in the map has the highest score. This is used to create
+   * a leader board in the frontend
+   * @param gameType
+   * @return
+   */
+  Map<String, Integer> getHighScores(String gameType);
 }

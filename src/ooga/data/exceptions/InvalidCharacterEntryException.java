@@ -1,5 +1,9 @@
 package ooga.data.exceptions;
 
+/**
+ * If the user enters a character we do not accept to create a profile,
+ * this error will help them
+ */
 public class InvalidCharacterEntryException extends RuntimeException {
 
   private String message = "The character (%s) is invalid";
