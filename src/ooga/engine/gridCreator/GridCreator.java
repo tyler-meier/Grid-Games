@@ -55,9 +55,9 @@ public abstract class GridCreator {
 
     //TODO: delete when done
     protected void printGrid(){
-        for (int r=0; r<initialConfig.length; r++){
-            for (int c=0; c<initialConfig[0].length; c++){
-                System.out.print(initialConfig[r][c] + " ");
+        for (int[] ints : initialConfig) {
+            for (int c = 0; c < initialConfig[0].length; c++) {
+                System.out.print(ints[c] + " ");
             }
             System.out.println();
         }

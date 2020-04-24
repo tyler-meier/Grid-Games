@@ -67,13 +67,12 @@ public class Controller extends Application {
 
     private EventHandler<ActionEvent> goToNewLevel(String username, Data data, Player player, Engine engine, Integer levelAdder) {
         return event -> {
-          Map<String, String> newGameAttributes = data.getGameLevelAttributes(username, player.getGameType(), -1);
-          if (levelAdder >= 0){
-            newGameAttributes = data.getGameLevelAttributes(username, player.getGameType(), engine.getLevel()+levelAdder);
-          }
-          int[][] newInitialStates = data.getGrid();
-          boolean[][] newOpenCells = data.getOpenCells();
-          engine.setupGame(newInitialStates, newGameAttributes, newOpenCells);
+            Map<String, String> newGameAttributes;
+            if (levelAdder >= 0) newGameAttributes= data.getGameLevelAttributes(username, player.getGameType(), engine.getLevel()+levelAdder);
+            else  newGameAttributes = data.getGameLevelAttributes(username, player.getGameType(), -1);
+            int[][] newInitialStates = data.getGrid();
+            boolean[][] newOpenCells = data.getOpenCells();
+            engine.setupGame(newInitialStates, newGameAttributes, newOpenCells);
             try{ player.setUpGameScreen(engine.getGrid(), data.getErrorMessage());
             } catch (Exception p){ data.getErrorMessage().set(p.toString());
             }
