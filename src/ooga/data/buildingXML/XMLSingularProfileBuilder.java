@@ -76,7 +76,6 @@ public class XMLSingularProfileBuilder extends XMLBuilder {
   }
 
 
-
   private void createMapEntry(String key, String value)
   {
     userAttributes.put(key, new ArrayList<>());

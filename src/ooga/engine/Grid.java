@@ -10,6 +10,8 @@ import ooga.engine.validator.Validator;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Class to manage the Grid for a game. Handles user selection of cells and updating grid after each move.
@@ -17,6 +19,7 @@ import java.util.Map;
  */
 public class Grid {
     private static final String NUM_SELECTED_PER_MOVE = "NumSelectedPerMove";
+    private static final String BOOLEAN_REGEX ="true|false";
     private static final String ADD_NEW_CELLS = "AddNewCells";
     private static final String MAX_STATE_NUMBER = "MaxStateNumber";
     private static final String NO_HIDDEN_CELLS = "NoHiddenCells";
@@ -28,9 +31,9 @@ public class Grid {
     private int numSelectedPerMove;
     private Validator myValidator;
     private MatchFinder myMatchFinder;
-    private boolean addNewCells;
+    private Boolean addNewCells;
     private int maxState;
-    private boolean noHiddenCells;
+    private Boolean noHiddenCells;
     private int pointsPerCell;
     private boolean setupPhase = false;
     private BooleanProperty moveInProgress = new SimpleBooleanProperty(false);
@@ -46,11 +49,12 @@ public class Grid {
         double secondsOpen;
         try {
             numSelectedPerMove = Integer.parseInt(gameAttributes.get(NUM_SELECTED_PER_MOVE));
-            addNewCells = Boolean.parseBoolean(gameAttributes.get(ADD_NEW_CELLS));
             maxState = Integer.parseInt(gameAttributes.get(MAX_STATE_NUMBER));
-            noHiddenCells = Boolean.parseBoolean(gameAttributes.get(NO_HIDDEN_CELLS));
             pointsPerCell = Integer.parseInt(gameAttributes.get(POINTS_PER_CELL));
             secondsOpen = Double.parseDouble(gameAttributes.get(SECONDS_OPEN));
+            if (!checkValidBooleans(gameAttributes.get(NO_HIDDEN_CELLS), gameAttributes.get(ADD_NEW_CELLS))) throw new InvalidDataException();
+            noHiddenCells = Boolean.parseBoolean(gameAttributes.get(NO_HIDDEN_CELLS));
+            addNewCells = Boolean.parseBoolean(gameAttributes.get(ADD_NEW_CELLS));
         } catch (Exception e){
             throw new InvalidDataException();
         }
@@ -180,6 +184,13 @@ public class Grid {
     public int getLevel() {
         if (myProgressManager == null) return -1;
         return myProgressManager.getLevel();
+    }
+
+    private boolean checkValidBooleans(String noHidden, String addCells){
+        Pattern pattern = Pattern.compile(BOOLEAN_REGEX, Pattern.CASE_INSENSITIVE);
+        Matcher matcher1 = pattern.matcher(noHidden);
+        Matcher matcher2 = pattern.matcher(addCells);
+        return (matcher1.matches() && matcher2.matches());
     }
 
     private void setupGridStates(int[][] initialStates, boolean[][] openCells){

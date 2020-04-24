@@ -1,0 +1,16 @@
+<grid>
+
+    <!-- test generating new open cell config-->
+    <Level>1</Level>
+    <Score>0</Score>
+    <TargetScore>100</TargetScore>
+    <LossStat>Time</LossStat>
+    <Time>60</Time>
+
+    <numRows>3</numRows>
+    <numColumns>3</numColumns>
+    <row>1 2 3</row>
+    <row>3 2 2</row>
+    <row>3 1 2</row>
+
+</grid>
