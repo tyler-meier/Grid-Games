@@ -41,6 +41,7 @@ public abstract class SuperScreen {
   protected String styleSheet = "default";
   protected Scene myScene;
   protected IntegerProperty highScore = new SimpleIntegerProperty();
+  protected MediaPlayer myMediaPlayer;
 
   /**
    * Constructor for super screen class that sets the instance variables
@@ -202,8 +203,8 @@ public abstract class SuperScreen {
   protected void playSound(String soundName) {
     String soundPath = SOUND_RESOURCES + mySoundResources.getString(soundName) + ".mp3";
     Media sound = new Media(new File(soundPath).toURI().toString());
-    MediaPlayer mediaPlayer = new MediaPlayer(sound);
-    mediaPlayer.play();
+    myMediaPlayer = new MediaPlayer(sound);
+    myMediaPlayer.play();
   }
 
   /**

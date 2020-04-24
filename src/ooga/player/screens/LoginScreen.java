@@ -13,7 +13,7 @@ import ooga.player.Player;
  * @author Tyler Meier
  */
 public class LoginScreen extends SuperScreen {
-  private static final String WELCOME_SOUND= "Welcome";
+  private static final String WELCOME_SOUND = "Welcome";
   private TextField username = new TextField();
   private TextField password = new TextField();
 
