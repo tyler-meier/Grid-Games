@@ -7,6 +7,8 @@ import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -29,6 +31,7 @@ import ooga.player.exceptions.ImageNotFoundException;
 public class GameScreen extends SuperScreen {
   private static final String TIME = "Time";
   private static final String SCORE = "Score";
+  private static final String MATCH_SOUND = "Match";
   private static final int ONE_SECOND = 1000;
   private static final int PADDING_TOP_BOTTOM = 10;
   private static final int PADDING_LEFT_RIGHT = 20;
@@ -56,7 +59,7 @@ public class GameScreen extends SuperScreen {
     super(gameType, player);
     String imagePath = gameType;
     if(!isGuest()) imagePath = player.getMyUserProfile().getImagePreference(gameType);
-    myGrid = new GridView(imagePath, GRID_SIZE);
+    myGrid = new GridView(imagePath, GRID_SIZE, event -> playSound(MATCH_SOUND));
   }
 
   /**

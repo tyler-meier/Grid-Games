@@ -17,6 +17,7 @@ public class Cell {
     private BooleanProperty open = new SimpleBooleanProperty();
     private BooleanProperty inProgress = new SimpleBooleanProperty();
     private BooleanProperty selected = new SimpleBooleanProperty(false);
+    private BooleanProperty soundTrigger = new SimpleBooleanProperty();
     private SelectedCellCounter myCounter;
     int numPoints;
     int myRow;
@@ -144,5 +145,11 @@ public class Cell {
         int randomInteger = random.nextInt(maxState)+1;
         myState.set(randomInteger);
     }
+
+    /**
+     * A property to trigger the matched cell sound in the front end.
+     * @return sound trigger property
+     */
+    public BooleanProperty getSoundTrigger(){ return soundTrigger; }
 
 }

@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.beans.property.BooleanProperty;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
@@ -26,6 +28,7 @@ public class GridView {
     private static final String DEFAULT_RESOURCE_PACKAGE = RESOURCES.replace("/", ".");
     private static final String IMAGE_RESOURCES = "src/ooga/player/Resources/images/";
     private static final String HIDDEN_IMAGE_PATH = "question";
+    private EventHandler<ActionEvent> myCellMatchSoundHandler;
     private int myGridSize;
     private String myImagePath;
 
@@ -34,9 +37,10 @@ public class GridView {
      * @param imagePath  the path to retrieve the specific images
      * @param gridSize  the size of this grid
      */
-    public GridView(String imagePath, int gridSize) {
+    public GridView(String imagePath, int gridSize, EventHandler<ActionEvent> cellMatchSoundHandler) {
         myGridSize = gridSize;
         myImagePath = imagePath;
+        myCellMatchSoundHandler = cellMatchSoundHandler;
     }
 
     /**
@@ -60,6 +64,7 @@ public class GridView {
                 rec.setStroke(Color.BLACK);
                 rec.setStrokeWidth(1);
                 UICell currCell = new UICell(backendGrid.getCell(row, col), myCellHeight, myCellWidth, imageMap, hiddenImage);
+                currCell.setSoundPlayer(myCellMatchSoundHandler);
                 ImageView myImageView = currCell.getImageView();
                 currCell.setPauseProperty(paused);
                 GridPane.setRowIndex(myImageView, row * myCellWidth);

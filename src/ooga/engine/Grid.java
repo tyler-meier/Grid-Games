@@ -216,6 +216,7 @@ public class Grid {
     }
 
     private void handleMatchedCells(List<Cell> matchedCells){
+        if (matchedCells.size()>0) matchedCells.get(0).getSoundTrigger().set(true);
         while (matchedCells.size()>0){
             if (!noHiddenCells) openMatchedCells(matchedCells);
             else deleteMatchedCells(matchedCells);
