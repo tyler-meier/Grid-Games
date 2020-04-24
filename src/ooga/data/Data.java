@@ -2,7 +2,6 @@ package ooga.data;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.beans.property.SimpleStringProperty;
@@ -16,6 +15,7 @@ import ooga.data.exceptions.InvalidCharacterEntryException;
 import ooga.data.exceptions.LevelNotFoundException;
 import ooga.data.exceptions.NaughtyNameException;
 import ooga.data.exceptions.NoUserExistsException;
+import ooga.data.exceptions.ParserException;
 import ooga.data.exceptions.UserAlreadyExistsException;
 
 /**
@@ -36,6 +36,8 @@ public class Data implements DataLink {
   private final String DEFAULT_CREATED_GAME_PATH_SKELETON = "data/defaultGames/%s%s.xml";
   private final String USER_DEFINED_ENGINE_PATH_SKELETON = "data/userDefinedEngines/%s%s.xml";
   private final String LEVEL_PATH_SKELETON = "data/defaultGames/%s/level_%d.xml";
+  private final String GAME_SAVED_FEEDBACK = "Game Saved!";
+
   private final int LOAD_SAVED_GAME = -1;
   private final int LEVEL_ONE = 1;
   private final List<String> KNOWN_GAME_TYPES = new ArrayList<>(List.of("Memory", "BejeweledEndless", "BejeweledAction", "BejeweledPuzzle", "CandyCrush", "ClassicMemory", "Minesweeper"));
@@ -59,14 +61,15 @@ public class Data implements DataLink {
       errorMessage = new SimpleStringProperty();
   }
 
+  /**
+   * Allows us to bind the Data and PLayer error messages so the
+   * backend Data can give helpful user feedback
+   * @return
+   */
+  @Override
   public StringProperty getErrorMessage()
   {
     return errorMessage;
-  }
-
-  public void updateCurrentPlayer()
-  {
-    myProfileManager.updatePLayerXML(currentUser);
   }
 
 
@@ -127,10 +130,9 @@ public class Data implements DataLink {
    */
   @Override
   public Map<String, String> getEngineAttributes(String gameType) {
-    String enginePath = "";
+    String enginePath;
     if(!KNOWN_GAME_TYPES.contains(gameType))
     {
-      System.out.println(gameType);
       enginePath = String.format(USER_DEFINED_ENGINE_PATH_SKELETON, currentUser.getUsername(), gameType);
     }
     else{
@@ -152,9 +154,19 @@ public class Data implements DataLink {
       XMLBuilder newSavedGame = new XMLGameBuilder(MAIN_GAME_TAG, path, gameAttributes, grid, uncoveredCells);
       currentUser.addSavedGame(gameType, path);
       myProfileManager.updatePLayerXML(currentUser);
-      errorMessage.setValue("Game Saved!");
+      errorMessage.setValue(GAME_SAVED_FEEDBACK);
   }
 
+  /**
+   * Allows user defined games to be saved. In addition to saving the game and the path, a user
+   * defined game needs to save a new engine and save a new default game config
+   * @param newGameType
+   * @param engineAttributes
+   * @param gameAttributes
+   * @param grid
+   * @param uncoveredCells
+   */
+  @Override
   public void saveCreatedGame(String newGameType, Map<String, String> engineAttributes, Map<String, String> gameAttributes, int[][] grid, boolean[][] uncoveredCells)
   {
       gameType = newGameType;
@@ -164,39 +176,9 @@ public class Data implements DataLink {
       XMLBuilder newDefaultGame = new XMLGameBuilder(MAIN_GAME_TAG, path, gameAttributes, grid, uncoveredCells);
   }
 
-  public Map<String, String> loadCreatedGame(String username, String newGameType) throws LevelNotFoundException
-  {
-    return getGameLevelAttributes(username, newGameType, LOAD_SAVED_GAME);
-  }
-
-
-
 
   /**
-   * Given a profile and the type of game, this method will go into that
-   * profile and grab the path of where the last saved value of that game exists.
-   * Then, it will utilize a Parser to create a data object and return
-   * the configuration of the game so it can be played. Within this,
-   * currentEngineAttributes is set.
-   * @param username
-   * @param gameType
-   * @return
-   */
-  @Override
-  public Map<String, String> getGameAttributes(String username, String gameType) {
-    this.gameType = gameType;
-    gamePath = myDefaultGamePathResource.getString(gameType);
-    if(!username.equals(GUEST_USER))
-    {
-      gamePath = currentUser.getSavedGame(gameType);
-    }
-
-    gameParser = new XMLParser(gamePath);
-    return gameParser.getMapFromXML(myGameResource);
-  }
-
-  /**
-   * Gets the grid from the previously identified gamePath in getGameAttributes
+   * Gets the grid of states from the previously identified gamePath in getGameAttributes
    * @return
    */
   @Override
@@ -205,12 +187,27 @@ public class Data implements DataLink {
     return gameParser.getGrid();
   }
 
+  /**
+   * Get grid of which cells are hidden, will return null if it is
+   * a game without hidden cells
+   * @return
+   */
+  @Override
   public boolean[][] getOpenCells()
   {
     return gameParser.getUncoveredCellGrid();
   }
 
-
+  /**
+   * Gets the game attribute map. Works for loading a saved game, both resets, loading a default game level
+   * and loading a user defined game
+   * @param username
+   * @param gameType
+   * @param level
+   * @return
+   * @throws LevelNotFoundException
+   */
+  @Override
   public Map<String, String> getGameLevelAttributes(String username, String gameType, int level) throws LevelNotFoundException{
     this.gameType = gameType;
     gamePath = String.format(LEVEL_PATH_SKELETON, gameType, level);
@@ -235,12 +232,22 @@ public class Data implements DataLink {
     }
   }
 
+  /**
+   * Used to create leader board for given game in frontend
+   * @param gameType
+   * @return
+   */
+  @Override
   public Map<String, Integer> getHighScores(String gameType)
   {
     return myProfileManager.getHighScores(gameType);
   }
 
-
+  /**
+   * Current user is set whenever you log in and adds a listener to
+   * always update the player XML whenever it is changed
+   * @param newCurrent
+   */
   private void setCurrentUser(UserProfile newCurrent)
   {
     currentUser = newCurrent;
@@ -252,6 +259,5 @@ public class Data implements DataLink {
     String newEnginePath = String.format(USER_DEFINED_ENGINE_PATH_SKELETON, currentUser.getUsername(), gameType);
     XMLBuilder newEngine = new XMLEngineBuilder(MAIN_ENGINE_TAG, newEnginePath, engineAttributes);
   }
-
 
 }

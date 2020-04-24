@@ -109,7 +109,7 @@ class DataTest {
 
     boolean[][] uncoveredCells = new boolean[knownLevelOne.length][knownLevelOne[0].length];
     data.saveCreatedGame("MyFunnyGame", engineAttributes, gameAttributes, knownLevelOne, uncoveredCells);
-    Map<String, String> createdGame = data.loadCreatedGame("jay18", "MyFunnyGame");
+    Map<String, String> createdGame = data.getGameLevelAttributes("jay18", "MyFunnyGame", -1);
     assertEquals(createdGame, gameAttributes);
     assertEquals(data.getEngineAttributes("MyFunnyGame"), engineAttributes);
     assertTrue(checkGridEquality(knownLevelOne, data.getGrid()));
