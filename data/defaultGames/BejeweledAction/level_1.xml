@@ -6,8 +6,8 @@
   <LossStat>Time</LossStat>
   <Time>60</Time>
 
-  <numRows>8</numRows>
-  <numColumns>8</numColumns>
+  <numRows>12</numRows>
+  <numColumns>12</numColumns>
  <!-- <row>1 2 3 2 4 5 6 5</row>
   <row>3 2 5 6 5 4 3 6</row>
   <row>3 6 3 2 3 4 3 6</row>

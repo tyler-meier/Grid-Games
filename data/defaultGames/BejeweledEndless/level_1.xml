@@ -2,9 +2,9 @@
 <game>
   <Level>1</Level>
   <Score>0</Score>
-  <TargetScore>100</TargetScore>
+  <TargetScore>100000</TargetScore>
   <MovesLeft>5</MovesLeft>
-  <LossStat>MovesLeft</LossStat>
+  <LossStat>LivesLeft</LossStat>
 
   <numRows>4</numRows>
   <numColumns>5</numColumns>
