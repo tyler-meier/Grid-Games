@@ -3,6 +3,10 @@ package ooga.data.buildingXML;
 import java.util.Map;
 import org.w3c.dom.Element;
 
+/**
+ * This method allows us to create the engines for User Defined Games
+ * This is not used in any other case.
+ */
 public class XMLEngineBuilder extends XMLBuilder {
 
   private Map<String, String> engineAttributes;
