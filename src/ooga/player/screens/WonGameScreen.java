@@ -10,6 +10,7 @@ import ooga.player.Player;
  * @author Tyler Meier
  */
 public class WonGameScreen extends SuperScreen {
+  private static final String WIN_SOUND = "Win";
 
   /**
    * Constructor of this class, calls super to set up instance variables
@@ -24,7 +25,7 @@ public class WonGameScreen extends SuperScreen {
    * @return the final completed scene to be shown
    */
   public Scene setUpScene(){
-    playSound("Win");
+    playSound(WIN_SOUND);
     VBox contents = setUpContents();
     return finishStyling(contents);
   }
