@@ -152,6 +152,11 @@ public class ProfileManager {
     }
   }
 
+  /**
+   * Creates a map of high scores and users sorted by their high score
+   * @param gameType
+   * @return
+   */
   public Map<String, Integer> getHighScores(String gameType)
   {
     Map<String, Integer> allHighScores = new HashMap<>();
