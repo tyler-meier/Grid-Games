@@ -37,8 +37,7 @@ public class Controller extends Application {
             } catch (Exception p){ data.getErrorMessage().set(p.toString());
             }
         });
-        player.setUserMadeStartButton(e ->
-        {
+        player.setUserMadeStartButton(e -> {
           data.saveCreatedGame(player.getGameType(), player.getUserMadeEngineAttributesMap(), player.getUserMadeGameAttributesMap(), player.getUserDefinedInitialStates(), null);
             try{ buildNewEngine(player, data);
             } catch (Exception p){ data.getErrorMessage().set(p.toString());

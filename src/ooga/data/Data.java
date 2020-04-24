@@ -130,7 +130,6 @@ public class Data implements DataLink {
     String enginePath = "";
     if(!KNOWN_GAME_TYPES.contains(gameType))
     {
-      System.out.println(gameType);
       enginePath = String.format(USER_DEFINED_ENGINE_PATH_SKELETON, currentUser.getUsername(), gameType);
     }
     else{

@@ -77,16 +77,6 @@ public class XMLSingularProfileBuilder extends XMLBuilder {
 
   }
 
-  {
-    userAttributes.put(IMAGE_PREFERENCE_TAG, new ArrayList<>());
-
-    for(String game : user.getAllImagePreference().keySet())
-    {
-      addMapEntry(IMAGE_PREFERENCE_TAG, String.format(ENTRY_SKELETON, game, user.getImagePreference(game)));
-    }
-
-  }
-
 
   private void createMapEntry(String key, String value)
   {
