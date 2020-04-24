@@ -233,7 +233,7 @@ public class Player implements PlayerStart{
   public void startUserDefinedGame(){
     String title = myUserDefinedGameScreenOne.getTitle();
     String path = myUserDefinedGameScreenImages.getImagePath();
-    myUserProfile.setImagePreferences(title, path);
+    if (myUserProfile!=null) myUserProfile.setImagePreferences(title, path);
     setGameType(title);
     myUserDefinedGameScreenTwo.addGridSize(myUserDefinedGameScreenThree.getGridSize());
     myUserDefEngineEvent.handle(new ActionEvent());

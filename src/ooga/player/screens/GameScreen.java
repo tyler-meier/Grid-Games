@@ -108,7 +108,7 @@ public class GameScreen extends SuperScreen {
       IntegerProperty stat = gameStats.get(key);
       verticalPanel.getChildren().add(makeLabel(stat, myStringResources.getString(key)));
     }
-    if (myPlayer.getMyUserProfile() != null){
+    if (!isGuest()){
       verticalPanel.getChildren().add(new HBox(new Label(myStringResources.getString("High")), new Label(myPlayer.getMyUserProfile().getHighScore(myGameType))));
     }
     verticalPanel.setAlignment(Pos.CENTER);
@@ -125,13 +125,13 @@ public class GameScreen extends SuperScreen {
     this.isLoss.bind(isLoss);
     this.isWin.bind(isWin);
     this.isLoss.addListener((obs, oldv, newv) -> {
-      if(myPlayer.getMyUserProfile() != null){
+      if(!isGuest()){
         myPlayer.getMyUserProfile().addHighScore(myGameType, highScore.getValue());
       }
       myPlayer.setUpLossScreen();
     });
     this.isWin.addListener((obs, oldv, newv) -> {
-      if(myPlayer.getMyUserProfile() != null){
+      if(!isGuest()){
         myPlayer.getMyUserProfile().addHighScore(myGameType, highScore.getValue());
       }
       myPlayer.setUpWonLevelScreen();
@@ -164,7 +164,7 @@ public class GameScreen extends SuperScreen {
         pausePlayButton.setText(myButtonResources.getString("PlayCommand"));
         paused.set(true);
       }
-      if(myPlayer.getMyUserProfile() != null) {
+      if(!isGuest()) {
         myPlayer.getMyUserProfile().addHighScore(myGameType, highScore.getValue());
         myPlayer.getSaveButtonEvent().handle(e);
       }

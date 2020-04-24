@@ -65,7 +65,7 @@ public class CustomView extends SuperScreen {
             Image image = new Image(input);
             Button mode = makeButton(modeType, e-> {
                 myPlayer.setMode(modeType);
-                myPlayer.getMyUserProfile().setDisplayPreference(modeType);
+                if (!isGuest()) myPlayer.getMyUserProfile().setDisplayPreference(modeType);
             });
             ImageView modeImageView = getImageView(image);
             mode.setGraphic(modeImageView);

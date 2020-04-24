@@ -139,7 +139,7 @@ public abstract class SuperScreen {
    */
   protected Button makeSaveButton(){
     return makeButton("SaveCommand", e->{
-      if(myPlayer.getMyUserProfile() != null) {
+      if(!isGuest()) {
         myPlayer.getMyUserProfile().addHighScore(myGameType, highScore.getValue());
         myPlayer.getSaveButtonEvent().handle(e);
       }
