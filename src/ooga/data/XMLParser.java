@@ -9,16 +9,23 @@ import java.util.ResourceBundle;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import ooga.data.exceptions.ParserException;
+import ooga.data.exceptions.GridReadingException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+/**
+ * Used to parse engines, games, grids and profiles based on given path
+ */
 public class XMLParser {
 
   private final int ZERO_INDEX = 0;
   private final int EMPTY_TAG = 0;
+  private final int EMPTY_LIST = 0;
   private final String GRID_DELIMINATOR = " ";
   private final String ROW_TAG = "row";
+  private final String INT_GRID_INDICATOR = "states";
+  private final String BOOL_GRID_INDICATOR = "open/closed";
   private final String ZERO_DEFAULT_VALUE= "0";
   private final String NUM_ROWS_TAG= "numRows";
   private final String NUM_COLUMNS_TAG= "numColumns";
@@ -26,7 +33,7 @@ public class XMLParser {
 
   private Document doc;
 
-  public XMLParser(String path) {
+  public XMLParser(String path) throws ParserException {
     try {
       File file = new File(path);
       DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -35,8 +42,7 @@ public class XMLParser {
       doc = db.parse(file);
       doc.getDocumentElement().normalize();
     } catch (Exception e) {
-      ParserException error = new ParserException(e, path);
-      //System.out.println(error.getMessage());
+      throw new ParserException(e, path);
     }
   }
 
@@ -91,14 +97,14 @@ public class XMLParser {
    *
    * @return
    */
-  public int[][] getGrid()
+  public int[][] getGrid() throws GridReadingException
   {
     int numRows = getIntegerElementByTag(NUM_ROWS_TAG, ZERO_DEFAULT_VALUE);
     int numCols = getIntegerElementByTag(NUM_COLUMNS_TAG, ZERO_DEFAULT_VALUE);
     int[][] grid = new int[numRows][numCols];
 
     NodeList nodeList = doc.getElementsByTagName(ROW_TAG);
-    if (nodeList.getLength()<1) return null;
+    if (nodeList.getLength()==EMPTY_LIST) return null;
 
     for (int r = ZERO_INDEX; r < nodeList.getLength(); r++)
     {
@@ -112,7 +118,7 @@ public class XMLParser {
       }
       catch(Exception e)
       {
-        throw new ParserException(e, ROW_TAG);
+        throw new GridReadingException(e, INT_GRID_INDICATOR);
       }
     }
     return grid;
@@ -126,7 +132,7 @@ public class XMLParser {
     boolean[][] grid = new boolean[numRows][numCols];
 
     NodeList nodeList = doc.getElementsByTagName(UNCOVERED_CELL_TAG);
-    if (nodeList.getLength()==0) return null;
+    if (nodeList.getLength()==EMPTY_LIST) return null;
 
     for (int r = ZERO_INDEX; r < nodeList.getLength(); r++)
     {
@@ -140,13 +146,12 @@ public class XMLParser {
       }
       catch(Exception e)
       {
-        return null;
+        throw new GridReadingException(e, BOOL_GRID_INDICATOR);
       }
     }
     return grid;
 
   }
-
 
   /**
    * Gets the string within tag tagName
@@ -169,8 +174,7 @@ public class XMLParser {
 
     }catch(Exception e)
     {
-      //TODO: remove print lines
-      System.out.println("tag " + tagName + " could not be read");
+      ParserException error = new ParserException(e, tagName);
       return defaultVal;
     }
   }
@@ -183,9 +187,7 @@ public class XMLParser {
       try {
         ret.add(node.getTextContent());
       } catch (Exception e) {
-        //TODO: remove unused error
         ParserException error = new ParserException(e, tagName);
-        //System.out.println(error.getMessage());
         ret.add(defaultVal);
       }
     }

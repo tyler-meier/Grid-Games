@@ -73,8 +73,6 @@ public class XMLSingularProfileBuilder extends XMLBuilder {
     {
       addMapEntry(IMAGE_PREFERENCE_TAG, String.format(ENTRY_SKELETON, game, user.getImagePreference(game)));
     }
-
-
   }
 
 
