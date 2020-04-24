@@ -28,13 +28,13 @@ public abstract class SuperScreen {
   protected static final String RESOURCES = "ooga/player/Resources/";
   protected static final String DEFAULT_RESOURCE_PACKAGE = RESOURCES.replace("/", ".");
   protected static final String DEFAULT_RESOURCE_FOLDER = "/" + RESOURCES;
-  private static final String SOUND_RESOURCES = "src/" + RESOURCES + "sounds/";
+  protected static final String SOUND_RESOURCES = "src/" + RESOURCES + "sounds/";
   private static final int DIMENSION = 650;
   private static final int MAIN_SPACING = 50;
   private static final int SMALL_SPACING = 10;
   protected static final String GUEST = "Guest";
 
-  protected ResourceBundle myButtonResources, myStringResources, myGameNameResources;
+  protected ResourceBundle myButtonResources, myStringResources, myGameNameResources, mySoundResources;
   protected Label myErrorMessage;
   protected Player myPlayer;
   protected String myGameType;
@@ -64,6 +64,7 @@ public abstract class SuperScreen {
     myStringResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "BasicStrings");
     myButtonResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "ButtonCreation");
     myGameNameResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "NamesOfGames");
+    mySoundResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "Sounds");
     myErrorMessage = new Label();
     myPlayer = thisPlayer;
     styleSheet = thisPlayer.getStyle();
@@ -199,7 +200,7 @@ public abstract class SuperScreen {
    * @param soundName name of the sound
    */
   protected void playSound(String soundName) {
-    String soundPath = SOUND_RESOURCES + soundName + ".mp3";
+    String soundPath = SOUND_RESOURCES + mySoundResources.getString(soundName) + ".mp3";
     Media sound = new Media(new File(soundPath).toURI().toString());
     MediaPlayer mediaPlayer = new MediaPlayer(sound);
     mediaPlayer.play();
