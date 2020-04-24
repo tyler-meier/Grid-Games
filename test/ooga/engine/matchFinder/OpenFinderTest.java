@@ -34,7 +34,7 @@ class OpenFinderTest {
         MatchFinder matchFinder = new OpenFinder();
         Map<String, String> engineAttributes = data.getEngineAttributes("CandyCrush");
         Map<String, String> gameAttributes = data.getGameLevelAttributes("Guest", "CandyCrush", 1);
-        Grid myGrid = new Grid(gameAttributes, validator, matchFinder);
+        Grid myGrid = new Grid(engineAttributes, validator, matchFinder);
         myGrid.setNewGame(initialConfig, gameAttributes, null);
         // now we have a grid with states and everything
         List<Cell> ret = new ArrayList<>();
