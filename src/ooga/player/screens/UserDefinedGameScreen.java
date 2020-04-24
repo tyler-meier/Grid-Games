@@ -56,8 +56,11 @@ public abstract class UserDefinedGameScreen extends SuperScreen {
         myGameScroller.setContent(inputField);
         myGameScroller.setFitToWidth(true);
         Node nextButton = makeButton(myButtonText, myButtonEvent);
+        VBox buttons = new VBox(nextButton, makeHomeButton());
+        buttons.setAlignment(Pos.CENTER);
+        buttons.setSpacing(SPACING_1);
         screenSpecificSetup();
-        return styleScene(newGameLabel, myGameScroller, nextButton);
+        return styleScene(newGameLabel, myGameScroller, buttons);
     }
 
     /**
