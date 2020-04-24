@@ -1,0 +1,7 @@
+Level 3
+Score 0
+TargetScore 500
+LossStat Time
+Time 50
+numRows 12
+numColumns 12

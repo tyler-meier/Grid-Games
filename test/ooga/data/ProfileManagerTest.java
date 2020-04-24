@@ -10,75 +10,67 @@ import static java.util.Map.entry;
 
 class ProfileManagerTest {
 
-  private Map<String, String> knownProfiles = Map.ofEntries(entry("todd34", "tod"),
-                                                            entry("bobbyBoy","bob123"),
-                                                            entry("jay18","boob"),
-                                                            entry("tylerm","yown"));
+  private static final String PROFILE_FOLDER = "profileFiles";
+  private final String INVALID_LOGINS = "invalidLogins";
+  private final String VALID_LOGINS = "validLogins";
 
-  private Map<String, String> unknownProfiles = Map.ofEntries(entry("todd34", "3"),
-      entry("3","bob123"),
-      entry("jay18","booob"),
-      entry("yankee","yown"));
+  private final String NEW_PROFILE_USERNAME = "test";
+  private final String NEW_PROFILE_PASSWORD = "profile";
+
 
   private ProfileManager manager = new ProfileManager();
+  private TextParser tx = new TextParser();
 
-  @Test
-  void getProfileTest()
-  {
-    for(String username: knownProfiles.keySet())
-    {
-      System.out.println(username);
-      assertEquals(username, manager.getProfile(username).getUsername());
-      System.out.println(manager.getProfile(username));
-    }
-
-    for(String username: unknownProfiles.keySet())
-    {
-      try{
-        assertEquals(false, manager.isValid(username, unknownProfiles.get(username)));
-      } catch(Exception e)
-      {
-        System.out.println(e.getMessage());
-      }
-    }
-  }
 
   @Test
   void isValidTest()
   {
-    for(String username: knownProfiles.keySet())
+    Map<String, String> validLogins = tx.getLogins(VALID_LOGINS);
+
+    for(String username: validLogins.keySet())
     {
-      assertEquals(true, manager.isValid(username, knownProfiles.get(username)));
+      assertTrue(manager.isValid(username, validLogins.get(username)));
     }
 
   }
 
   @Test
-  void checkImagePreference()
+  void getProfileTest()
   {
-    Data data = new Data();
+    tx.setFileGroup(PROFILE_FOLDER);
+    Map<String, String> validLogins = tx.getLogins(VALID_LOGINS);
 
-    UserProfile user = data.login("jay18", "boob");
-    user.setImagePreferences("newFunGame", "CandyCrush");
-    System.out.println(user.getAllImagePreference());
-  }
-
-
-
-  /*@Test
-  void addProfileTest()
-  {
-    String newUsername = "jay18";
-    String newPassword = "boob";
-    try {
-      manager.addProfile(newUsername, newPassword);
-      assertEquals(newUsername, manager.getProfile(newUsername).getUsername());
-      System.out.println(manager.getProfile(newUsername));
-    } catch (UserAlreadyExistsException e)
+    for(String username: validLogins.keySet())
     {
-      System.out.println(e.getMessage());
+      assertTrue(manager.isValid(username, validLogins.get(username)));
+      assertEquals(username, manager.getProfile(username).getUsername());
     }
 
-  }*/
+    Map<String, String> invalidLogins = tx.getLogins(INVALID_LOGINS);
+    for(String username: invalidLogins.keySet())
+    {
+      assertFalse(manager.isValid(username, validLogins.get(username)));
+    }
+  }
+
+  @Test
+  void addProfileTest()
+  {
+    manager.addProfile(NEW_PROFILE_USERNAME, NEW_PROFILE_PASSWORD);
+    assertTrue(manager.isValid(NEW_PROFILE_USERNAME, NEW_PROFILE_PASSWORD));
+
+    Map<String, String> validLogins = tx.getLogins(VALID_LOGINS);
+    int numberOfLoginsCaught = 0;
+    for(String username: validLogins.keySet())
+    {
+      try{
+        manager.addProfile(username, validLogins.get(username));
+      } catch(UserAlreadyExistsException e){
+        numberOfLoginsCaught++;
+    }
+    }
+    assertEquals(numberOfLoginsCaught, validLogins.size());
+  }
+
 
 }
