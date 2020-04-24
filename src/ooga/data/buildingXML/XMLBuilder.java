@@ -39,6 +39,13 @@ public abstract class XMLBuilder {
     }
   }
   /**
+   * Allows us to write things to the XMl in different ways depending
+   * on the type of document you want to write
+   * @param root
+   */
+  abstract void addElementsToRoot(Element root);
+
+  /**
    * Builds the root element to add new element to and eventually transform
    */
   protected void createDocument(String element, String pathName){
@@ -49,6 +56,18 @@ public abstract class XMLBuilder {
     transform(pathName);
   }
 
+  /**
+   * Creates a single element from a given tag name and text
+   * @param tagName
+   * @param text
+   * @return
+   */
+  protected Element createElement(String tagName, String text)
+  {
+    Element e = document.createElement(tagName);
+    e.appendChild(document.createTextNode(text));
+    return e;
+  }
 
   /**
    * Transformer allows us to write the DOM object to the desired output StreamResult
@@ -68,26 +87,6 @@ public abstract class XMLBuilder {
     catch (TransformerException e) {
       e.printStackTrace();
     }
-  }
-
-  /**
-   * Allows us to write things to the XMl in different ways depending
-   * on the type of document you want to write
-   * @param root
-   */
-  abstract void addElementsToRoot(Element root);
-
-  /**
-   * Creates a single element from a given tag name and text
-   * @param tagName
-   * @param text
-   * @return
-   */
-  protected Element createElement(String tagName, String text)
-  {
-    Element e = document.createElement(tagName);
-    e.appendChild(document.createTextNode(text));
-    return e;
   }
 
   }

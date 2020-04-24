@@ -20,7 +20,7 @@ public class XMLGameBuilder extends XMLBuilder {
   private final String UNCOVERED_CELL_TAG = "uncoveredCellRow";
 
   private Map<String, String> dataToWrite;
-  private int [][] grid;
+  private int[][] grid;
   private boolean [][] uncoveredCells;
   private int numRows;
   private int numCols;
@@ -49,14 +49,18 @@ public class XMLGameBuilder extends XMLBuilder {
         Element temp = createElement(tag, dataToWrite.get(tag));
         root.appendChild(temp);
     }
-    addGrid(root);
-    if(uncoveredCells!=null)
-    {
-      writeBooleanGrid(root);
-    }
+
+    Element numRowsElement = createElement(NUM_ROWS_TAG, Integer.toString(numRows));
+    root.appendChild(numRowsElement);
+
+    Element numColumnsElement = createElement(NUM_COLUMNS_TAG, Integer.toString(numCols));
+    root.appendChild(numColumnsElement);
+
+    addIntGrid(root);
+    writeBooleanGrid(root);
   }
 
-  private void addGrid(Element root)
+  private void addIntGrid(Element root)
   {
     Element numRowsElement = createElement(NUM_ROWS_TAG, Integer.toString(numRows));
     root.appendChild(numRowsElement);
@@ -80,18 +84,36 @@ public class XMLGameBuilder extends XMLBuilder {
 
   private void writeBooleanGrid(Element root)
   {
-    for(int r = ZERO_INDEX; r < numRows; r++)
+    if(uncoveredCells != null)
     {
-      List<String> rowValues = new ArrayList<>();
-      for(int c = ZERO_INDEX; c < numCols; c++)
+      for(int r = ZERO_INDEX; r < numRows; r++)
       {
-        rowValues.add(Boolean.toString(uncoveredCells[r][c]));
+        List<String> rowValues = new ArrayList<>();
+        for(int c = ZERO_INDEX; c < numCols; c++)
+        {
+          rowValues.add(Boolean.toString(uncoveredCells[r][c]));
+        }
+        String row = String.join(ROW_DELIMINATOR, rowValues);
+        Element temp = createElement(UNCOVERED_CELL_TAG, row);
+        root.appendChild(temp);
       }
-      String row = String.join(ROW_DELIMINATOR, rowValues);
-      Element temp = createElement(UNCOVERED_CELL_TAG, row);
-      root.appendChild(temp);
     }
   }
-
+/*  private void addGrid(Element root, String cellTag, String[][] grid)
+  {
+    if (grid!=null){
+      for(int r = ZERO_INDEX; r < numRows; r++)
+      {
+        List<String> rowValues = new ArrayList<>();
+        for(int c = ZERO_INDEX; c < numCols; c++)
+        {
+          rowValues.add(grid[r][c]);
+        }
+        String row = String.join(cellTag, rowValues);
+        Element temp = createElement(ROW_TAG, row);
+        root.appendChild(temp);
+      }
+    }
+  }*/
 
 }
