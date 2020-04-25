@@ -1,5 +1,6 @@
 package ooga.engine.matchFinder;
 
+import ooga.data.Data;
 import ooga.engine.Cell;
 import ooga.engine.Grid;
 import ooga.engine.validator.SwitchValidator;
@@ -28,9 +29,12 @@ class OpenFinderTest {
 
     @Test
     void makeMatches() {
+        Data data = new Data();
         Validator validator = new SwitchValidator();
         MatchFinder matchFinder = new OpenFinder();
-        Grid myGrid = new Grid(gameAttributes, validator, matchFinder);
+        Map<String, String> engineAttributes = data.getEngineAttributes("CandyCrush");
+        Map<String, String> gameAttributes = data.getGameLevelAttributes("Guest", "CandyCrush", 1);
+        Grid myGrid = new Grid(engineAttributes, validator, matchFinder);
         myGrid.setNewGame(initialConfig, gameAttributes, null);
         // now we have a grid with states and everything
         List<Cell> ret = new ArrayList<>();
