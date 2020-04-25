@@ -243,6 +243,12 @@ public class Data implements DataLink {
     return myProfileManager.getHighScores(gameType);
   }
 
+  public void logout()
+  {
+    currentUser = null;
+  }
+
+
   /**
    * Current user is set whenever you log in and adds a listener to
    * always update the player XML whenever it is changed

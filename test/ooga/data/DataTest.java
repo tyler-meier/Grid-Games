@@ -6,6 +6,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,65 +16,49 @@ import org.junit.jupiter.api.Test;
 
 class DataTest {
 
-  private final String GAME_PATH = "resources.GameKeys";
-  private final ResourceBundle myGameResource = ResourceBundle.getBundle(GAME_PATH);
-  private final String OUTPUT_SKELETON = "%s vs. %s failed at row: %d column %d";
-  private final String KEY_FILLER = "Whatever";
+  private static final String GAME_TO_SAVE_FOLDER = "gameToSave";
+  private static final String USER_DEF_GAME_TO_SAVE_FOLDER = "gameToSave";
+  private static final String PROFILE_FOLDER = "profileFiles";
+
+  private final String [] LEVELS_TO_LOAD = {"levelOne", "levelTwo", "levelThree", "levelFour", "levelFive"};
+  private final String GAME_TO_LOAD = "BejeweledAction";
+  private final String MEMORY_GAME = "Memory";
+  private final String GUEST = "Guest";
+  private final String TEST_PROFILE_USERNAME = "test";
+  private final String TEST_PROFILE_PASSWORD = "test";
+  private final String NAME_OF_USER_DEF_GAME = "MyFunnyGame";
+
+  private final String INVALID_LOGINS = "invalidLogins";
+  private final String VALID_LOGINS = "validLogins";
+  private final String WAVE_MODE = "wavemode";
+  private final String DEFAULT = "default";
+
   private final String[] ALL_GAME_TYPES = {"Memory", "BejeweledEndless", "BejeweledAction", "BejeweledPuzzle", "CandyCrush", "ClassicMemory", "Minesweeper"};
-
-  private final int[][] knownLevelOne = { {1, 5, 6, 6, 1}, {1, 5, 4, 3, 6}, {2, 4, 3, 4, 1}, {1, 5, 2, 4, 1}, {2, 4, 3, 2, 2}, {2, 3, 4, 3, 3}};
-  private final int[][] knownLevelTwo = { {1, 6, 5, 4, 2}, {5, 1, 3, 1, 5}, {4, 4, 6, 6, 1}, {2, 3, 4, 3, 2}, {1, 1, 2, 1, 2}};
-  private final int[][] knownLevelThree = { {1, 6, 5, 4, 2, 1}, {5, 1, 3, 1, 5, 1}, {4, 4, 6, 6, 1, 2}, {2, 3, 4, 3, 2, 1}, {2, 3, 4, 3, 2, 1}};
-  private final int[][] knownLevelFour = { {1, 6, 5, 4, 2, 3}, {5, 1, 3, 1, 5, 1}, {4, 4, 6, 6, 1, 6}, {2, 3, 4, 3, 2, 4}, {2, 1, 3, 4, 5, 4}, {6, 6, 1, 3, 2, 5}};
-
-  private final List<int[][]> allGrids = new ArrayList<>();
 
 
   private Data data = new Data();
-
-
-
-//  @Test
-//  void saveGame() {
-//    int[][] grid = new int [4][4];
-//    Map<String, String > dataToWrite = new HashMap<>();
-//    fillMapAndGrid(grid, dataToWrite);
-//    String path = String.format(NEW_GAME_PATH_SKELETON, "jay18", "Memory");
-//    data.saveGame(path, dataToWrite, grid);
-//
-//    XMLParser printingParser = new XMLParser(path);
-//    assertEqualsGrids(grid, printingParser.getGrid());
-//    assertEqualsMaps(dataToWrite, printingParser.getMapFromXML(myGameResource));
-//  }
+  private TextParser tx = new TextParser();
 
   @Test
   void loadLevels()
   {
-    File file = getFile();
-    try{
-      BufferedReader br = new BufferedReader(new FileReader(file));
-      String st;
-      while ((st = br.readLine()) != null)
-        System.out.println(st);
-    } catch(Exception e)
+    for(int i = 0; i < LEVELS_TO_LOAD.length; i++)
     {
-      e.printStackTrace();
+      tx.setFileGroup(LEVELS_TO_LOAD[i]);
+      Map<String, String> correctGame = tx.getGameAttributes();
+
+      Map<String,String> gameLevelAttributes = data.getGameLevelAttributes(GUEST, GAME_TO_LOAD, i+1);
+      assertEqualsMaps(correctGame, gameLevelAttributes);
+      assertNull(data.getGrid());
+      assertNull(data.getOpenCells());
     }
 
-    allGrids.add(knownLevelOne);
-    allGrids.add(knownLevelTwo);
-    allGrids.add(knownLevelThree);
-    allGrids.add(knownLevelFour);
-
-    for(int[][] grid : allGrids)
-    {
-      Map<String,String> gameLevelAttributes = data.getGameLevelAttributes("Guest", "BejeweledPuzzle", allGrids.indexOf(grid)+1);
-      int[][] currentLevelGrid = data.getGrid();
-      //assertEquals(true, checkGridEquality(grid, currentLevelGrid));
-    }
+    Map<String, String> correctEngine = tx.getEngine();
+    Map<String, String> engine = data.getEngineAttributes(GAME_TO_LOAD);
+    assertEqualsMaps(correctEngine, engine);
 
     try{
-      Map<String,String> gameLevelAttributes = data.getGameLevelAttributes("Guest", "BejeweledPuzzle", 5);
+      Map<String,String> gameLevelAttributes = data.getGameLevelAttributes(GUEST, GAME_TO_LOAD, 5);
     } catch(LevelNotFoundException e)
     {
       System.out.println(e.getMessage());
@@ -82,84 +67,126 @@ class DataTest {
   }
 
   @Test
-  void getHighScoresTest()
-  {
-    for(String gameType: ALL_GAME_TYPES)
-    {
-      Map<String, Integer> sortedHighScores = data.getHighScores(gameType);
+  void saveGame() {
 
-      System.out.println("Stats for " + gameType);
-      for(String user: sortedHighScores.keySet())
-      {
-        System.out.println(user + ": " + sortedHighScores.get(user));
-      }
-      System.out.println();
-    }
+    data.login(TEST_PROFILE_USERNAME, TEST_PROFILE_PASSWORD);
+    data.getGameLevelAttributes(TEST_PROFILE_USERNAME, GAME_TO_LOAD, 1);
 
+    tx.setFileGroup(GAME_TO_SAVE_FOLDER);
+    int[][] stateGrid = tx.getStateGrid();
+    boolean[][] boolGrid = tx.getBooleanGrid();
+    Map<String, String> gameAttributes = tx.getGameAttributes();
+
+    data.saveGame(gameAttributes, stateGrid, boolGrid);
+
+    assertEqualsMaps(gameAttributes, data.getGameLevelAttributes(TEST_PROFILE_USERNAME, GAME_TO_LOAD, -1));
+    assertTrue(checkIntGridEquality(stateGrid, data.getGrid()));
+    assertTrue(checkBooleanGridEquality(boolGrid, data.getOpenCells()));
   }
 
   @Test
   void createAndLoadNewGameType()
   {
-    UserProfile jay = data.login("jay18", "boob");
-    Map<String, String> gameAttributes = new HashMap<>();
-    gameAttributes.put("MovesLeft", "0");
-    gameAttributes.put("Score", "3");
-    gameAttributes.put("LivesLeft", "4");
-    gameAttributes.put("TargetScore", "24");
-    gameAttributes.put("LossStat", "5");
-    gameAttributes.put("Level", "6");
-    gameAttributes.put("Time", "0");
-    gameAttributes.put("numRows", "6");
-    gameAttributes.put("numColumns", "5");
+    data.login(TEST_PROFILE_USERNAME, TEST_PROFILE_PASSWORD);
+    tx.setFileGroup(USER_DEF_GAME_TO_SAVE_FOLDER);
+    Map<String, String> gameAttributes = tx.getGameAttributes();
+    Map<String, String> engineAttributes = tx.getEngine();
+    boolean[][] uncoveredCells = tx.getBooleanGrid();
+    int[][] states = tx.getStateGrid();
 
-    Map<String, String> engineAttributes = new HashMap<>();
-    engineAttributes.put("Validator", "stuff");
-    engineAttributes.put("AddNewCells", "3");
-    engineAttributes.put("MatchFinder", "another");
-    engineAttributes.put("NoHiddenCells", "thing");
-    engineAttributes.put("NumSelectedPerMove", "to");
-    engineAttributes.put("MaxStateNumber", "save");
-    engineAttributes.put("SecondsOpen", "here");
-    engineAttributes.put("PointsPerCell", "now");
 
-    boolean[][] uncoveredCells = new boolean[knownLevelOne.length][knownLevelOne[0].length];
-    data.saveCreatedGame("MyFunnyGame", engineAttributes, gameAttributes, knownLevelOne, uncoveredCells);
-    Map<String, String> createdGame = data.getGameLevelAttributes("jay18", "MyFunnyGame", -1);
-    assertEquals(createdGame, gameAttributes);
-    //assertEquals(data.getEngineAttributes("MyFunnyGame"), engineAttributes);
-    assertTrue(checkGridEquality(knownLevelOne, data.getGrid()));
+    data.saveCreatedGame(NAME_OF_USER_DEF_GAME, engineAttributes, gameAttributes, states, uncoveredCells);
+    assertEqualsMaps(gameAttributes, data.getGameLevelAttributes(TEST_PROFILE_USERNAME, NAME_OF_USER_DEF_GAME, -1));
+    assertEqualsMaps(engineAttributes, data.getEngineAttributes(NAME_OF_USER_DEF_GAME));
+    assertTrue(checkIntGridEquality(states, data.getGrid()));
+    assertTrue(checkBooleanGridEquality(uncoveredCells, data.getOpenCells()));
   }
 
 
+
+  @Test
+  void getHighScoresTest()
+  {
+    ProfileManager pm = new ProfileManager();
+    for(String gameType: ALL_GAME_TYPES)
+    {
+      Map<String, Integer> sortedHighScores = data.getHighScores(gameType);
+      List<Integer> scores = new ArrayList<>();
+      for(String username: sortedHighScores.keySet())
+      {
+        assertNotNull(pm.getProfile(username));
+        scores.add(sortedHighScores.get(username));
+      }
+      List<Integer> sorted = new ArrayList<>(scores);
+      List<Integer> reverse = new ArrayList<>(scores);
+      Collections.sort(sorted);
+      Collections.reverse(reverse);
+      assertEqualsLists(sorted, reverse);
+
+    }
+
+  }
 
 
   @Test
   void editProfileTest()
   {
-    UserProfile jay = data.login("jay18", "boob");
-    jay.addHighScore("Memory", 55);
+    tx.setFileGroup(PROFILE_FOLDER);
+    Map<String, String> validLogins = tx.getLogins(VALID_LOGINS);
+    for(String username: validLogins.keySet())
+    {
+      UserProfile temp = data.login(username, validLogins.get(username));
+      assertNotNull(temp);
+      boolean previousDarkMode = temp.getDarkMode();
+      boolean newDarkMode = !previousDarkMode;
+      temp.setDarkMode(newDarkMode);
+      String previousDisplayPrefs = temp.getDisplayPreference();
+      String newDisplayPref = WAVE_MODE;
+      if(!previousDisplayPrefs.equals(WAVE_MODE))
+      {
+        newDisplayPref = DEFAULT;
+      }
+      temp.setDisplayPreference(newDisplayPref);
+      int newHighScore = Integer.parseInt(temp.getHighScore(MEMORY_GAME)) + 1;
+      temp.addHighScore(MEMORY_GAME, newHighScore);
 
-    UserProfile tyler = data.login("tylerm", "yown");
-    tyler.addHighScore("Memory", 4);
-    tyler.setDarkMode(true);
-    tyler.setParentalControls(true);
+      data.logout();
 
-    UserProfile juju = data.login("juju", "123");
-    assertEquals(null, juju);
+      temp = data.login(username, validLogins.get(username));
+      assertEquals(newDarkMode, temp.getDarkMode());
+      assertEquals(newDisplayPref, temp.getDisplayPreference());
+      assertEquals(newHighScore, Integer.parseInt(temp.getHighScore(MEMORY_GAME)));
+    }
+
+    tx.setFileGroup(PROFILE_FOLDER);
+    Map<String, String> invalidLogins = tx.getLogins(INVALID_LOGINS);
+    for(String username : invalidLogins.keySet())
+    {
+      UserProfile temp = data.login(username, invalidLogins.get(username));
+      assertNull(temp);
+    }
 
   }
+
+  private void assertEqualsLists(List<Integer> listOne, List<Integer> listTwo)
+  {
+    assertEquals(listOne.size(), listTwo.size());
+    for(int i = 0; i < listOne.size(); i++)
+    {
+      assertEquals(listOne.get(i), listTwo.get(i));
+    }
+  }
+
 
   private void assertEqualsMaps(Map<String, String> dataToWrite, Map<String, String> mapFromXML) {
     for(String key: dataToWrite.keySet())
     {
       assertEquals(true, mapFromXML.containsKey(key));
       assertEquals(dataToWrite.get(key), mapFromXML.get(key));
-      System.out.println(String.format(OUTPUT_SKELETON, dataToWrite.get(key), mapFromXML.get(key)));
     }
   }
 
-  private boolean checkGridEquality(int[][] grid, int[][] readingGrid) {
+  private boolean checkIntGridEquality(int[][] grid, int[][] readingGrid) {
     assertEquals(grid.length, readingGrid.length);
     assertEquals(grid[0].length, readingGrid[0].length);
 
@@ -169,7 +196,6 @@ class DataTest {
       {
         if(grid[r][c] != readingGrid[r][c])
         {
-          System.out.println(String.format(OUTPUT_SKELETON, grid[r][c], readingGrid[r][c], r, c));
           return false;
         }
       }
@@ -177,29 +203,21 @@ class DataTest {
     return true;
   }
 
-  private void fillMapAndGrid(int [][] grid, Map<String, String> data)
-  {
-    for(int i = 0; i < grid.length; i ++)
+  private boolean checkBooleanGridEquality(boolean[][] grid, boolean[][] readingGrid) {
+    assertEquals(grid.length, readingGrid.length);
+    assertEquals(grid[0].length, readingGrid[0].length);
+
+    for(int r = 0; r < grid.length; r ++)
     {
-      for(int a = 0; a < grid[0].length; a++)
+      for(int c = 0; c < grid[0].length; c++)
       {
-        grid[i][a] = i+a;
+        if(grid[r][c] != readingGrid[r][c])
+        {
+          return false;
+        }
       }
     }
-    for(String key: myGameResource.keySet())
-    {
-      data.put(key, KEY_FILLER);
-    }
+    return true;
   }
 
-  private File getFile()
-  {
-    String path = "TestResources/dataTestingFiles/knownLevelOne.txt";
-    try {
-      return new File(path);
-    } catch (Exception e) {
-      e.printStackTrace();
-      throw e;
-    }
-  }
 }

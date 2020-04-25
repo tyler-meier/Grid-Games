@@ -1,0 +1,7 @@
+Level 5
+Score 0
+TargetScore 700
+LossStat Time
+Time 40
+numRows 12
+numColumns 12
