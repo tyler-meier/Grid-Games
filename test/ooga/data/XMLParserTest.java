@@ -14,21 +14,17 @@ import ooga.data.XMLParser;
 import org.junit.jupiter.api.Test;
 
 class XMLParserTest {
-  private final String PROFILE_PATH = "resources.ProfileKeys";
-  private final String GRID_PATH = "resources.GridKeys";
+
+  private static final String MEMORY_GRID = "memoryGrid";
   private final String ENGINE_PATH = "resources.EngineKeys";
   private final String GAME_PATH = "resources.GameKeys";
   private final String DEFAULT_GAMES_PATH = "resources.DefaultGamePaths";
   private final String [] knownProfiles = new String[]{"todd34", "bobbyBoy"};
-  private final int[][] knownGrid = new int[4][5];
   private final String DEFAULT_ENGINE_PATH = "resources.DefaultEnginePaths";
+  private final String MEMORY_GAME_TYPE = "Memory";
+  private final String PROFILE_TAG = "profile";
+  private final String DELIMINATOR = " ";
 
-
-  private final ResourceBundle myProfileResource = ResourceBundle.getBundle(PROFILE_PATH);
-  private Map<String, String> profile = new HashMap<>();
-
-  private final ResourceBundle myGridResource = ResourceBundle.getBundle(GRID_PATH);
-  private Map<String, String> grid = new HashMap<>();
 
   private final ResourceBundle myEngineResource = ResourceBundle.getBundle(ENGINE_PATH);
   private Map<String, String> engine = new HashMap<>();
@@ -41,11 +37,11 @@ class XMLParserTest {
 
 
   private final String memory_engine_path = "data/defaultEngines/MemoryEngine.xml";
-  private final String memory_game_path = "data/defaultGames/MemoryGameDefault.xml";
+  private final String memory_game_path = "data/defaultGames/Memory/level_1.xml";
   private final String profile_path = "data/RegisteredProfiles.xml";
 
   private XMLParser parser;
-  private ProfileManager pm = new ProfileManager();
+  private TextParser tx = new TextParser();
 
 
   @Test
@@ -56,10 +52,7 @@ class XMLParserTest {
 
     for(String desiredKey : Collections.list(myEngineResource.getKeys()))
     {
-      assertEquals(true, engine.keySet().contains(desiredKey));
-    }
-    for (String key : engine.keySet()) {
-      System.out.println(key + ": " + engine.get(key));
+      assertTrue(engine.keySet().contains(desiredKey));
     }
 
   }
@@ -69,8 +62,8 @@ class XMLParserTest {
   {
     parser = new XMLParser(profile_path);
     Map<String, List<String>> allProfiles = new HashMap<>();
-    for (String user : parser.getListFromXML("profile", null)) {
-      String[] neededParts = user.split(" ");
+    for (String user : parser.getListFromXML(PROFILE_TAG, null)) {
+      String[] neededParts = user.split(DELIMINATOR);
       String currUsername = neededParts[0];
       String currPassword = neededParts[1];
       allProfiles.put(currUsername, new ArrayList<>());
@@ -79,11 +72,7 @@ class XMLParserTest {
 
     for(String person: Arrays.asList(knownProfiles))
     {
-      assertEquals(true, allProfiles.containsKey(person));
-    }
-
-    for (String key : allProfiles.keySet()) {
-      System.out.println(key + ": " + allProfiles.get(key));
+      assertTrue(allProfiles.containsKey(person));
     }
 
   }
@@ -96,10 +85,7 @@ class XMLParserTest {
 
     for(String desiredKey : Collections.list(myGameResource.getKeys()))
     {
-      assertEquals(true, game.keySet().contains(desiredKey));
-    }
-    for (String key : game.keySet()) {
-      System.out.println(key + ": " + game.get(key));
+      assertTrue(game.keySet().contains(desiredKey));
     }
 
   }
@@ -123,28 +109,36 @@ class XMLParserTest {
   }
 
 
-  /*
+
   @Test
   void testGetGrid()
   {
-    UserProfile currentUser = pm.getProfile("bobbyBoy");
-    String gameType = "Memory";
-    //TODO: How do we know which configuration to do?
-    String savedPath = currentUser.getSavedGame(gameType);
-    if(savedPath.isEmpty())
-    {
-      savedPath = myDefaultConfigPathResource.getString(gameType);
-    }
+    String savedPath = myDefaultGamePathResource.getString(MEMORY_GAME_TYPE);
+
     XMLParser gridParser = new XMLParser(savedPath);
     int [][] grid = gridParser.getGrid();
-    for(int r = 0; r < grid.length; r++)
+
+    tx.setFileGroup(MEMORY_GRID);
+    int[][] stateGrid = tx.getStateGrid();
+
+    assertTrue(checkIntGridEquality(grid, stateGrid));
+  }
+
+  private boolean checkIntGridEquality(int[][] grid, int[][] readingGrid) {
+    assertEquals(grid.length, readingGrid.length);
+    assertEquals(grid[0].length, readingGrid[0].length);
+
+    for(int r = 0; r < grid.length; r ++)
     {
       for(int c = 0; c < grid[0].length; c++)
       {
-        System.out.print(grid[r][c] + " ");
+        if(grid[r][c] != readingGrid[r][c])
+        {
+          return false;
+        }
       }
-      System.out.println();
     }
-  }*/
+    return true;
+  }
 
 }

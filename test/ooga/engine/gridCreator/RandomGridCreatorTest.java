@@ -7,8 +7,6 @@ import java.util.HashMap;
 import java.util.Map;
 import static org.junit.jupiter.api.Assertions.*;
 
-
-
 class RandomGridCreatorTest {
     private int rows = 5, columns = 5, lives = 6, minState=1, maxState = 8, numSelected = 2;;
     private Map<String, String> gameAttributes = new HashMap<>() {{
