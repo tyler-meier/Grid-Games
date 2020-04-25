@@ -27,7 +27,6 @@ import ooga.player.exceptions.ImageNotFoundException;
  * Game screen that contains the game play, as well as animated buttons for toggling screens
  * @author Alyssa Shin, Tyler Meier
  */
-
 public class GameScreen extends SuperScreen {
   private static final String TIME = "Time";
   private static final String SCORE = "Score";

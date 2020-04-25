@@ -21,6 +21,7 @@ public class CustomView extends SuperScreen {
 
     private static final String IMAGE_RESOURCES = "src/ooga/player/Resources/images/preferences/";
     private static final String TITLE = "Preferences";
+    private static final String LABEL = "Theme";
     private static final int IMAGE_SIZE = 80;
     private static final int SPACING = 6;
 
@@ -45,7 +46,7 @@ public class CustomView extends SuperScreen {
 
     //make node that contains all the buttons
     private Parent makePanel(){
-        Label label = new Label("Pick your theme");
+        Label label = new Label(myStringResources.getString(LABEL));
         Button defaultButton = makeImageButtons("default");
         Button darkMode = makeImageButtons("darkmode");
         Button rainbowMode = makeImageButtons("rainbow");
