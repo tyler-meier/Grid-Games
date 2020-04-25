@@ -26,16 +26,21 @@ import static org.junit.jupiter.api.Assertions.*;
 class GameScreenTest extends DukeApplicationTest {
     private Button myHomeButton;
     private Button myCustomizeButton;
+    private Scene myScene;
+    private Player myPlayer;
+    private Label myErrorMessage;
 
     @Override
     public void start(Stage stage) {
-        Player myPlayer = new Player(stage);
+        myPlayer = new Player(stage);
         GameScreen myGameScreen = new GameScreen("CandyCrush", myPlayer);
+        myScene = myGameScreen.makeScene();
         stage.setScene(myGameScreen.makeScene());
         stage.show();
 
         myHomeButton = lookup("#homebutton").query();
         myCustomizeButton = lookup("#customview").query();
+        myErrorMessage = new Label();
     }
 
     //tests to see if the correct buttons were made in horizontal toolbar
@@ -47,5 +52,12 @@ class GameScreenTest extends DukeApplicationTest {
         assertEquals(myCustomizeButton.getText(), "Customize");
     }
 
+    @Test
+    void checkSceneDimension() {
+        int expectedwidth = 750;
+        int expectedheight = 600;
+        assertEquals(myScene.getWidth(), 750);
+        assertEquals(myScene.getHeight(), 600);
+    }
 
 }
