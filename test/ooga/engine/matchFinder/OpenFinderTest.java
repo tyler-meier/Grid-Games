@@ -43,8 +43,21 @@ class OpenFinderTest {
         ret.add(myGrid.getCell(2,2));
         assertEquals(ret, matchFinder.makeMatches(myGrid));
         ret.clear();
+    }
+
+    @Test
+    void invalidMakeMatches(){
         // should return nothing since there are no matches
+        Data data = new Data();
+        Validator validator = new SwitchValidator();
+        MatchFinder matchFinder = new OpenFinder();
+        Map<String, String> engineAttributes = data.getEngineAttributes("CandyCrush");
+        Map<String, String> gameAttributes = data.getGameLevelAttributes("Guest", "CandyCrush", 1);
+        Grid myGrid = new Grid(engineAttributes, validator, matchFinder);
+        myGrid.setNewGame(initialConfig, gameAttributes, null);
         myGrid.setNewGame(initialConfig2, gameAttributes, null);
+        List<Cell> ret = new ArrayList<>();
+
         assertEquals(ret, matchFinder.makeMatches(myGrid));
         ret.add(myGrid.getCell(0,0));
         ret.add(myGrid.getCell(1,0));
@@ -53,5 +66,6 @@ class OpenFinderTest {
         myGrid.setNewGame(initialConfig3, gameAttributes, null);
         assertEquals(ret, matchFinder.makeMatches(myGrid));
     }
+
 
 }
