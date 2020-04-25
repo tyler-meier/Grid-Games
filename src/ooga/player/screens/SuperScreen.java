@@ -21,7 +21,7 @@ import ooga.player.Player;
 /**
  * The Super Screen class, which is a super class of all of the screen classes and holds methods that they all utilize,
  * as well as instance variables that they use in their classes. Dependency on player class.
- * @author Tyler Meier and Alyssa Shin
+ * @author Tyler Meier, Alyssa Shin
  */
 public abstract class SuperScreen {
 

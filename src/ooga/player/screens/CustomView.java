@@ -21,6 +21,12 @@ public class CustomView extends SuperScreen {
 
     private static final String IMAGE_RESOURCES = "src/ooga/player/Resources/images/preferences/";
     private static final String TITLE = "Preferences";
+    private static final String LABEL = "Theme";
+    private static final String DEFAULT = "default";
+    private static final String DARKMODE = "darkmode";
+    private static final String RAINBOW = "rainbow";
+    private static final String GREENMODE = "greenmode";
+    private static final String WAVEMODE = "wavemode";
     private static final int IMAGE_SIZE = 80;
     private static final int SPACING = 6;
 
@@ -44,17 +50,26 @@ public class CustomView extends SuperScreen {
     }
 
     //make node that contains all the buttons
-    private Parent makePanel(){
-        Label label = new Label("Pick your theme");
-        Button defaultButton = makeImageButtons("default");
-        Button darkMode = makeImageButtons("darkmode");
-        Button rainbowMode = makeImageButtons("rainbow");
-        Button greenMode = makeImageButtons("greenmode");
-        Button waveMode = makeImageButtons("wavemode");
+    protected Parent makePanel(){
+        Label label = new Label(myStringResources.getString(LABEL));
+        Button defaultMode = makeImageButtons(DEFAULT);
+        Button darkMode = makeImageButtons(DARKMODE);
+        Button rainbowMode = makeImageButtons(RAINBOW);
+        Button greenMode = makeImageButtons(GREENMODE);
+        Button waveMode = makeImageButtons(WAVEMODE);
+        setButtonId(defaultMode, darkMode, rainbowMode, greenMode, waveMode);
 
-        VBox panel = new VBox(styleContents(label, defaultButton, darkMode, rainbowMode, greenMode, waveMode, myErrorMessage));
+        VBox panel = new VBox(styleContents(label, defaultMode, darkMode, rainbowMode, greenMode, waveMode, myErrorMessage));
         panel.setSpacing(SPACING);
         return panel;
+    }
+
+    private void setButtonId(Button defaultmode, Button darkmode, Button rainbowmode, Button greenmode, Button wavemode) {
+        defaultmode.setId("default");
+        darkmode.setId("dark");
+        rainbowmode.setId("rainbow");
+        greenmode.setId("green");
+        wavemode.setId("wave");
     }
 
     //make buttons that represent a new mode
