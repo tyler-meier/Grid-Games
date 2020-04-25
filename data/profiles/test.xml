@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <profile>
     <DarkMode>false</DarkMode>
@@ -13,6 +12,3 @@
     <ParentalControls>true</ParentalControls>
     <Password>test</Password>
 </profile>
-=======
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><profile><DarkMode>false</DarkMode><DisplayPreference>default</DisplayPreference><HighScore>Memory 10</HighScore><Username>test</Username><PreviousGame>MyFunnyGame data/savedGames/testMyFunnyGame.xml</PreviousGame><PreviousGame>BejeweledAction data/savedGames/testBejeweledAction.xml</PreviousGame><ParentalControls>false</ParentalControls><Password>profile</Password></profile>
->>>>>>> jay18
