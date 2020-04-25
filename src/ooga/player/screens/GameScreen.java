@@ -141,23 +141,40 @@ public class GameScreen extends SuperScreen {
   private HBox makeToolBar() {
     HBox toolBar = new HBox();
     Button customView = makeButton("CustomCommand", e-> myPlayer.setUpCustomView());
-    customView.setId("customview");
     Button homeButton = makeHomeButton();
-    homeButton.setId("homebutton");
+    settoolboxId(customView, homeButton);
     toolBar.getChildren().addAll(homeButton, customView);
     toolBar.setSpacing(WIDE_SPACING);
     toolBar.setId("toolbar");
     return toolBar;
   }
 
+  private void settoolboxId(Button customview, Button homebutton){
+    customview.setId("customview");
+    homebutton.setId("homebutton");
+  }
+
   //puts all essential buttons into a vbox
   private void makeButtonPanel() {
-    verticalPanel.getChildren().addAll(makeLogoutButton(), makeResetLevelButton(), makeResetGameButton(), makeThisSaveButton());
+    Button logoutButton = makeLogoutButton();
+    Button resetLevelButton = makeResetLevelButton();
+    Button resetGameButton = makeResetGameButton();
+    Button saveButton = makeThisSaveButton();
+    setButtonId(logoutButton, resetLevelButton, resetGameButton, saveButton);
+    verticalPanel.getChildren().addAll(logoutButton, resetLevelButton, resetGameButton, saveButton);
     if (!isNewGame(myGameType)) {
       Button leaderBoardButton = makeButton("LeaderBoardCommand", e -> myPlayer.setUpLeaderBoardScreen());
-      leaderBoardButton.setId("Leaderboard");
+      leaderBoardButton.setId("leaderboard");
       verticalPanel.getChildren().addAll(leaderBoardButton);
     }
+  }
+
+  //for JUnit testing
+  private void setButtonId(Button logout, Button resetlevel, Button resetgame, Button save) {
+    logout.setId("logout");
+    resetlevel.setId("resetlevel");
+    resetgame.setId("resetgame");
+    save.setId("savegame");
   }
 
   //sets event on save button on action
