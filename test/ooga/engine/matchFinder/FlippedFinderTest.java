@@ -63,4 +63,26 @@ class FlippedFinderTest {
         ret.clear();
         assertEquals(ret, matchFinder.makeMatches(myGrid));
     }
+
+    @Test
+    void invalidMakeMatches(){
+        Data data = new Data();
+        Map<String, String> engineAttributes = data.getEngineAttributes("Minesweeper");
+        Validator validator = new PairValidator();
+        MatchFinder matchFinder = new FlippedFinder();
+        Map<String,String> gameAttributes = data.getGameLevelAttributes("Guest", "Minesweeper", 1);
+
+        Grid myGrid = new Grid(engineAttributes, validator, matchFinder);
+        myGrid.setNewGame(initialConfig,gameAttributes,null);
+        List<Cell> ret = new ArrayList<>();
+        // close all cells on the grid - should return an empty arraylist
+        for(int i = 0; i < myGrid.getRows(); i++){
+            for(int j = 0; j < myGrid.getCols(); j++){
+                Cell cell = myGrid.getCell(i,j);
+                cell.isOpen().set(false);
+            }
+        }
+        ret.clear();
+        assertEquals(ret, matchFinder.makeMatches(myGrid));
+    }
 }
