@@ -6,7 +6,7 @@ package ooga.data.exceptions;
  */
 public class NaughtyNameException extends RuntimeException {
 
-  private String message = "Your username or password is naughty";
+  private String message = "Your entry is naughty or invalid";
 
   public NaughtyNameException()
   {

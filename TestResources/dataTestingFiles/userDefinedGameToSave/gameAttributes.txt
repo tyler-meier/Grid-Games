@@ -1,0 +1,9 @@
+MovesLeft 0
+Score 3
+LivesLeft 4
+TargetScore 24
+LossStat 5
+Level 6
+Time 0
+numRows 3
+numColumns 4

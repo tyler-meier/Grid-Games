@@ -36,12 +36,14 @@ public class LoginScreen extends SuperScreen {
     VBox topLoginPanel = setupText();
     topLoginPanel.setId("topPanel");  //for testing
     VBox buttonPanel = setUpButtons();
+    buttonPanel.setId("buttonPanel");  //for testing
     myErrorMessage.textProperty().setValue("");
     return styleScene(topLoginPanel, buttonPanel);
   }
 
   private VBox setupText(){
     Label loginLabel = new Label(myStringResources.getString("Login"));
+    loginLabel.setId("logIN"); //for testing
     username.setPromptText(myStringResources.getString("TypeUsername"));
     password.setPromptText(myStringResources.getString("TypePassword"));
     return styleContents(loginLabel, username, password);
@@ -74,5 +76,7 @@ public class LoginScreen extends SuperScreen {
     guestButton.setId("guest");
     newWindowButton.setId("window");
     newProfileButton.setId("newprof");
+    username.setId("use");
+    password.setId("pas");
   }
 }

@@ -1,0 +1,9 @@
+AddNewCells true
+Validator SwitchValidator
+MatchFinder OpenFinder
+NumSelectedPerMove 2
+NoHiddenCells true
+MaxStateNumber 6
+PointsPerCell 5
+SecondsOpen 0
+GridCreator RandomGridCreator
