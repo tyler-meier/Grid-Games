@@ -141,23 +141,28 @@ public class GameScreen extends SuperScreen {
   private HBox makeToolBar() {
     HBox toolBar = new HBox();
     Button customView = makeButton("CustomCommand", e-> myPlayer.setUpCustomView());
-    toolBar.getChildren().addAll(makeHomeButton(), customView);
+    customView.setId("customview");
+    Button homeButton = makeHomeButton();
+    homeButton.setId("homebutton");
+    toolBar.getChildren().addAll(homeButton, customView);
     toolBar.setSpacing(WIDE_SPACING);
+    toolBar.setId("toolbar");
     return toolBar;
   }
 
   //puts all essential buttons into a vbox
   private void makeButtonPanel() {
-    verticalPanel.getChildren().addAll(makeLogoutButton(), makeResetLevelButton(), makeThisSaveButton());
+    verticalPanel.getChildren().addAll(makeLogoutButton(), makeResetLevelButton(), makeResetGameButton(), makeThisSaveButton());
     if (!isNewGame(myGameType)) {
       Button leaderBoardButton = makeButton("LeaderBoardCommand", e -> myPlayer.setUpLeaderBoardScreen());
-      verticalPanel.getChildren().addAll(makeResetGameButton(), leaderBoardButton);
+      leaderBoardButton.setId("Leaderboard");
+      verticalPanel.getChildren().addAll(leaderBoardButton);
     }
   }
 
   //sets event on save button on action
   private Button makeThisSaveButton(){
-    return makeButton("SaveCommand", e->{   //TODO: see if you  can get this method out somehow
+    return makeButton("SaveCommand", e->{
       if(verticalPanel.getChildren().contains(pausePlayButton) && timer != null) {
         timer.cancel();
         pausePlayButton.setText(myButtonResources.getString("PlayCommand"));
