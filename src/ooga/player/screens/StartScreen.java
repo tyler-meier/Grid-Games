@@ -70,16 +70,15 @@ public class StartScreen extends SuperScreen {
 
   private Button makeStartButton(){
     return makeButton("StartCommand", e -> {
-      try {
-        if(nameOfGameMapping.containsKey(games.getValue())){
-          myPlayer.setGameType(nameOfGameMapping.get(games.getValue()));
-        }
-        else{
-          myPlayer.setGameType(games.getValue());
-        }
-        myPlayer.getStartGameButtonEvent().handle(e);
-      } catch (Exception p){
-        myErrorMessage.textProperty().setValue(myStringResources.getString("BlankChoice"));
+      if(nameOfGameMapping.containsKey(games.getValue())){
+        myPlayer.setGameType(nameOfGameMapping.get(games.getValue()));
+      }
+      else if (!games.getSelectionModel().isEmpty()){
+        myPlayer.setGameType(games.getValue());
+      }
+      myPlayer.getStartGameButtonEvent().handle(e);
+      if(games.getSelectionModel().isEmpty()) {
+        myErrorMessage.setText(myStringResources.getString("BlankChoice"));
       }
     });
   }
