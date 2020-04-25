@@ -1,13 +1,1 @@
-<?xml version="1.0"?>
-<profile>
-
-  <Username>todd34</Username>
-  <Password>tod</Password>
-  <ParentalControls>on</ParentalControls>
-  <DisplayPreference>wavemode</DisplayPreference>
-
-  <HighScore>CandyCrush 3</HighScore>
-  <HighScore>Bejeweled 2</HighScore>
-  <HighScore>Minesweeper 5</HighScore>
-
-</profile>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><profile><DarkMode>false</DarkMode><DisplayPreference>wavemode</DisplayPreference><HighScore>CandyCrush 3</HighScore><HighScore>Minesweeper 5</HighScore><HighScore>Memory 6</HighScore><HighScore>Bejeweled 2</HighScore><Username>todd34</Username><ParentalControls>false</ParentalControls><Password>tod</Password></profile>
