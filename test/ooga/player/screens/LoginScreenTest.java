@@ -2,6 +2,7 @@ package ooga.player.screens;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.ArrayList;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -14,47 +15,59 @@ import ooga.player.Player;
 import ooga.util.DukeApplicationTest;
 import org.junit.jupiter.api.Test;
 
+/**
+ * Tests the button vbox and the top vbox to see if all contents are correct and if the text matches up
+ * @author Tyler Meier
+ */
 class LoginScreenTest extends DukeApplicationTest {
-
-  private Player player;
-  private LoginScreen myLoginScreen = new LoginScreen(player);
-  private Button login, guest, window, newprof;
-  private Node topPanel;
 
   @Override
   public void start(Stage stage){
-    player = new Player(stage);
+    Player player = new Player(stage);
+    LoginScreen myLoginScreen = new LoginScreen(player);
     Scene myScene = myLoginScreen.setUpScene();
     stage.setScene(myScene);
     stage.show();
-    login = lookup("#login").queryButton();
-    guest = lookup("#guest").queryButton();
-    window = lookup("#window").queryButton();
-    newprof = lookup("#newprof").queryButton();
-    topPanel = lookup("#topPanel").query();
   }
 
   @Test
-  void testTextOnButtons() {
+  void testButtons() {
+    VBox buttons = lookup("#buttonPanel").query();
+    Button login = lookup("#login").queryButton();
+    Button guest = lookup("#guest").queryButton();
+    Button window = lookup("#window").queryButton();
+    Button newprof = lookup("#newprof").queryButton();
+    ArrayList<Node> but = new ArrayList<>();
+    but.add(login);
+    but.add(guest);
+    but.add(newprof);
+    but.add(window);
+
+    assertEquals(but, buttons.getChildren());
+    assertEquals(Pos.CENTER, buttons.getAlignment());
+    assertEquals(10, buttons.getSpacing());
     assertEquals("Login", login.getText());
     assertEquals("Continue As Guest", guest.getText());
     assertEquals("Add New Window", window.getText());
     assertEquals("New? Create New Profile", newprof.getText());
   }
 
-//  @Test
-//  void testTopVBox(){
-//    VBox thisOne = new VBox();
-//    Label thisLabel = new Label("Login");
-//    TextField one = new TextField();
-//    one.setPromptText("Type in a new username");
-//    TextField two = new TextField();
-//    two.setPromptText("Type in a new password");
-//    thisOne.getChildren().addAll(thisLabel, one, two);
-//    thisOne.setSpacing(10);
-//    thisOne.setAlignment(Pos.CENTER);
-//    Node actual = myLoginScreen.setupText();
-//
-//    assertEquals(thisOne, actual);
-//  }
+  @Test
+  void testTopVBox(){
+    VBox topPanel = lookup("#topPanel").query();
+    Label thisLabel = lookup("#logIN").query();
+    TextField one = lookup("#use").query();
+    TextField two = lookup("#pas").query();
+    ArrayList<Node> lis= new ArrayList<>();
+    lis.add(thisLabel);
+    lis.add(one);
+    lis.add(two);
+
+    assertEquals(Pos.CENTER, topPanel.getAlignment());
+    assertEquals(10, topPanel.getSpacing());
+    assertEquals(lis, topPanel.getChildren());
+    assertEquals("LOGIN", thisLabel.getText());
+    assertEquals("Enter Username", one.getPromptText());
+    assertEquals("Enter Password", two.getPromptText());
+  }
 }
