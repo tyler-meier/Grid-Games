@@ -14,6 +14,7 @@ import ooga.player.Player;
 public class LeaderBoardScreen extends SuperScreen {
 
   private static final String TITLE = "High Score Leaderboard";
+  private static final String LABEL = "LeaderBoard";
   private static final String SEPARATOR = ":   ";
   private static final int SPACING = 10;
 
@@ -38,7 +39,7 @@ public class LeaderBoardScreen extends SuperScreen {
   }
 
   private Label makeTitle(){
-    Label title = new Label(myStringResources.getString("LeaderBoard") + myGameNameResources.getString(myPlayer.getGameType()));
+    Label title = new Label(myStringResources.getString(LABEL) + myGameNameResources.getString(myPlayer.getGameType()));
     title.setId("title-label");
     return title;
   }

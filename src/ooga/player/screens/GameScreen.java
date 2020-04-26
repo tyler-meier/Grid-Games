@@ -27,7 +27,6 @@ import ooga.player.exceptions.ImageNotFoundException;
  * Game screen that contains the game play, as well as animated buttons for toggling screens
  * @author Alyssa Shin, Tyler Meier
  */
-
 public class GameScreen extends SuperScreen {
   private static final String TIME = "Time";
   private static final String SCORE = "Score";
@@ -142,18 +141,40 @@ public class GameScreen extends SuperScreen {
   private HBox makeToolBar() {
     HBox toolBar = new HBox();
     Button customView = makeButton("CustomCommand", e-> myPlayer.setUpCustomView());
-    toolBar.getChildren().addAll(makeHomeButton(), customView);
+    Button homeButton = makeHomeButton();
+    settoolboxId(customView, homeButton);
+    toolBar.getChildren().addAll(homeButton, customView);
     toolBar.setSpacing(WIDE_SPACING);
+    toolBar.setId("toolbar");
     return toolBar;
+  }
+
+  private void settoolboxId(Button customview, Button homebutton){
+    customview.setId("customview");
+    homebutton.setId("homebutton");
   }
 
   //puts all essential buttons into a vbox
   private void makeButtonPanel() {
-    verticalPanel.getChildren().addAll(makeLogoutButton(), makeResetLevelButton(), makeThisSaveButton());
+    Button logoutButton = makeLogoutButton();
+    Button resetLevelButton = makeResetLevelButton();
+    Button resetGameButton = makeResetGameButton();
+    Button saveButton = makeThisSaveButton();
+    setButtonId(logoutButton, resetLevelButton, resetGameButton, saveButton);
+    verticalPanel.getChildren().addAll(logoutButton, resetLevelButton, resetGameButton, saveButton);
     if (!isNewGame(myGameType)) {
       Button leaderBoardButton = makeButton("LeaderBoardCommand", e -> myPlayer.setUpLeaderBoardScreen());
-      verticalPanel.getChildren().addAll(makeResetGameButton(), leaderBoardButton);
+      leaderBoardButton.setId("leaderboard");
+      verticalPanel.getChildren().addAll(leaderBoardButton);
     }
+  }
+
+  //for JUnit testing
+  private void setButtonId(Button logout, Button resetlevel, Button resetgame, Button save) {
+    logout.setId("logout");
+    resetlevel.setId("resetlevel");
+    resetgame.setId("resetgame");
+    save.setId("savegame");
   }
 
   //sets event on save button on action

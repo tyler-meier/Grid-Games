@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 class PairGridCreatorTest {
-    private int rows = 5, columns = 5, lives = 6, minState=1;
+    private int rows = 5, columns = 5, lives = 6, minState=1, maxState = 8, numSelected = 3;
     private Map<String, String> gameAttributes = new HashMap<>() {{
         put("numRows", "5");
         put("numColumns", "5");
@@ -14,15 +14,22 @@ class PairGridCreatorTest {
     }};
 
     @Test
-    void buildInitialConfig() {
-        int maxState = 8, numSelected = 3;
-        int[] counts = new int[maxState+1];
+    void testValidSetup() {
         PairGridCreator pgc = new PairGridCreator();
         pgc.setEngineAttributes(maxState, numSelected);
         pgc.getInitialConfig(gameAttributes);
         //test appropriate grid built
         assert(pgc.myNumRows==rows && pgc.myNumColumns==columns && pgc.myNumLives==lives);
         assert(pgc.initialConfig.length==rows && pgc.initialConfig[0].length==columns);
+
+    }
+
+    @Test
+    void testCorrectStateRangeAndDistribution(){
+        int[] counts = new int[maxState+1];
+        PairGridCreator pgc = new PairGridCreator();
+        pgc.setEngineAttributes(maxState, numSelected);
+        pgc.getInitialConfig(gameAttributes);
         //test states are in right range
         int maxStateFound=-1, minStateFound=-1;
         for (int r=0; r<pgc.initialConfig.length; r++){
@@ -40,4 +47,5 @@ class PairGridCreatorTest {
         }
         assert(numMisMatched==0 || numMisMatched==1);
     }
+
 }

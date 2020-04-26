@@ -67,22 +67,22 @@ public class DukeApplicationTest extends ApplicationTest {
   // utility methods for getting mouse and keyboard interactions to work
   protected void press (Scene scene, KeyCode key) {
     javafxRun(() -> scene.getOnKeyPressed().handle(new KeyEvent(KeyEvent.KEY_PRESSED, key.getChar(), key.getName(), key,
-        false, false, false, false)));
+            false, false, false, false)));
   }
 
   protected void release (Scene scene, KeyCode key) {
     javafxRun(() -> scene.getOnKeyReleased().handle(new KeyEvent(KeyEvent.KEY_RELEASED, key.getChar(), key.getName(), key,
-        false, false, false, false)));
+            false, false, false, false)));
   }
 
   protected void push (Scene scene, int x, int y) {
     javafxRun(() -> scene.getOnMousePressed().handle(new MouseEvent(MouseEvent.MOUSE_CLICKED, x, y, x, y, MouseButton.PRIMARY, 1,
-        false, false, false, false, true, false, false, true, false, false, null)));
+            false, false, false, false, true, false, false, true, false, false, null)));
   }
 
   protected void moveTo (Scene scene, int x, int y) {
     javafxRun(() -> scene.getOnMouseMoved().handle(new MouseEvent(MouseEvent.MOUSE_MOVED, x, y, x, y, MouseButton.NONE, 0,
-        false, false, false, false, false, false, false, true, false, false, null)));
+            false, false, false, false, false, false, false, true, false, false, null)));
   }
 
   // extra utility methods for different UI components
