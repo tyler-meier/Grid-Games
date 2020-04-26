@@ -89,7 +89,6 @@ public class TextParser {
       return myMap;
     } catch(Exception e)
     {
-      e.printStackTrace();
       return null;
     }
   }
@@ -116,7 +115,6 @@ public class TextParser {
       return allStateList;
     } catch(Exception e)
     {
-      e.printStackTrace();
       return null;
     }
   }
@@ -127,7 +125,6 @@ public class TextParser {
       String path = String.format(myFileGroup, whichFile);
       myFile = new File(path);
     } catch (Exception e) {
-      e.printStackTrace();
       throw e;
     }
   }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.xml.parsers.ParserConfigurationException;
 import ooga.data.UserProfile;
 import org.w3c.dom.Element;
 
@@ -25,11 +26,16 @@ public class XMLSingularProfileBuilder extends XMLBuilder {
   private UserProfile user;
   private Map<String, List<String>> userAttributes = new HashMap<>();
 
-  public XMLSingularProfileBuilder(String mainTag, String pathName, UserProfile user) {
+  public XMLSingularProfileBuilder(String mainTag, String pathName, UserProfile user) throws ParserConfigurationException{
     super(mainTag, pathName);
-    this.user = user;
-    fillUserMap();
-    createDocument(mainTag, pathName);
+    try{
+      this.user = user;
+      fillUserMap();
+      createDocument(mainTag, pathName);
+    } catch(ParserConfigurationException e)
+    {
+      throw e;
+    }
   }
 
   /**

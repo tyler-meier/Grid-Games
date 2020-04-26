@@ -44,7 +44,7 @@ public class DukeApplicationTest extends ApplicationTest {
         try {
           ApplicationTest.launch(Controller.class);
         } catch (Exception e) {
-          e.printStackTrace();  //FIXME: stack trace
+          System.out.println("Error in launch");
         }
       }
     };

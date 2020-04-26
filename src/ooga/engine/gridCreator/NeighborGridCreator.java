@@ -18,7 +18,6 @@ public class NeighborGridCreator extends GridCreator {
             Point nextPoint = availableCells.remove(random.nextInt(availableCells.size()));
             initialConfig[nextPoint.x][nextPoint.y] = countNeighboringBombs(nextPoint);
         }
-        printGrid();
     }
 
     private int countNeighboringBombs(Point p){

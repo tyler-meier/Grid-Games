@@ -62,7 +62,6 @@ public class UserDefinedGameScreenTwo extends UserDefinedGameScreen {
     private void handleButtonEvent(){
         try{
             buildMap();
-            //TODO: can we standardize?
             myPlayer.setUpMakeNewGameScreenThree();
         }
         catch(NewUserDefinedGameException p){

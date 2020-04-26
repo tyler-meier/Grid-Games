@@ -33,7 +33,6 @@ public class WonLevelScreen extends SuperScreen {
 
   private VBox setUpContents(){
     Label winLevelLabel = new Label(myStringResources.getString("WonLevel"));
-    //TODO: this restarts level?
     Button nextLevelButton = makeButton("NextLevelCommand", e -> {
       try{
         myPlayer.getNextLevelEvent().handle(e);

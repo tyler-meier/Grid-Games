@@ -24,18 +24,18 @@ public abstract class XMLBuilder {
   private DocumentBuilder documentBuilder;
   protected Document document;
 
-  public XMLBuilder(String mainTag, String pathName)
+  public XMLBuilder (String mainTag, String pathName) throws ParserConfigurationException
   {
     buildFile();
   }
 
-  private void buildFile() {
+  private void buildFile() throws ParserConfigurationException{
     try {
       documentFactory = DocumentBuilderFactory.newInstance();
       documentBuilder = documentFactory.newDocumentBuilder();
       document = documentBuilder.newDocument();
     } catch (ParserConfigurationException pce) {
-      pce.printStackTrace();
+      throw pce;
     }
   }
   /**
@@ -48,12 +48,16 @@ public abstract class XMLBuilder {
   /**
    * Builds the root element to add new element to and eventually transform
    */
-  protected void createDocument(String element, String pathName){
+  protected void createDocument(String element, String pathName) throws ParserConfigurationException{
     // root element
     Element root = document.createElement(element);
     document.appendChild(root);
     addElementsToRoot(root);
-    transform(pathName);
+    try{
+      transform(pathName);
+    } catch(Exception e){
+      throw new ParserConfigurationException();
+    }
   }
 
   /**
@@ -72,7 +76,7 @@ public abstract class XMLBuilder {
   /**
    * Transformer allows us to write the DOM object to the desired output StreamResult
    */
-  protected void transform(String pathName) {
+  protected void transform(String pathName) throws ParserConfigurationException {
 
     try{
       TransformerFactory transformerFactory = TransformerFactory.newInstance();
@@ -85,7 +89,7 @@ public abstract class XMLBuilder {
 
     }
     catch (TransformerException e) {
-      e.printStackTrace();
+      throw new ParserConfigurationException();
     }
   }
 

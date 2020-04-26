@@ -158,7 +158,7 @@ public class GameScreen extends SuperScreen {
 
   //sets event on save button on action
   private Button makeThisSaveButton(){
-    return makeButton("SaveCommand", e->{   //TODO: see if you  can get this method out somehow
+    return makeButton("SaveCommand", e->{
       if(verticalPanel.getChildren().contains(pausePlayButton) && timer != null) {
         timer.cancel();
         pausePlayButton.setText(myButtonResources.getString("PlayCommand"));
