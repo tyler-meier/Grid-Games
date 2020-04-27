@@ -30,6 +30,7 @@ public class ProfileManager {
   private final String REGISTERED_PROFILES_PATH = "data/RegisteredProfiles.xml";
   private final String INAPPROPRIATE_WORDS_PATH = "resources.InvalidNameEntries";
   private final ResourceBundle myInappropriateWords = ResourceBundle.getBundle(INAPPROPRIATE_WORDS_PATH);
+  private final String CANNOT_CREATE_XML = "Builder couldn't be created";
 
   private final String MAIN_TAG = "profile";
   private final String CONTAINER_TAG = MAIN_TAG + "s";
@@ -68,7 +69,12 @@ public class ProfileManager {
    */
   public void updatePLayerXML(UserProfile user)
   {
-    XMLBuilder newProfileXML = new XMLSingularProfileBuilder(MAIN_TAG, user.getPath(), user);
+    try{
+      XMLBuilder newProfileXML = new XMLSingularProfileBuilder(MAIN_TAG, user.getPath(), user);
+    } catch(Exception e)
+    {
+      System.out.println(CANNOT_CREATE_XML);
+    }
   }
 
   /**
@@ -141,7 +147,12 @@ public class ProfileManager {
     if(notExistingUsername(username))
     {
       UserProfile newUser = new UserProfile(username, password);
-      XMLBuilder newProfileXML = new XMLSingularProfileBuilder(MAIN_TAG, newUser.getPath(), newUser);
+      try{
+        XMLBuilder newProfileXML = new XMLSingularProfileBuilder(MAIN_TAG, newUser.getPath(), newUser);
+      } catch(Exception e)
+      {
+        System.out.println(CANNOT_CREATE_XML);
+      }
       allProfiles.add(newUser);
       writeNewProfileToRegisteredList();
       return newUser;
@@ -198,7 +209,12 @@ public class ProfileManager {
     {
       profilesToWrite.add(String.format(SKELETON_SPACE, user.getUsername(), user.getPassword()));
     }
-    XMLBuilder builder = new XMLRegisteredProfileBuilder(CONTAINER_TAG, REGISTERED_PROFILES_PATH, MAIN_TAG, profilesToWrite);
+    try{
+      XMLBuilder builder = new XMLRegisteredProfileBuilder(CONTAINER_TAG, REGISTERED_PROFILES_PATH, MAIN_TAG, profilesToWrite);
+    } catch(Exception e)
+    {
+      System.out.println(CANNOT_CREATE_XML);
+    }
   }
 
   private boolean matchingPassword(String password, UserProfile temp)

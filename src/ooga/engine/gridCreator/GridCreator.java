@@ -53,16 +53,6 @@ public abstract class GridCreator {
 
     protected abstract void buildInitialConfig();
 
-    //TODO: delete when done
-    protected void printGrid(){
-        for (int[] ints : initialConfig) {
-            for (int c = 0; c < initialConfig[0].length; c++) {
-                System.out.print(ints[c] + " ");
-            }
-            System.out.println();
-        }
-    }
-
     private void buildPointList(){
         for (int r=0; r<myNumRows; r++){
             for (int c=0; c<myNumColumns; c++){

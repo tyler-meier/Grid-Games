@@ -27,6 +27,7 @@ public class UserDefinedGameScreenImages extends UserDefinedGameScreen {
     private static final String IMAGE_GROUP = "ImageGroup";
     private static final String IMAGE_RESOURCES = "src/ooga/player/Resources/images/";
     private static final String MINESWEEPER = "Minesweeper";
+    private static final String IMAGE_NOT_FOUND = "Choose a different image";
     private static final int SPACING = 20;
     private static final int WIDTH = 50;
     private VBox images = new VBox();
@@ -103,7 +104,7 @@ public class UserDefinedGameScreenImages extends UserDefinedGameScreen {
                 handleCreatingImage(key, view);
             }
         } catch (FileNotFoundException e){
-            //TODO: deal with exception later
+            myErrorMessage.textProperty().setValue(IMAGE_NOT_FOUND);
         }
     }
 

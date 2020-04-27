@@ -4,6 +4,7 @@ package ooga.data.buildingXML;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Element;
 
 /**
@@ -27,14 +28,20 @@ public class XMLGameBuilder extends XMLBuilder {
 
   private int ZERO_INDEX = 0;
 
-  public XMLGameBuilder(String mainTag, String pathName, Map<String, String> dataToWrite, int[][] grid, boolean[][] uncoveredCells) {
+  public XMLGameBuilder(String mainTag, String pathName, Map<String, String> dataToWrite, int[][] grid, boolean[][] uncoveredCells) throws ParserConfigurationException{
     super(mainTag, pathName);
-    this.dataToWrite = dataToWrite;
-    this.grid = grid;
-    this.uncoveredCells = uncoveredCells;
-    numRows = Integer.parseInt(dataToWrite.get(NUM_ROWS_TAG));
-    numCols = Integer.parseInt(dataToWrite.get(NUM_COLUMNS_TAG));
-    createDocument(mainTag, pathName);
+    try{
+      this.dataToWrite = dataToWrite;
+      this.grid = grid;
+      this.uncoveredCells = uncoveredCells;
+      numRows = Integer.parseInt(dataToWrite.get(NUM_ROWS_TAG));
+      numCols = Integer.parseInt(dataToWrite.get(NUM_COLUMNS_TAG));
+      createDocument(mainTag, pathName);
+    } catch(ParserConfigurationException e)
+    {
+      throw e;
+    }
+
   }
 
   /**

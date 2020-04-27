@@ -151,7 +151,12 @@ public class Data implements DataLink {
   @Override
   public void saveGame(Map<String, String> gameAttributes, int[][] grid, boolean[][] uncoveredCells) {
       String path = String.format(NEW_GAME_PATH_SKELETON, currentUser.getUsername(), gameType);
-      XMLBuilder newSavedGame = new XMLGameBuilder(MAIN_GAME_TAG, path, gameAttributes, grid, uncoveredCells);
+      try{
+        XMLBuilder newSavedGame = new XMLGameBuilder(MAIN_GAME_TAG, path, gameAttributes, grid, uncoveredCells);
+      } catch(Exception e)
+      {
+        errorMessage.setValue(e.getMessage());
+      }
       currentUser.addSavedGame(gameType, path);
       myProfileManager.updatePLayerXML(currentUser);
       errorMessage.setValue(GAME_SAVED_FEEDBACK);
@@ -173,7 +178,12 @@ public class Data implements DataLink {
       saveEngineToXML(engineAttributes);
       saveGame(gameAttributes, grid, uncoveredCells);
       String path = String.format(DEFAULT_CREATED_GAME_PATH_SKELETON, currentUser.getUsername(), gameType);
-      XMLBuilder newDefaultGame = new XMLGameBuilder(MAIN_GAME_TAG, path, gameAttributes, grid, uncoveredCells);
+      try{
+        XMLBuilder newDefaultGame = new XMLGameBuilder(MAIN_GAME_TAG, path, gameAttributes, grid, uncoveredCells);
+      } catch(Exception e)
+      {
+        errorMessage.setValue(e.getMessage());
+      }
   }
 
 
@@ -263,7 +273,13 @@ public class Data implements DataLink {
   private void saveEngineToXML(Map<String, String> engineAttributes)
   {
     String newEnginePath = String.format(USER_DEFINED_ENGINE_PATH_SKELETON, currentUser.getUsername(), gameType);
-    XMLBuilder newEngine = new XMLEngineBuilder(MAIN_ENGINE_TAG, newEnginePath, engineAttributes);
+    try{
+      XMLBuilder newEngine = new XMLEngineBuilder(MAIN_ENGINE_TAG, newEnginePath, engineAttributes);
+
+    } catch (Exception e)
+    {
+      errorMessage.setValue(e.getMessage());
+    }
   }
 
 }
