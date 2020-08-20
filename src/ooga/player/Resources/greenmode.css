@@ -1,0 +1,91 @@
+.root{
+    -fx-base: #BAFF40;
+    -fx-background: #BAFF40;
+}
+
+.text-area{
+    -fx-font-size: 15pt;
+    -fx-font-family: "Futura";
+}
+
+.label{
+    -fx-font-size: 20pt;
+    -fx-font-family: "Futura";
+    -fx-text-fill: black;
+}
+
+#title-label {
+    -fx-font-size: 30pt;
+    -fx-underline: true;
+}
+
+#welcome-label {
+    -fx-font-size: 30pt;
+    -fx-underline: true;
+}
+
+#game-name-label {
+    -fx-font-size: 25pt;
+}
+
+.button{
+    -fx-font-size: 12pt;
+    -fx-font-family: "Futura";
+    -fx-pref-width: 220px;
+    -fx-border-width: 3pt;
+    -fx-border-color: black;
+    -fx-text-fill: darkgreen;
+    -fx-background-color: white;
+    -fx-alignment: CENTER;
+}
+
+.button:hover{
+    -fx-font-size: 12pt;
+    -fx-font-family: "Futura";
+    -fx-pref-width: 220px;
+    -fx-border-width: 3pt;
+    -fx-border-color: forestgreen;
+    -fx-text-fill: white;
+    -fx-background-color: darkgreen;
+    -fx-alignment: CENTER;
+}
+
+.button:pressed{
+    -fx-font-size: 12pt;
+    -fx-font-family: "Futura";
+    -fx-pref-width: 220px;
+    -fx-border-width: 3pt;
+    -fx-border-color: forestgreen;
+    -fx-text-fill: white;
+    -fx-background-color: darkgreen;
+    -fx-alignment: CENTER;
+}
+
+.text-field{
+    -fx-font-size: 12pt;
+    -fx-font-family: "Futura";
+    -fx-max-width: 240px;
+    -fx-padding: 2,2,2,2;
+    -fx-border-color: black;
+    -fx-border-radius: 2;
+}
+
+.combo-box .list-cell{
+    -fx-font-size: 12pt;
+    -fx-font-family: "Futura";
+    -fx-text-fill: forestgreen;
+    -fx-background-color: white;
+    -fx-padding: 1 10;
+}
+.combo-box-base > .arrow-button {
+    -fx-background-color: white;
+    -fx-padding: 0 2;
+}
+.combo-box-popup .list-cell:filled:selected {
+    -fx-background-color: forestgreen;
+    -fx-text-fill: darkgreen;
+}
+.combo-box-popup .list-cell:filled:hover{
+    -fx-background-color: lightgreen;
+    -fx-text-fill: darkgreen;
+}

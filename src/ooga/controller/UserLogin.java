@@ -1,5 +1,8 @@
 package ooga.controller;
 
+import ooga.data.UserProfile;
+
+
 public interface UserLogin {
-    boolean processUserData(String username, String otherData);
+    UserProfile getProfile(String username, String password);
 }

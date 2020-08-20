@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<Engine>
+  <AddNewCells>true</AddNewCells>
+  <Validator>SwitchValidator</Validator>
+  <MatchFinder>OpenFinder</MatchFinder>
+  <NumSelectedPerMove>2</NumSelectedPerMove>
+  <NoHiddenCells>true</NoHiddenCells>
+  <MaxStateNumber>6</MaxStateNumber>
+  <PointsPerCell>5</PointsPerCell>
+  <SecondsOpen>0</SecondsOpen>
+  <GridCreator>RandomGridCreator</GridCreator>
+</Engine>

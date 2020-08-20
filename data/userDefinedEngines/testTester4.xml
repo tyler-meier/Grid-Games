@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<Engine>
+    <!-- valid engine data-->
+    <AddNewCells>true</AddNewCells>
+    <Validator>PairValidator</Validator>
+    <MatchFinder>FlippedFinder</MatchFinder>
+    <NumSelectedPerMove>2</NumSelectedPerMove>
+    <NoHiddenCells>false</NoHiddenCells>
+    <MaxStateNumber>6</MaxStateNumber>
+    <PointsPerCell>5</PointsPerCell>
+    <SecondsOpen>3</SecondsOpen>
+    <GridCreator>PairGridCreator</GridCreator>
+</Engine>

@@ -1,0 +1,1 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><game><MovesLeft>8</MovesLeft><LossStat>MovesLeft</LossStat><Score>45</Score><TargetScore>30</TargetScore><Level>1</Level><numRows>6</numRows><numColumns>5</numColumns><row>1 5 -1 -1 -1</row><row>1 5 -1 -1 1</row><row>2 4 -1 -1 6</row><row>1 5 -1 -1 1</row><row>2 4 6 6 1</row><row>2 3 4 3 3</row></game>

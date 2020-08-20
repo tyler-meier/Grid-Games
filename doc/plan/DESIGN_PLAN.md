@@ -45,6 +45,10 @@ We decided to split up this project into Player, Engine and Data as reccomended 
     * `changeMode()`: Change game mode
 * In terms of extensions, the information that this module contains and separating specific details about the view through resource bundles will allow for encapsulation and flexibility for extensions. For example, different CSS style sheets can be created for different modes, so that the only code that would be changed for a different mode would be the name of the sheet that is references. Another example is multiple view. Different instances of player and a corresponsing controller engine can be created for each new view.
 
+![Login Page](gui/loginPage.png)
+![Intro Page](gui/introPage.png)
+![Game Page](gui/gamePage.png)
+
 ### Data: 
 * Map from String game type to which XML file to parse for rules/game data
 * Back end data (`DataObject`): this is an object built to hold the information that the engine needs to operate. Based on a String game type, the appropriate XML file will be parsed and values like specific subclass name for `Validator`, number of lives/moves/seconds per level, and other game specific data.

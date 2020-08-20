@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<game>
+  <Level>3</Level>
+  <Score>0</Score>
+  <TargetScore>100</TargetScore>
+  <LossStat>MovesLeft</LossStat>
+  <MovesLeft>15</MovesLeft>
+
+  <numRows>4</numRows>
+  <numColumns>5</numColumns>
+  <row>4 6 5 4 6</row>
+  <row>3 1 1 2 3</row>
+  <row>4 6 2 5 1</row>
+  <row>3 1 4 3 6</row>
+
+</game>

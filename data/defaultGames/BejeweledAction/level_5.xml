@@ -1,0 +1,12 @@
+<grid>
+
+  <Level>5</Level>
+  <Score>0</Score>
+  <TargetScore>700</TargetScore>
+  <LossStat>Time</LossStat>
+  <Time>40</Time>
+
+  <numRows>12</numRows>
+  <numColumns>12</numColumns>
+
+</grid>

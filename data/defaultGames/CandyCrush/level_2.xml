@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<grid>
+  <Level>2</Level>
+  <Score>0</Score>
+  <TargetScore>300</TargetScore>
+  <LossStat>MovesLeft</LossStat>
+  <MovesLeft>20</MovesLeft>
+
+  <numRows>11</numRows>
+  <numColumns>11</numColumns>
+
+</grid>

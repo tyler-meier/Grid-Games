@@ -1,13 +1,17 @@
 package ooga.controller;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import ooga.data.Data;
+import ooga.player.Player;
+import java.util.Map;
+import ooga.engine.Engine;
+import ooga.player.exceptions.ImageNotFoundException;
 
 
 public class Controller extends Application {
-    private Data data = new Data();
-
     public static void main(String[] args) {
         launch(args);
     }
@@ -15,32 +19,65 @@ public class Controller extends Application {
     /**
      * Allows us to set up the initial stage and animation.
      *
-     * @param primaryStage stage for initial game
+     * @param primaryStage stage for initial game2
      */
-    @Override
+   @Override
     public void start(Stage primaryStage) {
         newWindow(primaryStage);
     }
 
     private void newWindow(Stage stage){
+        Data data = new Data();
         Player player = new Player(stage);
-        player.setLoginButton((username, password) -> data.validUser(username, password)); //takes a UserLogin functional interface
-        player.setCreateUserButton((username, password) -> data.createUser(username, password)); //takes a UserLogin functional interface
-        player.setGameTypeButton((username, gameType) -> data.hasSavedGame(username, gameType)); //takes a UserLogin functional interface
-        player.setStartNewGameButton(e -> buildNewEngine(player, false));
-        player.setStartSavedGameButton(e -> buildNewEngine(player, true));
-        player.setSavePreferencesButton(e -> data.savePreferences(player.getPreferences())); //not sure what type preferences comes in here -- tbd by front end
+        player.setNewWindow(e->newWindow(new Stage()));
+        player.setUserLogin(data::login);
+        player.setNewLogin(data::saveNewPlayerProfile);
+        player.setStartGameButton(e -> {
+            try{ buildNewEngine(player, data);
+            } catch (Exception p){ data.getErrorMessage().set(p.toString());
+            }
+        });
+        player.setUserMadeStartButton(e -> {
+          data.saveCreatedGame(player.getGameType(), player.getUserMadeEngineAttributesMap(), player.getUserMadeGameAttributesMap(), player.getUserDefinedInitialStates(), null);
+            try{ buildNewEngine(player, data);
+            } catch (Exception p){ data.getErrorMessage().set(p.toString());
+            }
+        });
+        player.setErrorMessage(data.getErrorMessage());
     }
 
-    private void buildNewEngine(Player player, boolean savedGame){
+    private void buildNewEngine(Player player, Data data) throws ImageNotFoundException {
         String type = player.getGameType();
-        DataObject myData = data.getEngineData(type); //rename DataObject to something more clear
-        if (savedGame) myData.getSavedGridFrom(player.getUsername(), type); //changes initial config grid stored in myData from default to saved game state
-        Engine engine = new Engine(myData);
-        player.setGrid(engine.getGrid());
-        player.setNewMoveButton(e -> engine.newMove());
-        player.setSaveGameButton(e -> data.saveGame(player.getUsername(), engine.getGameState())); //not sure what getGameState's type is here: should have grid but also like lives left and score
+        String username = player.getUsername();
+        Map<String, String> myEngineAttributes = data.getEngineAttributes(type);
+        Engine engine = new Engine(myEngineAttributes);
+        Map<String, String> myGameAttributes = data.getGameLevelAttributes(username, type, engine.getLevel());
+        int[][] initialStates = data.getGrid();
+        boolean[][] openCellConfiguration = data.getOpenCells();
+        engine.setupGame(initialStates, myGameAttributes, openCellConfiguration);
+        player.setSaveButton(e -> data.saveGame(engine.getGameAttributes(), engine.getGridConfiguration(), engine.getOpenCellConfiguration()));
+        player.setResetLevelButton(goToNewLevel("Guest", data, player, engine, 0));
+        Map<String, Integer> highScores = data.getHighScores(type);
+        player.setHighScoreMap(highScores);
+        player.setResetGameButton(goToNewLevel("Guest", data, player, engine, -1));
+        player.setNextLevel(goToNewLevel(username, data, player, engine, 1));
+        player.setUpGameScreen(engine.getGrid(), data.getErrorMessage());
     }
+
+    private EventHandler<ActionEvent> goToNewLevel(String username, Data data, Player player, Engine engine, Integer levelAdder) {
+        return event -> {
+            Map<String, String> newGameAttributes;
+            if (levelAdder >= 0) newGameAttributes= data.getGameLevelAttributes(username, player.getGameType(), engine.getLevel()+levelAdder);
+            else  newGameAttributes = data.getGameLevelAttributes(username, player.getGameType(), -1);
+            int[][] newInitialStates = data.getGrid();
+            boolean[][] newOpenCells = data.getOpenCells();
+            engine.setupGame(newInitialStates, newGameAttributes, newOpenCells);
+            try{ player.setUpGameScreen(engine.getGrid(), data.getErrorMessage());
+            } catch (Exception p){ data.getErrorMessage().set(p.toString());
+            }
+        };
+    }
+
 }
 
 
